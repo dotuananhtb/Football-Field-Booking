@@ -27,7 +27,7 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-//TEST DB
+//TEST DB//
     public static void main(String[] args) {
         DBContext db = new DBContext();
         if (db.connection != null) {
