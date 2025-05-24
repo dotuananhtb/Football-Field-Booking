@@ -9,5 +9,5 @@ package dao;
  * @author Đỗ Tuấn Anh
  */
 public class NewClass {
-    
+    //////
 }
