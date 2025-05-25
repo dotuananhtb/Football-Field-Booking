@@ -4,13 +4,13 @@
  */
 package model;
 
-import java.math.BigDecimal;
+
 
 public class Product {
     private int productId;
     private int productCateId;
     private String productName;
-    private BigDecimal productPrice;
+    private double productPrice;
     private String productImage;
     private String productDescription;
     private String productStatus;
@@ -18,7 +18,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, int productCateId, String productName, BigDecimal productPrice, String productImage, String productDescription, String productStatus) {
+    public Product(int productId, int productCateId, String productName, double productPrice, String productImage, String productDescription, String productStatus) {
         this.productId = productId;
         this.productCateId = productCateId;
         this.productName = productName;
@@ -52,11 +52,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public BigDecimal getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 

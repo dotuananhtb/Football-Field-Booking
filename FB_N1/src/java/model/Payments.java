@@ -17,12 +17,12 @@ public class Payments {
     private Date payTime;
     private Date confirmedTime;
     private String payStatus;
-    private BigDecimal amountPay;
+    private double amountPay;
     private String qrCodeUrl;
     private String description;
     private String transactionCode;
 
-    public Payments(int payId, int bookingId, Date payTime, Date confirmedTime, String payStatus, BigDecimal amountPay, String qrCodeUrl, String description, String transactionCode) {
+    public Payments(int payId, int bookingId, Date payTime, Date confirmedTime, String payStatus, double amountPay, String qrCodeUrl, String description, String transactionCode) {
         this.payId = payId;
         this.bookingId = bookingId;
         this.payTime = payTime;
@@ -77,11 +77,11 @@ public class Payments {
         this.payStatus = payStatus;
     }
 
-    public BigDecimal getAmountPay() {
+    public double getAmountPay() {
         return amountPay;
     }
 
-    public void setAmountPay(BigDecimal amountPay) {
+    public void setAmountPay(double amountPay) {
         this.amountPay = amountPay;
     }
 
