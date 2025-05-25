@@ -8,18 +8,17 @@ package model;
  *
  * @author VAN NGUYEN
  */
-import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 public class Booking {
     private int bookingId;
     private int accountId;
-    private Integer saleId;
+    private int saleId;
     private Date bookingDate;
-    private BigDecimal totalAmount;
+    private double totalAmount;
     private String email;
 
-    public Booking(int bookingId, int accountId, Integer saleId, Date bookingDate, BigDecimal totalAmount, String email) {
+    public Booking(int bookingId, int accountId, int saleId, Date bookingDate, double totalAmount, String email) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.saleId = saleId;
@@ -47,11 +46,11 @@ public class Booking {
         this.accountId = accountId;
     }
 
-    public Integer getSaleId() {
+    public int getSaleId() {
         return saleId;
     }
 
-    public void setSaleId(Integer saleId) {
+    public void setSaleId(int saleId) {
         this.saleId = saleId;
     }
 
@@ -63,11 +62,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public BigDecimal getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

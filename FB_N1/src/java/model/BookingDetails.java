@@ -8,15 +8,15 @@ package model;
  *
  * @author VAN NGUYEN
  */
-import java.math.BigDecimal;
+
 
 public class BookingDetails {
     private int bookingDetailsId;
     private int bookingId;
     private int slotFieldId;
-    private BigDecimal slotFieldPrice;
+    private double slotFieldPrice;
 
-    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, BigDecimal slotFieldPrice) {
+    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, double slotFieldPrice) {
         this.bookingDetailsId = bookingDetailsId;
         this.bookingId = bookingId;
         this.slotFieldId = slotFieldId;
@@ -50,11 +50,11 @@ public class BookingDetails {
         this.slotFieldId = slotFieldId;
     }
 
-    public BigDecimal getSlotFieldPrice() {
+    public double getSlotFieldPrice() {
         return slotFieldPrice;
     }
 
-    public void setSlotFieldPrice(BigDecimal slotFieldPrice) {
+    public void setSlotFieldPrice(double slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
     

@@ -14,9 +14,9 @@ public class SlotsOfField {
     private int slotFieldId;
     private int slotId;
     private int fieldId;
-    private BigDecimal slotFieldPrice;
+    private double slotFieldPrice;
 
-    public SlotsOfField(int slotFieldId, int slotId, int fieldId, BigDecimal slotFieldPrice) {
+    public SlotsOfField(int slotFieldId, int slotId, int fieldId, double slotFieldPrice) {
         this.slotFieldId = slotFieldId;
         this.slotId = slotId;
         this.fieldId = fieldId;
@@ -50,11 +50,11 @@ public class SlotsOfField {
         this.fieldId = fieldId;
     }
 
-    public BigDecimal getSlotFieldPrice() {
+    public double getSlotFieldPrice() {
         return slotFieldPrice;
     }
 
-    public void setSlotFieldPrice(BigDecimal slotFieldPrice) {
+    public void setSlotFieldPrice(double slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
     
