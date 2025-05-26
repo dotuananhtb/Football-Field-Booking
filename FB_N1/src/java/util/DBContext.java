@@ -6,7 +6,9 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -27,7 +29,18 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-    
+            public ResultSet getData(String sql) {
+        ResultSet rs = null;
+        Statement state;
+        try {
+            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = state.executeQuery(sql);
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return rs;
+}
+
 //TEST DB//
     public static void main(String[] args) {
         DBContext db = new DBContext();
