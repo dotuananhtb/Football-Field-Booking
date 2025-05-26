@@ -4,30 +4,40 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
- * @author Admin
+ * @author VAN NGUYEN
  */
-import java.sql.Date;
-
-public class Post {
+public class PostViewDetail {
     private int postId;
+    private String userName;
+    private String avatar;
     private int accountId;
     private String title;
     private String contentPost;
     private Date postDate;
     private String statusPost;
+    private int commentID;
+    private String content_cmt;
+    private Date cmtDate;
 
-    public Post(int postId, int accountId, String title, String contentPost, Date postDate, String statusPost) {
+    public PostViewDetail(int postId, String userName, String avatar, int accountId, String title, String contentPost, Date postDate, String statusPost, int commentID, String content_cmt, Date cmtDate) {
         this.postId = postId;
+        this.userName = userName;
+        this.avatar = avatar;
         this.accountId = accountId;
         this.title = title;
         this.contentPost = contentPost;
         this.postDate = postDate;
         this.statusPost = statusPost;
+        this.commentID = commentID;
+        this.content_cmt = content_cmt;
+        this.cmtDate = cmtDate;
     }
 
-    public Post() {
+    public PostViewDetail() {
     }
 
     public int getPostId() {
@@ -36,6 +46,22 @@ public class Post {
 
     public void setPostId(int postId) {
         this.postId = postId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getAccountId() {
@@ -78,9 +104,30 @@ public class Post {
         this.statusPost = statusPost;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" + "postId=" + postId + ", accountId=" + accountId + ", title=" + title + ", contentPost=" + contentPost + ", postDate=" + postDate + ", statusPost=" + statusPost + '}';
+    public int getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(int commentID) {
+        this.commentID = commentID;
+    }
+
+    public String getContent_cmt() {
+        return content_cmt;
+    }
+
+    public void setContent_cmt(String content_cmt) {
+        this.content_cmt = content_cmt;
+    }
+
+    public Date getCmtDate() {
+        return cmtDate;
+    }
+
+    public void setCmtDate(Date cmtDate) {
+        this.cmtDate = cmtDate;
     }
     
+    
+
 }
