@@ -10,16 +10,16 @@ package model;
  */
 public class StatusAccount {
      private int statusId;
-    private int statusAccount;
+    private String statusName;
     private String description;
 
-    public StatusAccount(int statusId, int statusAccount, String description) {
-        this.statusId = statusId;
-        this.statusAccount = statusAccount;
-        this.description = description;
+    public StatusAccount() {
     }
 
-    public StatusAccount() {
+    public StatusAccount(int statusId, String statusName, String description) {
+        this.statusId = statusId;
+        this.statusName = statusName;
+        this.description = description;
     }
 
     public int getStatusId() {
@@ -30,12 +30,12 @@ public class StatusAccount {
         this.statusId = statusId;
     }
 
-    public int getStatusAccount() {
-        return statusAccount;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatusAccount(int statusAccount) {
-        this.statusAccount = statusAccount;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     public String getDescription() {
@@ -46,9 +46,5 @@ public class StatusAccount {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "StatusAccount{" + "statusId=" + statusId + ", statusAccount=" + statusAccount + ", description=" + description + '}';
-    }
     
 }

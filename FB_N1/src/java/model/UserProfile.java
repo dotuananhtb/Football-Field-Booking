@@ -9,6 +9,7 @@ package model;
  * @author Asus
  */
 public class UserProfile {
+
     private int accountId;
     private int roleId;
     private String firstName;
@@ -19,6 +20,17 @@ public class UserProfile {
     private String avatar;
 
     public UserProfile() {
+    }
+
+    public UserProfile(int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
+
+        this.roleId = roleId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+        this.phone = phone;
+        this.avatar = avatar;
     }
 
     public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
@@ -100,5 +112,5 @@ public class UserProfile {
     public String toString() {
         return "UserProfile{" + "accountId=" + accountId + ", roleId=" + roleId + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", gender=" + gender + ", phone=" + phone + ", avatar=" + avatar + '}';
     }
-    
+
 }
