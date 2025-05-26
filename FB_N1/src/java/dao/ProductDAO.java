@@ -101,23 +101,6 @@ public class ProductDAO extends DBContext {
         }
 }
 
-    public int deleteProducts(int productID) {
-        int n = 0;
-        String sql = "DELETE FROM [FootballFieldBooking].[dbo].[Product] WHERE [product_id] = ?";
-
-
-        try {
-            PreparedStatement ptm = connection.prepareStatement(sql);
-            ptm.setInt(1, productID);
-            ResultSet rs = getData("select *\n"
-                    + "From tblOrderDetails\n"
-                    + "Where productID=" + productID);
-            n = ptm.executeUpdate();
-        } catch (SQLException ex) {
-            ex.getStackTrace();
-        }
-        return n;
-    }
 public static void main(String[] args) {
         String sql = "SELECT * FROM [dbo].[tblProducts]";
         ProductDAO pDAO = new ProductDAO();
@@ -151,17 +134,6 @@ public static void main(String[] args) {
 //        } else {
 //            System.out.println("not found");
 //        }
-        Product pr = pDAO.searchProduct(4);
-        if (pr != null) {
-            pDAO.deleteProducts(pr.getProductId());
-            System.out.println("deleted");
-            pList = pDAO.getAllProducts(sql);
-            for (Product products : pList) {
-                System.out.println(products);
-            }
-        } else {
-            System.out.println("not found");
-        }
     }
 
 }
