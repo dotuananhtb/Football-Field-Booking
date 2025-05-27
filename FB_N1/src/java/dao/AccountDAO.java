@@ -177,9 +177,9 @@ public class AccountDAO extends DBContext {
 
         Account account = new Account();
         account.setStatusId(3);
-        account.setUsername("2tuanaaa11x"); // Đổi mỗi lần test để tránh trùng
+        account.setUsername("binhcute"); // Đổi mỗi lần test để tránh trùng
         account.setPassword("123456");
-        account.setEmail("romirih459@ofular.com"); // Đổi mỗi lần test
+        account.setEmail("pitiy69288@pricegh.com"); // Đổi mỗi lần test
         account.setCreatedAt(createdAt);
         account.setUserProfile(profile);
 
