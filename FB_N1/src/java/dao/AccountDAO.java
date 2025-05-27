@@ -11,13 +11,7 @@ public class AccountDAO {
 
     private Connection connection;
 
-    public AccountDAO() {
-        try {
-            connection = new DBContext().getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     // CREATE
     public boolean insertAccount(Account acc) {

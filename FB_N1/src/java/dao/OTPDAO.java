@@ -11,13 +11,7 @@ public class OTPDAO {
 
     private Connection connection;
 
-    public OTPDAO() {
-        try {
-            connection = new DBContext().getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     // CREATE
     public boolean insertOTP(OTP otp) {
