@@ -44,9 +44,9 @@ public class SendMail {
         try {
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(APP_EMAIL, "Trùm Shop", "UTF-8"));
+            message.setFrom(new InternetAddress(APP_EMAIL, "Sân Bóng Việt Nam", "UTF-8"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Xác nhận đơn hàng", "UTF-8");
+            message.setSubject("Xác thực đăng kí tài khoản", "UTF-8");
 
             String body = "Xin chào " + nameUser + ",<br><br>"
                     + "Cảm ơn bạn đã đăng ký tài khoản.<br>"
