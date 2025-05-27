@@ -69,6 +69,7 @@ public class Dang_ki extends HttpServlet {
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
+        String dob = request.getParameter("dob");
         String create_at = java.time.LocalDate.now().toString();
         AccountDAO ad = new AccountDAO();
         String ms = "";
@@ -78,7 +79,7 @@ public class Dang_ki extends HttpServlet {
             if (ad.checkTonTaiUser(username)) {
                 ms = "Tài khoản đã tồn tại hãy thử lại!!";
             } else {
-                UserProfile p = new UserProfile(3, first_name, last_name, address, gender, phone, user_img);
+                UserProfile p = new UserProfile(3, first_name, last_name, address, gender, dob, phone, user_img);
                 Account a = new Account(3, username, password, email, create_at, p);
                 if (ad.addAccount(a)) {
                     ms = "Đăng kí thành công";

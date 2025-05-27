@@ -16,30 +16,33 @@ public class UserProfile {
     private String lastName;
     private String address;
     private String gender;
+    private String dob;
     private String phone;
     private String avatar;
 
     public UserProfile() {
     }
 
-    public UserProfile(int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
+    public UserProfile(int roleId, String firstName, String lastName, String address, String gender, String dob, String phone, String avatar) {
 
         this.roleId = roleId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.dob = dob;
         this.phone = phone;
         this.avatar = avatar;
     }
 
-    public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
+    public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String dob, String phone, String avatar) {
         this.accountId = accountId;
         this.roleId = roleId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.dob = dob;
         this.phone = phone;
         this.avatar = avatar;
     }
@@ -70,6 +73,14 @@ public class UserProfile {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     public void setLastName(String lastName) {

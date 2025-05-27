@@ -34,6 +34,7 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("lastName"),
                         rs.getString("address"),
                         rs.getString("gender"),
+                        rs.getString("dob"),
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
@@ -59,6 +60,7 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("lastName"),
                         rs.getString("address"),
                         rs.getString("gender"),
+                        rs.getString("dob"),
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
