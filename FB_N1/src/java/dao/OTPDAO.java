@@ -13,7 +13,7 @@ public class OTPDAO {
 
     
 
-    // CREATE
+    /// CREATE
     public boolean insertOTP(OTP otp) {
         String sql = "INSERT INTO OTP (account_id, otp, otp_date) VALUES (?, ?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
