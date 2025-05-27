@@ -15,6 +15,31 @@
 
                 <title>Travelin - Travel Tour Booking HTML Templates</title>
                 <!-- Favicon -->
+                <style>
+                    .modal-wrapper-top {
+                        padding-top: 0;
+                        margin-top: 0;
+                    }
+
+                    .modal-dialog {
+                        margin-top: 1px !important;
+                    }
+
+                    .tooltip-error {
+                        position: absolute;
+                        background: #f44336;
+                        color: white;
+                        padding: 6px 10px;
+                        border-radius: 8px;
+                        font-size: 13px;
+                        z-index: 9999;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        max-width: 250px;
+                        white-space: nowrap;
+                    }
+
+
+                </style>
                 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
                     <!-- Bootstrap core CSS -->
                     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -372,7 +397,8 @@
                                                 </section>
 
                                                 <!-- about-us starts -->
-                                                <section class="about-us pb-6 pt-6" style="background-image:url(images/shape4.png); background-position:center;">
+                                                <section class="about-us pb-6 pt-6" style="background-image:url(images/shape4.png);
+                                                         background-position:center;">
                                                     <div class="container">
 
                                                         <div class="section-title mb-6 w-50 mx-auto text-center">
@@ -1059,7 +1085,8 @@
 
                                                                                     <!-- Discount action starts -->
                                                                                     <section class="discount-action pt-6"
-                                                                                             style="background-image:url(images/section-bg1.png); background-position:center;">
+                                                                                             style="background-image:url(images/section-bg1.png);
+                                                                                             background-position:center;">
                                                                                         <div class="section-shape section-shape1 top-inherit bottom-0"
                                                                                              style="background-image: url(images/shape8.png);"></div>
                                                                                         <div class="container">
@@ -1670,146 +1697,180 @@
                                                                                     </div>
 
                                                                                     <!-- login registration modal -->
-                                                                                    <div class="modal fade log-reg" id="exampleModal" tabindex="-1" aria-hidden="true">
-                                                                                        <div class="modal-dialog">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-body">
-                                                                                                    <div class="post-tabs">
-                                                                                                        <!-- tab navs -->
-                                                                                                        <ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
-                                                                                                            <li class="nav-item" role="presentation">
-                                                                                                                <button aria-controls="login" aria-selected="false" class="nav-link active"
-                                                                                                                        data-bs-target="#login" data-bs-toggle="tab" id="login-tab" role="tab"
-                                                                                                                        type="button">Login</button>
-                                                                                                            </li>
-                                                                                                            <li class="nav-item" role="presentation">
-                                                                                                                <button aria-controls="register" aria-selected="true" class="nav-link"
-                                                                                                                        data-bs-target="#register" data-bs-toggle="tab" id="register-tab" role="tab"
-                                                                                                                        type="button">Register</button>
-                                                                                                            </li>
-                                                                                                        </ul>
-                                                                                                        <!-- tab contents -->
-                                                                                                        <div class="tab-content blog-full" id="postsTabContent">
-                                                                                                            <!-- popular posts -->
-                                                                                                            <div aria-labelledby="login-tab" class="tab-pane fade active show" id="login"
-                                                                                                                 role="tabpanel">
-                                                                                                                <div class="row">
-                                                                                                                    <div class="col-lg-6">
-                                                                                                                        <div class="blog-image rounded">
-                                                                                                                            <a href="#"
-                                                                                                                               style="background-image: url(images/trending/trending5.jpg);"></a>
+                                                                                    <div class="modal-wrapper-top">
+
+                                                                                        <div class="modal fade log-reg" id="exampleModal" tabindex="-1" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-body">
+                                                                                                        <div class="post-tabs">
+                                                                                                            <!-- tab navs -->
+                                                                                                            <ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
+                                                                                                                <li class="nav-item" role="presentation">
+                                                                                                                    <button aria-controls="login" aria-selected="false" class="nav-link active"
+                                                                                                                            data-bs-target="#login" data-bs-toggle="tab" id="login-tab" role="tab"
+                                                                                                                            type="button">Login</button>
+                                                                                                                </li>
+                                                                                                                <li class="nav-item" role="presentation">
+                                                                                                                    <button aria-controls="register" aria-selected="true" class="nav-link"
+                                                                                                                            data-bs-target="#register" data-bs-toggle="tab" id="register-tab" role="tab"
+                                                                                                                            type="button">Đăng Kí</button>
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                            <!-- tab contents -->
+                                                                                                            <div class="tab-content blog-full" id="postsTabContent">
+                                                                                                                <!-- popular posts -->
+                                                                                                                <div aria-labelledby="login-tab" class="tab-pane fade active show" id="login"
+                                                                                                                     role="tabpanel">
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col-lg-6">
+                                                                                                                            <div class="blog-image rounded">
+                                                                                                                                <a href="#"
+                                                                                                                                   style="background-image: url(images/trending/trending5.jpg);"></a>
+                                                                                                                            </div>
                                                                                                                         </div>
-                                                                                                                    </div>
-                                                                                                                    <div class="col-lg-6">
-                                                                                                                        <h4 class="text-center border-b pb-2">Login</h4>
-                                                                                                                        <div class="log-reg-button d-flex align-items-center justify-content-between">
-                                                                                                                            <button type="submit" class="btn btn-fb">
-                                                                                                                                <i class="fab fa-facebook"></i> Login with Facebook
-                                                                                                                            </button>
-                                                                                                                            <button type="submit" class="btn btn-google">
-                                                                                                                                <i class="fab fa-google"></i> Login with Google
-                                                                                                                            </button>
+                                                                                                                        <div class="col-lg-6">
+                                                                                                                            <h4 class="text-center border-b pb-2">Login</h4>
+                                                                                                                            <div class="log-reg-button d-flex align-items-center justify-content-between">
+                                                                                                                                <button type="submit" class="btn btn-fb">
+                                                                                                                                    <i class="fab fa-facebook"></i> Login with Facebook
+                                                                                                                                </button>
+                                                                                                                                <button type="submit" class="btn btn-google">
+                                                                                                                                    <i class="fab fa-google"></i> Login with Google
+                                                                                                                                </button>
+                                                                                                                            </div>
+                                                                                                                            <hr class="log-reg-hr position-relative my-4 overflow-visible">
+                                                                                                                                <form method="post" action="#" name="contactform" id="contactform">
+                                                                                                                                    <div class="form-group mb-2">
+                                                                                                                                        <input type="text" name="user_name" class="form-control" id="fname"
+                                                                                                                                               placeholder="User Name or Email Address">
+                                                                                                                                    </div>
+                                                                                                                                    <div class="form-group mb-2">
+                                                                                                                                        <input type="password" name="password_name" class="form-control"
+                                                                                                                                               id="lpass" placeholder="Password">
+                                                                                                                                    </div>
+                                                                                                                                    <div class="form-group mb-2">
+                                                                                                                                        <input type="checkbox" class="custom-control-input" id="exampleCheck">
+                                                                                                                                            <label class="custom-control-label mb-0" for="exampleCheck1">Remember
+                                                                                                                                                me</label>
+                                                                                                                                            <a class="float-end" href="#">Lost your password?</a>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="comment-btn mb-2 pb-2 text-center border-b">
+                                                                                                                                        <input type="submit" class="nir-btn w-100" id="submit" value="Login">
+                                                                                                                                    </div>
+                                                                                                                                    <p class="text-center">Don't have an account? <a href="#"
+                                                                                                                                                                                     class="theme">Register</a></p>
+                                                                                                                                </form>
                                                                                                                         </div>
-                                                                                                                        <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                                                                                                                            <form method="post" action="#" name="contactform" id="contactform">
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="text" name="user_name" class="form-control" id="fname"
-                                                                                                                                           placeholder="User Name or Email Address">
-                                                                                                                                </div>
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="password" name="password_name" class="form-control"
-                                                                                                                                           id="lpass" placeholder="Password">
-                                                                                                                                </div>
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="checkbox" class="custom-control-input" id="exampleCheck">
-                                                                                                                                        <label class="custom-control-label mb-0" for="exampleCheck1">Remember
-                                                                                                                                            me</label>
-                                                                                                                                        <a class="float-end" href="#">Lost your password?</a>
-                                                                                                                                </div>
-                                                                                                                                <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                                                                                    <input type="submit" class="nir-btn w-100" id="submit" value="Login">
-                                                                                                                                </div>
-                                                                                                                                <p class="text-center">Don't have an account? <a href="#"
-                                                                                                                                                                                 class="theme">Register</a></p>
-                                                                                                                            </form>
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                            </div>
-                                                                                                            <!-- Recent posts -->
-                                                                                                            <div aria-labelledby="register-tab" class="tab-pane fade" id="register" role="tabpanel">
-                                                                                                                <div class="row">
-                                                                                                                    <div class="col-lg-6">
-                                                                                                                        <div class="blog-image rounded">
-                                                                                                                            <a href="#"
-                                                                                                                               style="background-image: url(images/trending/trending5.jpg);"></a>
+                                                                                                                <!-- Recent posts -->
+                                                                                                                <div aria-labelledby="register-tab" class="tab-pane fade" id="register" role="tabpanel">
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col-lg-6">
+                                                                                                                            <div class="blog-image rounded">
+                                                                                                                                <a href="#"
+                                                                                                                                   style="background-image: url(images/trending/trending5.jpg);"></a>
+                                                                                                                            </div>
                                                                                                                         </div>
-                                                                                                                    </div>
-                                                                                                                    <div class="col-lg-6">
-                                                                                                                        <h4 class="text-center border-b pb-2">Register</h4>
-                                                                                                                        <!-- comment <div class="log-reg-button d-flex align-items-center justify-content-between">
-                                                                                                                            <button type="submit" class="btn btn-fb">
-                                                                                                                                <i class="fab fa-facebook"></i> Login with Facebook
-                                                                                                                            </button>
-                                                                                                                            <button type="submit" class="btn btn-google">
-                                                                                                                                <i class="fab fa-google"></i> Login with Google
-                                                                                                                            </button>
-                                                                                                                        </div>
-                                                                                                                        <hr class="log-reg-hr position-relative my-4 overflow-visible">-->
-                                                                                                                            <form method="post" action="<%=request.getContextPath()%>/dangki" name="dkiform" id="dkiform">
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="text" name="user_name" class="form-control" id="fname1"
-                                                                                                                                           placeholder="User Name">
-                                                                                                                                </div>
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="text" name="user_name" class="form-control" id="femail"
-                                                                                                                                           placeholder="Email Address">
-                                                                                                                                </div>
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="password" name="password_name" class="form-control"
-                                                                                                                                           id="lpass1" placeholder="Password">
-                                                                                                                                </div>
-                                                                                                                                <div class="form-group mb-2">
-                                                                                                                                    <input type="password" name="password_name" class="form-control"
-                                                                                                                                           id="lrepass" placeholder="Re-enter Password">
-                                                                                                                                </div>
+                                                                                                                        <div class="col-lg-6">
+                                                                                                                            <!-- comment <h4 class="text-center border-b pb-2">Đăng kí tài khoản</h4>-->
+                                                                                                                            <!-- comment <div class="log-reg-button d-flex align-items-center justify-content-between">
+                                                                                                                                <button type="submit" class="btn btn-fb">
+                                                                                                                                    <i class="fab fa-facebook"></i> Login with Facebook
+                                                                                                                                </button>
+                                                                                                                                <button type="submit" class="btn btn-google">
+                                                                                                                                    <i class="fab fa-google"></i> Login with Google
+                                                                                                                                </button>
+                                                                                                                            </div>
+                                                                                                                            <hr class="log-reg-hr position-relative my-4 overflow-visible">-->
+                                                                                                                            <form action="${pageContext.request.contextPath}/dang-ki" method="POST" id="dkiform" onsubmit="event.preventDefault(); validateAndSubmit();">
                                                                                                                                 <div class="form-group mb-2 d-flex">
-                                                                                                                                    <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                                                                                                                                        <label class="custom-control-label mb-0 ms-1 lh-1" for="exampleCheck1">I
-                                                                                                                                            have read and accept the Terms and Privacy Policy?</label>
-                                                                                                                                </div>
-                                                                                                                                <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                                                                                    <input  onclick="submitUpdate()" type="submit" class="nir-btn w-100" id="submit1"
-                                                                                                                                            value="Register">
-                                                                                                                                </div>  
-                                                                                                                                <script>
-                                                                                                                                    function submitUpdate() {
-                                                                                                                                        const form = document.getElementById('dkiform');
-                                                                                                                                        form.submit();
-                                                                                                                                    }
-                                                                                                                                </script>
-                                                                                                                                <p class="text-center">Already have an account? <a href="#"
-                                                                                                                                                                                   class="theme">Login</a></p>
-                                                                                                                            </form>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                                                                    <input type="text" name="lastname" id="lastname" class="form-control me-1" placeholder="Họ" style="width: 50%;">
+                                                                                                                                        <input type="text" name="firstname" id="firstname" class="form-control ms-1" placeholder="Tên" style="width: 50%;">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="text" name="username" id="username" class="form-control" placeholder="Tên đăng nhập">
+                                                                                                                                            </div>
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="password" name="password_confirm" id="password_confirm" class="form-control" placeholder="Nhập lại mật khẩu">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại">
+                                                                                                                                            </div>
 
 
-                                                                                    <!-- *Scripts* -->
-                                                                                    <script src="js/jquery-3.5.1.min.js"></script>
-                                                                                    <script src="js/bootstrap.min.js"></script>
-                                                                                    <script src="js/particles.js"></script>
-                                                                                    <script src="js/particlerun.js"></script>
-                                                                                    <script src="js/plugin.js"></script>
-                                                                                    <script src="js/main.js"></script>
-                                                                                    <script src="js/custom-swiper.js"></script>
-                                                                                    <script src="js/custom-nav.js"></script>
-                                                                                    </body>
 
-                                                                                    </html>
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="date" name="dob" id="dob" class="form-control">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <select name="gender" id="gender" class="form-control">
+                                                                                                                                                    <option value="">-- Chọn giới tính --</option>
+                                                                                                                                                    <option value="Nam">Nam</option>
+                                                                                                                                                    <option value="Nữ">Nữ</option>
+                                                                                                                                                    <option value="Khác">Khác</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-group mb-2">
+                                                                                                                                                <input type="text" name="address" id="address" class="form-control" placeholder="Địa chỉ">
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="form-check mb-3">
+                                                                                                                                                <input class="form-check-input" type="checkbox" name="check" id="check">
+                                                                                                                                                    <label class="form-check-label" for="check">Tôi đồng ý với điều khoản</label>
+                                                                                                                                            </div>
+
+                                                                                                                                            <div class="comment-btn mb-2 pb-2 text-center border-b">
+                                                                                                                                                <input type="submit" class="nir-btn w-100" id="submit1"
+                                                                                                                                                       value="Đăng Kí">
+                                                                                                                                            </div>
+                                                                                                                                            <p class="text-center">Bạn đã có tài khoản? <a href="#"
+                                                                                                                                                                                           class="theme">Đăng nhập</a></p>                                                                                                                                            </form>
+
+
+
+
+                                                                                                                                            <script src="js/validateRegister.js"></script>
+
+
+
+
+
+
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+
+
+                                                                                                                                            <!-- *Scripts* -->
+                                                                                                                                            <script src="js/jquery-3.5.1.min.js"></script>
+                                                                                                                                            <script src="js/bootstrap.min.js"></script>
+                                                                                                                                            <script src="js/particles.js"></script>
+                                                                                                                                            <script src="js/particlerun.js"></script>
+                                                                                                                                            <script src="js/plugin.js"></script>
+                                                                                                                                            <script src="js/main.js"></script>
+                                                                                                                                            <script src="js/custom-swiper.js"></script>
+                                                                                                                                            <script src="js/custom-nav.js"></script>
+                                                                                                                                            </body>
+
+                                                                                                                                            </html>
