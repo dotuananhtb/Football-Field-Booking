@@ -118,6 +118,6 @@ public class Dang_ki extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }///  </editor-fold>
 
 }
