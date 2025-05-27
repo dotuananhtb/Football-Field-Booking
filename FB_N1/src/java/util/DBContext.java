@@ -6,7 +6,9 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -27,7 +29,6 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-    
 //TEST DB//
     public static void main(String[] args) {
         DBContext db = new DBContext();
