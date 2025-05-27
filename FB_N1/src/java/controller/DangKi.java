@@ -20,7 +20,7 @@ import model.UserProfile;
  * @author Đỗ Tuấn Anh
  */
 @WebServlet(name = "Dang_ki", urlPatterns = {"/dang-ki"})
-public class Dang_ki extends HttpServlet {
+public class DangKi extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
