@@ -39,126 +39,7 @@
     <!-- Preloader Ends -->
 
     <!-- header starts -->
-    
-        <!-- Navigation Bar -->
-        <div class="header_menu" id="header_menu">
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <div class="navbar-flex d-flex align-items-center justify-content-between w-100 pb-3 pt-3">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="home.jsp">
-                                <img src="images/logo.png" alt="BookField Logo">
-                            </a>
-                        </div>
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="navbar-collapse1 d-flex align-items-center" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav" id="responsive-menu">
-                                <li class="dropdown submenu active">
-                                    <a href="home.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Trang Chủ</a>
-                                </li>
-
-                                <li><a href="about.html">Giới Thiệu</a></li>
-
-                                <li class="submenu dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sân Bóng <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                    <ul class="dropdown-menu">
-                                        <li><a href="field-list.html">Danh Sách Sân</a></li>
-                                        <li><a href="field-detail.html">Chi Tiết Sân</a></li>
-                                    </ul> 
-                                </li>
-                                <li class="submenu dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Đặt Sân <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                    <ul class="dropdown-menu">
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sân 5 Người<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="field-5-list.html">Sân 5 Quận 1</a></li>
-                                                <li><a href="field-5-list1.html">Sân 5 Quận 7</a></li>
-                                                <li><a href="field-5-list2.html">Sân 5 Tân Bình</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sân 7 Người<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="field-7-list.html">Sân 7 Quận 1</a></li>
-                                                <li><a href="field-7-list1.html">Sân 7 Quận 7</a></li>
-                                                <li><a href="field-7-list2.html">Sân 7 Tân Bình</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sân 11 Người<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="field-11-list.html">Sân 11 Quận 1</a></li>
-                                                <li><a href="field-11-list1.html">Sân 11 Quận 7</a></li>
-                                                <li><a href="field-11-list2.html">Sân 11 Tân Bình</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul> 
-                                </li>
-                                <li class="submenu dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dịch Vụ <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                    <ul class="dropdown-menu">
-                                        <li><a href="team.html">Huấn Luyện Viên</a></li>
-                                        <li><a href="booking.html">Đặt Sân</a></li>
-                                        <li><a href="confirmation.html">Xác Nhận</a></li>
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dịch Vụ Khác<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="services.html">Thuê Thiết Bị</a></li>
-                                                <li><a href="services-detail.html">Chi Tiết Dịch Vụ</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="submenu dropdown">
-                                            <a href="gallery.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thư Viện<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="gallery.html">Hình Ảnh Sân</a></li>
-                                                <li><a href="gallery1.html">Video Sân</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="login.html">Đăng Nhập|Đăng Ký</a></li>
-                                        <li><a href="contact.html">Liên Hệ</a></li>
-                                        <li><a href="dashboard/dashboard.html">Quản Lý</a></li>
-                                    </ul> 
-                                </li>
-                                <li class="submenu dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tin Tức <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                    <ul class="dropdown-menu">
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tin Bóng Đá<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="post-grid-1.html">Tin Trong Nước</a></li>
-                                                <li><a href="post-grid-2.html">Tin Quốc Tế</a></li>
-                                                <li><a href="post-grid-3.html">Tin Địa Phương</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="submenu dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Giải Đấu<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="post-list-1.html">Giải Nghiệp Dư</a></li>
-                                                <li><a href="post-list-2.html">Giải Chuyên Nghiệp</a></li>
-                                                <li><a href="post-list-3.html">Giải Thiếu Nhi</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="search-main"><a href="#search1" class="mt_search"><i class="fa fa-search"></i></a></li>
-                            </ul>
-                        </div><!-- /.navbar-collapse -->  
-                        <div class="register-login d-flex align-items-center">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="me-3">
-                                <i class="icon-user"></i> Đăng Nhập/Đăng Ký
-                            </a>
-                            <a href="#" class="nir-btn white">Đặt Sân Ngay</a>
-                        </div>
-
-                        <div id="slicknav-mobile"></div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </nav>
-        </div>
-        <!-- Navigation Bar Ends -->
-    </header>
+    <jsp:include page="header.jsp"></jsp:include>
     <!-- header ends -->
     <div class="tet"></div>
 
@@ -637,126 +518,7 @@
     <!-- recent-articles ends -->
 
     <!-- footer starts -->
-    <footer class="pt-20 pb-4" style="background-image: url(images/background_pattern.png);">
-        <div class="section-shape top-0" style="background-image: url(images/shape8.png);"></div>
-        <!-- Instagram starts -->
-        
-        <!-- Instagram ends -->
-        <div class="footer-upper pb-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 pe-4">
-                        <div class="footer-about">
-                            <img src="images/logo-white.png" alt="BookField Logo">
-                            <p class="mt-3 mb-3 white">
-                                BookField - Hệ thống đặt sân bóng đá hàng đầu Việt Nam. Chúng tôi cung cấp dịch vụ đặt sân chất lượng cao, tiện lợi và nhanh chóng.
-                            </p>
-                            <ul>
-                                <li class="white"><strong>Hotline:</strong> 1900-1234</li>
-                                <li class="white"><strong>Địa chỉ:</strong> 123 Nguyễn Huệ, Q1, TP.HCM</li>
-                                <li class="white"><strong>Email:</strong> info@bookfield.vn</li>
-                                <li class="white"><strong>Website:</strong> www.bookfield.vn</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-12 mb-4">
-                        <div class="footer-links">
-                            <h3 class="white">Liên Kết Nhanh</h3>
-                            <ul>
-                                <li><a href="about-us.html">Giới Thiệu</a></li>
-                                <li><a href="about-us.html">Hướng Dẫn Đặt Sân</a></li>
-                                <li><a href="about-us.html">Chính Sách Bảo Mật</a></li>
-                                <li><a href="about-us.html">Điều Khoản Sử Dụng</a></li>
-                                <li><a href="about-us.html">Hỗ Trợ Khách Hàng</a></li>
-                                <li><a href="#about-us.html">Chính Sách Hoàn Tiền</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-12 mb-4">
-                        <div class="footer-links">
-                            <h3 class="white">Loại Sân</h3>
-                            <ul>
-                                <li><a href="about-us.html">Sân 5 Người</a></li>
-                                <li><a href="about-us.html">Sân 7 Người</a></li>
-                                <li><a href="about-us.html">Sân 11 Người</a></li>
-                                <li><a href="about-us.html">Sân Futsal</a></li>
-                                <li><a href="about-us.html">Sân Cỏ Nhân Tạo</a></li>
-                                <li><a href="about-us.html">Sân Cỏ Tự Nhiên</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <div class="footer-links">
-                            <h3 class="white">Đăng Ký Nhận Tin</h3>
-                            <div class="newsletter-form ">
-                                <p class="mb-3">Tham gia cộng đồng hơn 50,000 người chơi bóng đá để nhận thông tin về các ưu đãi và sự kiện mới nhất.</p>
-                                <form action="#" method="get" accept-charset="utf-8"
-                                    class="border-0 d-flex align-items-center">
-                                    <input type="text" placeholder="Địa chỉ Email">
-                                    <button class="nir-btn ms-2">Đăng Ký</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-payment">
-            <div class="container">
-                <div class="row footer-pay align-items-center justify-content-between text-lg-start text-center">
-                    <div class="col-lg-8 footer-payment-nav mb-4">
-                        <ul class="">
-                            <li class="me-2">Chúng Tôi Hỗ Trợ:</li>
-                            <li class="me-2"><i class="fab fa-cc-mastercard fs-4"></i></li>
-                            <li class="me-2"><i class="fab fa-cc-paypal fs-4"></i></li>
-                            <li class="me-2"><i class="fab fa-cc-visa fs-4"></i></li>
-                            <li class="me-2">Momo</li>
-                            <li class="me-2">ZaloPay</li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 footer-payment-nav mb-4">
-                        <ul class="d-flex align-items-center">
-                            <li class="me-2 w-75">
-                                <select class="niceSelect rounded">
-                                    <option>Tiếng Việt</option>
-                                    <option>English</option>
-                                    <option>中文</option>
-                                    <option>한국어</option>
-                                </select>
-                            </li>
-                            <li class="w-25">
-                                <select class="niceSelect rounded">
-                                    <option>VNĐ</option>
-                                    <option>USD</option>
-                                    <option>EUR</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-copyright">
-            <div class="container">
-                <div class="copyright-inner rounded p-3 d-md-flex align-items-center justify-content-between">
-                    <div class="copyright-text">
-                        <p class="m-0 white">2024 BookField. Tất cả quyền được bảo lưu.</p>
-                    </div>
-                    <div class="social-links">
-                        <ul>
-                            <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="particles-js"></div>
-    </footer>
+    <jsp:include page="footer.jsp"></jsp:include>
     <!-- footer ends -->
 
     <!-- Back to top start -->
@@ -775,118 +537,230 @@
     </div>
 
     <!-- login registration modal -->
-    <div class="modal fade log-reg" id="exampleModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="post-tabs">
-                        <!-- tab navs -->
-                        <ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button aria-controls="login" aria-selected="false" class="nav-link active"
-                                    data-bs-target="#login" data-bs-toggle="tab" id="login-tab" role="tab"
-                                    type="button">Đăng Nhập</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button aria-controls="register" aria-selected="true" class="nav-link"
-                                    data-bs-target="#register" data-bs-toggle="tab" id="register-tab" role="tab"
-                                    type="button">Đăng Ký</button>
-                            </li>
-                        </ul>
-                        <!-- tab contents -->
-                        <div class="tab-content blog-full" id="postsTabContent">
-                            <!-- popular posts -->
-                            <div aria-labelledby="login-tab" class="tab-pane fade active show" id="login"
-                                role="tabpanel">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="blog-image rounded">
-                                            <a href="#"
-                                                style="background-image: url(images/trending/trending5.jpg);"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h4 class="text-center border-b pb-2">Đăng Nhập</h4>
-                                        
-                                        <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                                        <form method="post" action="#" name="contactform" id="contactform">
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="user_name" class="form-control" id="fname"
-                                                    placeholder="Tên đăng nhập hoặc địa chỉ Email">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="password" name="password_name" class="form-control"
-                                                    id="lpass" placeholder="Mật khẩu">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="exampleCheck">
-                                                <label class="custom-control-label mb-0" for="exampleCheck1">Nhớ Mật Khẩu
-                                                    </label>
-                                                <a class="float-end" href="#">Quên mật khẩu?</a>
-                                            </div>
-                                            <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                <input type="submit" class="nir-btn w-100" id="submit" value="Đăng Nhập">
-                                            </div>
-                                            <p class="text-center">Bạn chưa có tài khoản? <a href="#"
-                                                    class="theme">Đăng Ký</a></p>
-                                        </form>
-                                    </div>
+   <!-- Modal -->
+<div class="modal fade log-reg" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="post-tabs">
+                    <!-- Tab navs -->
+                    <ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button aria-controls="login" aria-selected="false" class="nav-link active"
+                                data-bs-target="#login" data-bs-toggle="tab" id="login-tab" role="tab"
+                                 >Đăng Nhập</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button aria-controls="register" aria-selected="true" class="nav-link"
+                                data-bs-target="#register" data-bs-toggle="tab" id="register-tab" role="tab"
+                                type="button">Đăng Ký</button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab contents -->
+                    <div class="tab-content blog-full" id="postsTabContent">
+                        <!-- Đăng Nhập -->
+                        <div aria-labelledby="login-tab" class="tab-pane fade active show" id="login" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="blog-image rounded" style="background-image: url(images/trending/trending5.jpg); height: 250px;"></div>
                                 </div>
-                            </div>
-                            <!-- Recent posts -->
-                            <div aria-labelledby="register-tab" class="tab-pane fade" id="register" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="blog-image rounded">
-                                            <a href="#"
-                                                style="background-image: url(images/trending/trending5.jpg);"></a>
+                                <div class="col-lg-6">
+                                    <h4 class="text-center border-b pb-2">Đăng Nhập</h4>
+                                    <hr class="log-reg-hr position-relative my-4 overflow-visible">
+                                    <form method="post" action="${pageContext.request.contextPath}/login" name="contactform" id="contactform" onsubmit=" return checkLogin()">
+                                        <div  class="form-group mb-2">
+                                            <input type="text" name="username" class="form-control" id="username"
+                                                   placeholder="Tên đăng nhập hoặc địa chỉ Email" autocomplete="off"  />
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h4 class="text-center border-b pb-2">Đăng Ký</h4>
-                                        
-                                        <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                                        <form method="post" action="#" name="contactform1" id="contactform1">
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="user_name" class="form-control" id="fname1"
-                                                    placeholder="Tên đăng nhập">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="user_email" class="form-control" id="femail"
-                                                    placeholder="Địa chỉ Email">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="user_phone" class="form-control" id="fphone"
-                                                    placeholder="Số điện thoại">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="password" name="password_name" class="form-control"
-                                                    id="lpass1" placeholder="Mật khẩu">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="password" name="password_confirm" class="form-control"
-                                                    id="lrepass" placeholder="Xác nhận mật khẩu">
-                                            </div>
-                                            <div class="form-group mb-2 d-flex">
-                                                <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                                                <label class="custom-control-label mb-0 ms-1 lh-1" for="exampleCheck1">Tôi đã đọc và chấp nhận Điều khoản và Chính sách Bảo mật</label>
-                                            </div>
-                                            <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                <input type="submit" class="nir-btn w-100" id="submit1"
-                                                    value="Đăng Ký">
-                                            </div>
-                                            <p class="text-center">Bạn đã có tài khoản? <a href="#"
-                                                    class="theme">Đăng Nhập</a></p>
-                                        </form>
-                                    </div>
+                                        <div class="form-group mb-2">
+                                            <input type="password" name="password" class="form-control"
+                                                id="password" placeholder="Mật khẩu"  >
+                                                
+                                        </div>
+                                        <a class="fas fa-eye " href ="#" onclick="daoTT()" > Hiện thị mật khẩu</a>
+                                        <div id="loginError" class="text-danger mb-2" style="font-size: 14px;"></div>
+                                        <div class="form-group mb-2">
+                                            <input type="checkbox" name="remember" class="custom-control-input" id="rememberCheck">
+                                            <label class="custom-control-label mb-0" for="rememberCheck">Nhớ Mật Khẩu</label>
+                                            <a class="float-end" href="#">Quên mật khẩu?</a>
+                                        </div>
+                                        <div class="comment-btn mb-2 pb-2 text-center border-b">
+                                            <input type="submit" class="nir-btn w-100" onclick="submitForm()" value="Đăng Nhập">
+
+                                    
+                                        </div>
+                                        <p class="text-center">Bạn chưa có tài khoản? <a href="#" class="theme" onclick="event.preventDefault(); document.getElementById('register-tab').click();">Đăng Ký</a></p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Đăng Ký -->
+                        <div aria-labelledby="register-tab" class="tab-pane fade" id="register" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="blog-image rounded" style="background-image: url(images/trending/trending5.jpg); height: 250px;"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4 class="text-center border-b pb-2">Đăng Ký</h4>
+                                    <hr class="log-reg-hr position-relative my-4 overflow-visible">
+                                    <form method="post" action="#" name="contactform1" id="contactform1">
+                                        <div class="form-group mb-2">
+                                            <input type="text" name="user_name" class="form-control" id="fname1"
+                                                placeholder="Tên đăng nhập" required>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <input type="email" name="user_email" class="form-control" id="femail"
+                                                placeholder="Địa chỉ Email" required>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <input type="text" name="user_phone" class="form-control" id="fphone"
+                                                placeholder="Số điện thoại" required>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <input type="password" name="password_name" class="form-control"
+                                                id="lpass1" placeholder="Mật khẩu" required>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <input type="password" name="password_confirm" class="form-control"
+                                                id="lrepass" placeholder="Xác nhận mật khẩu" required>
+                                        </div>
+                                        <div class="form-group mb-2 d-flex">
+                                            <input type="checkbox" class="custom-control-input" id="registerCheck">
+                                            <label class="custom-control-label mb-0 ms-1 lh-1" for="registerCheck">Tôi đã đọc và chấp nhận Điều khoản và Chính sách Bảo mật</label>
+                                        </div>
+                                        <div class="comment-btn mb-2 pb-2 text-center border-b">
+                                            <input type="submit" class="nir-btn w-100" id="submit1" value="Đăng Ký">
+                                        </div>
+                                        <p class="text-center">Bạn đã có tài khoản? <a href="#" class="theme" onclick="event.preventDefault(); document.getElementById('login-tab').click();">Đăng Nhập</a></p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- tab-content -->
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Script -->
+
+<script>
+//document.addEventListener("DOMContentLoaded", function () {
+//    const exampleModal = document.getElementById("exampleModal");
+//    const usernameInput = document.getElementById("username");
+//    const passwordInput = document.getElementById("password");
+//    const errorDiv = document.getElementById("loginError");
+//
+
+//
+//    // Hàm checkLogin gắn vào window
+//    window.checkLogin = function () {
+//        const username = usernameInput?.value.trim() || "";
+//        const password = passwordInput?.value.trim() || "";
+//
+//        console.log("CheckLogin Called:", username, password);
+//
+//        if (!username || !password) {
+//            if (errorDiv) errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+//            return false;
+//        }
+//
+//        if (errorDiv) errorDiv.textContent = "";
+//        return true;
+//    };
+//
+//    // Toggle hiển thị mật khẩu
+//  
+
+//document.addEventListener("DOMContentLoaded", function () {
+//    const exampleModal = document.getElementById("exampleModal");
+//    // Khi modal mở, focus vào input
+//    if (exampleModal) {
+//        exampleModal.addEventListener('shown.bs.modal', function () {
+//            if (usernameInput) usernameInput.focus();
+//        });
+//
+//        exampleModal.addEventListener('hidden.bs.modal', function () {
+//            if (errorDiv) errorDiv.textContent = "";
+//            if (usernameInput) usernameInput.value = "";
+//            if (passwordInput) passwordInput.value = "";
+//       });
+//    }
+//  window.daoTT = function () {
+//        let mk = document.getElementById("password");
+//        if (mk) {
+//            mk.type = (mk.type === "password") ? "text" : "password";
+//        }
+//   };
+//   window.checkLogin = function () {
+//    const username = document.getElementById("username").value.trim();
+//    const password = document.getElementById("password").value.trim();
+//
+//    console.log("CheckLogin Called:", username, password); // Debug
+//
+//    if (!username || !password) {
+//        document.getElementById("loginError").textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+//        return false;
+//    }
+//    return true;
+//};
+//});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const exampleModal = document.getElementById("exampleModal");
+    const errorDiv = document.getElementById("loginError");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const  form = document.getElementById('contactform');
+
+    // Tự động focus khi mở modal
+    exampleModal.addEventListener('shown.bs.modal', function () {
+        if (usernameInput) usernameInput.focus();
+    });
+
+    // Khi đóng modal: xóa lỗi + xóa nội dung các input
+    exampleModal.addEventListener('hidden.bs.modal', function () {
+        if (errorDiv) errorDiv.textContent = "";
+        if (usernameInput) usernameInput.value = "";
+        if (passwordInput) passwordInput.value = "";
+    });
+
+    // Hàm kiểm tra login
+    window.checkLogin = function () {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!username || !password) {
+            errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+            return false;
+        } else {
+            errorDiv.textContent = "";
+            return true;
+        }
+    };
+
+    // Hàm ẩn/hiện mật khẩu
+    window.daoTT = function () {
+        let mk = document.getElementById("password");
+        mk.type = (mk.type === "password") ? "text" : "password";
+    };
+    
+window.submitForm = function(){
+    const contactform = form.value.trim();
+        contactform.submit();
+};
+});
+
+
+</script>
+
+
+
+<link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
 
 
     <!-- *Scripts* -->

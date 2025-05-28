@@ -605,6 +605,7 @@ iframe {
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important; }
 
+#frm1 i.fas{position: relative; left:-30px;cursor: pointer;}
 .nav-tabs {
   border-bottom: none;
   background: #fff;

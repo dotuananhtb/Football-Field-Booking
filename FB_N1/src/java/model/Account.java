@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
-import java.util.Date;
 /**
  *
  * @author Asus
@@ -37,6 +36,16 @@ public class Account {
         this.createdAt = createdAt;
         this.userProfile = userProfile;
     }
+
+    public Account(int statusId, String username, String password, String email, String createdAt) {
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
+    
     
     
     
