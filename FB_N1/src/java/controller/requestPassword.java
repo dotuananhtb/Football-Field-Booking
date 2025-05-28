@@ -87,7 +87,11 @@ public class requestPassword extends HttpServlet {
                 request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
                 return;
             }
-        } else {
+        } else if(email.isEmpty()) {
+            request.setAttribute("mess", "Vui lòng điền Email");
+            request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+            return;
+        }else {
             request.setAttribute("mess", "Email Không tồn tại");
             request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
             return;

@@ -361,7 +361,7 @@ public class AccountDAO extends DBContext {
 //        }
 //        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
 
-        dao.resetPass("dognoperke@gufum.com");
+//        dao.resetPass("huubinh0601@gmail.com");
 //            int testId=1;
 //           Account acc = dao.getAccountById(testId);
 //
