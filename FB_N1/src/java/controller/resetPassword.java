@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.EmailVerificationTokenDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import model.EmailVerificationToken;
 
 /**
  *
@@ -55,7 +59,35 @@ public class resetPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
+                        String tokenParam = request.getParameter("token");
+
+        if (tokenParam == null || tokenParam.isEmpty()) {
+            request.setAttribute("message", "Liên kết không hợp lệ!");
+            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+            return;
+        }
+
+        EmailVerificationTokenDAO tokenDAO = new EmailVerificationTokenDAO();
+        EmailVerificationToken token = tokenDAO.getTokenByValue(tokenParam);
+
+        if (token == null) {
+            request.setAttribute("message", "Token không tồn tại hoặc đã được sử dụng!");
+            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+        } else if (token.isUsed()) {
+            request.setAttribute("message", "Token đã được sử dụng!");
+            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+        } else if (System.currentTimeMillis()
+                > LocalDateTime.parse(token.getExpiresAt()).toInstant(ZoneOffset.UTC).toEpochMilli()) {
+            request.setAttribute("message", "Token đã hết hạn!");
+            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+        } else {
+            // Cập nhật trạng thái tài khoản và token
+
+            tokenDAO.markTokenAsUsed(token.getToken());
+
+            // ✅ Xác minh thành công: chuyển hướng về trang chủ
+            response.sendRedirect("resetpassword.jsp");
+        }
     } 
 
     /** 

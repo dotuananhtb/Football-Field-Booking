@@ -3,8 +3,11 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mailverify.SendMail;
 import model.Account;
 import model.UserProfile;
@@ -12,9 +15,8 @@ import util.DBContext;
 
 public class AccountDAO extends DBContext {
 
-    //// Ham de xu li dang ki _ Tuan Anh
     public boolean updateStatus(int accountId, int newStatusId) {
-        String sql =  "UPDATE Account SET status_id = 1 WHERE account_id = ?";
+        String sql = "UPDATE Account SET status_id = 1 WHERE account_id = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, newStatusId);
@@ -29,7 +31,90 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    public boolean resetPass( String email) {
+        String insertTokenSQL = "INSERT INTO EmailVerification (account_id, token, created_at, expires_at, is_used) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement psToken = null;
+        ResultSet generatedKeys = null;
+        AccountDAO dao = new AccountDAO();
+        try {
+            // 3. Tạo token xác minh
+
+            String token = java.util.UUID.randomUUID().toString();
+            String createdAt = java.time.LocalDateTime.now().toString();
+            String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
+
+            psToken = connection.prepareStatement(insertTokenSQL);
+            psToken.setInt(1, dao.getAcountIdByEmail(email));
+            psToken.setString(2, token);
+            psToken.setString(3, createdAt);
+            psToken.setString(4, expiresAt);
+            psToken.setBoolean(5, false);
+            psToken.executeUpdate();
+            connection.commit();
+
+            // 4. Gửi email xác minh
+            String verifyLink = "http://localhost:9999/FB_N1/verify?token=" + token;
+
+            SendMail sender = new SendMail();
+            sender.guiResetPasswordMail(email, verifyLink, dao.getLastNameByEmail(email));
+
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public String getLastNameByEmail(String email) {
+        String sql = """
+        SELECT up.last_name 
+        FROM Account a 
+        JOIN UserProfile up ON a.account_id = up.account_id 
+        WHERE a.email = ?
+        """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("last_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getAcountIdByEmail(String email) {
+        String sql = "SELECT account_id FROM Account WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("account_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy hoặc lỗi
+    }
+
+    public Integer getStatusIdByEmail(String email) {
+        String sql = "SELECT status_id FROM Account WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("status_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy hoặc lỗi
+    }
+    //// Ham de xu li dang ki _ Tuan Anh
     // 1. Kiểm tra tồn tại username
+
     public boolean checkTonTaiUsername(String username) {
         String sql = "SELECT 1 FROM Account WHERE username = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -159,7 +244,7 @@ public class AccountDAO extends DBContext {
     }
 
     // TEST MAIN
-  public static void main(String[] args) {
+    public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
         // Dữ liệu mẫu để test
@@ -176,20 +261,25 @@ public class AccountDAO extends DBContext {
         profile.setAvatar("assets/img/avatars/avatar_goc.jpg");
 
         Account account = new Account();
-        account.setStatusId(3);
-        account.setUsername("binhcute"); // Đổi mỗi lần test để tránh trùng
-        account.setPassword("123456");
-        account.setEmail("pitiy69288@pricegh.com"); // Đổi mỗi lần test
-        account.setCreatedAt(createdAt);
-        account.setUserProfile(profile);
+//        account.setStatusId(3);
+//        account.setUsername("binhcute4"); // Đổi mỗi lần test để tránh trùng
+//        account.setPassword("123456");
+//        account.setEmail("kaheyi3497@dlbazi.com"); // Đổi mỗi lần test
+//        account.setCreatedAt(createdAt);
+//        account.setUserProfile(profile);
+//
+//        // Thực thi và in kết quả
+//        boolean result = dao.addAccountAndSendVerificationEmail(account);
+//        if (result) {
+//            System.out.println("Thêm tài khoản và gửi email xác minh thành công!");
+//        } else {
+//            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
+//        }
+//
+//        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
 
-        // Thực thi và in kết quả
-        boolean result = dao.addAccountAndSendVerificationEmail(account);
-        if (result) {
-            System.out.println("Thêm tài khoản và gửi email xác minh thành công!");
-        } else {
-            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
-        }
+        dao.resetPass( "kaheyi3497@dlbazi.com");
+
     }
 
 }
