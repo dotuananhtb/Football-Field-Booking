@@ -71,7 +71,7 @@ public class AccountDAO extends DBContext {
 
             // 1. Thêm tài khoản
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
-            psAccount.setInt(1, 2); // statusId = 3 (chưa xác minh)
+            psAccount.setInt(1, 2); // statusId = 2 (chưa xác minh)
             psAccount.setString(2, account.getUsername());
             psAccount.setString(3, account.getPassword());
             psAccount.setString(4, account.getEmail());

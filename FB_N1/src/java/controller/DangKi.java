@@ -20,9 +20,8 @@ public class DangKi extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/plain;charset=UTF-8"); // trả về text đơn giản
 
-        // Lấy dữ liệu từ form
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -33,53 +32,40 @@ public class DangKi extends HttpServlet {
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
-        String createdAt = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String avatar = "assets/img/avatars/avatar_goc.jpg";
-
-        int statusId = 3; // Mặc định chưa xác minh
-        int roleId = 3;   // Mặc định vai trò user
+        int statusId = 2;
+        int roleId = 3;
 
         AccountDAO ad = new AccountDAO();
 
         try {
-            // Kiểm tra xác nhận mật khẩu
             if (!password.equals(password_confirm)) {
-                request.setAttribute("error", "Mật khẩu xác nhận không khớp!");
-                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                response.getWriter().write("Mật khẩu xác nhận không khớp!");
                 return;
             }
 
-            // Kiểm tra username đã tồn tại chưa
             if (ad.checkTonTaiUsername(username)) {
-                request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
-                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                response.getWriter().write("Tên đăng nhập đã tồn tại!");
                 return;
             }
 
-            // Kiểm tra email đã tồn tại chưa
             if (ad.checkTonTaiEmail(email)) {
-                request.setAttribute("error", "Email đã được sử dụng!");
-                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                response.getWriter().write("Email đã được sử dụng!");
                 return;
             }
 
-            // Tạo đối tượng tài khoản
             UserProfile profile = new UserProfile(roleId, firstName, lastName, address, gender, dob, phone, avatar);
             Account account = new Account(statusId, username, password, email, createdAt, profile);
 
-            // Thêm vào DB và gửi email xác minh
             if (ad.addAccountAndSendVerificationEmail(account)) {
-                request.setAttribute("message", "Đăng ký thành công! Vui lòng kiểm tra email để xác minh tài khoản.");
-                request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
+                response.getWriter().write("Đăng ký thành công! Vui lòng kiểm tra email.");
             } else {
-                request.setAttribute("error", "Đăng ký thất bại. Vui lòng thử lại.");
-                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                response.getWriter().write("Đăng ký thất bại. Vui lòng thử lại.");
             }
 
         } catch (Exception e) {
-            request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());
-            request.getRequestDispatcher("dangki.jsp").forward(request, response);
+            response.getWriter().write("Lỗi hệ thống: " + e.getMessage());
         }
     }
 
