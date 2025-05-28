@@ -293,6 +293,38 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+    //5. Thay đổi mật khẩu
+    public boolean update_Password(String username, String newPassword){
+        String sql = "UPDATE [Account] SET password=? WHERE username=?";
+        try (
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            ps.setString(1, newPassword);
+            ps.setString(2, username);
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    //6. Check mật khẩu
+    public boolean checkPassword(String username, String password){
+        String sql = "SELECT password FROM [Account] WHERE username=? AND password=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            ps.setString(1, username);
+            ps.setString(2, password);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // Returns true if password matches
+            }
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+        return false;
+    }
 
     // TEST MAIN
     public static void main(String[] args) {
