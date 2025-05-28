@@ -16,7 +16,7 @@ import java.sql.Statement;
  */
 public class DBContext {
 
-    protected Connection connection;
+    public Connection connection;
 
     public DBContext() {
         try {

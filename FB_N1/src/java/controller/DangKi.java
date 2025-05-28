@@ -1,123 +1,90 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dao.AccountDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import model.Account;
 import model.UserProfile;
 
-/**
- *
- * @author Đỗ Tuấn Anh
- */
 @WebServlet(name = "Dang_ki", urlPatterns = {"/dang-ki"})
 public class DangKi extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Dang_ki</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Dang_ki at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Lấy dữ liệu từ form
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password_confirm = request.getParameter("password_confirm");
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
-        String create_at = java.time.LocalDate.now().toString();
+        String createdAt = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String avatar = "assets/img/avatars/avatar_goc.jpg";
+
+        int statusId = 3; // Mặc định chưa xác minh
+        int roleId = 3;   // Mặc định vai trò user
+
         AccountDAO ad = new AccountDAO();
-        String ms = "";
-        String user_img = "assets/img/avatars/avatar_goc.jpg";
 
         try {
-            if (ad.checkTonTaiUser(username)) {
-                ms = "Tài khoản đã tồn tại hãy thử lại!!";
+            // Kiểm tra xác nhận mật khẩu
+            if (!password.equals(password_confirm)) {
+                request.setAttribute("error", "Mật khẩu xác nhận không khớp!");
+                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                return;
+            }
+
+            // Kiểm tra username đã tồn tại chưa
+            if (ad.checkTonTaiUsername(username)) {
+                request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
+                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                return;
+            }
+
+            // Kiểm tra email đã tồn tại chưa
+            if (ad.checkTonTaiEmail(email)) {
+                request.setAttribute("error", "Email đã được sử dụng!");
+                request.getRequestDispatcher("dangki.jsp").forward(request, response);
+                return;
+            }
+
+            // Tạo đối tượng tài khoản
+            UserProfile profile = new UserProfile(roleId, firstName, lastName, address, gender, dob, phone, avatar);
+            Account account = new Account(statusId, username, password, email, createdAt, profile);
+
+            // Thêm vào DB và gửi email xác minh
+            if (ad.addAccountAndSendVerificationEmail(account)) {
+                request.setAttribute("message", "Đăng ký thành công! Vui lòng kiểm tra email để xác minh tài khoản.");
+                request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
             } else {
-                UserProfile p = new UserProfile(3, first_name, last_name, address, gender, dob, phone, user_img);
-                Account a = new Account(3, username, password, email, create_at, p);
-                if (ad.addAccount(a)) {
-                    ms = "Đăng kí thành công";
-                    response.sendRedirect("trangchu");
-                } else {
-                    ms = "Đăng kí không thành công";
-                    response.sendRedirect("page_404");
-                }
+                request.setAttribute("error", "Đăng ký thất bại. Vui lòng thử lại.");
+                request.getRequestDispatcher("dangki.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
-            System.out.println(e);
-
+            request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());
+            request.getRequestDispatcher("dangki.jsp").forward(request, response);
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }///  </editor-fold>
-
+        return "Servlet xử lý đăng ký người dùng có xác minh email";
+    }
 }
