@@ -70,6 +70,11 @@ public class DangKi extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    }
+
+    @Override
     public String getServletInfo() {
         return "Servlet xử lý đăng ký người dùng có xác minh email";
     }
