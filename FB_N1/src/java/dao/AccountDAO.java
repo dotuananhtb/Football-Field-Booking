@@ -257,7 +257,7 @@ public class AccountDAO extends DBContext {
             SendMail sender = new SendMail();
             Thread thread = new Thread(() -> {
                 try {
-                    sender.guiMail(account.getEmail(), verifyLink, p.getLastName());
+                    sender.guiMailFULLHD(account.getEmail(), verifyLink, p.getLastName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -293,15 +293,16 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+
     //5. Thay đổi mật khẩu
-    public boolean update_Password(String username, String newPassword){
+    public boolean update_Password(String username, String newPassword) {
         String sql = "UPDATE [Account] SET password=? WHERE username=?";
         try (
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setString(1, newPassword);
             ps.setString(2, username);
-            
+
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -309,19 +310,20 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+
     //6. Check mật khẩu
-    public boolean checkPassword(String username, String password){
+    public boolean checkPassword(String username, String password) {
         String sql = "SELECT password FROM [Account] WHERE username=? AND password=?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            
+
             ps.setString(1, username);
             ps.setString(2, password);
-            
+
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // Returns true if password matches
             }
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
         return false;
     }
@@ -345,23 +347,22 @@ public class AccountDAO extends DBContext {
 
         Account account = new Account();
 
-//        account.setStatusId(3);
-//        account.setUsername("binhcute5"); // Đổi mỗi lần test để tránh trùng
-//        account.setPassword("123456");
-//        account.setEmail("dognoperke@gufum.com"); // Đổi mỗi lần test
-//        account.setCreatedAt(createdAt);
-//        account.setUserProfile(profile);
-//
-//        // Thực thi và in kết quả
-//        boolean result = dao.addAccountAndSendVerificationEmail(account);
+        account.setStatusId(3);
+        account.setUsername("binhcute5a"); // Đổi mỗi lần test để tránh trùng
+        account.setPassword("123456");
+        account.setEmail("pitiy69288@pricegh.com"); // Đổi mỗi lần test
+        account.setCreatedAt(createdAt);
+        account.setUserProfile(profile);
+
+        // Thực thi và in kết quả
+        boolean result = dao.addAccountAndSendVerificationEmail(account);
 //        if (result) {
 //            System.out.println("Thêm tài khoản và gửi email xác minh thành công!");
 //        } else {
 //            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
 //        }
 //        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
-
-        dao.resetPass("dognoperke@gufum.com");
+//        dao.resetPass("dognoperke@gufum.com");
 //            int testId=1;
 //           Account acc = dao.getAccountById(testId);
 //

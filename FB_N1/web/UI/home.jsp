@@ -13,6 +13,27 @@
 
         <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                    @keyframes fadein {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    @keyframes fadeout {
+                        from {
+                            opacity: 1;
+                        }
+                        to {
+                            opacity: 0;
+                        }
+                    }
+                </style>
 
                 <title>BookField - Hệ Thống Đặt Sân Bóng Đá</title>
                 <!-- Favicon -->
@@ -837,61 +858,106 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
-                                                                                    <h4 class="text-center border-b pb-2">Đăng Ký</h4>
-
-                                                                                    <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                                                                                        <form method="post" action="#" name="contactform1" id="contactform1">
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="text" name="user_name" class="form-control" id="fname1"
-                                                                                                       placeholder="Tên đăng nhập">
-                                                                                            </div>
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="text" name="user_email" class="form-control" id="femail"
-                                                                                                       placeholder="Địa chỉ Email">
-                                                                                            </div>
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="text" name="user_phone" class="form-control" id="fphone"
-                                                                                                       placeholder="Số điện thoại">
-                                                                                            </div>
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="password" name="password_name" class="form-control"
-                                                                                                       id="lpass1" placeholder="Mật khẩu">
-                                                                                            </div>
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="password" name="password_confirm" class="form-control"
-                                                                                                       id="lrepass" placeholder="Xác nhận mật khẩu">
-                                                                                            </div>
-                                                                                            <div class="form-group mb-2 d-flex">
-                                                                                                <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                                                                                                    <label class="custom-control-label mb-0 ms-1 lh-1" for="exampleCheck1">Tôi đã đọc và chấp nhận Điều khoản và Chính sách Bảo mật</label>
-                                                                                            </div>
-                                                                                            <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                                                <input type="submit" class="nir-btn w-100" id="submit1"
-                                                                                                       value="Đăng Ký">
-                                                                                            </div>
-                                                                                            <p class="text-center">Bạn đã có tài khoản? <a href="#"
-                                                                                                                                           class="theme">Đăng Nhập</a></p>
-                                                                                        </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
 
-                                                <!-- *Scripts* -->
-                                                <script src="js/jquery-3.5.1.min.js"></script>
-                                                <script src="js/bootstrap.min.js"></script>
-                                                <script src="js/particles.js"></script>
-                                                <script src="js/particlerun.js"></script>
-                                                <script src="js/plugin.js"></script>
-                                                <script src="js/main.js"></script>
-                                                <script src="js/custom-swiper.js"></script>
-                                                <script src="js/custom-nav.js"></script>
-                                            </body>
+                                                                                    <form action="${pageContext.request.contextPath}/dang-ki" method="POST" id="dkiform" onsubmit="event.preventDefault(); validateAndSubmit();">
 
-                                            </html>
+                                                                                        <!-- Họ và tên -->
+                                                                                        <div class="form-group mb-2 d-flex">
+                                                                                            <input type="text" name="lastname" id="lastname" class="form-control me-1" placeholder="Họ" style="width: 50%;" required>
+                                                                                                <input type="text" name="firstname" id="firstname" class="form-control ms-1" placeholder="Tên" style="width: 50%;" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Tên đăng nhập -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="text" name="username" id="username" class="form-control" placeholder="Tên đăng nhập" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Mật khẩu -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Nhập lại mật khẩu -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="password" name="password_confirm" id="password_confirm" class="form-control" placeholder="Nhập lại mật khẩu" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Email -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Số điện thoại -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Ngày sinh -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="date" name="dob" id="dob" class="form-control" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Giới tính -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <select name="gender" id="gender" class="form-control" required>
+                                                                                                            <option value="">-- Chọn giới tính --</option>
+                                                                                                            <option value="Nam">Nam</option>
+                                                                                                            <option value="Nữ">Nữ</option>
+                                                                                                            <option value="Khác">Khác</option>
+                                                                                                        </select>
+                                                                                                    </div>
+
+                                                                                                    <!-- Địa chỉ -->
+                                                                                                    <div class="form-group mb-2">
+                                                                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Địa chỉ" required>
+                                                                                                    </div>
+
+                                                                                                    <!-- Đồng ý điều khoản -->
+                                                                                                    <div class="form-check mb-3">
+                                                                                                        <input class="form-check-input" type="checkbox" name="check" id="check" required>
+                                                                                                            <label class="form-check-label" for="check">Tôi đồng ý với điều khoản</label>
+                                                                                                    </div>
+
+                                                                                                    <!-- Nút đăng ký -->
+                                                                                                    <div class="comment-btn mb-2 pb-2 text-center border-b">
+                                                                                                        <input type="submit" class="nir-btn w-100" id="submit1" value="Đăng Kí">
+                                                                                                    </div>
+
+                                                                                                    <!-- Thông báo từ servlet -->
+                                                                                                    <div id="message" class="text-center mb-2 text-danger"></div>
+
+                                                                                                    <!-- Đường dẫn đăng nhập -->
+                                                                                                    <p class="text-center">Bạn đã có tài khoản? <a href="#" class="theme">Đăng nhập</a></p>
+                                                                                                    </form>
+
+                                                                                                    <!-- Toast hiển thị lỗi -->
+                                                                                                    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+                                                                                                    <!-- Script kiểm tra form -->
+                                                                                                    <script src="js/validateRegister.js"></script>
+
+
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                    </div>
+
+
+                                                                                                    <!-- *Scripts* -->
+                                                                                                    <script src="js/jquery-3.5.1.min.js"></script>
+                                                                                                    <script src="js/bootstrap.min.js"></script>
+                                                                                                    <script src="js/particles.js"></script>
+                                                                                                    <script src="js/particlerun.js"></script>
+                                                                                                    <script src="js/plugin.js"></script>
+                                                                                                    <script src="js/main.js"></script>
+                                                                                                    <script src="js/custom-swiper.js"></script>
+                                                                                                    <script src="js/custom-nav.js"></script>
+                                                                                                    </body>
+
+                                                                                                    </html>

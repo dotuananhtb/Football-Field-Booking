@@ -66,7 +66,7 @@ public class VerifyMail extends HttpServlet {
 
         if (tokenParam == null || tokenParam.isEmpty()) {
             request.setAttribute("message", "Liên kết không hợp lệ!");
-            request.getRequestDispatcher("result.jsp").forward(request, response);
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
             return;
         }
 
@@ -74,15 +74,15 @@ public class VerifyMail extends HttpServlet {
         EmailVerificationToken token = tokenDAO.getTokenByValue(tokenParam);
 
         if (token == null) {
-            request.setAttribute("message", "Token không tồn tại hoặc đã được sử dụng!");
-            request.getRequestDispatcher("result.jsp").forward(request, response);
+            request.setAttribute("message", "Liên kết không tồn tại hoặc đã được sử dụng!");
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else if (token.isUsed()) {
-            request.setAttribute("message", "Token đã được sử dụng!");
-            request.getRequestDispatcher("result.jsp").forward(request, response);
+            request.setAttribute("message", "Liên kết đã được sử dụng!");
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else if (System.currentTimeMillis()
                 > LocalDateTime.parse(token.getExpiresAt()).toInstant(ZoneOffset.UTC).toEpochMilli()) {
-            request.setAttribute("message", "Token đã hết hạn!");
-            request.getRequestDispatcher("result.jsp").forward(request, response);
+            request.setAttribute("message", "Liên kết đã hết hạn!");
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else {
             // Cập nhật trạng thái tài khoản và token
             tokenDAO.activateAccount(token.getAccountId()) ;
@@ -90,7 +90,7 @@ public class VerifyMail extends HttpServlet {
             tokenDAO.markTokenAsUsed(token.getToken());
 
             // ✅ Xác minh thành công: chuyển hướng về trang chủ
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("UI/success.html");
         }
     }
 

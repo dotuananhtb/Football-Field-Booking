@@ -18,58 +18,80 @@ function validateAndSubmit() {
 
     let isValid = true;
 
+    const nameRegex = /^[A-Za-zÀ-ỹà-ỹ\s]+$/u;
+
     if (fields.lastname === "") {
-        showFloatingError("lastname", "Vui lòng nhập họ");
+        showToast("Vui lòng nhập họ", "error");
+        isValid = false;
+    } else if (!nameRegex.test(fields.lastname)) {
+        showToast("Họ chỉ được chứa chữ cái", "error");
         isValid = false;
     }
 
     if (fields.firstname === "") {
-        showFloatingError("firstname", "Vui lòng nhập tên");
+        showToast("Vui lòng nhập tên", "error");
+        isValid = false;
+    } else if (!nameRegex.test(fields.firstname)) {
+        showToast("Tên chỉ được chứa chữ cái", "error");
         isValid = false;
     }
 
     if (fields.username === "") {
-        showFloatingError("username", "Vui lòng nhập tên đăng nhập");
+        showToast("Vui lòng nhập tên đăng nhập", "error");
+        isValid = false;
+    } else if (!/^[a-zA-Z0-9_.]+$/.test(fields.username)) {
+        showToast("Tên đăng nhập chỉ được chứa chữ cái không dấu, số, dấu _ và dấu .", "error");
+        isValid = false;
+    } else if (fields.username.length < 6) {
+        showToast("Tên đăng nhập phải có ít nhất 6 ký tự", "error");
         isValid = false;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-        showFloatingError("email", "Email không hợp lệ");
+        showToast("Email không hợp lệ", "error");
         isValid = false;
     }
 
     if (!/^[0-9]{10}$/.test(fields.phone)) {
-        showFloatingError("phone", "Số điện thoại không hợp lệ (10 chữ số)");
+        showToast("Số điện thoại không hợp lệ (10 chữ số)", "error");
         isValid = false;
     }
 
     if (fields.address === "") {
-        showFloatingError("address", "Vui lòng nhập địa chỉ");
+        showToast("Vui lòng nhập địa chỉ", "error");
         isValid = false;
     }
 
     if (fields.dob === "") {
-        showFloatingError("dob", "Vui lòng chọn ngày sinh");
+        showToast("Vui lòng chọn ngày sinh", "error");
         isValid = false;
+    } else {
+        const today = new Date();
+        const dob = new Date(fields.dob);
+        if (dob >= today) {
+            showToast("Ngày sinh phải trước ngày hiện tại", "error");
+            isValid = false;
+        }
     }
 
     if (fields.gender === "") {
-        showFloatingError("gender", "Vui lòng chọn giới tính");
+        showToast("Vui lòng chọn giới tính", "error");
         isValid = false;
     }
 
-    if (fields.password.length < 6) {
-        showFloatingError("password", "Mật khẩu phải ít nhất 6 ký tự");
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+    if (!passwordRegex.test(fields.password)) {
+        showToast("Mật khẩu phải ít nhất 8 ký tự, gồm chữ, số và ký tự đặc biệt", "error");
         isValid = false;
     }
 
     if (fields.password !== fields.password_confirm) {
-        showFloatingError("password_confirm", "Mật khẩu nhập lại không khớp");
+        showToast("Mật khẩu nhập lại không khớp", "error");
         isValid = false;
     }
 
     if (!fields.check) {
-        showFloatingError("check", "Bạn phải đồng ý với điều khoản");
+        showToast("Bạn phải đồng ý với điều khoản", "error");
         isValid = false;
     }
 
@@ -88,9 +110,8 @@ function validateAndSubmit() {
                     const isSuccess = msg.toLowerCase().includes("thành công");
                     showToast(msg, isSuccess ? "success" : "error");
 
-
                     if (isSuccess) {
-                        setTimeout(() => location.reload(),1000);
+                        setTimeout(() => location.reload(), 1000);
                     }
                 })
                 .catch(err => {
@@ -98,29 +119,6 @@ function validateAndSubmit() {
                     console.error("Lỗi khi gửi dữ liệu:", err);
                 });
     }
-
-}
-
-function showFloatingError(fieldId, message) {
-    const field = document.getElementById(fieldId);
-    const rect = field.getBoundingClientRect();
-
-    const tooltip = document.createElement("div");
-    tooltip.className = "tooltip-error";
-    tooltip.innerText = message;
-
-    document.body.appendChild(tooltip);
-
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    tooltip.style.top = `${rect.top + scrollTop - tooltip.offsetHeight - 5}px`;
-    tooltip.style.left = `${rect.left}px`;
-
-    field.classList.add("is-invalid");
-
-    setTimeout(() => {
-        tooltip.remove();
-        field.classList.remove("is-invalid");
-    }, 4000);
 }
 
 function clearErrors() {

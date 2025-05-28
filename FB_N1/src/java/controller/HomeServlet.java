@@ -65,9 +65,9 @@ public class HomeServlet extends HttpServlet {
             model.UserProfile user = dao.getProfileByAccountId(accountId);
 
             request.setAttribute("user", user);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("UI/home.jsp").forward(request, response);
         } else {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("UI/home.jsp");// chua login
         }
     } 
 

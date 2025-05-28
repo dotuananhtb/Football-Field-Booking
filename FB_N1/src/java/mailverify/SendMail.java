@@ -15,7 +15,10 @@ import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
 
 public class SendMail {
@@ -63,7 +66,8 @@ public class SendMail {
             return false;
         }
     }
-        public boolean guiResetPasswordMail(String email, String noidung, String nameUser) {
+
+    public boolean guiResetPasswordMail(String email, String noidung, String nameUser) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -100,4 +104,78 @@ public class SendMail {
             return false;
         }
     }
+
+    public boolean guiMailFULLHD(String email, String linkXacThuc, String nameUser) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", TSL_PORT);
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.ssl.trust", HOST_NAME);
+        props.put("mail.debug", "true");
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(APP_EMAIL, APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(APP_EMAIL, "Football Star", "UTF-8"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject(MimeUtility.encodeText("Xác thực tài khoản - Football Star", "UTF-8", "B"));
+
+            String emailContent = "<!DOCTYPE html>"
+                    + "<html><head>"
+                    + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
+                    + "<style>"
+                    + "body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }"
+                    + ".container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; }"
+                    + ".header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; font-size: 24px; }"
+                    + ".content { padding: 30px; text-align: center; }"
+                    + ".btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }"
+                    + ".footer { padding: 15px; font-size: 14px; color: #999999; text-align: center; }"
+                    + "</style>"
+                    + "</head><body>"
+                    + "<div class='container'>"
+                    + "<div class='header'>Xác minh tài khoản</div>"
+                    + "<div class='content'>"
+                    + "<p>Xin chào <strong>" + nameUser + "</strong>,</p>"
+                    + "<p>Cảm ơn bạn đã đăng ký tài khoản tại <strong>Football Star</strong>.</p>"
+                    + "<p>Vui lòng nhấn vào nút bên dưới để xác minh địa chỉ email của bạn:</p>"
+                    + "<a class='btn' href='" + linkXacThuc + "'>Xác minh tài khoản</a>"
+                    + "<p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>"
+                    + "</div>"
+                    + "<div class='footer'>Trân trọng,<br>Đội ngũ Football Star</div>"
+                    + "</div>"
+                    + "</body></html>";
+
+            message.setContent(emailContent, "text/html; charset=UTF-8");
+            Transport.send(message);
+            System.out.println("✅ Email xác minh đã được gửi thành công!");
+            return true;
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        SendMail sendMail = new SendMail();
+
+        String emailNguoiNhan = "dotuananhofficial@gmail.com"; // 👉 Địa chỉ email cần test
+        String tenNguoiDung = "Nguyễn Văn A";         // 👉 Tên người nhận
+        String linkXacThuc = "http://localhost:8080/XacThucTaiKhoan?token=abc123xyz"; // 👉 Link xác minh (có thể sinh động bằng UUID/token thật)
+
+        boolean result = sendMail.guiMailFULLHD(emailNguoiNhan, linkXacThuc, tenNguoiDung);
+
+        if (result) {
+            System.out.println("✅ Gửi email xác minh thành công.");
+        } else {
+            System.out.println("❌ Gửi email xác minh thất bại.");
+        }
+    }
+
 }
