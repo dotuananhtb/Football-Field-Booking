@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="vi">
@@ -337,53 +338,53 @@
                     <div class="tab-content" id="personal-info">
                         <div class="profile-content">
                             <h3 class="mb-4">Thông Tin Cá Nhân</h3>
-                            
-                            <form>
+                            <c:set value="${sessionScope.userProfile}" var="u"></c:set>
+                            <c:set value="${sessionScope.acc}" var="a"></c:set>
+                            <%--<c:out value="${sessionScope.acc}" default="Chưa có userProfile trong session" />--%>
+                            <form action="${pageContext.request.contextPath}/updateUser" method="post" >
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
+                                        <input type="hidden" value="${a.getAccountId()}" name="id">
                                         <label class="form-label">Họ và Tên</label>
-                                        <input type="text" class="form-control" value="Nguyễn Văn A">
+                                        <input type="text" class="form-control" value="${u.getFirstName()}" name="name">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">User Name</label>
+                                        <input type="text" class="form-control" value="${a.getUsername()}" name="username" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" value="nguyenvana@email.com">
+                                        <input type="email" class="form-control" value="${a.getEmail()}" readonly >
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Số Điện Thoại</label>
-                                        <input type="tel" class="form-control" value="0901234567">
+                                        <input type="tel" class="form-control" value="${u.getPhone()}" name="phone">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Ngày Sinh</label>
-                                        <input type="date" class="form-control" value="1990-05-15">
+                                        <input type="date" class="form-control" value="${u.getDob()}" name="dob">
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giới Tính</label>
-                                        <select class="form-control">
-                                            <option>Nam</option>
-                                            <option>Nữ</option>
-                                            <option>Khác</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="${u.getGender()}" readonly>
                                     </div>
                                     
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label class="form-label">Địa Chỉ</label>
-                                    <textarea class="form-control" rows="3">123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM</textarea>
+                                    <input type="text" class="form-control" value="${u.getAddress()}" name="address">
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label">Giới Thiệu Bản Thân</label>
-                                    <textarea class="form-control" rows="4" placeholder="Chia sẻ về bản thân, kinh nghiệm chơi bóng...">Tôi là một người đam mê bóng đá, thường xuyên tham gia các trận đấu giao hữu vào cuối tuần. Chơi ở vị trí tiền vệ, thích lối chơi tấn công.</textarea>
-                                </div>
+                                <input type="submit" value="Cập Nhật" class="btn btn-success"/>
                                 
-                                <button type="submit" class="btn btn-success">Cập Nhật Thông Tin</button>
+                                <h6>${mess}</h6>
                             </form>
                         </div>
                     </div>
