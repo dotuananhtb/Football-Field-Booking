@@ -123,7 +123,28 @@ public class resetPassword extends HttpServlet {
             request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
             return;
         }
+        if (password == null|| cPassword == null || password.isEmpty()|| cPassword.isEmpty()||(password.length()<6&&cPassword.length()<6)) {
+            request.setAttribute("mess", "Mật khẩu ít nhất phải 6 kí tự!");
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
+            return;
+        }
+        
         HttpSession session = request.getSession();
+        String tokenParam = (String) session.getAttribute("token");
+        EmailVerificationToken token = tokenDAO.getTokenByValue(tokenParam);
+        // kiểm tra xem có tồn tại hay không, hết hạn chưa, đã sử dụng chưa
+        if (token == null) {
+            request.setAttribute("mess", "Token không tồn tại hoặc đã được sử dụng!");
+            request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+        } else if (token.isUsed()) {
+            request.setAttribute("mess", "Token đã được sử dụng!");
+            request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+        } else if (System.currentTimeMillis()
+                > LocalDateTime.parse(token.getExpiresAt()).toInstant(ZoneOffset.UTC).toEpochMilli()) {
+            request.setAttribute("mess", "Token đã hết hạn!");
+            request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+        }
         EmailVerificationToken evt = new EmailVerificationToken();
         evt.setToken((String) session.getAttribute("token"));
 
@@ -133,7 +154,7 @@ public class resetPassword extends HttpServlet {
 
         tokenDAO.markTokenAsUsed(evt.getToken());
 
-        // ✅ Xác minh thành công: chuyển hướng về trang chủ
+        //Xác minh thành công: chuyển hướng về trang chủ
         response.sendRedirect("UI/home.jsp");
     }
 
@@ -148,6 +169,3 @@ public class resetPassword extends HttpServlet {
     }// </editor-fold>
 
 }
-
-
-
