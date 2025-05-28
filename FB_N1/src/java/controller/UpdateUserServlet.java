@@ -12,13 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import dao.UserProfileDAO;
+import model.*;
 /**
  *
  * @author Asus
  */
-@WebServlet(name="UserProfile", urlPatterns={"/userProfile"})
-public class UserProfile extends HttpServlet {
+@WebServlet(name="UpdateUserServlet", urlPatterns={"/updateUser"})
+public class UpdateUserServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +36,10 @@ public class UserProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserProfile</title>");  
+            out.println("<title>Servlet UpdateUserServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateUserServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,7 +69,20 @@ public class UserProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        String userName = request.getParameter("username");
+        String phone = request.getParameter("phone");
+        String dob = request.getParameter("dob");
+        String address = request.getParameter("address");
+        String id = request.getParameter("id");
+        UserProfile u = new UserProfile(name, null, address, null, dob, phone, null);
+        UserProfileDAO dao = new UserProfileDAO();
+        dao.updateProfile1(u, id);
+        request.setAttribute("mess", "Update Successfully!");
+        out.print(id);
+//        request.getRequestDispatcher("UI/userProfile.jsp").forward(request, response);
     }
 
     /** 
