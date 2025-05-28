@@ -14,19 +14,43 @@ public class Account {
     private String username;
     private String password;
     private String email;
-    private Date createdAt;
-
+    private String createdAt;
+    private UserProfile userProfile;
     public Account() {
     }
 
-    public Account(int accountId, int statusId, String username, String password, String email, Date createdAt) {
+    public Account(int accountId, int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
         this.accountId = accountId;
         this.statusId = statusId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.createdAt = createdAt;
+        this.userProfile = userProfile;
     }
+
+    public Account(int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.userProfile = userProfile;
+    }
+    
+    
+    
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+    
+
+    
 
     public int getAccountId() {
         return accountId;
@@ -68,11 +92,11 @@ public class Account {
         this.email = email;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
