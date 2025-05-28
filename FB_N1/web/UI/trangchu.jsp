@@ -16,6 +16,25 @@
                 <title>Travelin - Travel Tour Booking HTML Templates</title>
                 <!-- Favicon -->
                 <style>
+                    @keyframes fadein {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    @keyframes fadeout {
+                        from {
+                            opacity: 1;
+                        }
+                        to {
+                            opacity: 0;
+                        }
+                    }
                     .modal-wrapper-top {
                         padding-top: 0;
                         margin-top: 0;
@@ -1793,6 +1812,7 @@
                                                                                                                                             <div class="form-group mb-2">
                                                                                                                                                 <input type="text" name="username" id="username" class="form-control" placeholder="Tên đăng nhập">
                                                                                                                                             </div>
+
                                                                                                                                             <div class="form-group mb-2">
                                                                                                                                                 <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu">
                                                                                                                                             </div>
@@ -1808,8 +1828,6 @@
                                                                                                                                             <div class="form-group mb-2">
                                                                                                                                                 <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại">
                                                                                                                                             </div>
-
-
 
                                                                                                                                             <div class="form-group mb-2">
                                                                                                                                                 <input type="date" name="dob" id="dob" class="form-control">
@@ -1834,12 +1852,18 @@
                                                                                                                                             </div>
 
                                                                                                                                             <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                                                                                                <input type="submit" class="nir-btn w-100" id="submit1"
-                                                                                                                                                       value="Đăng Kí">
+                                                                                                                                                <input type="submit" class="nir-btn w-100" id="submit1" value="Đăng Kí">
                                                                                                                                             </div>
-                                                                                                                                            <p class="text-center">Bạn đã có tài khoản? <a href="#"
-                                                                                                                                                                                           class="theme">Đăng nhập</a></p>                                                                                                                                            </form>
 
+                                                                                                                                            <!-- ✅ Khu vực hiển thị thông báo phản hồi từ servlet -->
+                                                                                                                                            <div id="message" class="text-center mb-2 text-danger"></div>
+
+                                                                                                                                            <p class="text-center">Bạn đã có tài khoản? <a href="#" class="theme">Đăng nhập</a></p>
+
+                                                                                                                                            </form>
+
+
+                                                                                                                                            <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
 
 
 
@@ -1871,6 +1895,7 @@
                                                                                                                                             <script src="js/main.js"></script>
                                                                                                                                             <script src="js/custom-swiper.js"></script>
                                                                                                                                             <script src="js/custom-nav.js"></script>
+
                                                                                                                                             </body>
 
                                                                                                                                             </html>

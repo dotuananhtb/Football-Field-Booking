@@ -74,8 +74,31 @@ function validateAndSubmit() {
     }
 
     if (isValid) {
-        form.submit();
+        const formData = new URLSearchParams(new FormData(form));
+
+        fetch(form.action, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData
+        })
+                .then(res => res.text())
+                .then(msg => {
+                    const isSuccess = msg.toLowerCase().includes("thành công");
+                    showToast(msg, isSuccess ? "success" : "error");
+
+
+                    if (isSuccess) {
+                        setTimeout(() => location.reload(),3000);
+                    }
+                })
+                .catch(err => {
+                    showToast("Lỗi gửi dữ liệu. Vui lòng thử lại.", "error");
+                    console.error("Lỗi khi gửi dữ liệu:", err);
+                });
     }
+
 }
 
 function showFloatingError(fieldId, message) {
@@ -103,4 +126,23 @@ function showFloatingError(fieldId, message) {
 function clearErrors() {
     document.querySelectorAll(".tooltip-error").forEach(e => e.remove());
     document.querySelectorAll(".is-invalid").forEach(e => e.classList.remove("is-invalid"));
+}
+
+function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.innerText = message;
+    toast.style.minWidth = "250px";
+    toast.style.marginBottom = "10px";
+    toast.style.padding = "15px 20px";
+    toast.style.borderRadius = "6px";
+    toast.style.color = "white";
+    toast.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+    toast.style.fontSize = "14px";
+    toast.style.backgroundColor = type === "success" ? "#28a745" : "#dc3545";
+    toast.style.animation = "fadein 0.5s, fadeout 0.5s 3s";
+    toast.style.position = "relative";
+
+    document.getElementById("toast-container").appendChild(toast);
+
+    setTimeout(() => toast.remove(), 4000);
 }
