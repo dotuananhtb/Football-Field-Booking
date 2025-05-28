@@ -90,7 +90,7 @@ function validateAndSubmit() {
 
 
                     if (isSuccess) {
-                        setTimeout(() => location.reload(),3000);
+                        setTimeout(() => location.reload(),1000);
                     }
                 })
                 .catch(err => {

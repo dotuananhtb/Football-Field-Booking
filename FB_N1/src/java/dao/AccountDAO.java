@@ -14,7 +14,7 @@ public class AccountDAO extends DBContext {
 
     //// Ham de xu li dang ki _ Tuan Anh
     public boolean updateStatus(int accountId, int newStatusId) {
-        String sql =  "UPDATE Account SET status_id = 1 WHERE account_id = ?";
+        String sql = "UPDATE Account SET status_id = 1 WHERE account_id = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, newStatusId);
@@ -125,8 +125,14 @@ public class AccountDAO extends DBContext {
             String verifyLink = "http://localhost:9999/FB_N1/verify?token=" + token;
 
             SendMail sender = new SendMail();
-            sender.guiMail(account.getEmail(), verifyLink, p.getLastName());
-
+            Thread thread = new Thread(() -> {
+                try {
+                    sender.guiMail(account.getEmail(), verifyLink, p.getLastName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            thread.start();
             return true;
 
         } catch (Exception e) {
@@ -159,7 +165,7 @@ public class AccountDAO extends DBContext {
     }
 
     // TEST MAIN
-  public static void main(String[] args) {
+    public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
         // Dữ liệu mẫu để test
