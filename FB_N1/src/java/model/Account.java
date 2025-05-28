@@ -29,6 +29,16 @@ public class Account {
         this.userProfile = userProfile;
     }
 
+    public Account(int accountId, int statusId, String username, String password, String email, String createdAt) {
+        this.accountId = accountId;
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+    
+
     public Account(int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
         this.statusId = statusId;
         this.username = username;

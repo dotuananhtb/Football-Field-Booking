@@ -63,4 +63,41 @@ public class SendMail {
             return false;
         }
     }
+        public boolean guiResetPasswordMail(String email, String noidung, String nameUser) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", HOST_NAME);
+        props.put("mail.smtp.port", TSL_PORT);
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.ssl.trust", HOST_NAME);
+        props.put("mail.debug", "true");
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(APP_EMAIL, APP_PASSWORD);
+            }
+        });
+        try {
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(APP_EMAIL, "Football Star", "UTF-8"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Xác thực tài khoản", "UTF-8");
+
+            String body = "Xin chào " + nameUser + ",<br><br>"
+                    + "Yêu cầu đặt lại mật khẩu.<br>"
+                    + "Vui lòng nhấn vào liên kết sau để đặt lại mật khẩu:<br>"
+                    + "<a href='" + noidung + "'>Xác minh tài khoản</a><br><br>"
+                    + "Trân trọng.";
+
+            message.setContent(body, "text/html; charset=UTF-8");
+            Transport.send(message);
+            System.out.println("✅ Email đã được gửi thành công!");
+            return true;
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
