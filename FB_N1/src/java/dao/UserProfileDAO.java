@@ -22,7 +22,7 @@ public class UserProfileDAO extends DBContext {
 
     public Vector<UserProfile> getAllProfiles() {
         Vector<UserProfile> list = new Vector<>();
-        String sql = "SELECT * FROM tblUserProfile";
+        String sql = "SELECT * FROM UserProfile";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
@@ -47,20 +47,19 @@ public class UserProfileDAO extends DBContext {
     }
 
     public UserProfile getProfileByAccountId(int accountId) {
-        String sql = "SELECT * FROM tblUserProfile WHERE accountId = ?";
+        String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, accountId);
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return new UserProfile(
-                        rs.getInt("accountId"),
-                        rs.getInt("roleId"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getInt("account_id"),
+                        rs.getInt("role_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("address"),
-                        rs.getString("gender"),
-                        rs.getString("dob"),
+                        rs.getString("gender"),                        
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
@@ -109,6 +108,23 @@ public class UserProfileDAO extends DBContext {
 
     }
 
+    public void updateProfile1(UserProfile up, String id) {
+        String sql = "UPDATE UserProfile SET  first_name=?, address=?,  phone=? ,dob = ? WHERE account_id=?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+
+            ptm.setString(1, up.getFirstName());
+            ptm.setString(2, up.getAddress());
+            ptm.setString(3, up.getPhone());
+            ptm.setString(4, up.getDob());
+            ptm.setString(5, id);
+            ptm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     public void deleteProfile(int accountId) {
         String sql = "DELETE FROM tblUserProfile WHERE accountId = ?";
         try {
@@ -120,4 +136,39 @@ public class UserProfileDAO extends DBContext {
         }
 
     }
+
+
+    public Account login(String acc) {
+        String sql = "SELECT * FROM Account WHERE username = ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setString(1, acc);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return new Account(rs.getInt("account_id"),
+                        rs.getInt("status_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        null, null);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        UserProfileDAO dao = new UserProfileDAO();
+        UserProfile up = new UserProfile();
+        up.setAccountId(1);  
+        up.setFirstName("Nguyen Van A");
+        up.setAddress("123 Đường ABC");
+        up.setPhone("0909123456");
+        up.setDob("2000-01-01");
+        
+        dao.updateProfile1(up,"4");
+
+    }
+   
 }

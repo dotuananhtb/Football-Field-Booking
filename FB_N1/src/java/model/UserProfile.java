@@ -23,6 +23,17 @@ public class UserProfile {
     public UserProfile() {
     }
 
+    public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
+        this.accountId = accountId;
+        this.roleId = roleId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
+
     public UserProfile(int roleId, String firstName, String lastName, String address, String gender, String dob, String phone, String avatar) {
 
         this.roleId = roleId;
@@ -38,6 +49,16 @@ public class UserProfile {
     public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String dob, String phone, String avatar) {
         this.accountId = accountId;
         this.roleId = roleId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+        this.dob = dob;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
+
+    public UserProfile(String firstName, String lastName, String address, String gender, String dob, String phone, String avatar) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
