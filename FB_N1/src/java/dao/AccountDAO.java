@@ -29,6 +29,7 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+
     // 1. Kiểm tra tồn tại username
     public boolean checkTonTaiUsername(String username) {
         String sql = "SELECT 1 FROM Account WHERE username = ?";
@@ -191,5 +192,6 @@ public class AccountDAO extends DBContext {
             System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
         }
     }
+
 
 }

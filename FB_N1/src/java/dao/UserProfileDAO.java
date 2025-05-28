@@ -22,7 +22,7 @@ public class UserProfileDAO extends DBContext {
 
     public Vector<UserProfile> getAllProfiles() {
         Vector<UserProfile> list = new Vector<>();
-        String sql = "SELECT * FROM tblUserProfile";
+        String sql = "SELECT * FROM UserProfile";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
@@ -59,8 +59,7 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("address"),
-                        rs.getString("gender"),
-                        rs.getString("dob"),
+                        rs.getString("gender"),                        
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
@@ -138,6 +137,7 @@ public class UserProfileDAO extends DBContext {
 
     }
 
+
     public Account login(String acc) {
         String sql = "SELECT * FROM Account WHERE username = ?";
         try {
@@ -170,4 +170,5 @@ public class UserProfileDAO extends DBContext {
         dao.updateProfile1(up,"4");
 
     }
+   
 }
