@@ -264,7 +264,9 @@
                                                             <div class="comment-btn mb-2 pb-2 text-center border-b">
                                                                 <button type="submit" class="nir-btn" onclick="submitUpdate()">send</button>
                                                             </div>
-                                                            <p class="text-danger">${mess}</p>
+                                                            <c:if test="${not empty mess}">
+                                                                <p class="text-danger text-center">${mess}</p>
+                                                            </c:if>
                                                             <p class="text-center">Bạn có tài khoản chưa? <a href="register.html" class="theme">Đăng kí</a></p>
                                                         </form>
                                                     </div>

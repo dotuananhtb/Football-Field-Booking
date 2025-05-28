@@ -81,17 +81,17 @@ public class requestPassword extends HttpServlet {
             if (!dao.resetPass(email)) {
                 request.setAttribute("mess", "Gửi yêu cầu không thành công");
                 request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+                return;
             }else {
-                dao.resetPass(email);
                 request.setAttribute("mess", "Yêu cầu đã được gửi thành công");
                 request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
-                
+                return;
             }
         } else {
             request.setAttribute("mess", "Email Không tồn tại");
             request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
+            return;
         }
-
     }
 
     /**

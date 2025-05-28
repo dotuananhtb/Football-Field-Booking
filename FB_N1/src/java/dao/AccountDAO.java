@@ -31,7 +31,52 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean resetPass( String email) {
+    //lấy email
+    public Account getAccountById(int accountId) {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where account_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+//    rs.getInt(1),
+//                        rs.getInt(2),
+//                        rs.getString(3),
+//                        rs.getString(4), rs.getString(5),
+//                        rs.getString(6), 
+//                        u);
+    //cập nhật mật khẩu
+    public void updatePassword(String email, String password) {
+        String sql = "UPDATE [dbo].[Account]\n"
+                + "SET [password] = ?\n"
+                + "WHERE [email] = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, password);
+            ps.setString(2, email);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//gửi link xác nhận tài khoản đến mail
+
+    public boolean resetPass(String email) {
         String insertTokenSQL = "INSERT INTO EmailVerification (account_id, token, created_at, expires_at, is_used) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement psToken = null;
         ResultSet generatedKeys = null;
@@ -53,7 +98,7 @@ public class AccountDAO extends DBContext {
             connection.commit();
 
             // 4. Gửi email xác minh
-            String verifyLink = "http://localhost:9999/FB_N1/verify?token=" + token;
+            String verifyLink = "http://localhost:9999/FB_N1/resetPassword?token=" + token;
 
             SendMail sender = new SendMail();
             sender.guiResetPasswordMail(email, verifyLink, dao.getLastNameByEmail(email));
@@ -261,10 +306,11 @@ public class AccountDAO extends DBContext {
         profile.setAvatar("assets/img/avatars/avatar_goc.jpg");
 
         Account account = new Account();
+
 //        account.setStatusId(3);
-//        account.setUsername("binhcute4"); // Đổi mỗi lần test để tránh trùng
+//        account.setUsername("binhcute5"); // Đổi mỗi lần test để tránh trùng
 //        account.setPassword("123456");
-//        account.setEmail("kaheyi3497@dlbazi.com"); // Đổi mỗi lần test
+//        account.setEmail("dognoperke@gufum.com"); // Đổi mỗi lần test
 //        account.setCreatedAt(createdAt);
 //        account.setUserProfile(profile);
 //
@@ -275,11 +321,23 @@ public class AccountDAO extends DBContext {
 //        } else {
 //            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
 //        }
-//
 //        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
 
-        dao.resetPass( "kaheyi3497@dlbazi.com");
-
+        dao.resetPass("dognoperke@gufum.com");
+//            int testId=1;
+//           Account acc = dao.getAccountById(testId);
+//
+//            if (acc != null) {
+//                System.out.println("Thông tin tài khoản:");
+//                System.out.println("ID: " + acc.getAccountId());
+//                System.out.println("Username: " + acc.getUsername());
+//                System.out.println("Email: " + acc.getEmail());
+//                System.out.println("Password: " + acc.getPassword());
+//                System.out.println("Created At: " + acc.getCreatedAt());
+//                System.out.println("Status ID: " + acc.getStatusId());
+//            } else {
+//                System.out.println("Không tìm thấy tài khoản có ID = " + testId);
+//            }
     }
 
 }
