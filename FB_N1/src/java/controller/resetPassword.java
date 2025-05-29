@@ -114,22 +114,31 @@ public class resetPassword extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String oldPassword = request.getParameter("password");
+
         String cPassword = request.getParameter("confirmPassword");
         EmailVerificationTokenDAO tokenDAO = new EmailVerificationTokenDAO();
         AccountDAO dao = new AccountDAO();
+        int accountId = dao.getAcountIdByEmail(email);
+        Account acc = dao.getAccountById(accountId);
         if (!password.equals(cPassword)) {
             request.setAttribute("mess", "Mật khẩu xác nhận không khớp!");
             request.setAttribute("email", email);
             request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
             return;
         }
-        if (password == null|| cPassword == null || password.isEmpty()|| cPassword.isEmpty()||(password.length()<6&&cPassword.length()<6)) {
+        if (password == null || cPassword == null || password.isEmpty() || cPassword.isEmpty() || (password.length() < 6 && cPassword.length() < 6)) {
             request.setAttribute("mess", "Mật khẩu ít nhất phải 6 kí tự!");
             request.setAttribute("email", email);
             request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
             return;
         }
-        
+        if (password.equals(oldPassword)) {
+            request.setAttribute("mess", "Mật khẩu mới không được trùng với mật khẩu cũ!");
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("UI/resetPassword.jsp").forward(request, response);
+            return;
+        }
         HttpSession session = request.getSession();
         String tokenParam = (String) session.getAttribute("token");
         EmailVerificationToken token = tokenDAO.getTokenByValue(tokenParam);
