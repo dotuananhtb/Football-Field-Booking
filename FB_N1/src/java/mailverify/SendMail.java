@@ -86,10 +86,10 @@ public class SendMail {
             message.setSubject("Xác thực tài khoản", "UTF-8");
 
             String body = "Xin chào " + nameUser + ",<br><br>"
-                    + "Yêu cầu đặt lại mật khẩu.<br>"
-                    + "Vui lòng nhấn vào liên kết sau để đặt lại mật khẩu:<br>"
-                    + "<a href='" + noidung + "'>Xác minh tài khoản</a><br><br>"
-                    + "Trân trọng.";
+                    + "Yeu cau quen mat khau.<br>"
+                    + "Vui long vao bam vao duong lien ket de dat lai mat khau:<br>"
+                    + "<a href='" + noidung + "'>Xac minh tai khoan</a><br><br>"
+                    + "Tran trong.";
 
             message.setContent(body, "text/html; charset=UTF-8");
             Transport.send(message);
