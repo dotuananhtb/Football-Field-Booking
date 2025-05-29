@@ -68,6 +68,16 @@ public class UserProfile {
         this.avatar = avatar;
     }
 
+    public UserProfile(String firstName, String lastName, String address, String gender, String dob, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+        this.dob = dob;
+        this.phone = phone;
+    }
+    
+
     public int getAccountId() {
         return accountId;
     }

@@ -59,7 +59,7 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("address"),
-                        rs.getString("gender"),                        
+                        rs.getString("gender"),
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
@@ -90,17 +90,24 @@ public class UserProfileDAO extends DBContext {
     }
 
     public void updateProfile(UserProfile up) {
-        String sql = "UPDATE tblUserProfile SET roleId=?, firstName=?, lastName=?, address=?, gender=?, phone=?, avatar=? WHERE accountId=?";
+        String sql = "UPDATE [dbo].[UserProfile]\n"
+                + "   SET \n"
+                + "      [first_name] = ?\n"
+                + "      ,[last_name] = ?\n"
+                + "      ,[address] = ?\n"
+                + "      ,[gender] = ?\n"
+                + "      ,[dob] = ?\n"
+                + "      ,[phone] = ?\n"
+                + " WHERE account_id =?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
-            ptm.setInt(1, up.getRoleId());
-            ptm.setString(2, up.getFirstName());
-            ptm.setString(3, up.getLastName());
-            ptm.setString(4, up.getAddress());
-            ptm.setString(5, up.getGender());
+            ptm.setString(1, up.getFirstName());
+            ptm.setString(2, up.getLastName());
+            ptm.setString(3, up.getAddress());
+            ptm.setString(4, up.getGender());
+            ptm.setString(5, up.getDob());
             ptm.setString(6, up.getPhone());
-            ptm.setString(7, up.getAvatar());
-            ptm.setInt(8, up.getAccountId());
+            ptm.setInt(7, up.getAccountId());
             ptm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -137,7 +144,6 @@ public class UserProfileDAO extends DBContext {
 
     }
 
-
     public Account login(String acc) {
         String sql = "SELECT * FROM Account WHERE username = ?";
         try {
@@ -161,14 +167,14 @@ public class UserProfileDAO extends DBContext {
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
         UserProfile up = new UserProfile();
-        up.setAccountId(1);  
+        up.setAccountId(1);
         up.setFirstName("Nguyen Van A");
         up.setAddress("123 Đường ABC");
         up.setPhone("0909123456");
         up.setDob("2000-01-01");
-        
-        dao.updateProfile1(up,"4");
+
+
 
     }
-   
+
 }

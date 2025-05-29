@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="vi">
 
@@ -158,13 +159,25 @@
                                                                     </ul>
                                                                 </div><!-- /.navbar-collapse -->  
                                                                 <div class="register-login d-flex align-items-center">
-                                                                    <c:if test="${empty sessionScope.acc}">
+                                                                    <c:if test="${sessionScope.username != null}">
+                                                                        <a href="${pageContext.request.contextPath}/logout"  class="me-3">
+                                                                            <i class="icon-user"></i> Đăng Xuất
+
+                                                                        </a>
+                                                                    </c:if>
+                                                                    <c:if test="${sessionScope.username == null}">
                                                                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="me-3">
                                                                             <i class="icon-user"></i> Đăng Nhập/Đăng Ký
                                                                         </a>
                                                                     </c:if>
                                                                     <a href="#" class="nir-btn white">Đặt Sân Ngay</a>
-                                                                    <a href="/FB_N1/userProfile" class="nir-btn white" style="margin: 20px">👤</a>
+                                                                    <c:if test="${sessionScope.username != null}">
+                                                                        <c:set value="${sessionScope.userProfile}" var="u"></c:set>
+                                                                        <a href="/FB_N1/UI/userProfile.jsp"  style="margin: 20px">
+                                                                            <img src="${u.getAvatar()}" alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+                                                                        </a>
+
+                                                                    </c:if>
                                                                 </div>
 
                                                                 <div id="slicknav-mobile"></div>
@@ -824,26 +837,37 @@
                                                                                     <h4 class="text-center border-b pb-2">Đăng Nhập</h4>
 
                                                                                     <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                                                                                        <form method="post" action="#" name="contactform" id="contactform">
-                                                                                            <div class="form-group mb-2">
-                                                                                                <input type="text" name="user_name" class="form-control" id="fname"
-                                                                                                       placeholder="Tên đăng nhập hoặc địa chỉ Email">
+                                                                                        <form method="post" action="${pageContext.request.contextPath}/login" name="contactform" id="contactform" >
+                                                                                            <div  class="form-group mb-2">
+                                                                                                <input type="text" name="username" class="form-control" id="username"
+                                                                                                       placeholder="Tên đăng nhập hoặc địa chỉ Email" autocomplete="off"  />
                                                                                             </div>
                                                                                             <div class="form-group mb-2">
-                                                                                                <input type="password" name="password_name" class="form-control"
-                                                                                                       id="lpass" placeholder="Mật khẩu">
+                                                                                                <input type="password" name="password" class="form-control"
+                                                                                                       id="password" placeholder="Mật khẩu"  >
+
+                                                                                            </div>
+                                                                                            <a class="fas fa-eye " href ="#" onclick="daoTT()" > Hiện thị mật khẩu</a>
+                                                                                            <div id="loginError" class="text-danger mb-2" style="font-size: 14px;">
+                                                                                                <c:if test="${not empty error}">
+                                                                                                    <script>
+                                                                                                        alert("${error}");
+                                                                                                    </script>
+                                                                                                </c:if>
                                                                                             </div>
                                                                                             <div class="form-group mb-2">
-                                                                                                <input type="checkbox" class="custom-control-input" id="exampleCheck">
-                                                                                                    <label class="custom-control-label mb-0" for="exampleCheck1">Nhớ Mật Khẩu
-                                                                                                    </label>
+
+                                                                                               <input type="checkbox" name="remember" class="custom-control-input" id="rememberCheck">
+                                                                                                     <label class="custom-control-label mb-0" for="rememberCheck">Nhớ Mật Khẩu</label>
                                                                                                     <a class="float-end" href="requestPassword.jsp">Quên mật khẩu?</a>
+
                                                                                             </div>
                                                                                             <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                                                <input type="submit" class="nir-btn w-100" id="submit" value="Đăng Nhập">
+                                                                                                <input type="submit" class="nir-btn w-100"  value="Đăng Nhập">
+
+
                                                                                             </div>
-                                                                                            <p class="text-center">Bạn chưa có tài khoản? <a href="#"
-                                                                                                                                             class="theme">Đăng Ký</a></p>
+                                                                                            <p class="text-center">Bạn chưa có tài khoản? <a href="#" class="theme" onclick="event.preventDefault(); document.getElementById('register-tab').click();">Đăng Ký</a></p>
                                                                                         </form>
                                                                                 </div>
                                                                             </div>
@@ -858,6 +882,71 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
+
+                                                <script>
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                        const exampleModal = document.getElementById("exampleModal");
+                                                        const errorDiv = document.getElementById("loginError");
+                                                        const usernameInput = document.getElementById("username");
+                                                        const passwordInput = document.getElementById("password");
+                                                        const  form = document.getElementById('contactform');
+                                                        const params = new URLSearchParams(window.location.search);
+
+
+                                                        // Tự động focus khi mở modal
+                                                        exampleModal.addEventListener('shown.bs.modal', function () {
+                                                            if (usernameInput)
+                                                                usernameInput.focus();
+                                                        });
+
+                                                        // Khi đóng modal: xóa lỗi + xóa nội dung các input
+                                                        exampleModal.addEventListener('hidden.bs.modal', function () {
+                                                            if (errorDiv)
+                                                                errorDiv.textContent = "";
+                                                            if (usernameInput)
+                                                                usernameInput.value = "";
+                                                            if (passwordInput)
+                                                                passwordInput.value = "";
+                                                        });
+
+
+                                                        // Hàm kiểm tra login
+
+                                                        form.addEventListener("submit", function (event) {
+                                                            const username = usernameInput.value.trim();
+                                                            const password = passwordInput.value.trim();
+
+                                                            if (!username || !password) {
+                                                                errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+                                                                event.preventDefault(); // 🚫 Ngăn form gửi đi nếu thiếu
+                                                            } else {
+                                                                errorDiv.textContent = "";
+                                                                form.submit();
+
+                                                            }
+                                                        });
+
+
+                                                        // Hàm ẩn/hiện mật khẩu
+                                                        window.daoTT = function () {
+                                                            let mk = document.getElementById("password");
+                                                            mk.type = (mk.type === "password") ? "text" : "password";
+                                                        };
+
+
+
+
+                                                    });
+
+
+
+
+
+
+
+
+
+                                                </script>
 
 
                                                                                     <form action="${pageContext.request.contextPath}/dang-ki" method="POST" id="dkiform" onsubmit="event.preventDefault(); validateAndSubmit();">

@@ -5,11 +5,11 @@
 
 package controller;
 
-import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,10 +17,10 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author Asus
+ * @author VAN NGUYEN
  */
-@WebServlet(name="HomeServlet", urlPatterns={"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name="LogoutServlet", urlPatterns={"/logout"})
+public class LogoutServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,18 +32,22 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           HttpSession session = request.getSession(false);
+        if (session != null) session.invalidate();
+
+        // Optional: clear cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if ("username".equals(c.getName()) || "password".equals(c.getName()) || "remember".equals(c.getName())) {
+                    c.setMaxAge(0);
+                    c.setPath("/");
+                    response.addCookie(c);
+                }
+            }
         }
+
+        response.sendRedirect("UI/home.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,18 +61,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        processRequest(request, response);
-    HttpSession session = request.getSession();
-    Integer accountId = (Integer) session.getAttribute("accountId");
-     if (accountId != null) {
-            UserProfileDAO dao = new UserProfileDAO();
-            model.UserProfile user = dao.getProfileByAccountId(accountId);
-
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("UI/home.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("UI/home.jsp");// chua login
-        }
+        processRequest(request, response);
     } 
 
     /** 

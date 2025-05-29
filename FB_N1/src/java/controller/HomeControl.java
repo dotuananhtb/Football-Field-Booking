@@ -5,7 +5,6 @@
 
 package controller;
 
-import dao.AccountDAO;
 import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,14 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.*;
+import model.UserProfile;
 
 /**
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="UserProfile", urlPatterns={"/userProfile"})
-public class UserProfileServlet extends HttpServlet {
+@WebServlet(name="HomeControl", urlPatterns={"/home"})
+public class HomeControl extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,22 +34,15 @@ public class UserProfileServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 //        HttpSession session = request.getSession();
-//        Account a = (Account) session.getAttribute("username");
-//        UserProfileDAO dao = new UserProfileDAO();
-//        int u = a.getAccountId();
-//        model.UserProfile uP = dao.getProfileByAccountId(u);
-//        session.setAttribute("userProfile", uP);
-           HttpSession session = request.getSession();
-           String accountID = (String) session.getAttribute("username");
-           AccountDAO dao = new AccountDAO();
-           int accountID_int = dao.getAccountIDbyUsername(accountID);
-           Account account = dao.getAccountById(accountID_int);
-           UserProfileDAO uPDAO = new UserProfileDAO();
-           UserProfile uP = uPDAO.getProfileByAccountId(accountID_int);
-           session.setAttribute("userProfile", uP);
-           session.setAttribute("account",account);
-           response.sendRedirect("UI/UserDetail.jsp");
+//        int accountID = (Integer)request.getAttribute("username");
+//        if(accountID != null){       
+//           UserProfileDAO dao = new UserProfileDAO();
+//           UserProfile u = dao.getProfileByAccountId(accountID);
+//           request.setAttribute("user", u);
+//        }
+//        
         
+         response.sendRedirect("UI/home.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
