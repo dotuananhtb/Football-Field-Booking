@@ -90,10 +90,10 @@ public class SendMail {
             message.setSubject("Xác thực tài khoản", "UTF-8");
 
             String body = "Xin chào " + nameUser + ",<br><br>"
-                    + "Yêu cầu đặt lại mật khẩu.<br>"
-                    + "Vui lòng nhấn vào liên kết sau để đặt lại mật khẩu:<br>"
-                    + "<a href='" + noidung + "'>Xác minh tài khoản</a><br><br>"
-                    + "Trân trọng.";
+                    + "Yeu cau quen mat khau.<br>"
+                    + "Vui long vao bam vao duong lien ket de dat lai mat khau:<br>"
+                    + "<a href='" + noidung + "'>Xac minh tai khoan</a><br><br>"
+                    + "Tran trong.";
 
             message.setContent(body, "text/html; charset=UTF-8");
             Transport.send(message);
@@ -125,7 +125,7 @@ public class SendMail {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(APP_EMAIL, "Football Star", "UTF-8"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject(MimeUtility.encodeText("Xác thực tài khoản - Football Star", "UTF-8", "B"));
+            message.setSubject(MimeUtility.encodeText("Xac thuc tai khoan - Football Star", "UTF-8", "B"));
 
             String emailContent = "<!DOCTYPE html>"
                     + "<html><head>"
@@ -140,21 +140,21 @@ public class SendMail {
                     + "</style>"
                     + "</head><body>"
                     + "<div class='container'>"
-                    + "<div class='header'>Xác minh tài khoản</div>"
+                    + "<div class='header'>Xac minh tai khoan</div>"
                     + "<div class='content'>"
-                    + "<p>Xin chào <strong>" + nameUser + "</strong>,</p>"
-                    + "<p>Cảm ơn bạn đã đăng ký tài khoản tại <strong>Football Star</strong>.</p>"
-                    + "<p>Vui lòng nhấn vào nút bên dưới để xác minh địa chỉ email của bạn:</p>"
-                    + "<a class='btn' href='" + linkXacThuc + "'>Xác minh tài khoản</a>"
-                    + "<p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>"
+                    + "<p>Xin chao <strong>" + nameUser + "</strong>,</p>"
+                    + "<p>Cam on ban da dang ky tai khoan tai <strong>Football Star</strong>.</p>"
+                    + "<p>Vui long nhan vao nut ben duoi de xac minh dia chi email cua ban:</p>"
+                    + "<a class='btn' href='" + linkXacThuc + "'>Xac minh tai khoan</a>"
+                    + "<p>Neu ban khong dang ky tai khoan, vui long bo qua email nay.</p>"
                     + "</div>"
-                    + "<div class='footer'>Trân trọng,<br>Đội ngũ Football Star</div>"
+                    + "<div class='footer'>Tran trong,<br> Doi ngu Football Star</div>"
                     + "</div>"
                     + "</body></html>";
 
             message.setContent(emailContent, "text/html; charset=UTF-8");
             Transport.send(message);
-            System.out.println("✅ Email xác minh đã được gửi thành công!");
+            System.out.println("✅ Email xac minh da duoc gui thanh cong!");
             return true;
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class SendMail {
     public static void main(String[] args) {
         SendMail sendMail = new SendMail();
 
-        String emailNguoiNhan = "dotuananhofficial@gmail.com"; // 👉 Địa chỉ email cần test
+        String emailNguoiNhan = "xekeh64169@ofular.com"; // 👉 Địa chỉ email cần test
         String tenNguoiDung = "Nguyễn Văn A";         // 👉 Tên người nhận
         String linkXacThuc = "http://localhost:8080/XacThucTaiKhoan?token=abc123xyz"; // 👉 Link xác minh (có thể sinh động bằng UUID/token thật)
 
