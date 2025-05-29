@@ -854,7 +854,7 @@
                                                                                 <div class="col-lg-6">
                                                                                     <div class="blog-image rounded">
                                                                                         <a href="#"
-                                                                                           style="background-image: url(images/trending/trending5.jpg);"></a>
+                                                                                           style="background-image: url(images/trending/anh_regis_1.jpg);"></a>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
