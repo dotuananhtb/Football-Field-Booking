@@ -328,6 +328,44 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    public int getAccountIDbyUsername(String username) {
+        String sql = "SELECT account_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username =?";
+        int n = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                n = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return n;
+    }
+
+    public boolean checkLogin(String userName, String passWord) {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username =? and password =?";
+        boolean check = false;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                check = true;
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return check;
+
+    }
+
     // TEST MAIN
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
