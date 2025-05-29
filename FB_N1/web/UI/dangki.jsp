@@ -11,7 +11,9 @@
 
     <head>
         <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
+        <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
         <base href="${pageContext.request.contextPath}/UI/">
+            <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
             <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
             <meta charset="utf-8">
                 <title>Vitour - Travel & Tour Booking HTML Template</title>
