@@ -293,15 +293,16 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+
     //5. Thay đổi mật khẩu
-    public boolean update_Password(String username, String newPassword){
+    public boolean update_Password(String username, String newPassword) {
         String sql = "UPDATE [Account] SET password=? WHERE username=?";
         try (
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setString(1, newPassword);
             ps.setString(2, username);
-            
+
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -309,21 +310,101 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+
     //6. Check mật khẩu
-    public boolean checkPassword(String username, String password){
+    public boolean checkPassword(String username, String password) {
         String sql = "SELECT password FROM [Account] WHERE username=? AND password=?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            
+
             ps.setString(1, username);
             ps.setString(2, password);
-            
+
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // Returns true if password matches
             }
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean checkLogin(String userName, String passWord) {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username =? and password =?";
+        boolean check = false;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                check = true;
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return check;
+
+    }
+
+    public int getAccountIDbyUsername(String username) {
+        String sql = "SELECT account_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username =?";
+        int n = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                n = rs.getInt(1);
+            }
+        }catch(SQLException ex){
+            ex.getStackTrace();
+        }
+        return n;
+    }
+
+    public int getStatusID(String userName, String passWord) {
+        String sql = "SELECT status_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username = ? and password = ?";
+        int statusID = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                statusID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return statusID;
+    }
+//    public boolean checkLoginWithStatusID(String userName, String passWord){
+//        
+//    }
+
+    public int getRoleID(String userName, String passWord) {
+        String sql = "SELECT r.role_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].Account a join UserProfile u on u.account_id = a.account_id join \n"
+                + "  Role r on u.role_id = r.role_id";
+        int roleID = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                roleID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return roleID;
     }
 
     // TEST MAIN
@@ -360,7 +441,6 @@ public class AccountDAO extends DBContext {
 //            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
 //        }
 //        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
-
         dao.resetPass("dognoperke@gufum.com");
 //            int testId=1;
 //           Account acc = dao.getAccountById(testId);

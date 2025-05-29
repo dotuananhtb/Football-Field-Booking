@@ -211,11 +211,11 @@
                                     Nguyễn Văn A
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="user-profile.html">Hồ Sơ</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/userProfile">Hồ Sơ</a></li>
                                     <li><a href="my-bookings.html">Đặt Sân Của Tôi</a></li>
-                                    <li><a href="settings.html">Cài Đặt</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/changePassword">Cài Đặt</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a href="logout.html">Đăng Xuất</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/logout">Đăng Xuất</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -335,18 +335,22 @@
                     </div>
 
                     <!-- Personal Info Tab -->
-                    <div class="tab-content" id="personal-info">
+<!--                    <div class="tab-content" id="personal-info">
                         <div class="profile-content">
                             <h3 class="mb-4">Thông Tin Cá Nhân</h3>
                             <c:set value="${sessionScope.userProfile}" var="u"></c:set>
-                            <c:set value="${sessionScope.acc}" var="a"></c:set>
+                            <c:set value="${sessionScope.account}" var="a"></c:set>
                             <%--<c:out value="${sessionScope.acc}" default="Chưa có userProfile trong session" />--%>
                             <form action="${pageContext.request.contextPath}/updateUser" method="post" >
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <input type="hidden" value="${a.getAccountId()}" name="id">
-                                        <label class="form-label">Họ và Tên</label>
-                                        <input type="text" class="form-control" value="${u.getFirstName()}" name="name">
+                                        <input type="hidden" value="${u.getAccountId()}" name="id">
+                                        <label class="form-label"> Tên </label>
+                                        <input type="text" class="form-control" value="${u.getFirstName()}" name="fname">
+                                    </div>
+                                     <div class="col-md-6 mb-3">
+                                        <label class="form-label">Họ</label>
+                                        <input type="text" class="form-control" value="${u.getLastName()}" name="lname" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">User Name</label>
@@ -387,7 +391,7 @@
                                 <h6>${mess}</h6>
                             </form>
                         </div>
-                    </div>
+                    </div>-->
 
                     <!-- Booking History Tab -->
                     <div class="tab-content" id="booking-history">
