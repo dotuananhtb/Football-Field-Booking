@@ -837,7 +837,7 @@
                                                                                                 <input type="checkbox" class="custom-control-input" id="exampleCheck">
                                                                                                     <label class="custom-control-label mb-0" for="exampleCheck1">Nhớ Mật Khẩu
                                                                                                     </label>
-                                                                                                    <a class="float-end" href="#">Quên mật khẩu?</a>
+                                                                                                    <a class="float-end" href="requestPassword.jsp">Quên mật khẩu?</a>
                                                                                             </div>
                                                                                             <div class="comment-btn mb-2 pb-2 text-center border-b">
                                                                                                 <input type="submit" class="nir-btn w-100" id="submit" value="Đăng Nhập">

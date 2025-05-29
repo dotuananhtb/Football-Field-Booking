@@ -69,7 +69,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <!-- Collect the nav links, forms, and other content for toggling -->
-                                                                <div class="navbar-collapse1 d-flex align-items-center" id="bs-example-navbar-collapse-1">
+<!--                                                                <div class="navbar-collapse1 d-flex align-items-center" id="bs-example-navbar-collapse-1">
                                                                     <ul class="nav navbar-nav" id="responsive-menu">
                                                                         <li class="dropdown submenu">
                                                                             <a href="${pageContext.request.contextPath}/UI/index.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <i class="icon-arrow-down" aria-hidden="true"></i></a>
@@ -214,13 +214,13 @@
                                                                         </li>
                                                                         <li class="search-main"><a href="#search1" class="mt_search"><i class="fa fa-search"></i></a></li>
                                                                     </ul>
-                                                                </div><!-- /.navbar-collapse -->   
-                                                                <div class="register-login d-flex align-items-center">
+                                                                </div> /.navbar-collapse    -->
+<!--                                                                <div class="register-login d-flex align-items-center">
                                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="me-3">
                                                                         <i class="icon-user"></i> Login/Register
                                                                     </a>
                                                                     <a href="booking.html" class="nir-btn white">Book Now</a>
-                                                                </div> 
+                                                                </div> -->
 
                                                                 <div id="slicknav-mobile"></div>
                                                             </div>
@@ -237,11 +237,11 @@
                                                 <div class="breadcrumb-outer">
                                                     <div class="container">
                                                         <div class="breadcrumb-content text-center">
-                                                            <h1 class="mb-3">Forget Passord</h1>
+                                                            <h1 class="mb-3">Quên Mật Khẩu</h1>
                                                             <nav aria-label="breadcrumb" class="d-block">
                                                                 <ul class="breadcrumb">
-                                                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                                                    <li class="breadcrumb-item active" aria-current="page">Forget Passord</li>
+                                                                    <li class="breadcrumb-item"><a href="home.jsp">Trang Chủ</a></li>
+                                                                    <li class="breadcrumb-item active" aria-current="page">Xác minh Email</li>
                                                                 </ul>
                                                             </nav>
                                                         </div>
@@ -262,12 +262,12 @@
                                                                 <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
                                                             </div>
                                                             <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                <button type="submit" class="nir-btn" onclick="submitUpdate()">send</button>
+                                                                <button type="submit" class="nir-btn" onclick="submitUpdate()">Gửi</button>
                                                             </div>
                                                             <c:if test="${not empty mess}">
                                                                 <p class="text-danger text-center">${mess}</p>
                                                             </c:if>
-                                                            <p class="text-center">Bạn có tài khoản chưa? <a href="register.html" class="theme">Đăng kí</a></p>
+                                                            <!--<p class="text-center">Bạn có tài khoản chưa? <a href="register.html" class="theme">Đăng kí</a></p>-->
                                                         </form>
                                                     </div>
                                                 </div>
