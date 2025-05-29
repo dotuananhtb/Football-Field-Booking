@@ -41,10 +41,12 @@ public class UpdateUser extends HttpServlet {
      String gender =request.getParameter("gender");
      String dob =request.getParameter("dob");
      String phone =request.getParameter("phone");
+     String id = request.getParameter("id");
      UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
-     uP.updateProfile(u);
-     response.sendRedirect("UI/userProfile.jsp");
-
+     uP.updateProfile1(u,id);
+     request.setAttribute("mess","Update Successful");
+     request.getRequestDispatcher("updateProfile").forward(request, response);
+//        response.sendRedirect("UI/UserDetail.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

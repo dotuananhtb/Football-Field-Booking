@@ -221,7 +221,7 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giới Tính</label>
-                                        <input type="text" class="form-control" value="${u.getGender()}" name ="gender" >
+                                        <input type="text" class="form-control" value="${u.getGender()}" name ="gender" readonly >
                                     </div>
                                     
                                 </div>
