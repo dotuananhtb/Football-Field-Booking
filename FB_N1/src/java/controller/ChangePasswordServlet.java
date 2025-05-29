@@ -22,14 +22,14 @@ public class ChangePasswordServlet extends HttpServlet {
         String url = "UI/changePassword.jsp";
         try {
             HttpSession session = request.getSession();
-            String username="admin_user";
-            //String username = (String) session.getAttribute("username");
+           // String username="admin_user";
+            String username = (String) session.getAttribute("username");
 
-//            // Kiểm tra đăng nhập
-//            if (username == null || username.isEmpty()) {
-//                response.sendRedirect("changePassword.jsp");
-//                return;
-//            }
+            // Kiểm tra đăng nhập
+            if (username == null || username.isEmpty()) {
+                response.sendRedirect("home");
+                return;
+            }
 
             String currentPassword = request.getParameter("currentPassword");
             String newPassword = request.getParameter("newPassword");

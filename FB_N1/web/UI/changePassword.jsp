@@ -285,7 +285,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>Thay đổi mật khẩu
                     </button>
-                    <a href="/home" class="btn btn-secondary">
+                    <a href="http://localhost:8081/FB_N1/UI/home.jsp" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Quay lại
                     </a>
                 </div>
