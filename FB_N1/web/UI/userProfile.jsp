@@ -212,6 +212,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="${pageContext.request.contextPath}/userProfile">Hồ Sơ</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/changePassword">Đổi mật khẩu</a></li>
                                     <li><a href="my-bookings.html">Đặt Sân Của Tôi</a></li>
                                     <li><a href="${pageContext.request.contextPath}/changePassword">Cài Đặt</a></li>
                                     <li><hr class="dropdown-divider"></li>
