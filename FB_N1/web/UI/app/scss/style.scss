@@ -1,0 +1,1099 @@
+@use './abstracts/' as *;
+
+/**
+  * Name: Vitour - Travel & Tour Booking HTML Template
+  * Version: 1.0.2
+  * Author: Themesflat
+  * Author URI: http://www.themesflat.com
+*/
+/**
+  	* scroll-top
+    * PreLoad
+    * pagination
+    * Social
+    * price-range
+    * video
+    * widget Tour List
+    * Counter
+    * widget Destination
+    * Blog
+    * widget clip text
+    * widget icon box
+    * widget Testimonial
+    * widget Team
+    * Gallery
+    * widget Image Box
+    * Faq
+    * Count Down 
+    * slider
+    * Button
+    * Tab
+*/
+
+@import "animate.css";
+@import "jquery.fancybox.min.css";
+@import "magnific-popup.css";
+@import "swiper-bundle.min.css";
+@import "nice-select.css";
+@import "../../assets/fonts/style.css";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Yesteryear&display=swap');
+@import "../css/bootstrap.css";
+
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block
+}
+
+
+/* Elements
+-------------------------------------------------------------- */
+
+html {
+    margin-right: 0 !important;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font-family;
+    font-size: 16px;
+    line-height: 30.8px;
+    font-weight: 400;
+    color: $text;
+    background-color: $white;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+ul,
+li {
+    list-style-type: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.center {
+    text-align: center;
+}
+
+
+.tf-container {
+    max-width: 1320px;
+    width: 100%;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.tf-container.w-1456 {
+    max-width: 1475px;
+    width: 100%;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.tf-container.full {
+    max-width: 100%;
+    width: 100%;
+    margin: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.bg-main {
+    background-color: $bg4;
+}
+
+
+// form //
+label {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    color: $main;
+    margin-bottom: 15px;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"] {
+    border: 1px solid $border;
+    outline: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 20px 17px 20px 17px;
+    width: 100%;
+    background: transparent;
+    color: $text;
+}
+
+textarea::placeholder,
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="datetime"]::placeholder,
+input[type="datetime-local"]::placeholder,
+input[type="date"]::placeholder,
+input[type="month"]::placeholder,
+input[type="time"]::placeholder,
+input[type="week"]::placeholder,
+input[type="number"]::placeholder,
+input[type="email"]::placeholder,
+input[type="url"]::placeholder,
+input[type="search"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="color"]::placeholder {
+    color: $text;
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    @include transition3;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus {
+    border: 1px solid $primary;
+    @include transition3;
+}
+
+
+/* Placeholder color */
+::-webkit-input-placeholder {
+    color: #8A8AA0;
+}
+
+:-moz-placeholder {
+    color: #8A8AA0;
+}
+
+::-moz-placeholder {
+    color: #8A8AA0;
+    opacity: 1;
+}
+
+
+/* Since FF19 lowers the opacity of the placeholder by default */
+
+:-ms-input-placeholder {
+    color: #8A8AA0;
+}
+
+
+
+/* Typography
+-------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-family;
+    text-rendering: optimizeLegibility;
+    color: $main;
+    text-transform: capitalize;
+}
+
+h1 {
+    font-size: $h1-fs;
+    line-height: $h1-lh;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: $h2-fs;
+    line-height: $h2-lh;
+    font-weight: 800;
+}
+
+h3 {
+    font-size: $h3-fs;
+    line-height: $h3-lh;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: $h4-fs;
+    line-height: $h4-lh;
+    font-weight: 700;
+}
+
+h5 {
+    font-size: $h5-fs;
+    line-height: $h5-lh;
+    font-weight: 700;
+}
+
+h6 {
+    font-size: $h6-fs;
+    line-height: $h6-lh;
+    font-weight: 700;
+}
+
+p {
+    font-family: $font-family;
+}
+
+/* Extra classes
+-------------------------------------------------------------- */
+.msg-success {
+    background: linear-gradient(to right, #E250E5, #4B50E6, #E250E5);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: 700;
+    background-size: 200% 200%;
+    animation: rainbow 2s ease-in-out infinite;
+    color: rgb(0 0 0 / 0);
+    transition: color .2s ease-in-out;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+label.error {
+    color: red;
+}
+
+.text-white {
+    color: $white;
+}
+
+.text-24 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.shaw-box {
+    padding: 50px;
+    margin: -50px;
+}
+
+.flex {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-one {
+    justify-content: space-between;
+    display: flex;
+}
+
+.flex-two {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+.flex-three {
+    display: flex;
+    align-items: center;
+}
+
+.flex-five {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-six {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.center,
+.text-center {
+    text-align: center;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.flex-none {
+    flex: none !important;
+}
+
+.text-t {
+    text-transform: capitalize;
+}
+
+.text-u {
+    text-transform: uppercase;
+}
+
+.text-unset {
+    text-transform: unset !important;
+}
+
+.text-line {
+    text-decoration-line: underline !important;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-end {
+    justify-content: end;
+}
+
+.justify-space {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.font-italic {
+    font-style: italic;
+}
+
+.al-i-end {
+    align-items: flex-end;
+}
+
+#wrapper {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    height: 100%;
+}
+
+.wrapper-style {
+    background: #FAF8FF;
+}
+
+.z-index1 {
+    z-index: 1;
+}
+
+.z-index3 {
+    z-index: 3;
+}
+.z-index4 {
+    z-index: 4;
+}
+button {
+    border: none;
+    font-family: $font-family;
+
+    &:hover {
+        background-color: $secondary;
+        transition: all 0.3s;
+        border: unset;
+    }
+}
+
+button[type=submit]:hover {
+    background-color: $primary;
+    transition: all 0.3s;
+    border: unset;
+}
+
+button,
+input[type=submit] {
+    font-family: $font-family;
+    border: unset;
+    padding: 20px 60px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: $white;
+    background-color: $primary;
+    @include transition3;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $secondary;
+        transition: all 0.3s;
+        border: unset;
+    }
+}
+
+.fs-28-46 {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 46px;
+    display: inline-block;
+}
+
+.pd-main {
+    padding: 120px 0;
+}
+
+.pb-60 {
+    padding-bottom: 60px;
+}
+
+.m0-auto {
+    margin: 0 auto;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mb-18 {
+    margin-bottom: 18px !important;
+}
+
+.mb-22 {
+    margin-bottom: 22px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-32 {
+    margin-bottom: 32px;
+}
+
+.mb-37 {
+    margin-bottom: 37px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.mb-43 {
+    margin-bottom: 43px;
+}
+
+.mb-45 {
+    margin-bottom: 45px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mb-60 {
+    margin-bottom: 60px;
+}
+
+.mb-70 {
+    margin-bottom: 70px;
+}
+
+.mb-75 {
+    margin-bottom: 75px;
+}
+
+.mb-80 {
+    margin-bottom: 80px;
+}
+
+.mb--93 {
+    margin-bottom: -93px;
+}
+
+.mb--7em {
+    margin-bottom: -7.6em;
+}
+
+.mb--14em {
+    margin-bottom: -14em;
+}
+
+.mb--20em {
+    margin-bottom: -20em;
+}
+
+.mb--25em {
+    margin-bottom: -25em;
+}
+
+.mt--50 {
+    margin-top: -50px;
+}
+
+.mt--60 {
+    margin-top: -60px;
+}
+
+.mt--82 {
+    margin-top: -82px;
+}
+
+.pt-25 {
+    padding-top: 25px;
+}
+
+.pt-35 {
+    padding-top: 35px;
+}
+
+.pt-115 {
+    padding-top: 115px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-27 {
+    margin-top: 27px;
+}
+
+.mt-35 {
+    margin-top: 35px;
+}
+
+.mt-44 {
+    margin-top: 44px;
+}
+
+.mt-53 {
+    margin-top: 53px;
+}
+
+.pb-150 {
+    padding-bottom: 150px;
+}
+
+.pr-256 {
+    padding-right: 256px !important;
+}
+
+.lh-32 {
+    line-height: 32px;
+}
+
+.box-sd {
+    box-shadow: 0px 4px 21px 0px rgba(0, 0, 0, 0.07);
+}
+
+.text-white {
+    color: $white;
+}
+
+.text-gray {
+    color: $text5;
+}
+
+.text-black {
+    color: $main;
+}
+
+.text-second {
+    color: $secondary;
+}
+
+.text-main {
+    color: $primary !important;
+}
+
+.font-yes {
+    font-family: $font-secondary;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.relative {
+    position: relative;
+}
+
+.fs-italic {
+    font-style: italic;
+}
+
+.tour1 {
+    color: #FBAD17;
+}
+
+.tour2 {
+    color: #17FBC4;
+}
+
+.tour3 {
+    color: #FB4E17;
+}
+
+.tour4 {
+    color: #17E0FB;
+}
+
+.tour5 {
+    color: #F617FB;
+}
+
+.tour6 {
+    color: #FB1717;
+}
+
+.bg-part-gray {
+    background-color: $bg9;
+}
+
+.bg-part-blue {
+    background-color: $bg10;
+}
+
+.bg-1 {
+    background-color: $bg5;
+}
+
+.bg-2 {
+    background-color: $secondary !important;
+}
+
+.bg-3 {
+    background-color: $bg4;
+}
+
+.bg-4 {
+    background-color: $bg3;
+}
+
+.bg-white {
+    background-color: $white;
+}
+
+/* Custom radio buttons */
+input[type="radio"]+label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: 400;
+
+    &:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        margin-right: 14px;
+        position: absolute;
+        top: -3px;
+        left: 0;
+        border: 1px solid $border;
+        background-color: $white;
+        border-radius: 50%;
+    }
+}
+
+input[type="radio"] {
+    display: none !important;
+    *display: inline;
+
+    &:checked+label:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 1px;
+        left: 4px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: $primary;
+    }
+}
+
+// End Custom radio buttons
+
+/* Custom checkbox */
+input[type="checkbox"]+label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: 400;
+
+    &:before {
+        content: "";
+        display: block;
+        width: 17px;
+        height: 17px;
+        margin-right: 14px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        border: 1px solid $text3;
+    }
+}
+
+input[type="checkbox"] {
+    display: none !important;
+    *display: inline;
+
+    &:checked+label:after {
+        content: '\e9c7';
+        font-family: $fontIcon;
+        font-size: 10px;
+        line-height: 20px;
+        color: $white;
+        background-color: $primary;
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 17px;
+        height: 17px;
+        padding-left: 4px;
+    }
+}
+
+// End Custom checkbox
+
+/* link style
+-------------------------------------------------------------- */
+
+a {
+    @include transition3;
+    text-decoration: none;
+    color: $main;
+    @include transition3;
+
+    // display: inherit;
+    &:focus,
+    &:hover {
+        color: $primary;
+        @include transition3;
+        text-decoration: none !important;
+        outline: 0;
+    }
+}
+
+
+@keyframes rainbow {
+    0% {
+        background-position: left
+    }
+
+    50% {
+        background-position: right
+    }
+
+    100% {
+        background-position: left
+    }
+}
+
+
+
+path {
+    @include transition3;
+}
+
+.form-wg {
+    margin-left: -30px;
+
+    .wg-box {
+        width: calc(50% - 30px) !important;
+        margin-left: 30px;
+    }
+
+    .wg-box2 {
+        width: calc(33.333% - 30px) !important;
+        margin-left: 30px;
+    }
+
+    .wg-box3 {
+        width: calc(25% - 30px);
+        margin-left: 30px;
+    }
+}
+
+
+$color: $primary;
+$colorRight: darken($primary, 15%);
+$colorLeft: darken($primary, 5%);
+$shadow: $border;
+
+.boxes {
+    --size: 32px;
+    --duration: 800ms;
+    height: calc(var(--size) * 2);
+    width: calc(var(--size) * 3);
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    margin-top: calc(var(--size) * 1.5 * -1);
+    transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+
+    .box {
+        width: var(--size);
+        height: var(--size);
+        top: 0;
+        left: 0;
+        position: absolute;
+        transform-style: preserve-3d;
+
+        &:nth-child(1) {
+            transform: translate(100%, 0);
+            animation: box1 var(--duration) linear infinite;
+        }
+
+        &:nth-child(2) {
+            transform: translate(0, 100%);
+            animation: box2 var(--duration) linear infinite;
+        }
+
+        &:nth-child(3) {
+            transform: translate(100%, 100%);
+            animation: box3 var(--duration) linear infinite;
+        }
+
+        &:nth-child(4) {
+            transform: translate(200%, 0);
+            animation: box4 var(--duration) linear infinite;
+        }
+
+        &>div {
+            --background: #{$color};
+            --top: auto;
+            --right: auto;
+            --bottom: auto;
+            --left: auto;
+            --translateZ: calc(var(--size) / 2);
+            --rotateY: 0deg;
+            --rotateX: 0deg;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            top: var(--top);
+            right: var(--right);
+            bottom: var(--bottom);
+            left: var(--left);
+            transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
+
+            &:nth-child(1) {
+                --top: 0;
+                --left: 0;
+            }
+
+            &:nth-child(2) {
+                --background: #{$colorRight};
+                --right: 0;
+                --rotateY: 90deg;
+            }
+
+            &:nth-child(3) {
+                --background: #{$colorLeft};
+                --rotateX: -90deg;
+            }
+
+            &:nth-child(4) {
+                --background: #{$shadow};
+                --top: 0;
+                --left: 0;
+                --translateZ: calc(var(--size) * 3 * -1);
+            }
+        }
+    }
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    box-sizing: border-box;
+
+    &:before,
+    &:after {
+        box-sizing: border-box;
+    }
+}
+
+// Center & dribbble
+body {
+    .dribbble {
+        position: fixed;
+        display: block;
+        right: 20px;
+        bottom: 20px;
+
+        img {
+            display: block;
+            height: 28px;
+        }
+    }
+}

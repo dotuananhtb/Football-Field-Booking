@@ -1,0 +1,596 @@
+@use '../abstracts/' as *;
+
+
+/*----------------------Slide-home 01--------------------*/
+.slider-home1 {
+    .silider-image {
+        &::before {
+            background: linear-gradient(90deg, rgba(4, 27, 40, 1), rgba(0, 0, 0, 0));
+            @include absolute;
+            content: '';
+            z-index: 2;
+        }
+
+        img {
+            position: absolute;
+        }
+
+        .image-slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mask-slide {
+            width: auto;
+            z-index: 2;
+            height: 100%;
+        }
+
+        .mask-flane {
+            width: auto;
+            left: 0px;
+            bottom: 5.8%;
+            z-index: 2;
+            animation: dot-anim-2 3s linear 0s infinite alternate;
+        }
+
+        .booking-title {
+            position: absolute;
+            z-index: 3;
+            right: 33.6%;
+            top: 11%;
+            rotate: -5deg;
+
+            .booking {
+                font-size: 40px;
+                font-weight: 400;
+                line-height: 50.69px;
+                font-family: $font-secondary;
+                color: $white;
+                padding: 18px 33px 14px 33px;
+                border: 2px solid $primary;
+                display: inline-block;
+                position: relative;
+
+                &::before {
+                    position: absolute;
+                    content: '';
+                    width: 15px;
+                    height: 13px;
+                    background-color: $white;
+                    border: 2px solid $primary;
+                    top: -5px;
+                    left: -8px;
+                }
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    width: 15px;
+                    height: 13px;
+                    background-color: $white;
+                    border: 2px solid $primary;
+                    top: -5px;
+                    right: -8px;
+                }
+            }
+
+            span {
+                &::before {
+                    position: absolute;
+                    content: '';
+                    width: 15px;
+                    height: 13px;
+                    background-color: $white;
+                    border: 2px solid $primary;
+                    bottom: -10px;
+                    left: -10px;
+                }
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    width: 15px;
+                    height: 13px;
+                    background-color: $white;
+                    border: 2px solid $primary;
+                    bottom: 0px;
+                    right: -15px;
+                }
+            }
+        }
+
+    }
+
+    .slider-content {
+        position: relative;
+        z-index: 3;
+        padding-top: 144px;
+        padding-bottom: 202px;
+
+        .title-slide {
+            text-transform: uppercase;
+            font-size: 70px;
+            font-weight: 700;
+            line-height: 95px;
+        }
+
+        .des {
+            max-width: 570px;
+            width: 100%;
+        }
+        .btn-group{
+            .btn-main {
+                padding: 15px 24px;
+            }
+        }
+
+
+    }
+
+}
+
+.btn-group {
+    gap: 40px;
+    flex-wrap: wrap;
+    .btn-w-wa {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 29px;
+        padding: 18px 0px;
+        color: $white;
+
+        i {
+            color: $primary;
+            font-size: 16px;
+            margin-left: 7px;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            color: $secondary;
+        }
+        &:hover i{
+            margin-left: 12px;
+        }
+    }
+}
+
+.btn-nex-prev {
+    position: absolute;
+    right: 11.6%;
+    top: 33%;
+    z-index: 4;
+    .swiper-button-next::after {
+        content: "\e970";
+    }
+    .swiper-button-prev::after {
+        content: "\e971";
+    }
+
+    .next-home1,
+    .prev-home1 {
+        position: relative !important;
+        background-color: rgba(255, 255, 255, 0.5);
+        gap: 25px;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: 25px 0px;
+
+        &::before,
+        &::after {
+            color: $main;
+            font-weight: 600;
+        }
+        &:hover{
+            background-color: $secondary;
+        }
+
+        &.swiper-button-disabled {
+            opacity: 1;
+            background-color: rgba(4, 28, 41, 0.5);
+
+            &::before,
+            &::after {
+                color: $white;
+            }
+        }
+
+    }
+}
+
+/*----------------------Slide-home 02--------------------*/
+.slider-home2-image {
+
+    // position: absolute;
+    // overflow: hidden;
+    .slider-home2 {
+        position: relative;
+
+        &::before {
+            background: linear-gradient(80deg, rgba(1, 10, 4, 0.89), rgba(0, 0, 0, 0.34));
+            @include absolute;
+            content: '';
+            z-index: 2;
+        }
+
+        .image-slider-home2 {
+            height: 803px;
+            object-fit: cover;
+        }
+
+        .next-slider2 {
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            top: 86% !important;
+            right: 5%;
+            background-color: transparent;
+            color: $white !important;
+
+            &::after {
+                content: '\e926';
+                font-family: $fontIcon;
+                font-size: 15px;
+        
+            }
+            
+
+        }
+        .swiper-button-disabled::after {
+            color: $white !important;
+        }
+
+        .prev-slider2 {
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            top: 86% !important;
+            left: 86.5%;
+            background-color: transparent;
+            color: $white !important;
+
+            &::after {
+                content: '\e925';
+                font-family: $fontIcon;
+                font-size: 15px;
+            }
+        }
+    }
+
+}
+
+.slider-home2-content {
+    position: absolute;
+    z-index: 2;
+    padding-top: 148px;
+    padding-bottom: 188px;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+
+    .mask-slide2 {
+        position: absolute;
+        width: auto;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .mask-slide2-flan {
+        width: auto;
+        left: 17%;
+        position: absolute;
+        top: 15%;
+    }
+
+    .sub-title {
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 46px;
+        display: inline-block;
+    }
+
+    .title-slide {
+        text-transform: capitalize;
+        font-size: 70px;
+        font-weight: 800;
+        line-height: 74px;
+        margin-top: 7px;
+    }
+
+    .tour-list {
+        margin-top: 38px;
+
+        ul {
+            li {
+                &:not(:last-child) {
+                    margin-right: 37px;
+                }
+
+                i {
+                    font-size: 8px;
+                    padding: 5px;
+                    color: $white;
+                    border-radius: 100%;
+                    background-color: $primary;
+                    margin-right: 8px;
+                }
+
+                span {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: $white;
+                    line-height: 30px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+}
+
+/*----------------------Slide-home 03--------------------*/
+.booking-title {
+    z-index: 3;
+    rotate: -5deg;
+    position: relative;
+
+    .booking {
+        font-family: $font-secondary;
+        color: $primary;
+        font-weight: 400;
+        padding: 7px 17px 0px 5px;
+        border: 2px dotted $primary;
+        display: inline-block;
+        position: relative;
+        rotate: -4deg;
+        margin-left: -8px;
+        margin-right: -6px;
+        transition: all 0.3s;
+
+        &:hover {
+            rotate: 0deg;
+        }
+
+        &::before {
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 13px;
+            background-color: $white;
+            border: 2px solid $primary;
+            top: -5px;
+            left: -8px;
+        }
+
+        &::after {
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 13px;
+            background-color: $white;
+            border: 2px solid $primary;
+            top: -5px;
+            right: -8px;
+        }
+    }
+
+    .dot {
+        &::before {
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 13px;
+            background-color: $white;
+            border: 2px solid $primary;
+            bottom: -5px;
+            left: -8px;
+        }
+
+        &::after {
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 13px;
+            background-color: $white;
+            border: 2px solid $primary;
+            bottom: -5px;
+            right: -8px;
+        }
+    }
+}
+
+.slider-home3 {
+    padding-left: 15.6%;
+
+    .slider-home3-content {
+        padding-top: 174px;
+        padding-bottom: 232px;
+        padding-right: 2.7em;
+
+        .title-slide {
+            font-size: 70px;
+            font-weight: 800;
+            line-height: 70px;
+            text-transform: capitalize;
+            margin-top: 10px;
+        }
+
+        .des {
+            max-width: 570px;
+            width: 100%;
+        }
+        .btn-group .btn-w-wa {
+            color: $main;
+            &:hover{
+                color: $secondary;
+            }
+        }
+
+    }
+}
+
+/*----------------------Slide-home 04--------------------*/
+.slider-home4 {
+    background-image: url(../../assets/images/slide/slide4.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 267px;
+    padding-bottom: 203px;
+    background-attachment: fixed;
+
+    &::before {
+        @include absolute;
+        background-color: rgba(0, 0, 0, 0.28);
+        content: '';
+        z-index: 1;
+    }
+
+    .mask-slider {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+
+        img {
+            width: auto;
+            height: 100%;
+        }
+    }
+
+    .home4-content {
+        padding-right: 4em;
+        z-index: 3;
+        position: relative;
+
+        .sub-title {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        .title-slide {
+            font-size: 75px;
+            font-weight: 800;
+            line-height: 85px;
+            text-transform: capitalize;
+            margin-bottom: 57px;
+        }
+
+        .btn-group {
+            gap: 20px;
+            flex-wrap: wrap;
+            .btn-main {
+                padding: 18px 23px;
+            }
+            .btn-w-wa {
+                color: $primary;
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 65px;
+                padding: 0px 5px;
+                text-decoration: underline;
+    
+                &:hover {
+                    color: $white;
+                }
+        }
+        }
+    }
+
+    .widget-icon-video {
+        @include transition-center;
+    }
+}
+
+/*----------------------Slide-home 05--------------------*/
+.slider-home5 {
+    padding-top: 112px;
+    padding-bottom: 185px;
+    background-color: $bg6;
+
+    .mask-left {
+        width: 305px;
+        height: 408px;
+        background: linear-gradient(0deg, rgba(241, 176, 10, 0.45), rgba(255, 183, 0, 0.31), rgba(23, 38, 61, 0));
+        clip-path: polygon(0 0, 0% 100%, 100% 0);
+        opacity: 0.97;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .mask-right {
+        width: 305px;
+        height: 408px;
+        background: linear-gradient(262deg, rgba(77, 165, 40, 0.52), rgba(77, 165, 40, 0.25), rgba(23, 38, 61, 0));
+        clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        opacity: 0.97;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+    .image-slide-home5 {
+        margin-right: -69px;
+        margin-left: -25px;
+
+        .image-svg {
+            width: auto;
+            position: absolute;
+            bottom: -7%;
+            left: -9%;
+            animation: anime-rorate 8s infinite;
+        }
+
+        span {
+            font-size: 54px;
+            font-weight: 400;
+            line-height: 54.8px;
+            rotate: -42deg;
+            position: absolute;
+            bottom: 14%;
+            right: 3%;
+        }
+    }
+
+    .content-slide-home5 {
+        padding-right: 3em;
+        padding-top: 24px;
+
+        .title-slide {
+            font-size: 70px;
+            font-weight: 800;
+            line-height: 77px;
+            text-transform: capitalize;
+            margin-top: 7px;
+            margin-bottom: 38px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .des {
+            width: 570px;
+            max-width: 100%;
+        }
+
+        .widget-icon-video {
+            width: 60px;
+            height: 60px;
+            margin-left: 38px;
+        }
+
+        .image-svg2 {
+            position: absolute;
+            top: 38.3%;
+            left: -1%;
+            width: auto;
+            z-index: 1;
+            animation: dot-anim-2 3s linear 0s infinite alternate;
+        }
+    }
+}

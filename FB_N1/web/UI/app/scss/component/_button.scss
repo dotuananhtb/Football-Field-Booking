@@ -1,0 +1,192 @@
+@use '../abstracts/' as *;
+
+/* button 
+--------------------------------------------------*/
+
+.button-link {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $main;
+  @include transition3;
+
+  & i {
+    font-size: 9px;
+    margin-left: 17px;
+    position: relative;
+    
+    &::before{
+      position: relative;
+      z-index: 2;
+    }
+    &::after {
+      position: absolute;
+      content: '';
+      width: 30px;
+      height: 30px;
+      border-radius: 100%;
+      border: 1px solid $border;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+  }
+
+  &:hover {
+    color: $main;
+  }
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.btn-main-small {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18.9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $white;
+  @include transition3;
+  border-radius: 5px;
+  padding: 20px 26px;
+  background-color: $primary;
+  display: inline-block;
+
+  & i {
+    font-size: 14px;
+    margin-left: 12px;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background-color: $secondary;
+    color: $white;
+  }
+}
+
+.sc-button {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 26px;
+  color: $white;
+  @include transition3;
+  border-radius: 12px;
+  background-color: $primary;
+  padding: 13px 37px;
+
+  &:hover {
+    background-color: $primary;
+    color: $white;
+  }
+
+  & i {
+    margin-left: 5px;
+  }
+}
+
+.btn-read-more {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 31px;
+  &:hover i {
+    margin-left: 12px;
+  }
+
+  & i {
+    transition: all 0.3s ease;
+    margin-left: 7px;
+  }
+}
+
+.get-call {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18.9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 23px 36px;
+  background-color: $white;
+  color: $primary;
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  @include transition3;
+
+  &:hover {
+    background-color: $secondary;
+    color: $white;
+  }
+}
+
+.view-all {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18.9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  i {
+    color: $primary;
+    margin-left: 10px;
+  }
+}
+
+.btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  border-radius: 5px;
+  border: none;
+  overflow: hidden;
+  background: $primary;
+  color: $white;
+
+  &:hover {
+    background-color: $secondary;
+  }
+
+  &:hover .btn-main-text {
+    color: $white;
+    transform: translateX(0px);
+  }
+
+  &:hover .iconer {
+    color: $white;
+    transform: translateX(0px);
+    opacity: 1;
+  }
+
+  .btn-main-text {
+    transform: translateX(15px);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18.9px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition-duration: 0.3s;
+  }
+
+  .iconer {
+    transform: translateX(-15px);
+    transition-duration: 0.3s;
+    opacity: 0;
+  }
+}
