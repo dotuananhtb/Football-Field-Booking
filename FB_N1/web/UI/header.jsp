@@ -109,51 +109,20 @@
                                 <!-- Main Menu End-->
                             </div>
                             <div class="header-account flex align-center">
-                                <div class="language">
-                                    <div class="nice-select" tabindex="0">
-                                        <img src="./assets/images/page/language.svg" alt=""><span class="current">English</span>
-                                        <ul class="list">
-                                            <li data-value="" class="option selected"><img src="./assets/images/page/language.svg" alt="">English
-                                            </li>
-                                            <li data-value="Vietnam" class="option"><img src="./assets/images/page/language.svg" alt="">Vietnam
-                                            </li>
-                                            <li data-value="German" class="option"><img src="./assets/images/page/language.svg" alt="">German
-                                            </li>
-                                            <li data-value="Russian" class="option"><img src="./assets/images/page/language.svg" alt="">Russian
-                                            </li>
-                                            <li data-value="Canada" class="option"><img src="./assets/images/page/language.svg" alt="">Canada
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="currency">
-                                    <div class="nice-select" tabindex="0">
-                                        <span class="current">USD</span>
-                                        <ul class="list">
-                                            <li data-value="" class="option selected">USD</li>
-                                            <li data-value="vnd" class="option">VND</li>
-                                            <li data-value="ero" class="option">ERO</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="search-mobie relative">
-                                    <div class="dropdown">
-                                        <a type="button" class="show-search" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="icon-Vector5"></i>
-                                        </a>
-                                        <ul class="dropdown-menu top-search">
-                                            <form action="/" id="search-bar-widget">
-                                                <input type="text" placeholder="Search here...">
-                                                <button type="button"><i class="icon-search-2"></i></button>
-                                            </form>
-                                        </ul>
-                                    </div> 
-                                </div>
                                 <div class="register">
                                     <ul class="flex align-center">
                                         <li class="">
                                             <a href="login.html"><i class="icon-user-1-1"></i>
-                                                <span>Sign in</span>
+                                                <span>Đăng nhập</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="register">
+                                    <ul class="flex align-center">
+                                        <li class="">
+                                            <a href="/FB_N1/dang-ki"><i class="icon-user-1-1"></i>
+                                                <span>Đăng kí</span>
                                             </a>
                                         </li>
                                     </ul>
