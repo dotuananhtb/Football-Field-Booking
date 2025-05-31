@@ -113,7 +113,7 @@
                                 <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                 <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"></a>
                                     <ul>
-                                        <li><a href="/FB_N1/UI/userProfile.jsp">User Profile</a></li>
+                                        <li><a href="/FB_N1/UI/hoSoNguoiDung.jsp">User Profile</a></li>
                                         <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
                                                 <i class="icon-user"></i> Đăng Xuất
 

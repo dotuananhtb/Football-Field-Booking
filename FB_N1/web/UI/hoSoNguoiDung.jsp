@@ -52,7 +52,7 @@
                 <main id="main">
                     <section class="profile-dashboard">
 
-                        <form action="${pageContext.request.contextPath}/updateUser" method="post"" class="edit-profile">
+                        <form action="${pageContext.request.contextPath}/updateUser" method="post" class="edit-profile">
                             <div class="inner-header mb-40">
                                 <h3 class="title">My Profile</h3>
                                 <p class="des">There are many variations of passages of Lorem Ipsum</p>
@@ -79,9 +79,10 @@
                                 <h4 class="title">User Information</h4>
                                 <div class="widget-dash-board">
                                     <div class="grid-input-2">
+                                        <input type="hidden" value="${u.getAccountId()}" name="id">
                                         <div class="input-wrap">
                                             <label>Tên Đăng Nhập </label>
-                                            <input type="text" value="${u.getFirstName()}" name="fname" >
+                                            <input type="text" value="${a.getUsername()}" name="username" >
                                         </div>
                                         <div class="input-wrap">
                                             <label>Số điện thoại</label>
@@ -89,7 +90,7 @@
                                         </div>
                                         <div class="input-wrap">
                                             <label>Họ</label>
-                                            <input type="text" value="${u.getLastName()}" name="lname" readonly>
+                                            <input type="text" value="${u.getLastName()}" name="lname">
                                         </div>
                                         <div class="input-wrap">
                                             <label>Tên</label>

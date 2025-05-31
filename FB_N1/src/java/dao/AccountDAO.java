@@ -347,6 +347,17 @@ public class AccountDAO extends DBContext {
         return check;
 
     }
+    public void updateUsername(String username, String accountId) {
+    String sql = "UPDATE Account SET username=? WHERE account_id=?";
+    try {
+        PreparedStatement ptm = connection.prepareStatement(sql);
+        ptm.setString(1, username);
+        ptm.setString(2, accountId);
+        ptm.executeUpdate();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
 
     public int getAccountIDbyUsername(String username) {
         String sql = "SELECT account_id\n"

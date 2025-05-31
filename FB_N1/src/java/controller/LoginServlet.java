@@ -5,6 +5,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.UserProfile;
+import dao.*;
 
 /**
  *
@@ -44,6 +48,16 @@ public class LoginServlet extends HttpServlet {
         boolean isSuccess = dao.checkLogin(username, password);
         if (isSuccess) {
             session.setAttribute("username", username);
+            
+    int accountID_int = dao.getAccountIDbyUsername(username);
+    Account account = dao.getAccountById(accountID_int);
+    
+    UserProfileDAO uPDAO = new UserProfileDAO();
+    UserProfile uP = uPDAO.getProfileByAccountId(accountID_int);
+    
+    // Set vào session
+    session.setAttribute("userProfile", uP);
+    session.setAttribute("account", account);
 
             if ("on".equals(remember)) {
                 Cookie userCookie = new Cookie("username", username);
