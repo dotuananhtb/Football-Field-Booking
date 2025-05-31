@@ -42,7 +42,7 @@ public class HomeControl extends HttpServlet {
 //        }
 //        
         
-         response.sendRedirect("UI/home.jsp");
+         response.sendRedirect("UI/trang-chu.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
