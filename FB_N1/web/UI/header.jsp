@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <head>
     <base href="${pageContext.request.contextPath}/UI/">
@@ -103,31 +104,62 @@
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
                                             <li><a href="contact-us.html">Contact</a></li>
+                                            <li><a href="#" >Đặt Sân Ngay</a></li>
+                                            
+                                            
+                                              <c:if test="${sessionScope.username != null}">
+                                <c:set value="${sessionScope.userProfile}" var="u"></c:set>
+                                <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"></a>
+                                    <ul>
+                                        <li><a href="/FB_N1/UI/userProfile.jsp">User Profile</a></li>
+                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
+                                                <i class="icon-user"></i> Đăng Xuất
+
+                                            </a></li>
+                                    </ul>
+                                    </c:if>
                                         </ul>
+                                        
                                     </div>
                                 </nav>
                                 <!-- Main Menu End-->
                             </div>
-                            <div class="header-account flex align-center">
-                                <div class="register">
-                                    <ul class="flex align-center">
-                                        <li class="">
-                                            <a href="login.html"><i class="icon-user-1-1"></i>
-                                                <span>Đăng nhập</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
+                            
+                          
+                                    <div class="dropdown2-btn"></div></li>
+                                
+
+
+
+
+                            <a   style="margin: 20px">
+
+                            </a>
+
+
+                            <c:if test="${sessionScope.username == null}">
+                                <div class="header-account flex align-center">
+                                    <div class="register">
+                                        <ul class="flex align-center">
+                                            <li class="">
+                                                <a href="${pageContext.request.contextPath}/login"><i class="icon-user-1-1"></i>
+                                                    <span>Đăng nhập</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="register">
+                                        <ul class="flex align-center">
+                                            <li class="">
+                                                <a href="/FB_N1/dang-ki"><i class="icon-user-1-1"></i>
+                                                    <span>Đăng kí</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="register">
-                                    <ul class="flex align-center">
-                                        <li class="">
-                                            <a href="/FB_N1/dang-ki"><i class="icon-user-1-1"></i>
-                                                <span>Đăng kí</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
