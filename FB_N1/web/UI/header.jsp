@@ -7,7 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
+    <!-- comment -->
     <base href="${pageContext.request.contextPath}/UI/">
+    <!-- comment -->
 </head>
 
 <!-- Main Header -->
