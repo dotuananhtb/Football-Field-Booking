@@ -86,8 +86,8 @@ public class LoginServlet extends HttpServlet {
 
         } else {
             
-            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
-            request.getRequestDispatcher("home").forward(request, response);
+            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
+            request.getRequestDispatcher("UI/login.jsp").forward(request, response);
             
 
         }
