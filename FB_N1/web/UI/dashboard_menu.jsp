@@ -20,43 +20,43 @@
                         <li>
                             <a href="dashboard.html">
                                 <i class="icon-Vector-9"></i>
-                                <span>Dashboard</span>
+                                <span>Bảng điều khiển</span>
                             </a>
                         </li>
                         <li>
                             <a href="my-booking.html">
                                 <i class="icon-Layer-2"></i>
-                                <span>My Booking</span>
+                                <span>Đặt lịch</span>
                             </a>
                         </li>
-                        <li>
+<!--                        <li>
                             <a href="my-listing.html">
                                 <i class="icon-Group-81"></i>
                                 <span>My Listing</span>
                             </a>
-                        </li>
-                        <li>
+                        </li>-->
+<!--                        <li>
                             <a href="add-tour.html">
                                 <i class="icon-Group-91"></i>
                                 <span>Add Tour</span>
                             </a>
-                        </li>
+                        </li>-->
                         <li>
                             <a href="my-favorite.html">
                                 <i class="icon-Vector-10"></i>
-                                <span>My Favorites</span>
+                                <span>Sở Thích Của Tôi</span>
                             </a>
                         </li>
                         <li class="active">
                             <a href="my-profile.html">
                                 <i class="icon-profile-user-1"></i>
-                                <span>My Profile</span>
+                                <span>Hồ sơ</span>
                             </a>
                         </li>
                         <li>
                             <a href="login.html">
                                 <i class="icon-turn-off-1"></i>
-                                <span>Logout</span>
+                                <span>Đăng xuất</span>
                             </a>
                         </li>
 

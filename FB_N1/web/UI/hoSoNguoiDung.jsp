@@ -84,7 +84,7 @@
                                                             <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                                             <c:set value="${sessionScope.account}" var="a"></c:set>
                                                                 <div class="infomation-dashboard mb-70">
-                                                                    <h4 class="title">User Information</h4>
+                                                                    <h4 class="title">Thông tin cá nhân</h4>
                                                                     <div class="widget-dash-board">
                                                                         <div class="grid-input-2">
                                                                             <input type="hidden" value="${u.getAccountId()}" name="id">
@@ -132,10 +132,9 @@
 
                                                                 <div class="flex-three">
                                                                     <div class="button-wrap">
-                                                                        <button type="submit" class="save"><i class="icon-Vector-221"></i>Save
-                                                                            changes</button>
-                                                                        <button type="reset" class="reset"><i class="icon-reply-all"></i>Reset
-                                                                            All</button>
+                                                                        <button type="submit" class="save"><i class="icon-Vector-221"></i>Lưu thay đổi</button>
+                                                                        <button type="reset" class="reset"><i class="icon-reply-all"></i>Đặt lại
+                                                                            </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -165,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     
                                                 </main>
 
-                                                <footer class="footer footer-dashboard">
+<!--                                                <footer class="footer footer-dashboard">
                                                     <div class="tf-container full">
                                                         <div class="row">
                                                             <div class="col-lg-6">
@@ -188,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                         </div>
 
                                                     </div>
-                                                </footer>
+                                                </footer>-->
 
                                                 <!-- Bottom -->
                                             </div>

@@ -51,8 +51,8 @@ public class HomeControl extends HttpServlet {
         
         request.setAttribute("field", list);
 
-        request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
-//         response.sendRedirect("UI/trang-chu.jsp");
+//        request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
+         response.sendRedirect("UI/trang-chu.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

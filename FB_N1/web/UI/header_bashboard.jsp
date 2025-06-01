@@ -35,8 +35,8 @@
                                                     <div class="navbar-collapse collapse clearfix"
                                                         id="navbarSupportedContent">
                                                         <ul class="navigation clearfix">
-                                                            <li class="dropdown2">
-                                                                <a href="#">Home</a>
+                                                            <li class="dropdown">
+                                                                <a href="#">Trang chủ</a>
                                                                 <ul>
                                                                     <li><a href="index.html">Home Page 01</a></li>
                                                                     <li><a href="home2.html">Home Page 02</a></li>
@@ -46,7 +46,7 @@
                                                                 </ul>
                                                             </li>
                                                             
-                                                            <li class="dropdown2"><a href="#">Destination</a>
+<!--                                                            <li class="dropdown"><a href="#">Destination</a>
                                                                 <ul>
                                                                     <li><a href="tour-destination-v1.html">Destination
                                                                             V1</a></li>
@@ -57,7 +57,7 @@
                                                                     <li><a href="single-destination.html">Destination
                                                                             Single</a></li>
                                                                 </ul>
-                                                            </li>
+                                                            </li>-->
 <!--                                                            <li class="dropdown2 "><a href="#">Blog</a>
                                                                 <ul>
                                                                     <li><a href="blog.html">Blog</a></li>
@@ -65,7 +65,7 @@
                                                                 </ul>
                                                             </li>-->
 
-                                                            <li class="dropdown2"><a href="#">Pages</a>
+<!--                                                            <li class="dropdown2"><a href="#">Pages</a>
                                                                 <ul>
                                                                     <li><a href="about-us.html">About Us</a></li>
                                                                     <li><a href="team.html">Team member</a></li>
@@ -74,19 +74,17 @@
                                                                             Condition</a></li>
                                                                     <li><a href="help-center.html">Help center</a></li>
                                                                 </ul>
-                                                            </li>
-                                                            <li class="dropdown2 current"><a href="#">Dashboard</a>
+                                                            </li>-->
+                                                            <li class="dropdown2 current"><a href="#">Bảng điều khiển</a>
                                                                 <ul>
-                                                                    <li><a href="dashboard.html">Dashboard</a></li>
-                                                                    <li><a href="my-booking.html">My booking</a></li>
-                                                                    <li><a href="my-listing.html">My Listing</a></li>
-                                                                    <li><a href="add-tour.html">Add Tour</a></li>
-                                                                    <li><a href="my-favorite.html">My Favorites</a></li>
-                                                                    <li class="current"><a href="my-profile.html">My
-                                                                            profile</a></li>
+                                                                    <li><a href="dashboard.html">Bảng điều khiển</a></li>
+                                                                    <li><a href="my-booking.html">Đặt lịch</a></li>
+                                                                    
+                                                                    <li><a href="my-favorite.html">Yêu thích</a></li>
+                                                                    <li class="current"><a href="my-profile.html">Hồ sơ</a></li>
                                                                 </ul>
                                                             </li>
-                                                            <li><a href="contact-us.html">Contact</a></li>
+                                                            <li><a href="contact-us.html">liên hệ</a></li>
                                                         </ul>
                                                     </div>
                                                 </nav>
