@@ -642,15 +642,7 @@
                                                 <div class="col-sm-6 col-lg-3">
                                                     <div class="tour-listing">
                                                         <a href="tour-single.html" class="tour-listing-image">
-                                                            <div class="badge-top flex-two">
-                                                                <span class="feature">Featured</span>
-                                                                <div class="badge-media flex-five">
-                                                                    <span class="media"><i
-                                                                            class="icon-Group-1000002909"></i>5</span>
-                                                                    <span class="media"><i
-                                                                            class="icon-Group-1000002910"></i>2</span>
-                                                                </div>
-                                                            </div>
+                                                        
                                                             <img src="./assets/images/travel-list/4.jpg"
                                                                 alt="Image Listing">
 

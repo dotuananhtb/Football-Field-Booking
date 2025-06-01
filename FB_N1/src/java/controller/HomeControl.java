@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.FieldDAO;
 import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Vector;
 import model.UserProfile;
+import model.Field;
 
 /**
  *
@@ -42,6 +45,13 @@ public class HomeControl extends HttpServlet {
 //        }
 //        
         
+        FieldDAO fdao = new FieldDAO();
+        Vector<Field> list = new Vector<>();
+        list = fdao.getAllField();
+        
+        request.setAttribute("field", list);
+
+        request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
          response.sendRedirect("UI/trang-chu.jsp");
     } 
 
