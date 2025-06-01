@@ -1,0 +1,255 @@
+@use '../abstracts/' as *;
+
+.tab-list {
+    .nav-link {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 18.9px;
+        letter-spacing: 0.03em;
+        color: $main;
+        padding: 10px 22px;
+        background-color: $white;
+        border-radius: 2px;
+        margin: 0 7px;
+        position: relative;
+        transition: all 0.3s ease;
+        min-width: 134px;
+        &::before {
+            position: absolute;
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid $primary;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.2s ease;
+            opacity: 0;
+        }
+
+        &:hover {
+            background-color: $primary;
+            color: $white;
+            &::before {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 7px solid $primary;
+                bottom: -7px;
+                left: 50%;
+                transform: translateX(-50%);
+                transition: all 0.2s ease;
+                opacity: 1;
+            }
+
+        }
+
+        &.active {
+            background-color: $primary;
+            color: $white;
+
+            &::before {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 7px solid $primary;
+                bottom: -7px;
+                left: 50%;
+                transform: translateX(-50%);
+                opacity: 1;
+            }
+
+        }
+    }
+}
+
+.nav-tabs-activities {
+    padding-right: 1.5em;
+
+    .nav-item {
+        .nav-link {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 27px;
+            color: $main;
+            background-color: $white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 22px 28px 22px;
+            border: 1px solid $border;
+            border-radius: 8px;
+            max-width: 214px;
+            width: 100%;
+            margin: 0px 8.5px;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+
+            &:hover,
+            &.active {
+                background-color: $primary;
+                color: $white;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 17px solid $primary;
+                    bottom: -17px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                .icon {
+                    color: $white;
+                }
+            }
+
+            &:hover .icon {
+                color: $white;
+            }
+
+            .icon {
+                color: $primary;
+                height: 66px;
+                margin-bottom: 15px;
+
+                i {
+                    font-size: 50px;
+                }
+            }
+
+        }
+    }
+}
+
+.nav-tabs-adventure {
+    .nav-link {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 27px;
+        color: $main;
+        padding: 0px 0px 17px 0px;
+        border-bottom: 1px solid $border;
+        cursor: pointer;
+
+        &:not(:last-child) {
+            margin-right: 43px;
+        }
+
+        i {
+            font-size: 40px;
+            color: $primary;
+            margin-right: 15px;
+        }
+
+        &:hover,
+        &.active {
+            background-color: transparent;
+            border-bottom: 1px solid $primary;
+        }
+    }
+}
+
+.tab-top-destination {
+    .nav-item {
+        &:not(:last-child) {
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            padding: 5px 8px 12px 8px;
+            border-radius: 8px;
+            color: $main;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 27px;
+            background-color: transparent;
+
+            i {
+                font-size: 30px;
+                color: $primary;
+                margin-right: 10px;
+            }
+
+            &:hover,
+            &.active {
+                background-color: $white;
+            }
+        }
+    }
+}
+
+.tab-terms-condition {
+    .nav-pills {
+        padding: 50px 22px 70px 30px;
+        margin-right: 56px;
+        max-width: 429px;
+        width: 100%;
+
+        .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: $text;
+            padding: 26px 36px;
+            text-align: left;
+            border-left: 2px solid transparent;
+
+            &:hover,
+            &.active {
+                background-color: $white;
+                color: $main;
+                border-left: 2px solid $primary;
+            }
+        }
+    }
+
+    .tab-content {
+        width: 100%;
+    }
+}
+
+.tab-tour-single {
+    background-color: $white;
+    padding: 10px 13px;
+    border-radius: 47px;
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05);
+    margin-top: -47px;
+
+    .nav-link {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        padding: 26px 34px;
+        border-radius: 47px;
+        color: $main;
+        background-color: transparent;
+
+        &:hover,
+        &.active {
+            background-color: $bg5;
+        }
+
+        i {
+            color: $primary;
+            margin-right: 14px;
+            font-size: 20px;
+        }
+    }
+}
