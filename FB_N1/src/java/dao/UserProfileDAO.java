@@ -173,7 +173,7 @@ public class UserProfileDAO extends DBContext {
         up.setPhone("0909123456");
         up.setDob("2000-01-01");
 
-        dao.updateProfile1(up, "4");
+
 
     }
 

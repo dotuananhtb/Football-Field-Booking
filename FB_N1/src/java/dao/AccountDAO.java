@@ -366,7 +366,7 @@ public class AccountDAO extends DBContext {
 
     }
 
-    // TEST MAIN
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 

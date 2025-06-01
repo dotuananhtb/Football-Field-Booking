@@ -36,12 +36,6 @@
                                                     overflow: hidden;
                                                 }
 
-                                                .profile-header {
-                                                    background: linear-gradient(135deg, #28a745, #20c997);
-                                                    padding: 30px 20px;
-                                                    text-align: center;
-                                                    color: white;
-                                                }
 
                                                 .profile-avatar {
                                                     width: 100px;
