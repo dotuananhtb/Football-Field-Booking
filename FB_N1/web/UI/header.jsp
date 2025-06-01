@@ -29,7 +29,7 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="trang-chu.jsp">
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
@@ -39,34 +39,12 @@
                                 <nav class="main-menu show navbar-expand-md">
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
-                                            <li class="dropdown2">
-                                                <a href="#">Home</a>
-                                                <ul>
-                                                    <li><a href="index.html">Home Page 01</a></li>
-                                                    <li><a href="home2.html">Home Page 02</a></li>
-                                                    <li><a href="home3.html">Home Page 03</a></li>
-                                                    <li><a href="home4.html">Home Page 04</a></li>
-                                                    <li><a href="home5.html">Home Page 05</a></li>
-                                                </ul>
+                                            <li class="dropdown">
+                                                <a href="trang-chu.jsp">  Trang chủ</a>
+                                                
                                                 <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2">
-                                                <a href="#">Tour</a>
-                                                <ul>
-                                                    <li><a href="archieve-tour.html">Archieve tour</a>
-
-                                                    </li>
-                                                    <li><a href="tour-package-v2.html">Tour left sidebar</a>
-
-                                                    </li>
-                                                    <li><a href="tour-package-v4.html">Tour package </a>
-
-                                                    </li>
-                                                    <li><a href="tour-single.html">Tour Single </a>
-
-                                                    </li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2"><a href="#">Destination</a>
+                                            
+<!--                                            <li class="dropdown2"><a href="#">Destination</a>
                                                 <ul>
                                                     <li><a href="tour-destination-v1.html">Destination
                                                             V1</a></li>
@@ -77,15 +55,15 @@
                                                     <li><a href="single-destination.html">Destination
                                                             Single</a></li>
                                                 </ul>
-                                                <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2 "><a href="#">Blog</a>
+                                                <div class="dropdown2-btn"></div></li>-->
+<!--                                            <li class="dropdown2 "><a href="#">Blog</a>
                                                 <ul>
                                                     <li><a href="blog.html">Blog</a></li>
                                                     <li><a href="blog-details.html">Blog Detail</a></li>
                                                 </ul>
-                                                <div class="dropdown2-btn"></div></li>
+                                                <div class="dropdown2-btn"></div></li>-->
 
-                                            <li class="dropdown2"><a href="#">Pages</a>
+<!--                                            <li class="dropdown2"><a href="#">Pages</a>
                                                 <ul>
                                                     <li><a href="about-us.html">About Us</a></li>
                                                     <li><a href="team.html">Team member</a></li>
@@ -94,18 +72,18 @@
                                                     </li>
                                                     <li><a href="help-center.html">Help center</a></li>
                                                 </ul>
-                                                <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2"><a href="#">Dashboard</a>
+                                                <div class="dropdown2-btn"></div></li>-->
+                                            <li class="dropdown2"><a href="#">Bảng điều khiển</a>
                                                 <ul>
-                                                    <li><a href="dashboard.html">Dashboard </a></li>
-                                                    <li><a href="my-booking.html">My booking</a></li>
-                                                    <li><a href="my-listing.html">My Listing</a></li>
-                                                    <li><a href="add-tour.html">Add Tour</a></li>
-                                                    <li><a href="my-favorite.html">My Favorites</a></li>
-                                                    <li><a href="my-profile.html">My profile</a></li>
+                                                    <li><a href="#">Bảng điều khiển </a></li>
+                                                    <li><a href="#">Đặt Lịch</a></li>
+                                                    
+                                                    
+                                                    <li><a href="#">Sở Thích Của Tôi</a></li>
+                                                    <li><a href="hoSoNguoiDung.jsp">Hồ sơ người dùng</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
-                                            <li><a href="contact-us.html">Contact</a></li>
+                                            <li><a href="#">Liên hệ</a></li>
                                             <li><a href="#" >Đặt Sân Ngay</a></li>
                                             
                                             
