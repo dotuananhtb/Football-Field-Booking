@@ -409,6 +409,44 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public int getRoleIDbyAccount(String username, String password) {
+        int roleID = 0;
+        String sql = "SELECT u.role_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account] a join [dbo].[UserProfile] u on a.account_id = u.account_id\n"
+                + "  where a.username = ? and a.password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                roleID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return roleID;
+    }
+
+    public int getStatusIDbyAccount(String username, String password) {
+        int statusID = 0;
+        String sql = "SELECT a.status_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]  a\n"
+                + "  where a.username = ? and a.password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                statusID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return statusID;
+    }
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
