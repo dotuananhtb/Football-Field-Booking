@@ -45,13 +45,9 @@ public class HomeControl extends HttpServlet {
 //        }
 //        
         
-        FieldDAO fdao = new FieldDAO();
-        Vector<Field> list = new Vector<>();
-        list = fdao.getAllField();
-        
-        request.setAttribute("field", list);
+       
 
-//        request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
+
          response.sendRedirect("UI/trang-chu.jsp");
     } 
 
@@ -79,7 +75,13 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+ FieldDAO fdao = new FieldDAO();
+        Vector<Field> list = new Vector<>();
+        list = fdao.getAllField();
+        
+        request.setAttribute("field", list);
+                request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
     }
 
     /** 

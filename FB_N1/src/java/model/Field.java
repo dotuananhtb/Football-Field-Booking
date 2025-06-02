@@ -85,6 +85,11 @@ public class Field {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + '}';
+    }
     
     
     

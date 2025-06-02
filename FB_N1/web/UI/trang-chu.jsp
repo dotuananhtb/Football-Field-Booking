@@ -98,7 +98,7 @@
                                             <div class="row">
                                                 
                                                 
-                                                
+                                                <%--<c:forEach items="${field}" var="item">--%>
                                                 
                                                 
                                                 
@@ -108,7 +108,7 @@
                                                 
                                                 
                                                 <div class="col-sm-6 col-lg-3">
-                                                    <%--<c:forEach items="${field}" var="item">--%>
+                                                    
                                                     <div class="tour-listing">
                                                         <a href="tour-single.html" class="tour-listing-image">
                                                         
@@ -179,20 +179,28 @@
                                                         </div>
                                                         
                                                     </div>
-                                                    <%--</c:forEach>--%>
+                                                   
                                                 </div>
-                                                    
+                                                     <%--</c:forEach>--%>
                                             </div>
                                             
                                             <div class="row">
+                                                
                                                 <div class="col-lg-12 center mt-44">
+                                                                
                                                     <a href="archieve-tour.html" class="btn-main">
                                                         <p class="btn-main-text">Xem tất cả sân</p>
+                                                                                                                <p class="btn-main-text">${i.description}</p>
+
                                                         <p class="iconer">
                                                             <i class="icon-13"></i>
                                                         </p>
                                                     </a>
+                                                                                                                <c:forEach items="${field}" var="i">
+                                                                                                                    ${i.description}
+                                                    </c:forEach>    
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

@@ -22,7 +22,7 @@ public class FieldDAO extends DBContext {
 
     public Vector<Field> getAllField() {
         Vector<Field> list = new Vector<>();
-        String sql = "Sselect * from Field";
+        String sql = "Select * from Field";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
@@ -43,5 +43,13 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
-    
+    public static void main(String[] args) {
+        Vector<Field> listFields;
+        FieldDAO dao = new FieldDAO();
+        listFields = dao.getAllField();
+        for (Field listField : listFields) {
+            System.out.println(listField);
+        }
+        
+    }
 }
