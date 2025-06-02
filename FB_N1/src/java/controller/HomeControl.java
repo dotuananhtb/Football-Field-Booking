@@ -5,7 +5,7 @@
 
 package controller;
 
-import dao.FieldDAO;
+import dao.*;
 import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.UserProfile;
 import model.Field;
+import model.*;
 
 /**
  *
@@ -44,11 +45,34 @@ public class HomeControl extends HttpServlet {
 //           request.setAttribute("user", u);
 //        }
 //        
+        FieldDAO fdao = new FieldDAO();
+        Vector<Field> list = new Vector<>();
+        list = fdao.getAllField();
         
+        request.setAttribute("field", list);
+        
+        FieldDAO daoZone = new FieldDAO();
+        Vector<Zone> listZone;
+        listZone = daoZone.getAllZone();
+        request.setAttribute("zone", listZone);
+        
+        FieldDAO daoTypeOfField = new FieldDAO();
+        Vector<TypeOfField> listTypeOfField;
+        listTypeOfField = daoTypeOfField.getAllTypeOfField();
+                request.setAttribute("listTypeOfField", listTypeOfField);
+
+        
+        FieldDAO daoSlotsOfField = new FieldDAO();
+        Vector<SlotsOfField> listSlotsOfField;
+        listSlotsOfField = daoSlotsOfField.getAllSlotsOfField();
+        request.setAttribute("listSlotsOfField", listSlotsOfField);
+
+        
+                request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
        
 
 
-         response.sendRedirect("UI/trang-chu.jsp");
+//         response.sendRedirect("UI/trang-chu.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,12 +100,7 @@ public class HomeControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
- FieldDAO fdao = new FieldDAO();
-        Vector<Field> list = new Vector<>();
-        list = fdao.getAllField();
-        
-        request.setAttribute("field", list);
-                request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
+ 
     }
 
     /** 

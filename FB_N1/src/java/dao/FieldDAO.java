@@ -43,11 +43,65 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
+    public Vector<Zone> getAllZone() {
+        Vector<Zone> list = new Vector<>();
+        String sql = "Select * from zone";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Zone up = new Zone(
+                        rs.getInt("zone_id"),
+                        rs.getString("Address"));
+                
+                list.add(up);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    public Vector<TypeOfField> getAllTypeOfField() {
+        Vector<TypeOfField> list = new Vector<>();
+        String sql = "Select * from TypeOfField";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                TypeOfField up = new TypeOfField(
+                        rs.getInt("field_type_id"),
+                        rs.getString("field_type_name"));
+                
+                list.add(up);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    public Vector<SlotsOfField> getAllSlotsOfField() {
+        Vector<SlotsOfField> list = new Vector<>();
+        String sql = "Select * from SlotsOfField";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                SlotsOfField up = new SlotsOfField(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDouble(4));
+                        
+                
+                list.add(up);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
     public static void main(String[] args) {
-        Vector<Field> listFields;
+        Vector<SlotsOfField> listFields;
         FieldDAO dao = new FieldDAO();
-        listFields = dao.getAllField();
-        for (Field listField : listFields) {
+        listFields = dao.getAllSlotsOfField();
+        for (SlotsOfField listField : listFields) {
             System.out.println(listField);
         }
         
