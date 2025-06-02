@@ -16,37 +16,26 @@ import util.DBContext;
 public class AccountDAO extends DBContext {
 
     public boolean updateStatus(int accountId, int newStatusId) {
-        String sql = "UPDATE Account SET status_id = 1 WHERE account_id = ?";
+        String sql = "UPDATE Account SET status_id = ? WHERE account_id = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, newStatusId);
             ps.setInt(2, accountId);
-
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    //lấy email
     public Account getAccountById(int accountId) {
-        String sql = "SELECT *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
-                + "  where account_id = ?";
+        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6));
+                return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,17 +43,8 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-//    rs.getInt(1),
-//                        rs.getInt(2),
-//                        rs.getString(3),
-//                        rs.getString(4), rs.getString(5),
-//                        rs.getString(6), 
-//                        u);
-    //cập nhật mật khẩu
     public void updatePassword(String email, String password) {
-        String sql = "UPDATE [dbo].[Account]\n"
-                + "SET [password] = ?\n"
-                + "WHERE [email] = ?";
+        String sql = "UPDATE [dbo].[Account] SET [password] = ? WHERE [email] = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, password);
@@ -74,22 +54,17 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
-//gửi link xác nhận tài khoản đến mail
 
     public boolean resetPass(String email) {
         String insertTokenSQL = "INSERT INTO EmailVerification (account_id, token, created_at, expires_at, is_used) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement psToken = null;
-        ResultSet generatedKeys = null;
-        AccountDAO dao = new AccountDAO();
         try {
-            // 3. Tạo token xác minh
-
             String token = java.util.UUID.randomUUID().toString();
             String createdAt = java.time.LocalDateTime.now().toString();
             String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
 
             psToken = connection.prepareStatement(insertTokenSQL);
-            psToken.setInt(1, dao.getAcountIdByEmail(email));
+            psToken.setInt(1, getAcountIdByEmail(email));
             psToken.setString(2, token);
             psToken.setString(3, createdAt);
             psToken.setString(4, expiresAt);
@@ -97,12 +72,9 @@ public class AccountDAO extends DBContext {
             psToken.executeUpdate();
             connection.commit();
 
-            // 4. Gửi email xác minh
             String verifyLink = "http://localhost:9999/FB_N1/resetPassword?token=" + token;
-
             SendMail sender = new SendMail();
-            sender.guiResetPasswordMail(email, verifyLink, dao.getLastNameByEmail(email));
-
+            sender.guiResetPasswordMail(email, verifyLink, getLastNameByEmail(email));
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,13 +83,7 @@ public class AccountDAO extends DBContext {
     }
 
     public String getLastNameByEmail(String email) {
-        String sql = """
-        SELECT up.last_name 
-        FROM Account a 
-        JOIN UserProfile up ON a.account_id = up.account_id 
-        WHERE a.email = ?
-        """;
-
+        String sql = "SELECT up.last_name FROM Account a JOIN UserProfile up ON a.account_id = up.account_id WHERE a.email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
@@ -141,7 +107,7 @@ public class AccountDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy hoặc lỗi
+        return null;
     }
 
     public Integer getStatusIdByEmail(String email) {
@@ -155,10 +121,8 @@ public class AccountDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy hoặc lỗi
+        return null;
     }
-    //// Ham de xu li dang ki _ Tuan Anh
-    // 1. Kiểm tra tồn tại username
 
     public boolean checkTonTaiUsername(String username) {
         String sql = "SELECT 1 FROM Account WHERE username = ?";
@@ -172,7 +136,6 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    // 2. Kiểm tra tồn tại email
     public boolean checkTonTaiEmail(String email) {
         String sql = "SELECT 1 FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -185,7 +148,6 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    // 3. Thêm tài khoản và hồ sơ người dùng
     public boolean addAccountAndSendVerificationEmail(Account account) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -199,7 +161,6 @@ public class AccountDAO extends DBContext {
         try {
             connection.setAutoCommit(false);
 
-            // 1. Thêm tài khoản
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
             psAccount.setInt(1, 2); // statusId = 2 (chưa xác minh)
             psAccount.setString(2, account.getUsername());
@@ -222,7 +183,6 @@ public class AccountDAO extends DBContext {
                 return false;
             }
 
-            // 2. Thêm hồ sơ người dùng
             UserProfile p = account.getUserProfile();
             psProfile = connection.prepareStatement(insertProfileSQL);
             psProfile.setInt(1, accountId);
@@ -236,7 +196,6 @@ public class AccountDAO extends DBContext {
             psProfile.setString(9, p.getAvatar());
             psProfile.executeUpdate();
 
-            // 3. Tạo token xác minh
             String token = java.util.UUID.randomUUID().toString();
             String createdAt = java.time.LocalDateTime.now().toString();
             String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
@@ -251,9 +210,7 @@ public class AccountDAO extends DBContext {
 
             connection.commit();
 
-            // 4. Gửi email xác minh
             String verifyLink = "http://localhost:9999/FB_N1/verify?token=" + token;
-
             SendMail sender = new SendMail();
             Thread thread = new Thread(() -> {
                 try {
@@ -274,18 +231,10 @@ public class AccountDAO extends DBContext {
             }
         } finally {
             try {
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-                if (psAccount != null) {
-                    psAccount.close();
-                }
-                if (psProfile != null) {
-                    psProfile.close();
-                }
-                if (psToken != null) {
-                    psToken.close();
-                }
+                if (generatedKeys != null) generatedKeys.close();
+                if (psAccount != null) psAccount.close();
+                if (psProfile != null) psProfile.close();
+                if (psToken != null) psToken.close();
                 connection.setAutoCommit(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -294,15 +243,11 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    //5. Thay đổi mật khẩu
     public boolean update_Password(String username, String newPassword) {
-        String sql = "UPDATE [Account] SET password=? WHERE username=?";
-        try (
-                PreparedStatement ps = connection.prepareStatement(sql)) {
-
+        String sql = "UPDATE [Account] SET password = ? WHERE username = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setString(2, username);
-
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -311,16 +256,13 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    //6. Check mật khẩu
     public boolean checkPassword(String username, String password) {
-        String sql = "SELECT password FROM [Account] WHERE username=? AND password=?";
+        String sql = "SELECT password FROM [Account] WHERE username = ? AND password = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             ps.setString(1, username);
             ps.setString(2, password);
-
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); // Returns true if password matches
+                return rs.next();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -329,47 +271,146 @@ public class AccountDAO extends DBContext {
     }
 
     public boolean checkLogin(String userName, String passWord) {
-        String sql = "SELECT *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
-                + "  where username =? and password =?";
-        boolean check = false;
+        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ? AND password = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, userName);
             st.setString(2, passWord);
             ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                check = true;
-            }
+            return rs.next();
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
-        return check;
-
+        return false;
     }
 
     public int getAccountIDbyUsername(String username) {
-        String sql = "SELECT account_id\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
-                + "  where username =?";
-        int n = 0;
+        String sql = "SELECT account_id FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                n = rs.getInt(1);
+                return rs.getInt(1);
             }
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
-        return n;
-    }// TEST MAIN
+        return 0;
+    }
+
+    // New methods for Google Sign-In
+    public boolean checkGoogleIdExists(String googleId) {
+        String sql = "SELECT 1 FROM GoogleAuth WHERE google_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, googleId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addGoogleAccount(String googleId, String email, String name, String accessToken, String refreshToken, long expiresIn) {
+        String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
+        String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name) VALUES (?, ?, ?, ?)";
+        String insertGoogleAuthSQL = "INSERT INTO GoogleAuth (account_id, google_id, access_token, refresh_token, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement psAccount = null;
+        PreparedStatement psProfile = null;
+        PreparedStatement psGoogleAuth = null;
+        ResultSet generatedKeys = null;
+
+        try {
+            connection.setAutoCommit(false);
+
+            // Generate a unique username based on email
+            String username = email.split("@")[0] + "_" + System.currentTimeMillis();
+            String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String expiresAt = LocalDateTime.now().plusSeconds(expiresIn).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            // Insert into Account
+            psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            psAccount.setInt(1, 1); // status_id = 1 (Hoạt động)
+            psAccount.setString(2, username);
+            psAccount.setString(3, ""); // No password for Google accounts
+            psAccount.setString(4, email);
+            psAccount.setString(5, createdAt);
+            int affectedRows = psAccount.executeUpdate();
+
+            if (affectedRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            generatedKeys = psAccount.getGeneratedKeys();
+            int accountId = -1;
+            if (generatedKeys.next()) {
+                accountId = generatedKeys.getInt(1);
+            } else {
+                connection.rollback();
+                return false;
+            }
+
+            // Insert into UserProfile
+            psProfile = connection.prepareStatement(insertProfileSQL);
+            psProfile.setInt(1, accountId);
+            psProfile.setInt(2, 3); // role_id = 3 (USER)
+            psProfile.setString(3, name);
+            psProfile.setString(4, "");
+            psProfile.executeUpdate();
+
+            // Insert into GoogleAuth
+            psGoogleAuth = connection.prepareStatement(insertGoogleAuthSQL);
+            psGoogleAuth.setInt(1, accountId);
+            psGoogleAuth.setString(2, googleId);
+            psGoogleAuth.setString(3, accessToken);
+            psGoogleAuth.setString(4, refreshToken != null ? refreshToken : "");
+            psGoogleAuth.setString(5, expiresAt);
+            psGoogleAuth.setString(6, createdAt);
+            psGoogleAuth.executeUpdate();
+
+            connection.commit();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                if (generatedKeys != null) generatedKeys.close();
+                if (psAccount != null) psAccount.close();
+                if (psProfile != null) psProfile.close();
+                if (psGoogleAuth != null) psGoogleAuth.close();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Integer getAccountIdByGoogleId(String googleId) {
+        String sql = "SELECT account_id FROM GoogleAuth WHERE google_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, googleId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("account_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-
-        // Dữ liệu mẫu để test
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         UserProfile profile = new UserProfile();
@@ -383,37 +424,13 @@ public class AccountDAO extends DBContext {
         profile.setAvatar("assets/img/avatars/avatar_goc.jpg");
 
         Account account = new Account();
-
         account.setStatusId(3);
-        account.setUsername("binhcute5a"); // Đổi mỗi lần test để tránh trùng
+        account.setUsername("binhcute5a");
         account.setPassword("123456");
-        account.setEmail("pitiy69288@pricegh.com"); // Đổi mỗi lần test
+        account.setEmail("pitiy69288@pricegh.com");
         account.setCreatedAt(createdAt);
         account.setUserProfile(profile);
 
-        // Thực thi và in kết quả
         boolean result = dao.addAccountAndSendVerificationEmail(account);
-//        if (result) {
-//            System.out.println("Thêm tài khoản và gửi email xác minh thành công!");
-//        } else {
-//            System.out.println("Thêm tài khoản thất bại hoặc lỗi gửi email.");
-//        }
-//        System.out.println(dao.getStatusIdByEmail("pitiy69288@pricegh.com"));
-//        dao.resetPass("dognoperke@gufum.com");
-//            int testId=1;
-//           Account acc = dao.getAccountById(testId);
-//
-//            if (acc != null) {
-//                System.out.println("Thông tin tài khoản:");
-//                System.out.println("ID: " + acc.getAccountId());
-//                System.out.println("Username: " + acc.getUsername());
-//                System.out.println("Email: " + acc.getEmail());
-//                System.out.println("Password: " + acc.getPassword());
-//                System.out.println("Created At: " + acc.getCreatedAt());
-//                System.out.println("Status ID: " + acc.getStatusId());
-//            } else {
-//                System.out.println("Không tìm thấy tài khoản có ID = " + testId);
-//            }
     }
-
 }
