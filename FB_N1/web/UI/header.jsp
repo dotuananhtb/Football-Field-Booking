@@ -1,5 +1,4 @@
-<%-- 
-    Document   : header
+<%--
     Created on : May 30, 2025, 8:15:12 AM
     Author     : Đỗ Tuấn Anh
 --%>
@@ -276,4 +275,3 @@
 
 </header>
 <!-- End Main Header -->
-

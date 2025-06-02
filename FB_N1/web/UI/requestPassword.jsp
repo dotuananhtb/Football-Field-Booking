@@ -5,495 +5,140 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zxx">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
     <head>
+        <base href="${pageContext.request.contextPath}/UI/">
+            <meta charset="utf-8">
+                <title>FootballStar - Quên Mật Khẩu</title>
 
-        <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <meta name="author" content="themesflat.com">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-                <title>Travelin - Travel Tour Booking HTML Templates</title>
-                <!-- Favicon -->
-                <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/UI/images/favicon.png">
-                    <!-- Bootstrap core CSS -->
-                    <link href="${pageContext.request.contextPath}/UI/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-                        <!--Custom CSS-->
-                        <link href="${pageContext.request.contextPath}/UI/css/style.css" rel="stylesheet" type="text/css">
-                            <!--Plugin CSS-->
-                            <link href="${pageContext.request.contextPath}/UI/css/plugin.css" rel="stylesheet" type="text/css">
 
-                                <!--Font Awesome-->
-                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+                        <link rel="stylesheet" href="app/css/app.css">
+                            <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
-                                        <link rel="stylesheet" href="${pageContext.request.contextPath}/UI/fonts/line-icons.css" type="text/css">
-                                            </head>
+                                <!-- Favicon and Touch Icons  -->
+                                <link rel="shortcut icon" href="assets/images/favico.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
 
-                                            <!-- Preloader -->
-                                            <div id="preloader">
-                                                <div id="status"></div>
+                                        </head>
+
+                                        <body class="body header-fixed ">
+
+                                            <div class="preload preload-container">
+                                                <svg class="pl" width="240" height="240" viewBox="0 0 240 240">
+                                                    <circle class="pl__ring pl__ring--a" cx="120" cy="120" r="105" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 660" stroke-dashoffset="-330" stroke-linecap="round"></circle>
+                                                    <circle class="pl__ring pl__ring--b" cx="120" cy="120" r="35" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 220" stroke-dashoffset="-110" stroke-linecap="round"></circle>
+                                                    <circle class="pl__ring pl__ring--c" cx="85" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
+                                                    <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
+                                                </svg>
                                             </div>
-                                            <!-- Preloader Ends -->
 
-                                            <!-- header starts -->
-                                            <header class="main_header_area">
-                                                <div class="header-content py-1 bg-theme">
-                                                    <div class="container d-flex align-items-center justify-content-between">
-                                                        <div class="links">
-                                                            <ul>
-                                                                <li><a href="#" class="white"><i class="icon-calendar white"></i> Thursday, Mar 26, 2021</a></li>
-                                                                <li><a href="#" class="white"><i class="icon-location-pin white"></i>  Hollywood, America</a></li>
-                                                                <li><a href="#" class="white"><i class="icon-clock white"></i> Mon-Fri: 10 AM – 5 PM</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="links float-right">
-                                                            <ul>  
-                                                                <li><a href="#" class="white"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                                                <li><a href="#" class="white"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                                                <li><a href="#" class="white"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                                                                <li><a href="#" class="white"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Navigation Bar -->
-                                                <div class="header_menu" id="header_menu">
-                                                    <nav class="navbar navbar-default">
-                                                        <div class="container">
-                                                            <div class="navbar-flex d-flex align-items-center justify-content-between w-100 pb-3 pt-3">
-                                                                <!-- Brand and toggle get grouped for better mobile display -->
-                                                                <div class="navbar-header">
-                                                                    <a class="navbar-brand" href="${pageContext.request.contextPath}/UI/index.html">
-                                                                        <img src="${pageContext.request.contextPath}/UI/images/logo.png" alt="image">
-                                                                    </a>
-                                                                </div>
-                                                                <!-- Collect the nav links, forms, and other content for toggling -->
-<!--                                                                <div class="navbar-collapse1 d-flex align-items-center" id="bs-example-navbar-collapse-1">
-                                                                    <ul class="nav navbar-nav" id="responsive-menu">
-                                                                        <li class="dropdown submenu">
-                                                                            <a href="${pageContext.request.contextPath}/UI/index.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <i class="icon-arrow-down" aria-hidden="true"></i></a>
-                                                                            <ul class="dropdown-menu">
-                                                                                <li><a href="${pageContext.request.contextPath}/UI/index.html">Homepage Default</a></li>
-                                                                                <li><a href="index-1.html">Homepage 1</a></li>
-                                                                                <li><a href="index-2.html">Homepage 2</a></li>
-                                                                                <li><a href="index-3.html">Homepage 3</a></li>
-                                                                                <li><a href="index-4.html">Homepage 4</a></li>
-                                                                                <li><a href="index-5.html">Homepage 5</a></li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Flights <i class="fa fa-angle-right" aria-hidden="true"></i></a> 
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="index-flight.html">Flight Homepage</a></li>
-                                                                                        <li><a href="flight-grid.html">Flight Grid</a></li>
-                                                                                        <li><a href="flight-list.html">Flight List</a></li>
-                                                                                        <li><a href="flight-detail.html">Flight Detail</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cars <i class="fa fa-angle-right" aria-hidden="true"></i></a> 
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="index-car.html">Car Homepage</a></li>
-                                                                                        <li><a href="car-grid.html">Car Grid</a></li>
-                                                                                        <li><a href="car-list.html">Car List</a></li>
-                                                                                        <li><a href="car-detail.html">Car Detail</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cruise <i class="fa fa-angle-right" aria-hidden="true"></i></a> 
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="index-cruise.html">Cruise Homepage</a></li>
-                                                                                        <li><a href="cruise-grid.html">Cruise Grid</a></li>
-                                                                                        <li><a href="cruise-list.html">Cruise List</a></li>
-                                                                                        <li><a href="cruise-detail.html">Cruise Detail</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </li>
+                                            <!-- /preload -->
 
-                                                                        <li><a href="about.html">About Us</a></li>
+                                            <div id="wrapper">
+                                                <div id="pagee" class="clearfix">
 
-                                                                        <li class="submenu dropdown">
-                                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Destinations <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                                                            <ul class="dropdown-menu">
-                                                                                <li><a href="destination-list.html">Destination List</a></li>
-                                                                                <li><a href="destination-detail.html">Destination Detail</a></li>
-                                                                            </ul> 
-                                                                        </li>
-                                                                        <li class="submenu dropdown">
-                                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tours <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                                                            <ul class="dropdown-menu">
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tour List<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="tour-list.html">Tour List Leftsidebar</a></li>
-                                                                                        <li><a href="tour-list1.html">Tour List Rightsidebar</a></li>
-                                                                                        <li><a href="tour-list2.html">Tour List Fullwidth</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tour Grid<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="tour-grid.html">Tour Grid Leftsidebar</a></li>
-                                                                                        <li><a href="tour-grid1.html">Tour Grid Rightsidebar</a></li>
-                                                                                        <li><a href="tour-grid2.html">Tour Grid Fullwidth</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tour Single<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="tour-single.html">Tour Single Leftsidebar</a></li>
-                                                                                        <li><a href="tour-single1.html">Tour Single Rightsidebar</a></li>
-                                                                                        <li><a href="tour-single2.html">Tour Single Fullwidth</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                            </ul> 
-                                                                        </li>
-                                                                        <li class="submenu dropdown active">
-                                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                                                            <ul class="dropdown-menu">
-                                                                                <li><a href="team.html">Our Guide</a></li>
-                                                                                <li><a href="booking.html">Booking</a></li>
-                                                                                <li><a href="confirmation.html">confirmation</a></li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="services.html">Services Lists</a></li>
-                                                                                        <li><a href="services-detail.html">Service Detail</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="gallery.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gallery<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="gallery.html">Gallery</a></li>
-                                                                                        <li><a href="gallery1.html">Gallery Masonry</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="404.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Error<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="404.html">Error Page 1</a></li>
-                                                                                        <li><a href="404-1.html">Error Page 2</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li><a href="login.html">Login|Register</a></li>
-                                                                                <li><a href="comingsoon.html">Coming Soon</a></li>
-                                                                                <li><a href="testimonials.html">Testimonials</a></li>
-                                                                                <li><a href="faq.html">Faq</a></li>
-                                                                                <li><a href="contact.html">Contact Us</a></li>
-                                                                                <li><a href="dashboard/dashboard.html">Dashboard</a></li>
-                                                                            </ul> 
-                                                                        </li>
-                                                                        <li class="submenu dropdown">
-                                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog <i class="icon-arrow-down" aria-hidden="true"></i></a> 
-                                                                            <ul class="dropdown-menu">
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog Grid<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="post-grid-1.html">Blog Grid 1</a></li>
-                                                                                        <li><a href="post-grid-2.html">Blog Grid 2</a></li>
-                                                                                        <li><a href="post-grid-3.html">Blog Grid 3</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog List<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="post-list-1.html">Blog List 1</a></li>
-                                                                                        <li><a href="post-list-2.html">Blog List 2</a></li>
-                                                                                        <li><a href="post-list-3.html">Blog List 3</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li class="submenu dropdown">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog Single<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="detail-1.html">Blog Single 1</a></li>
-                                                                                        <li><a href="detail-2.html">Blog Single 2</a></li>
-                                                                                        <li><a href="detail-3.html">Blog Single 3</a></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </li>
-                                                                        <li class="search-main"><a href="#search1" class="mt_search"><i class="fa fa-search"></i></a></li>
-                                                                    </ul>
-                                                                </div> /.navbar-collapse    -->
-<!--                                                                <div class="register-login d-flex align-items-center">
-                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="me-3">
-                                                                        <i class="icon-user"></i> Login/Register
-                                                                    </a>
-                                                                    <a href="booking.html" class="nir-btn white">Book Now</a>
-                                                                </div> -->
+                                                    <jsp:include page="header.jsp" />
+                                                    <main id="main">
 
-                                                                <div id="slicknav-mobile"></div>
-                                                            </div>
-                                                        </div><!-- /.container-fluid --> 
-                                                    </nav>
-                                                </div>
-                                                <!-- Navigation Bar Ends -->
-                                            </header>
-                                            <!-- header ends -->
-
-                                            <!-- BreadCrumb Starts -->  
-                                            <section class="breadcrumb-main pb-20 pt-14" style="background-image: url(${pageContext.request.contextPath}/UI/images/bg/bg1.jpg);">
-                                                <div class="section-shape section-shape1 top-inherit bottom-0" style="background-image: url(${pageContext.request.contextPath}/UI/images/shape8.png);"></div>
-                                                <div class="breadcrumb-outer">
-                                                    <div class="container">
-                                                        <div class="breadcrumb-content text-center">
-                                                            <h1 class="mb-3">Quên Mật Khẩu</h1>
-                                                            <nav aria-label="breadcrumb" class="d-block">
-                                                                <ul class="breadcrumb">
-                                                                    <li class="breadcrumb-item"><a href="home.jsp">Trang Chủ</a></li>
-                                                                    <li class="breadcrumb-item active" aria-current="page">Xác minh Email</li>
-                                                                </ul>
-                                                            </nav>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="dot-overlay"></div>
-                                            </section>
-                                            <!-- BreadCrumb Ends --> 
-
-                                            <!-- login section starts -->
-                                            <section class="login-register pt-6 pb-6">
-                                                <div class="container d-flex align-items-center justify-content-center min-vh-100">
-                                                    <div class="log-main blog-full log-reg w-50">
-                                                        <h2 class="text-center border-b pb-2">Quên Mật Khẩu ?</h2>
-                                                        <form method="post" action="${pageContext.request.contextPath}/requestPassword" name="contactform" id="contactform3">
-                                                            <div class="form-group mb-2">
-                                                                <label for="email" class="form-label">Email</label>
-                                                                <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
-                                                            </div>
-                                                            <div class="comment-btn mb-2 pb-2 text-center border-b">
-                                                                <button type="submit" class="nir-btn" onclick="submitUpdate()">Gửi</button>
-                                                            </div>
-                                                            <c:if test="${not empty mess}">
-                                                                <p class="text-danger text-center">${mess}</p>
-                                                            </c:if>
-                                                            <!--<p class="text-center">Bạn có tài khoản chưa? <a href="register.html" class="theme">Đăng kí</a></p>-->
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                            <!-- login section Ends -->
-
-
-                                            <!-- footer starts -->
-                                            <footer class="pt-20 pb-4"  style="background-image: url(${pageContext.request.contextPath}/UI/images/background_pattern.png);">
-                                                <div class="section-shape top-0" style="background-image: url(${pageContext.request.contextPath}/UI/images/shape8.png);"></div>
-                                                <!-- Instagram starts -->
-                                                <div class="insta-main pb-10">
-                                                    <div class="container">
-                                                        <div class="insta-inner">
-                                                            <div class="follow-button">
-                                                                <h5 class="m-0 rounded"><i class="fab fa-instagram"></i> Follow on Instagram</h5>
-                                                            </div>
-                                                            <div class="row attract-slider">
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-3.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-4.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-5.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-1.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-7.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-8.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-2.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-6.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-6">
-                                                                    <div class="insta-image rounded">
-                                                                        <a href="gallery.html"><img src="${pageContext.request.contextPath}/UI/images/insta/ins-9.jpg" alt="insta"></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                                <!-- Instagram ends -->
-                                                <div class="footer-upper pb-4">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 pe-4">
-                                                                <div class="footer-about">
-                                                                    <img src="${pageContext.request.contextPath}/UI/images/logo-white.png" alt="">
-                                                                        <p class="mt-3 mb-3 white">
-                                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.
-                                                                        </p>
-                                                                        <ul>
-                                                                            <li class="white"><strong>PO Box:</strong> +47-252-254-2542</li>
-                                                                            <li class="white"><strong>Location:</strong> Collins Street, sydney, Australia</li>
-                                                                            <li class="white"><strong>Email:</strong> info@Travelin.com</li>
-                                                                            <li class="white"><strong>Website:</strong> www.Travelin.com</li>
+                                                        <section class="breadcumb-section">
+                                                            <div class="tf-container">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 center z-index1">
+                                                                        <h1 class="title">Quên Mật khẩu</h1>
+                                                                        <ul class="breadcumb-list flex-five">
+                                                                            <li><a href="/FB_N1/home">Trang chủ</a></li>
+                                                                            <li><span>Xác minh tài khoản</span></li>
                                                                         </ul>
+                                                                        <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </section>
+
+                                                        <section class="login">
+                                                            <div class="tf-container">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="login-wrap flex">
+                                                                            <div class="image">
+                                                                                <img src="./assets/images/page/sign-up.jpg" alt="image">
+                                                                            </div>
+                                                                            <div class="content">
+                                                                                <div class="inner-header-login">
+                                                                                    <h2 class="title">Quên Mật Khẩu?</h2>
+
+                                                                                </div>
+                                                                                <form action="${pageContext.request.contextPath}/requestPassword" method="POST" id="rPassword" class="login-user">
+                                                                                    <!-- Email -->
+                                                                                    <div class="col-cd-12">
+                                                                                        <div class="input-wrap">
+                                                                                            <label>Email</label>
+                                                                                            <input type="email" name="email" placeholder="name@example.com" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- Xác nhận điều khoản -->
+                                                                                    <div class="col-lg-12 mb-30">
+                                                                                        <div class="checkbox">
+                                                                                            <input id="check-policy" type="checkbox" name="check" value="check" required>
+                                                                                                <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <!-- Nút gửi -->
+                                                                                    <div class="col-lg-12 mb-30">
+                                                                                        <button type="submit" class="btn-submit">Gửi</button>
+                                                                                    </div>
+                                                                                    <c:if test="${not empty mess}">
+                                                                                        <p class="text-danger text-center">${mess}</p>
+                                                                                    </c:if>
+                                                                            </div>
+                                                                            </form>
+
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-2 col-md-6 col-sm-12 mb-4">
-                                                                <div class="footer-links">
-                                                                    <h3 class="white">Quick link</h3>
-                                                                    <ul>
-                                                                        <li><a href="about-us.html">About Us</a></li>
-                                                                        <li><a href="about-us.html">Delivery Information</a></li>
-                                                                        <li><a href="about-us.html">Privacy Policy</a></li>
-                                                                        <li><a href="about-us.html">Terms &amp; Conditions</a></li>
-                                                                        <li><a href="about-us.html">Customer Service</a></li>
-                                                                        <li><a href="#about-us.html">Return Policy</a></li>
-                                                                    </ul>
-                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-2 col-md-6 col-sm-12 mb-4">
-                                                                <div class="footer-links">
-                                                                    <h3 class="white">Categories</h3>
-                                                                    <ul>
-                                                                        <li><a href="about-us.html">Travel</a></li>
-                                                                        <li><a href="about-us.html">Technology</a></li>
-                                                                        <li><a href="about-us.html">Lifestyle</a></li>
-                                                                        <li><a href="about-us.html">Destinations</a></li>
-                                                                        <li><a href="about-us.html">Entertainment</a></li>
-                                                                        <li><a href="about-us.html">Business</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                                                <div class="footer-links">
-                                                                    <h3 class="white">Newsletter</h3>
-                                                                    <div class="newsletter-form ">
-                                                                        <p class="mb-3">Jin our community of over 200,000 global readers who receives emails filled with news, promotions, and other good stuff.</p>
-                                                                        <form action="#" method="get" accept-charset="utf-8" class="border-0 d-flex align-items-center">
-                                                                            <input type="text" placeholder="Email Address">
-                                                                                <button class="nir-btn ms-2">Subscribe</button>
-                                                                        </form>
-                                                                    </div> 
-                                                                </div>  
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                        </section>
+
+
+                                                    </main>
+
+                                                    <jsp:include page="footer.jsp" />
+
+                                                    <!-- Bottom -->
                                                 </div>
-
-                                                <div class="footer-payment">
-                                                    <div class="container">
-                                                        <div class="row footer-pay align-items-center justify-content-between text-lg-start text-center">
-                                                            <div class="col-lg-8 footer-payment-nav mb-4">
-                                                                <ul class="">
-                                                                    <li class="me-2">We Support:</li>
-                                                                    <li class="me-2"><i class="fab fa-cc-mastercard fs-4"></i></li>
-                                                                    <li class="me-2"><i class="fab fa-cc-paypal fs-4"></i></li>
-                                                                    <li class="me-2"><i class="fab fa-cc-stripe fs-4"></i></li>
-                                                                    <li class="me-2"><i class="fab fa-cc-visa fs-4"></i></li>
-                                                                    <li class="me-2"><i class="fab fa-cc-discover fs-4"></i></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-lg-4 footer-payment-nav mb-4">
-                                                                <ul class="d-flex align-items-center">
-                                                                    <li class="me-2 w-75">
-                                                                        <select class="niceSelect rounded">
-                                                                            <option>English</option>
-                                                                            <option>Chinese</option>                                
-                                                                            <option>Russian</option>
-                                                                            <option>Japanese</option>
-                                                                            <option>Korean</option>
-                                                                        </select>
-                                                                    </li>
-                                                                    <li class="w-25">
-                                                                        <select class="niceSelect rounded">
-                                                                            <option>$ USD</option>
-                                                                            <option>$ AUD</option>
-                                                                            <option>$ YEN</option>
-                                                                            <option>$ IN</option>
-                                                                            <option>$ NP</option>
-                                                                        </select>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-
-                                                <div class="footer-copyright">
-                                                    <div class="container">
-                                                        <div class="copyright-inner rounded p-3 d-md-flex align-items-center justify-content-between">
-                                                            <div class="copyright-text">
-                                                                <p class="m-0 white">2022 Travelin. All rights reserved.</p>
-                                                            </div>
-                                                            <div class="social-links">
-                                                                <ul>  
-                                                                    <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                                                    <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                                                    <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                                                                    <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                                <div id="particles-js"></div>
-                                            </footer>
-                                            <!-- footer ends -->
-
-                                            <!-- Back to top start -->
-                                            <div id="back-to-top">
-                                                <a href="#"></a>
-                                            </div>
-                                            <!-- Back to top ends -->
-
-                                            <!-- search popup -->
-                                            <div id="search1">
-                                                <button type="button" class="close">×</button>
-                                                <form>
-                                                    <input type="search" value="" placeholder="type keyword(s) here" />
-                                                    <button type="submit" class="btn btn-primary">Search</button>
-                                                </form>
+                                                <!-- /#page -->
                                             </div>
 
+                                            <!-- Modal Popup Bid -->
 
+                                            <a id="scroll-top" class="button-go"></a>
 
+                                            <!-- Javascript -->
+                                            <script src="app/js/jquery.min.js"></script>
+                                            <script src="app/js/jquery.nice-select.min.js"></script>
+                                            <script src="app/js/bootstrap.min.js"></script>
+                                            <script src="app/js/swiper-bundle.min.js"></script>
+                                            <script src="app/js/swiper.js"></script>
+                                            <script src="app/js/plugin.js"></script>
+                                            <script src="app/js/jquery.fancybox.js"></script>
+                                            <script src="app/js/shortcodes.js"></script>
+                                            <script src="app/js/main.js"></script>
+                            
+                                        </body>
 
-                                            <!-- *Scripts* -->
-                                            <script>
-                                                function submitUpdate() {
-                                                    const form = document.getElementById('contactform3');
-                                                    form.submit();
-                                                }
-                                            </script>
+                                        </html>
 
-                                            <script src="${pageContext.request.contextPath}/UI/js/jquery-3.5.1.min.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/bootstrap.min.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/particles.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/particlerun.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/plugin.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/main.js"></script>
-                                            <script src="${pageContext.request.contextPath}/UI/js/custom-nav.js"></script>
-                                            <script>
-                                                function submitUpdate() {
-                                                    const form = document.getElementById('contactform3');
-                                                    form.submit();
-                                                }
-                                            </script>
-
-                                            </body>
-                                            </html>
+                                            
