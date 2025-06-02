@@ -28,6 +28,21 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    // check mật khẩu
+    public boolean isSamePassword(int accountId, String newPassword) {
+        Account acc = getAccountById(accountId);
+        if (acc == null) {
+            return false;
+        }
+        return acc.getPassword().equals(newPassword);
+    }
+
+    public boolean isStrongPassword(String password) {
+        // Regex: ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt
+        String check = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!()_\\-{}\\[\\]:;\"'<>,.?/~`|\\\\]).{8,}$";
+        return password != null && password.matches(check);
+    }
+
     public Account getAccountById(int accountId) {
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
         try {
@@ -35,7 +50,8 @@ public class AccountDAO extends DBContext {
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getString(6));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -231,10 +247,14 @@ public class AccountDAO extends DBContext {
             }
         } finally {
             try {
-                if (generatedKeys != null) generatedKeys.close();
-                if (psAccount != null) psAccount.close();
-                if (psProfile != null) psProfile.close();
-                if (psToken != null) psToken.close();
+                if (generatedKeys != null)
+                    generatedKeys.close();
+                if (psAccount != null)
+                    psAccount.close();
+                if (psProfile != null)
+                    psProfile.close();
+                if (psToken != null)
+                    psToken.close();
                 connection.setAutoCommit(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -270,20 +290,6 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean checkLogin(String userName, String passWord) {
-        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ? AND password = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, userName);
-            st.setString(2, passWord);
-            ResultSet rs = st.executeQuery();
-            return rs.next();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
-
     public int getAccountIDbyUsername(String username) {
         String sql = "SELECT account_id FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
@@ -299,6 +305,20 @@ public class AccountDAO extends DBContext {
         return 0;
     }
 
+    public boolean checkLogin(String userName, String passWord) {
+        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ? AND password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
     // New methods for Google Sign-In
     public boolean checkGoogleIdExists(String googleId) {
         String sql = "SELECT 1 FROM GoogleAuth WHERE google_id = ?";
@@ -312,7 +332,8 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean addGoogleAccount(String googleId, String email, String name, String accessToken, String refreshToken, long expiresIn) {
+    public boolean addGoogleAccount(String googleId, String email, String name, String accessToken, String refreshToken,
+            long expiresIn) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name) VALUES (?, ?, ?, ?)";
         String insertGoogleAuthSQL = "INSERT INTO GoogleAuth (account_id, google_id, access_token, refresh_token, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)";
@@ -328,7 +349,8 @@ public class AccountDAO extends DBContext {
             // Generate a unique username based on email
             String username = email.split("@")[0] + "_" + System.currentTimeMillis();
             String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String expiresAt = LocalDateTime.now().plusSeconds(expiresIn).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String expiresAt = LocalDateTime.now().plusSeconds(expiresIn)
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             // Insert into Account
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -384,10 +406,14 @@ public class AccountDAO extends DBContext {
             return false;
         } finally {
             try {
-                if (generatedKeys != null) generatedKeys.close();
-                if (psAccount != null) psAccount.close();
-                if (psProfile != null) psProfile.close();
-                if (psGoogleAuth != null) psGoogleAuth.close();
+                if (generatedKeys != null)
+                    generatedKeys.close();
+                if (psAccount != null)
+                    psAccount.close();
+                if (psProfile != null)
+                    psProfile.close();
+                if (psGoogleAuth != null)
+                    psGoogleAuth.close();
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();

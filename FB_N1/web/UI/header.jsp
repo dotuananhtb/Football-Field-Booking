@@ -1,5 +1,4 @@
-<%-- 
-    Document   : header
+<%--
     Created on : May 30, 2025, 8:15:12 AM
     Author     : Đỗ Tuấn Anh
 --%>
@@ -29,7 +28,7 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="/FB_N1/home">
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
@@ -276,4 +275,3 @@
 
 </header>
 <!-- End Main Header -->
-
