@@ -28,7 +28,7 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="/FB_N1/home">
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
