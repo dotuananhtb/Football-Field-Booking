@@ -31,7 +31,20 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    //lấy email
+    //check mật khẩu
+    public boolean isSamePassword(int accountId, String newPassword) {
+        Account acc = getAccountById(accountId);
+        if (acc == null) {
+            return false;
+        }
+        return acc.getPassword().equals(newPassword);
+    }
+    public boolean isStrongPassword(String password) {
+        // Regex: ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt
+        String check = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!()_\\-{}\\[\\]:;\"'<>,.?/~`|\\\\]).{8,}$";
+        return password != null && password.matches(check);
+    }
+
     public Account getAccountById(int accountId) {
         String sql = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
@@ -365,7 +378,6 @@ public class AccountDAO extends DBContext {
         return check;
 
     }
-
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();

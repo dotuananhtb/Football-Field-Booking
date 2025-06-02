@@ -169,7 +169,9 @@
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
                                                                                                 <label>Nhập lại mật khẩu</label>
-                                                                                                <input type="password" name="password_confirm" placeholder="Nhập lại mật khẩu*" required>
+                                                                                                <input type="password" name="password_confirm" placeholder="Nhập lại mật khẩu*"
+                                                                                                       pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt"required>
                                                                                             </div>
                                                                                         </div>
 

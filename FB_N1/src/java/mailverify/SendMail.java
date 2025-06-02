@@ -6,7 +6,7 @@ package mailverify;
 
 /**
  *
- * @author Đỗ Tuấn Anh
+ * @author Admin
  */
 import java.util.Properties;
 import jakarta.mail.Message;
