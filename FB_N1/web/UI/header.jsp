@@ -29,7 +29,7 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-                                    <a href="trang-chu.jsp">
+                                    <a href="home">
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
