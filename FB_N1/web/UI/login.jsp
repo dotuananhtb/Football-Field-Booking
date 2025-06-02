@@ -86,7 +86,7 @@
                                                                                                 <div class="col-md-12">
                                                                                                     <div class="input-wrap">
                                                                                                         <label>Name</label>
-                                                                                                        <input type="text" id ="username" name="username"  placeholder="Enter your username*" autofocus>
+                                                                                                        <input type="text" id ="username" name="username"   placeholder="Enter your username*" autofocus> 
                                                                                                     </div>
 
                                                                                                 </div>
@@ -104,8 +104,11 @@
 
                                                                                                     <div id="loginError" class="text-danger mb-2" style="font-size: 14px;">
                                                                                                     </div>
-                                                                                                    <div id="loginError2" class="text-danger mb-2" style="font-size: 14px;">
-                                                                                                    </div>
+                                                                                                     <c:if test="${error != null}">
+                                                                                                        <div   class="text-danger mb-2" style="font-size: 14px;"> ${error} 
+                                                                                                        </div>
+                                                                                                    </c:if>
+
                                                                                                     <div class="form-group mb-2">
 
                                                                                                         <input type="checkbox" name="remember" class="custom-control-input" id="rememberCheck">
@@ -129,7 +132,7 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-30">
-                                                                                                        <button type="submit " id="btndangnhap" onclick="checkLogin()" class="btn-submit">Sign in</button>
+                                                                                                        <button type="submit " name ="submit_Btn" id="btndangnhap" onclick="checkLogin()" class="btn-submit">Sign in</button>
                                                                                                     </div>
 
                                                                                                     <div class="col-md-12">
@@ -271,19 +274,16 @@
 
 
                                                         <script>
-                                                            
+
                                                             document.addEventListener("DOMContentLoaded", () => {
                                                                 const form = document.getElementById("login");
                                                                 const errorDiv = document.getElementById("loginError");
-                                                                const errorDiv2 = document.getElementById("loginError2");
+
                                                                 const usernameInput = document.getElementById("username");
                                                                 const passwordInput = document.getElementById("password");
 
-                                                        <c:if test="${not empty error}">
-                                                                if (errorDiv2) {
-                                                                    errorDiv2.textContent = "${fn:escapeXml(error)}";
-                                                                }
-                                                        </c:if>
+                                                          
+
 
 
 
@@ -310,19 +310,19 @@
                                                                     mk.type = (mk.type === "password") ? "text" : "password";
                                                                 }
                                                             }
-                                                    </script>
+                                                                </script>
 
 
-                                                    <script src="app/js/jquery.min.js"></script>
-                                                    <script src="app/js/jquery.nice-select.min.js"></script>
-                                                    <script src="app/js/bootstrap.min.js"></script>
-                                                    <script src="app/js/swiper-bundle.min.js"></script>
-                                                    <script src="app/js/swiper.js"></script>
-                                                    <script src="app/js/plugin.js"></script>
-                                                    <script src="app/js/jquery.fancybox.js"></script>
-                                                    <script src="app/js/shortcodes.js"></script>
-                                                    <script src="app/js/main.js"></script>
+                                                                <script src="app/js/jquery.min.js"></script>
+                                                                <script src="app/js/jquery.nice-select.min.js"></script>
+                                                                <script src="app/js/bootstrap.min.js"></script>
+                                                                <script src="app/js/swiper-bundle.min.js"></script>
+                                                                <script src="app/js/swiper.js"></script>
+                                                                <script src="app/js/plugin.js"></script>
+                                                                <script src="app/js/jquery.fancybox.js"></script>
+                                                                <script src="app/js/shortcodes.js"></script>
+                                                                <script src="app/js/main.js"></script>
 
-                                                </body>
+                                                                </body>
 
-                                                </html>
+                                                                </html>

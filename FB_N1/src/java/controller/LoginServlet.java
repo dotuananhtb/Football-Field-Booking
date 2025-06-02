@@ -36,14 +36,27 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember"); // null nếu không check
+       ; // null nếu không check
+        String submit = request.getParameter("submit_Btn");
 
-        AccountDAO dao = new AccountDAO();
+       
+        
+        if(submit ==null){
+            request.getRequestDispatcher("UI/login.jsp").forward(request, response);
+        }else{
+             String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String remember = request.getParameter("remember");
+         AccountDAO dao = new AccountDAO();
         boolean isSuccess = dao.checkLogin(username, password);
-        if (isSuccess) {
+        int a = dao.getRoleIDbyAccount(username, password);
+        int b = dao.getStatusIDbyAccount(username, password);
+            
+        
+        if (isSuccess && b == 1) {
             session.setAttribute("username", username);
+            session.setAttribute("roleID", a);
+            session.setAttribute("statusID", b);
 
             if ("on".equals(remember)) {
                 Cookie userCookie = new Cookie("username", username);
@@ -62,14 +75,13 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(passCookie);
                 response.addCookie(rememberCookie);
 
-            } else {
-//                    session.setAttribute("password", password);
-//                    session.setAttribute("remember", remember);
+            } else {    
 
-                Cookie userCookie = new Cookie("username", "");
-                Cookie passCookie = new Cookie("password", "");
-                Cookie rememberCookie = new Cookie("remember", "");
 
+                Cookie userCookie = new Cookie("username", username);
+                Cookie passCookie = new Cookie("password", password);
+                Cookie rememberCookie = new Cookie("remember", "true");
+                
                 userCookie.setMaxAge(0);
                 passCookie.setMaxAge(0);
                 rememberCookie.setMaxAge(0);
@@ -84,12 +96,19 @@ public class LoginServlet extends HttpServlet {
             }
             response.sendRedirect("home");
 
-        } else {
-            
-            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
+        }else if(isSuccess && b == 2){
+            request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
+        }
+        else if(isSuccess && b == 3){
+           request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
+        }
+        else {
+            String errorMess =" Tên đăng nhập hoặc mật khẩu không đúng.";
+            request.setAttribute("error", errorMess);
             request.getRequestDispatcher("UI/login.jsp").forward(request, response);
             
-
+            
+        }
         }
     }
 
