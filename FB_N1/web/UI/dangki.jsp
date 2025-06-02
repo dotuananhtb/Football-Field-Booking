@@ -190,7 +190,7 @@
                                                                                         <div class="col-md-12">
                                                                                             <div class="flex-three">
                                                                                                 <span class="account">Bạn đã có tài khoản?</span>
-                                                                                                <a href="login.html" class="link-login">Đăng nhập</a>
+                                                                                                <a href="login.jsp" class="link-login">Đăng nhập</a>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
