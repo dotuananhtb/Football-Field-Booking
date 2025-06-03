@@ -14,7 +14,7 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import dao.AccountDAO; // Import AccountDAO
+import dao.AccountDAO;
 import jakarta.servlet.http.Cookie;
 
 @WebServlet("/googleRegister")
@@ -24,7 +24,6 @@ public class GoogleRegisterServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Khởi tạo AccountDAO (giả sử AccountDAO tự quản lý kết nối DB)
         accountDAO = new AccountDAO();
     }
 
