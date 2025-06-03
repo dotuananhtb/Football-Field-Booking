@@ -119,14 +119,14 @@
                                                                                                         <div class="input-wrap-social ">
                                                                                                             <span class="or">or</span>
                                                                                                             <div class="flex-three">
-                                                                                                                <a href="#" class="login-social flex-three">
+                                                                                                                <a href="/FB_N1/google-auth" class="login-social flex-three">
                                                                                                                     <img src="./assets/images/page/gg.png" alt="image">
-                                                                                                                        <span>Sign in with Google</span>
+                                                                                                                        <span>Đăng nhập bằng Google</span>
                                                                                                                 </a>
-                                                                                                               
+
                                                                                                             </div>
-                                                                                                        <br>
-                                                                                                             <div class="g-recaptcha" data-sitekey="6LcquVMrAAAAAIJw3WB_NnA7uH2XN9_DLg_-Ygxj"></div>
+                                                                                                            <br>
+                                                                                                                <div class="g-recaptcha" data-sitekey="6LcquVMrAAAAAIJw3WB_NnA7uH2XN9_DLg_-Ygxj"></div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-30">
@@ -269,46 +269,46 @@
                                                     </div>
 
                                                     <!-- Javascript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
                                                     <script>
 
-                                                        document.addEventListener("DOMContentLoaded", () => {
-                                                            const form = document.getElementById("login");
-                                                            const errorDiv = document.getElementById("loginError");
+                                                                                                            document.addEventListener("DOMContentLoaded", () => {
+                                                                                                                const form = document.getElementById("login");
+                                                                                                                const errorDiv = document.getElementById("loginError");
 
-                                                            const usernameInput = document.getElementById("username");
-                                                            const passwordInput = document.getElementById("password");
-
-
+                                                                                                                const usernameInput = document.getElementById("username");
+                                                                                                                const passwordInput = document.getElementById("password");
 
 
 
 
 
-                                                            // Kiểm tra form phía client
-                                                            if (form) {
-                                                                form.addEventListener("submit", function (event) {
-                                                                    const username = usernameInput.value.trim();
-                                                                    const password = passwordInput.value.trim();
-
-                                                                    if (!username || !password) {
-                                                                        event.preventDefault();
-                                                                        errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
 
 
-                                                        // Ẩn/hiện mật khẩu
-                                                        function daoTT() {
-                                                            const mk = document.getElementById("password");
-                                                            if (mk) {
-                                                                mk.type = (mk.type === "password") ? "text" : "password";
-                                                            }
-                                                        }
+                                                                                                                // Kiểm tra form phía client
+                                                                                                                if (form) {
+                                                                                                                    form.addEventListener("submit", function (event) {
+                                                                                                                        const username = usernameInput.value.trim();
+                                                                                                                        const password = passwordInput.value.trim();
+
+                                                                                                                        if (!username || !password) {
+                                                                                                                            event.preventDefault();
+                                                                                                                            errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                }
+                                                                                                            });
+
+
+                                                                                                            // Ẩn/hiện mật khẩu
+                                                                                                            function daoTT() {
+                                                                                                                const mk = document.getElementById("password");
+                                                                                                                if (mk) {
+                                                                                                                    mk.type = (mk.type === "password") ? "text" : "password";
+                                                                                                                }
+                                                                                                            }
                                                     </script>
 
 

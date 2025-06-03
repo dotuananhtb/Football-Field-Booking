@@ -192,16 +192,25 @@
                                                                                         <div class="col-md-12">
                                                                                             <div class="flex-three">
                                                                                                 <span class="account">Bạn đã có tài khoản?</span>
-                                                                                                <a href="login.jsp" class="link-login">Đăng nhập</a>
+                                                                                                <a href="/FB_N1/login" class="link-login">Đăng nhập</a>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </form>
 
-                                                                                <a href="google-auth" class="login-social flex-three">
-                                                                                    <img src="./assets/images/page/gg.png" alt="image">
-                                                                                        <span>Sign in with Google</span>
-                                                                                </a>
+                                                                                <div class="col-lg-12 mb-40">
+                                                                                    <div class="input-wrap-social ">
+                                                                                        <span class="or">or</span>
+                                                                                        <div class="flex-three">
+                                                                                            <a href="/FB_N1/google-auth" class="login-social flex-three">
+                                                                                                <img src="./assets/images/page/gg.png" alt="image">
+                                                                                                    <span>Đăng kí bằng Google</span>
+                                                                                            </a>
+
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
 
                                                                                 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
                                                                                 <script src="app/js/validateRegister.js"></script>
