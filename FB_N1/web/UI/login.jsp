@@ -113,7 +113,7 @@
 
                                                                                                         <input type="checkbox" name="remember" class="custom-control-input" id="rememberCheck">
                                                                                                             <label class="custom-control-label mb-0" for="rememberCheck">Nhớ Mật Khẩu</label>
-                                                                                                            <a href="#"  class="mb-15 float-end">Forgot Password?</a>
+                                                                                                            <a href="${pageContext.request.contextPath}/requestPassword"  class="mb-15 float-end">Forgot Password?</a>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-40">
                                                                                                         <div class="input-wrap-social ">
