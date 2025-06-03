@@ -247,14 +247,18 @@ public class AccountDAO extends DBContext {
             }
         } finally {
             try {
-                if (generatedKeys != null)
+                if (generatedKeys != null) {
                     generatedKeys.close();
-                if (psAccount != null)
+                }
+                if (psAccount != null) {
                     psAccount.close();
-                if (psProfile != null)
+                }
+                if (psProfile != null) {
                     psProfile.close();
-                if (psToken != null)
+                }
+                if (psToken != null) {
                     psToken.close();
+                }
                 connection.setAutoCommit(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -320,22 +324,41 @@ public class AccountDAO extends DBContext {
     }
 
     // New methods for Google Sign-In
-    public boolean checkGoogleIdExists(String googleId) {
-        String sql = "SELECT 1 FROM GoogleAuth WHERE google_id = ?";
+    public int getStatusByEmail(String email) throws SQLException {
+        String sql = "SELECT status_id FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, googleId);
+            ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            if (rs.next()) {
+                return rs.getInt("status_id");
+            }
         }
-        return false;
+        return -1; // Trả về -1 nếu email không tồn tại
     }
 
-    public boolean addGoogleAccount(String googleId, String email, String name, String accessToken, String refreshToken,
-            long expiresIn) {
+    public Account getAccountByEmail(String email) throws SQLException {
+        String sql = "SELECT account_id, status_id, username, password, email, created_at FROM Account WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Account account = new Account();
+                account.setAccountId(rs.getInt("account_id"));
+                account.setStatusId(rs.getInt("status_id"));
+                account.setUsername(rs.getString("username"));
+                account.setPassword(rs.getString("password"));
+                account.setEmail(rs.getString("email"));
+                account.setCreatedAt(rs.getTimestamp("created_at").toString());
+                return account;
+            }
+        }
+        return null; // Trả về null nếu không tìm thấy
+    }
+
+    public boolean addGoogleAccount(String googleId, String email, String firstName, String lastName, String avatar, String accessToken) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
-        String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name) VALUES (?, ?, ?, ?)";
+        String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertGoogleAuthSQL = "INSERT INTO GoogleAuth (account_id, google_id, access_token, refresh_token, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)";
 
         PreparedStatement psAccount = null;
@@ -346,18 +369,13 @@ public class AccountDAO extends DBContext {
         try {
             connection.setAutoCommit(false);
 
-            // Generate a unique username based on email
-            String username = email.split("@")[0] + "_" + System.currentTimeMillis();
-            String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String expiresAt = LocalDateTime.now().plusSeconds(expiresIn)
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-            // Insert into Account
+            // Thêm vào bảng Account
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
-            psAccount.setInt(1, 1); // status_id = 1 (Hoạt động)
-            psAccount.setString(2, username);
-            psAccount.setString(3, ""); // No password for Google accounts
+            psAccount.setInt(1, 1); // status_id = 1
+            psAccount.setString(2, googleId + "gg"); // username = googleId + "gg"
+            psAccount.setString(3, googleId + "pw"); // password = googleId + "pw"
             psAccount.setString(4, email);
+            String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             psAccount.setString(5, createdAt);
             int affectedRows = psAccount.executeUpdate();
 
@@ -375,21 +393,26 @@ public class AccountDAO extends DBContext {
                 return false;
             }
 
-            // Insert into UserProfile
+            // Thêm vào bảng UserProfile
             psProfile = connection.prepareStatement(insertProfileSQL);
             psProfile.setInt(1, accountId);
-            psProfile.setInt(2, 3); // role_id = 3 (USER)
-            psProfile.setString(3, name);
-            psProfile.setString(4, "");
+            psProfile.setInt(2, 3); // role_id mặc định là 3
+            psProfile.setString(3, firstName);
+            psProfile.setString(4, lastName);
+            psProfile.setString(5, null); // address (còn trống)
+            psProfile.setString(6, null); // gender (còn trống)
+            psProfile.setString(7, null); // dob (còn trống)
+            psProfile.setString(8, null); // phone (còn trống)
+            psProfile.setString(9, avatar);
             psProfile.executeUpdate();
 
-            // Insert into GoogleAuth
+            // Thêm vào bảng GoogleAuth
             psGoogleAuth = connection.prepareStatement(insertGoogleAuthSQL);
             psGoogleAuth.setInt(1, accountId);
             psGoogleAuth.setString(2, googleId);
             psGoogleAuth.setString(3, accessToken);
-            psGoogleAuth.setString(4, refreshToken != null ? refreshToken : "");
-            psGoogleAuth.setString(5, expiresAt);
+            psGoogleAuth.setString(4, null); // refresh_token (còn trống, cần lấy từ token response)
+            psGoogleAuth.setTimestamp(5, null); // expires_at (còn trống, cần lấy từ token response)
             psGoogleAuth.setString(6, createdAt);
             psGoogleAuth.executeUpdate();
 
@@ -403,36 +426,26 @@ public class AccountDAO extends DBContext {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-            return false;
         } finally {
             try {
-                if (generatedKeys != null)
+                if (generatedKeys != null) {
                     generatedKeys.close();
-                if (psAccount != null)
+                }
+                if (psAccount != null) {
                     psAccount.close();
-                if (psProfile != null)
+                }
+                if (psProfile != null) {
                     psProfile.close();
-                if (psGoogleAuth != null)
+                }
+                if (psGoogleAuth != null) {
                     psGoogleAuth.close();
+                }
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public Integer getAccountIdByGoogleId(String googleId) {
-        String sql = "SELECT account_id FROM GoogleAuth WHERE google_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, googleId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("account_id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return false;
     }
 
     public int getRoleIDbyAccount(String username, String password) {

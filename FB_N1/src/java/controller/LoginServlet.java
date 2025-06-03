@@ -35,80 +35,72 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
-
-       ; // null nếu không check
+        ; // null nếu không check
         String submit = request.getParameter("submit_Btn");
 
-       
-        
-        if(submit ==null){
+        if (submit == null) {
             request.getRequestDispatcher("UI/login.jsp").forward(request, response);
-        }else{
-             String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-         AccountDAO dao = new AccountDAO();
-        boolean isSuccess = dao.checkLogin(username, password);
-        int a = dao.getRoleIDbyAccount(username, password);
-        int b = dao.getStatusIDbyAccount(username, password);
-            
-        
-        if (isSuccess && b == 1) {
-            session.setAttribute("username", username);
-            session.setAttribute("roleID", a);
-            session.setAttribute("statusID", b);
+        } else {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String remember = request.getParameter("remember");
+            AccountDAO dao = new AccountDAO();
+            boolean isSuccess = dao.checkLogin(username, password);
+            int a = dao.getRoleIDbyAccount(username, password);
+            int b = dao.getStatusIDbyAccount(username, password);
 
-            if ("on".equals(remember)) {
-                Cookie userCookie = new Cookie("username", username);
-                Cookie passCookie = new Cookie("password", password);
-                Cookie rememberCookie = new Cookie("remember", "true");
+            if (isSuccess && b == 1) {
+                session.setAttribute("username", username);
+                session.setAttribute("roleID", a);
+                session.setAttribute("statusID", b);
 
-                userCookie.setMaxAge(7 * 24 * 60 * 60);
-                passCookie.setMaxAge(7 * 24 * 60 * 60);
-                rememberCookie.setMaxAge(7 * 24 * 60 * 60);
+                if ("on".equals(remember)) {
+                    Cookie userCookie = new Cookie("username", username);
+                    Cookie passCookie = new Cookie("password", password);
+                    Cookie rememberCookie = new Cookie("remember", "true");
 
-                userCookie.setPath("/");
-                passCookie.setPath("/");
-                rememberCookie.setPath("/");
+                    userCookie.setMaxAge(7 * 24 * 60 * 60);
+                    passCookie.setMaxAge(7 * 24 * 60 * 60);
+                    rememberCookie.setMaxAge(7 * 24 * 60 * 60);
 
-                response.addCookie(userCookie);
-                response.addCookie(passCookie);
-                response.addCookie(rememberCookie);
+                    userCookie.setPath("/");
+                    passCookie.setPath("/");
+                    rememberCookie.setPath("/");
 
-            } else {    
+                    response.addCookie(userCookie);
+                    response.addCookie(passCookie);
+                    response.addCookie(rememberCookie);
 
+                } else {
 
-                Cookie userCookie = new Cookie("username", username);
-                Cookie passCookie = new Cookie("password", password);
-                Cookie rememberCookie = new Cookie("remember", "true");
-                
-                userCookie.setMaxAge(0);
-                passCookie.setMaxAge(0);
-                rememberCookie.setMaxAge(0);
+                    Cookie userCookie = new Cookie("username", username);
+                    Cookie passCookie = new Cookie("password", password);
+                    Cookie rememberCookie = new Cookie("remember", "true");
 
-                userCookie.setPath("/");
-                passCookie.setPath("/");
-                rememberCookie.setPath("/");
+                    userCookie.setMaxAge(0);
+                    passCookie.setMaxAge(0);
+                    rememberCookie.setMaxAge(0);
 
-                response.addCookie(userCookie);
-                response.addCookie(passCookie);
-                response.addCookie(rememberCookie);
+                    userCookie.setPath("/");
+                    passCookie.setPath("/");
+                    rememberCookie.setPath("/");
+
+                    response.addCookie(userCookie);
+                    response.addCookie(passCookie);
+                    response.addCookie(rememberCookie);
+                }
+                response.sendRedirect("home");
+
+            } else if (isSuccess && b == 2) {
+                request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
+            } else if (isSuccess && b == 3) {
+                request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
+            } else {
+                String errorMess = " Tên đăng nhập hoặc mật khẩu không đúng.";
+                request.setAttribute("error", errorMess);
+                request.getRequestDispatcher("UI/login.jsp").forward(request, response);
+
             }
-            response.sendRedirect("home");
-
-        }else if(isSuccess && b == 2){
-            request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
-        }
-        else if(isSuccess && b == 3){
-           request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
-        }
-        else {
-            String errorMess =" Tên đăng nhập hoặc mật khẩu không đúng.";
-            request.setAttribute("error", errorMess);
-            request.getRequestDispatcher("UI/login.jsp").forward(request, response);
-            
-            
-        }
         }
     }
 
@@ -124,7 +116,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("UI/login.jsp").forward(request, response);
     }
 
     /**
