@@ -198,6 +198,10 @@
                                                                                     </div>
                                                                                 </form>
 
+                                                                                <a href="google-auth" class="login-social flex-three">
+                                                                                    <img src="./assets/images/page/gg.png" alt="image">
+                                                                                        <span>Sign in with Google</span>
+                                                                                </a>
 
                                                                                 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
                                                                                 <script src="app/js/validateRegister.js"></script>
