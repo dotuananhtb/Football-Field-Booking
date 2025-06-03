@@ -44,11 +44,11 @@
                                         <div id="pagee" class="clearfix">
 
 
-                                            
+                                            <jsp:include page="header_menu.jsp"></jsp:include>
 
                                             <div class="has-dashboard">
 
-                                                
+                                                <jsp:include page="header_userP.jsp"></jsp:include>
                                                 </header>-->
                                                 <!-- End Main Header -->
                                                 <main id="main">
