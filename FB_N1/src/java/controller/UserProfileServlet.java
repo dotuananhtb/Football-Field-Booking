@@ -49,7 +49,7 @@ public class UserProfileServlet extends HttpServlet {
            UserProfile uP = uPDAO.getProfileByAccountId(accountID_int);
            session.setAttribute("userProfile", uP);
            session.setAttribute("account",account);
-           response.sendRedirect("UI/UserDetail.jsp");
+           response.sendRedirect("UI/userProfile2.jsp");
         
     } 
 

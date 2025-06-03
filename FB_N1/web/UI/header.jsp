@@ -39,74 +39,43 @@
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
                                             <li class="dropdown2">
-                                                <a href="#">Home</a>
+                                                <a href="#">Cửa Hàng</a>
                                                 <ul>
-                                                    <li><a href="index.html">Home Page 01</a></li>
-                                                    <li><a href="home2.html">Home Page 02</a></li>
-                                                    <li><a href="home3.html">Home Page 03</a></li>
-                                                    <li><a href="home4.html">Home Page 04</a></li>
-                                                    <li><a href="home5.html">Home Page 05</a></li>
+                                                    <li><a href="index.html">Giày </a></li>
+                                                    <li><a href="home2.html">Quần Áo Thể Thao</a></li>
+                                                    <li><a href="home3.html">Dụng Cụ Thể Thao</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
                                             <li class="dropdown2">
-                                                <a href="#">Tour</a>
+                                                <a href="#">Danh Sách Sân</a>
                                                 <ul>
-                                                    <li><a href="archieve-tour.html">Archieve tour</a>
+                                                    <li><a href="archieve-tour.html">Hà Nội</a>
 
                                                     </li>
-                                                    <li><a href="tour-package-v2.html">Tour left sidebar</a>
+                                                    <li><a href="tour-package-v2.html">TP.Hồ Chí Minh</a>
 
                                                     </li>
-                                                    <li><a href="tour-package-v4.html">Tour package </a>
+                                                    <li><a href="tour-package-v4.html">Đà Nẵng</a>
 
                                                     </li>
-                                                    <li><a href="tour-single.html">Tour Single </a>
+                                                    <li><a href="tour-single.html">Hải Phòng</a>
 
                                                     </li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2"><a href="#">Destination</a>
+                                            
+                                            <li class="dropdown2 "><a href="#">Diễn Đàn</a>
                                                 <ul>
-                                                    <li><a href="tour-destination-v1.html">Destination
-                                                            V1</a></li>
-                                                    <li><a href="tour-destination-v2.html">Destination
-                                                            V2</a></li>
-                                                    <li><a href="tour-destination-v3.html">Destination
-                                                            V3</a></li>
-                                                    <li><a href="single-destination.html">Destination
-                                                            Single</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2 "><a href="#">Blog</a>
-                                                <ul>
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="blog-details.html">Blog Detail</a></li>
+                                                    <li><a href="blog.html">Diễn Đàn Tìm Đối Thủ</a></li>
+                                                    <li><a href="blog-details.html">Diễn Đàn Thông Tin Cầu Thủ</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
 
-                                            <li class="dropdown2"><a href="#">Pages</a>
-                                                <ul>
-                                                    <li><a href="about-us.html">About Us</a></li>
-                                                    <li><a href="team.html">Team member</a></li>
-                                                    <li><a href="gallery.html">Gallery</a></li>
-                                                    <li><a href="terms-condition.html">Terms &amp; Condition</a>
-                                                    </li>
-                                                    <li><a href="help-center.html">Help center</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2"><a href="#">Dashboard</a>
-                                                <ul>
-                                                    <li><a href="dashboard.html">Dashboard </a></li>
-                                                    <li><a href="my-booking.html">My booking</a></li>
-                                                    <li><a href="my-listing.html">My Listing</a></li>
-                                                    <li><a href="add-tour.html">Add Tour</a></li>
-                                                    <li><a href="my-favorite.html">My Favorites</a></li>
-                                                    <li><a href="my-profile.html">My profile</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
+                                            
+                                            
                                             <li><a href="contact-us.html">Liên Hệ</a></li>
-                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3}">
-                                            <li><a href="#" >Đặt Sân Ngay</a></li>
+                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.username == null}">
+                                            <li><a href="#" >Đặt Sân </a></li>
                                             </c:if>
                                             <c:if test="${sessionScope.roleID == 1}">
                                             <li><a href="#" >Doanh Thu</a></li>
@@ -118,7 +87,7 @@
                                 <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                 <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"></a>
                                     <ul>
-                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
+                                        <li><a href="/FB_N1/UI/userProfile2.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
                                         <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
                                         <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
                                         <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
