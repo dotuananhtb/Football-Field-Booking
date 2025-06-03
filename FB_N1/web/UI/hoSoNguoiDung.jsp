@@ -123,6 +123,8 @@
                                                                                 <label>Ngày sinh</label>
                                                                                 <input type="date" value="${u.getDob()}" name="dob" max="<?= date('Y-m-d') ?>" required>
                                                                             </div>
+                                                                            
+                                                                            
                                                                     </div>
                                                                 </div>
                                                             </div>
