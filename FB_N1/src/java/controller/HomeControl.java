@@ -5,16 +5,19 @@
 
 package controller;
 
-import dao.UserProfileDAO;
+import dao.FieldDAO;
+import dao.Zone_DAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.UserProfile;
+import java.util.List;
+import java.util.Vector;
+import model.Field;
+import model.Zone;
 
 /**
  *
@@ -33,15 +36,14 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        HttpSession session = request.getSession();
-//        int accountID = (Integer)request.getAttribute("username");
-//        if(accountID != null){       
-//           UserProfileDAO dao = new UserProfileDAO();
-//           UserProfile u = dao.getProfileByAccountId(accountID);
-//           request.setAttribute("user", u);
-//        }
-//        
+        FieldDAO dao = new  FieldDAO();
+        Zone_DAO Zdao= new Zone_DAO();
+        Vector<Field> list = dao.getAllField();
+        List<Zone> listZ = Zdao.getAllZone();
         
+        request.setAttribute("listF", list);
+        request.setAttribute("listZ", listZ);
+
          response.sendRedirect("UI/homePage.jsp");
     } 
 

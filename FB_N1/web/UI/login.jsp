@@ -104,7 +104,7 @@
 
                                                                                                     <div id="loginError" class="text-danger mb-2" style="font-size: 14px;">
                                                                                                     </div>
-                                                                                                     <c:if test="${error != null}">
+                                                                                                    <c:if test="${error != null}">
                                                                                                         <div   class="text-danger mb-2" style="font-size: 14px;"> ${error} 
                                                                                                         </div>
                                                                                                     </c:if>
@@ -123,12 +123,10 @@
                                                                                                                     <img src="./assets/images/page/gg.png" alt="image">
                                                                                                                         <span>Sign in with Google</span>
                                                                                                                 </a>
-                                                                                                                <a href="#" class="login-social flex-three">
-                                                                                                                    <img src="./assets/images/page/fb.png" alt="image">
-                                                                                                                        <span>Sign in with facebook</span>
-                                                                                                                </a>
+                                                                                                               
                                                                                                             </div>
-
+                                                                                                        <br>
+                                                                                                             <div class="g-recaptcha" data-sitekey="6LcquVMrAAAAAIJw3WB_NnA7uH2XN9_DLg_-Ygxj"></div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-30">
@@ -210,119 +208,120 @@
 
                                                             <jsp:include page ="footer.jsp"></jsp:include>
 
-                                                                <!-- Bottom -->
-                                                            </div>
-                                                            <!-- /#page -->
+                                                            <!-- Bottom -->
                                                         </div>
+                                                        <!-- /#page -->
+                                                    </div>
 
-                                                        <!-- Modal Popup Bid -->
+                                                    <!-- Modal Popup Bid -->
 
-                                                        <a id="scroll-top" class="button-go"></a>
+                                                    <a id="scroll-top" class="button-go"></a>
 
-                                                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                                                            <div class="offcanvas-header">
-                                                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="offcanvas-body">
-                                                                <div class="logo-canvas">
-                                                                    <img src="./assets/images/logo.png" alt="image">
-                                                                </div>
-                                                                <p class="des">The world’s first and largest digital market
-                                                                    for crypto collectibles and non-fungible
-                                                                </p>
-                                                                <ul class="canvas-info">
-                                                                    <li class="flex-three">
-                                                                        <i class="icon-noun-mail-5780740-1"></i>
-                                                                        <p>Info@webmail.com</p>
-                                                                    </li>
-                                                                    <li class="flex-three">
-                                                                        <i class="icon-Group-9"></i>
-                                                                        <p>684 555-0102 490</p>
-                                                                    </li>
-                                                                    <li class="flex-three">
-                                                                        <i class="icon-Layer-19"></i>
-                                                                        <p>6391 Elgin St. Celina, NYC 10299</p>
-                                                                    </li>
-                                                                </ul>
-                                                                <ul class="social flex-three">
-                                                                    <li>
-                                                                        <a href="#">
-                                                                            <i class="icon-icon-2"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">
-                                                                            <i class="icon-x"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">
-                                                                            <i class="icon-8"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">
-                                                                            <i class="icon-6"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-
-                                                            </div>
+                                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                                        <div class="offcanvas-header">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                                         </div>
+                                                        <div class="offcanvas-body">
+                                                            <div class="logo-canvas">
+                                                                <img src="./assets/images/logo.png" alt="image">
+                                                            </div>
+                                                            <p class="des">The world’s first and largest digital market
+                                                                for crypto collectibles and non-fungible
+                                                            </p>
+                                                            <ul class="canvas-info">
+                                                                <li class="flex-three">
+                                                                    <i class="icon-noun-mail-5780740-1"></i>
+                                                                    <p>Info@webmail.com</p>
+                                                                </li>
+                                                                <li class="flex-three">
+                                                                    <i class="icon-Group-9"></i>
+                                                                    <p>684 555-0102 490</p>
+                                                                </li>
+                                                                <li class="flex-three">
+                                                                    <i class="icon-Layer-19"></i>
+                                                                    <p>6391 Elgin St. Celina, NYC 10299</p>
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="social flex-three">
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <i class="icon-icon-2"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <i class="icon-x"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <i class="icon-8"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <i class="icon-6"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
 
-                                                        <!-- Javascript -->
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Javascript -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
-                                                        <script>
+                                                    <script>
 
-                                                            document.addEventListener("DOMContentLoaded", () => {
-                                                                const form = document.getElementById("login");
-                                                                const errorDiv = document.getElementById("loginError");
+                                                        document.addEventListener("DOMContentLoaded", () => {
+                                                            const form = document.getElementById("login");
+                                                            const errorDiv = document.getElementById("loginError");
 
-                                                                const usernameInput = document.getElementById("username");
-                                                                const passwordInput = document.getElementById("password");
-
-                                                          
+                                                            const usernameInput = document.getElementById("username");
+                                                            const passwordInput = document.getElementById("password");
 
 
 
 
 
-                                                                // Kiểm tra form phía client
-                                                                if (form) {
-                                                                    form.addEventListener("submit", function (event) {
-                                                                        const username = usernameInput.value.trim();
-                                                                        const password = passwordInput.value.trim();
-
-                                                                        if (!username || !password) {
-                                                                            event.preventDefault();
-                                                                            errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
 
 
-                                                            // Ẩn/hiện mật khẩu
-                                                            function daoTT() {
-                                                                const mk = document.getElementById("password");
-                                                                if (mk) {
-                                                                    mk.type = (mk.type === "password") ? "text" : "password";
-                                                                }
+                                                            // Kiểm tra form phía client
+                                                            if (form) {
+                                                                form.addEventListener("submit", function (event) {
+                                                                    const username = usernameInput.value.trim();
+                                                                    const password = passwordInput.value.trim();
+
+                                                                    if (!username || !password) {
+                                                                        event.preventDefault();
+                                                                        errorDiv.textContent = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+                                                                    }
+                                                                });
                                                             }
-                                                                </script>
+                                                        });
 
 
-                                                                <script src="app/js/jquery.min.js"></script>
-                                                                <script src="app/js/jquery.nice-select.min.js"></script>
-                                                                <script src="app/js/bootstrap.min.js"></script>
-                                                                <script src="app/js/swiper-bundle.min.js"></script>
-                                                                <script src="app/js/swiper.js"></script>
-                                                                <script src="app/js/plugin.js"></script>
-                                                                <script src="app/js/jquery.fancybox.js"></script>
-                                                                <script src="app/js/shortcodes.js"></script>
-                                                                <script src="app/js/main.js"></script>
+                                                        // Ẩn/hiện mật khẩu
+                                                        function daoTT() {
+                                                            const mk = document.getElementById("password");
+                                                            if (mk) {
+                                                                mk.type = (mk.type === "password") ? "text" : "password";
+                                                            }
+                                                        }
+                                                    </script>
 
-                                                                </body>
 
-                                                                </html>
+                                                    <script src="app/js/jquery.min.js"></script>
+                                                    <script src="app/js/jquery.nice-select.min.js"></script>
+                                                    <script src="app/js/bootstrap.min.js"></script>
+                                                    <script src="app/js/swiper-bundle.min.js"></script>
+                                                    <script src="app/js/swiper.js"></script>
+                                                    <script src="app/js/plugin.js"></script>
+                                                    <script src="app/js/jquery.fancybox.js"></script>
+                                                    <script src="app/js/shortcodes.js"></script>
+                                                    <script src="app/js/main.js"></script>
+
+                                                </body>
+
+                                                </html>
