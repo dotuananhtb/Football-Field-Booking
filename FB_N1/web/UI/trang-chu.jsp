@@ -191,12 +191,12 @@
                                                                                                 <i class="icon-13"></i>
                                                                                             </p>
                                                                                         </a>
-                                                                                        <c:if test="${not empty field}">
+<!--                                                                                        <c:if test="${not empty field}">
     <p>List rỗng hoặc chưa nhận được dữ liệu</p>
 </c:if>
                                                                                         <c:forEach items="${field}" var="i">
                                                                                             ${i.description}
-                                                                                        </c:forEach>    
+                                                                                        </c:forEach>    -->
                                                                                     </div>
 
                                                                                 </div>
