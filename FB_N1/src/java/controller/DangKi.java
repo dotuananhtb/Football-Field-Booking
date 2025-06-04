@@ -33,7 +33,7 @@ public class DangKi extends HttpServlet {
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String avatar = "assets/img/avatars/avatar_goc.jpg";
+        String avatar = "./assets/images/avata/avt123.jpeg";
         int statusId = 2;
         int roleId = 3;
 

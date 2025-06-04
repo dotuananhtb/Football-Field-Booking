@@ -85,7 +85,7 @@
                                             
                                               <c:if test="${sessionScope.username != null}">
                                 <c:set value="${sessionScope.userProfile}" var="u"></c:set>
-                                <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"></a>
+                                <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.username}</a>
                                     <ul>
                                         <li><a href="/FB_N1/UI/userProfile2.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
                                         <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
