@@ -80,7 +80,7 @@
                                                     
                                                     
                                                     <li><a href="#">Sở Thích Của Tôi</a></li>
-                                                    <li><a href="hoSoNguoiDung.jsp">Hồ sơ người dùng</a></li>
+                                                    <li><a href="/FB_N1/userProfile">Hồ sơ người dùng</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
                                             <li><a href="#">Liên hệ</a></li>
@@ -91,7 +91,7 @@
                                 <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                 <li class="dropdown2"><a href="#"> <img src="https://cdn-icons-png.freepik.com/512/3607/3607444.png" style="width: 30px; height: 30px; border-radius: 50%;"></a>
                                     <ul>
-                                        <li><a href="/FB_N1/UI/hoSoNguoiDung.jsp">User Profile</a></li>
+                                        <li><a href="/FB_N1/userProfile">User Profile</a></li>
                                         <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
                                                 <i class="icon-user"></i> Đăng Xuất
 

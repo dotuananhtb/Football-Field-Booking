@@ -36,7 +36,7 @@
                                                         id="navbarSupportedContent">
                                                         <ul class="navigation clearfix">
                                                             <li class="dropdown">
-                                                                <a href="#">Trang chủ</a>
+                                                                <a href="/FB_N1/home">Trang chủ</a>
                                                                 <ul>
                                                                     <li><a href="index.html">Home Page 01</a></li>
                                                                     <li><a href="home2.html">Home Page 02</a></li>
@@ -81,7 +81,7 @@
                                                                     <li><a href="my-booking.html">Đặt lịch</a></li>
                                                                     
                                                                     <li><a href="my-favorite.html">Yêu thích</a></li>
-                                                                    <li class="current"><a href="my-profile.html">Hồ sơ</a></li>
+                                                                    <li class="current"><a href="/FB_N1/userProfile">Hồ sơ</a></li>
                                                                 </ul>
                                                             </li>
                                                             <li><a href="contact-us.html">liên hệ</a></li>

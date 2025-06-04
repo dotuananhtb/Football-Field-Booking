@@ -13,7 +13,7 @@
 </head>
                 <div class="sidebar-dashboard">
                 <div class="db-logo">
-                    <a href="index.html"><img src="assets/images/favico.png" alt="Logo"><span>Vitour</span></a>
+                    <a href="/FB_N1/home"><img src="assets/images/favico.png" alt="Logo"><span>Vitour</span></a>
                 </div>
                 <div class="db-menu">
                     <ul>

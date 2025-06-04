@@ -51,7 +51,8 @@ public class UserProfileServlet extends HttpServlet {
            
            session.setAttribute("userProfile", uP);
            session.setAttribute("account",account);
-           response.sendRedirect("UI/hoSoNguoiDung.jsp");
+//           response.sendRedirect("UI/hoSoNguoiDung.jsp");
+request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
         
     } 
 
