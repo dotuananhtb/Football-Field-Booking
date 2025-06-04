@@ -372,8 +372,8 @@ public class AccountDAO extends DBContext {
             // Thêm vào bảng Account
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
             psAccount.setInt(1, 1); // status_id = 1
-            psAccount.setString(2, googleId + "gg"); // username = googleId + "gg"
-            psAccount.setString(3, googleId + "pw"); // password = googleId + "pw"
+            psAccount.setString(2, googleId + "_gg"); // username = googleId + "gg"
+            psAccount.setString(3, googleId + "_pw"); // password = googleId + "pw"
             psAccount.setString(4, email);
             String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             psAccount.setString(5, createdAt);
@@ -412,7 +412,7 @@ public class AccountDAO extends DBContext {
             psGoogleAuth.setString(2, googleId);
             psGoogleAuth.setString(3, accessToken);
             psGoogleAuth.setString(4, null); // refresh_token (còn trống, cần lấy từ token response)
-            psGoogleAuth.setTimestamp(5, null); // expires_at (còn trống, cần lấy từ token response)
+            psGoogleAuth.setString(5, null); // expires_at (còn trống, cần lấy từ token response)
             psGoogleAuth.setString(6, createdAt);
             psGoogleAuth.executeUpdate();
 

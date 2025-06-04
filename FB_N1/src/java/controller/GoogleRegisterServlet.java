@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import dao.AccountDAO;
+import dao.EmailVerificationTokenDAO;
 import jakarta.servlet.http.Cookie;
 
 @WebServlet("/googleRegister")
@@ -47,6 +48,11 @@ public class GoogleRegisterServlet extends HttpServlet {
                 // Nếu email tồn tại, kiểm tra status_id
                 int statusId = accountDAO.getStatusIdByEmail(email);
                 if (statusId == 1 || statusId == 2) {
+
+                    if (statusId == 2) {
+                        EmailVerificationTokenDAO emailVerificationTokenDAO = new EmailVerificationTokenDAO();
+                        emailVerificationTokenDAO.activateAccount(accountDAO.getAccountByEmail(email).getAccountId());
+                    }
                     // Đăng nhập nếu status_id là 1 hoặc 2
                     request.getSession().setAttribute("username", accountDAO.getAccountByEmail(email).getUsername());
                     request.getSession().setAttribute("password", accountDAO.getAccountByEmail(email).getPassword());
