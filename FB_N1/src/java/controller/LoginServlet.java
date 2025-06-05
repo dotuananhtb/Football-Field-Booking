@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
      HttpSession session = request.getSession(true);
 String submit = request.getParameter("submit_Btn");
 
@@ -53,6 +54,7 @@ if (submit == null) {
         request.setAttribute("error", "Xác minh captcha thất bại. Vui lòng thử lại.");
         request.getRequestDispatcher("UI/login.jsp").forward(request, response);
         return;
+
     }
 
     String username = request.getParameter("username");
@@ -151,7 +153,7 @@ if (submit == null) {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("UI/login.jsp").forward(request, response);
     }
 
     /**

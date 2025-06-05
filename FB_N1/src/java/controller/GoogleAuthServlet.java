@@ -10,8 +10,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@WebServlet("/google-signin")
-public class GoogleSignInServlet extends HttpServlet {
+@WebServlet("/google-auth")
+public class GoogleAuthServlet extends HttpServlet {
     private static final String CLIENT_ID = "1087404832-coiq7i1ifndcqak60g34hed9ci54mlgv.apps.googleusercontent.com";
     private static final String REDIRECT_URI = "http://localhost:9999/FB_N1/callback";
     private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";

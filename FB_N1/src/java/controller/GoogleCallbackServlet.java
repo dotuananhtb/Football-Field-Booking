@@ -94,9 +94,11 @@ public class GoogleCallbackServlet extends HttpServlet {
                 JsonObject userInfo = userInfoElement.getAsJsonObject();
 
                 // In ra toàn bộ dữ liệu userInfo dưới dạng HTML
-                response.getWriter().println("<h2>Thông tin người dùng từ Google:</h2>");
-                response.getWriter().println("<pre>" + userInfo.toString() + "</pre>");
-
+//                response.getWriter().println("<h2>Thông tin người dùng từ Google:</h2>");
+//                response.getWriter().println("<pre>" + userInfo.toString() + "</pre>");
+                // Gọi servlet đăng ký Google
+                request.setAttribute("userInfo", userInfo.toString());
+                request.getRequestDispatcher("/googleRegister").forward(request, response);
             } catch (Exception e) {
                 response.getWriter().println("<h2>Lỗi khi xử lý đăng nhập Google:</h2>");
                 response.getWriter().println("<pre>" + e.getMessage() + "</pre>");
