@@ -66,6 +66,11 @@ public class HomeControl extends HttpServlet {
         Vector<SlotsOfField> listSlotsOfField;
         listSlotsOfField = daoSlotsOfField.getAllSlotsOfField();
         request.setAttribute("listSlotsOfField", listSlotsOfField);
+        
+                UserProfileDAO dao = new UserProfileDAO();
+    Contact ct = dao.getContact();
+    request.setAttribute("ct", ct);
+     
 
         
                 request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);

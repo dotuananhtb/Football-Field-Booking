@@ -3,37 +3,45 @@
     Created on : May 30, 2025, 8:46:37 AM
     Author     : Đỗ Tuấn Anh
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+<head>
+    <!-- comment -->
+    <base href="${pageContext.request.contextPath}/UI/">
+    <!-- comment -->
+</head>
 
 <footer class="footer footer-style1">
+    
     <div class="tf-container">
         <div class="footer-main">
+            <c:set value="${requestScope.ct}" var="ct"></c:set>
             <div class="footer-logo">
                 <div class="logo-footer">
                     <img src="./assets/images/logo2.png" alt="">
                 </div>
-<!--                <p class="des-footer">The world’s first and largest digital market
-                    for crypto collectibles and non-fungible
-                </p>-->
+                <p class="des-footer">${ct.getDescription()}
+                </p>
+                
                 <ul class="footer-info">
                     <li class="flex-three">
                         <i class="icon-noun-mail-5780740-1"></i>
-                        <p>dotuananh@gamil.com</p>
+                        <p>${ct.getEmail()}</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Group-9"></i>
-                        <p>
-024 7300 5588</p>
+                        <p>${ct.getPhone()}</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Layer-19"></i>
-                        <p>Khu GD&ĐT, khu CNC Hoà Lạc, KM29, Đại lộ Thăng Long, huyện Thạch Thất, TP Hà Nội Hanoi, Vietnam</p>
+                        <p>${ct.getAddress()}</p>
                     </li>
                 </ul>
-
+                    <br/>
+<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d238288.81639649623!2d105.59250864754692!3d21.06216523434805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zxJHhuqFpIGjhu41jIGZwdA!5e0!3m2!1svi!2s!4v1749128102553!5m2!1svi!2s" width="300px" height="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="footer-service">
                 <h5 class="title">Quy định và chính sách</h5>
