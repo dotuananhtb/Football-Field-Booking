@@ -14,8 +14,20 @@ public class Product {
     private String productImage;
     private String productDescription;
     private String productStatus;
+    private CateProduct CateProduct;
 
     public Product() {
+    }
+
+    public Product(int productId, int productCateId, String productName, double productPrice, String productImage, String productDescription, String productStatus, CateProduct CateProduct) {
+        this.productId = productId;
+        this.productCateId = productCateId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImage = productImage;
+        this.productDescription = productDescription;
+        this.productStatus = productStatus;
+        this.CateProduct = CateProduct;
     }
 
     public Product(int productId, int productCateId, String productName, double productPrice, String productImage, String productDescription, String productStatus) {

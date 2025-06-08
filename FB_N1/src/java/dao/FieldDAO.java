@@ -104,7 +104,7 @@ public class FieldDAO extends DBContext {
 "                f.description,\n" +
 "                z.Address AS zone_address,\n" +
 "                sl.slot_field_price,\n" +
-"                ty.field_type_name,\n" +
+"                ty.field_type_name,\n" +   
 "                sld.start_time,\n" +
 "                sld.end_time from Field f join Zone z on f.zone_id = z.zone_id join SlotsOfField sl on f.field_id = sl.field_id join TypeOfField ty on ty.field_type_id = f.field_type_id join SlotsOfDay sld on sld.slot_id = sl.slot_id";
         try {
@@ -127,12 +127,46 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
+    public Vector<FieldDetails> getAllFieldDetails() {
+        Vector<FieldDetails> list = new Vector<>();
+        String sql = "SELECT f.field_id, f.field_name, z.Address, t.field_type_name, \n" +
+"               f.image, f.description, f.status,\n" +
+"               MIN(sf.slot_field_price) as min_price\n" +
+"        FROM Field f\n" +
+"        INNER JOIN Zone z ON f.zone_id = z.zone_id\n" +
+"        INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id\n" +
+"        LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id\n" +
+"        WHERE f.status = N'Hoạt động'\n" +
+"        GROUP BY f.field_id, f.field_name, z.Address, t.field_type_name, \n" +
+"                 f.image, f.description, f.status\n" +
+"        ORDER BY f.field_id";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                FieldDetails up = new FieldDetails(
+                       rs.getInt("field_id"),
+                rs.getString("field_name"),
+                rs.getString("Address"),
+                rs.getString("field_type_name"),
+                rs.getString("image"),
+                rs.getString("description"),
+                rs.getString("status"),
+                rs.getDouble("min_price")
+                );
+                list.add(up);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
     
     public static void main(String[] args) {
-        Vector<SlotsOfField> listFields;
+        Vector<FieldDetails> listFields;
         FieldDAO dao = new FieldDAO();
-        listFields = dao.getAllSlotsOfField();
-        for (SlotsOfField listField : listFields) {
+        listFields = dao.getAllFieldDetails();
+        for (FieldDetails listField : listFields) {
             System.out.println(listField);
         }
         

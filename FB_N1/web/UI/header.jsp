@@ -41,74 +41,79 @@
                                         <ul class="navigation clearfix">
                                             <li class="dropdown">
                                                 <a href="trang-chu.jsp">  Trang chủ</a>
-                                                
-                                                <div class="dropdown2-btn"></div></li>
-                                            
-<!--                                            <li class="dropdown2"><a href="#">Destination</a>
-                                                <ul>
-                                                    <li><a href="tour-destination-v1.html">Destination
-                                                            V1</a></li>
-                                                    <li><a href="tour-destination-v2.html">Destination
-                                                            V2</a></li>
-                                                    <li><a href="tour-destination-v3.html">Destination
-                                                            V3</a></li>
-                                                    <li><a href="single-destination.html">Destination
-                                                            Single</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>-->
-<!--                                            <li class="dropdown2 "><a href="#">Blog</a>
-                                                <ul>
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="blog-details.html">Blog Detail</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>-->
 
-<!--                                            <li class="dropdown2"><a href="#">Pages</a>
-                                                <ul>
-                                                    <li><a href="about-us.html">About Us</a></li>
-                                                    <li><a href="team.html">Team member</a></li>
-                                                    <li><a href="gallery.html">Gallery</a></li>
-                                                    <li><a href="terms-condition.html">Terms &amp; Condition</a>
-                                                    </li>
-                                                    <li><a href="help-center.html">Help center</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>-->
+                                                <div class="dropdown2-btn"></div></li>
+
+                                            <!--                                            <li class="dropdown2"><a href="#">Destination</a>
+                                                                                            <ul>
+                                                                                                <li><a href="tour-destination-v1.html">Destination
+                                                                                                        V1</a></li>
+                                                                                                <li><a href="tour-destination-v2.html">Destination
+                                                                                                        V2</a></li>
+                                                                                                <li><a href="tour-destination-v3.html">Destination
+                                                                                                        V3</a></li>
+                                                                                                <li><a href="single-destination.html">Destination
+                                                                                                        Single</a></li>
+                                                                                            </ul>
+                                                                                            <div class="dropdown2-btn"></div></li>-->
+                                            <!--                                            <li class="dropdown2 "><a href="#">Blog</a>
+                                                                                            <ul>
+                                                                                                <li><a href="blog.html">Blog</a></li>
+                                                                                                <li><a href="blog-details.html">Blog Detail</a></li>
+                                                                                            </ul>
+                                                                                            <div class="dropdown2-btn"></div></li>-->
+
+                                            <!--                                            <li class="dropdown2"><a href="#">Pages</a>
+                                                                                            <ul>
+                                                                                                <li><a href="about-us.html">About Us</a></li>
+                                                                                                <li><a href="team.html">Team member</a></li>
+                                                                                                <li><a href="gallery.html">Gallery</a></li>
+                                                                                                <li><a href="terms-condition.html">Terms &amp; Condition</a>
+                                                                                                </li>
+                                                                                                <li><a href="help-center.html">Help center</a></li>
+                                                                                            </ul>
+                                                                                            <div class="dropdown2-btn"></div></li>-->
                                             <li class="dropdown2"><a href="#">Bảng điều khiển</a>
                                                 <ul>
                                                     <li><a href="#">Bảng điều khiển </a></li>
                                                     <li><a href="#">Đặt Lịch</a></li>
-                                                    
-                                                    
+
+
                                                     <li><a href="#">Sở Thích Của Tôi</a></li>
                                                     <li><a href="/FB_N1/userProfile">Hồ sơ người dùng</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
                                             <li><a href="#">Liên hệ</a></li>
                                             <li><a href="#" >Đặt Sân Ngay</a></li>
-                                            
-                                            
-                                              <c:if test="${sessionScope.username != null}">
-                                <c:set value="${sessionScope.userProfile}" var="u"></c:set>
-                                <li class="dropdown2"><a href="#"> <img src="https://cdn-icons-png.freepik.com/512/3607/3607444.png" style="width: 30px; height: 30px; border-radius: 50%;"></a>
-                                    <ul>
-                                        <li><a href="/FB_N1/userProfile">User Profile</a></li>
-                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
-                                                <i class="icon-user"></i> Đăng Xuất
+                                            <li><a href="#" >Cửa hàng</a></li>
 
-                                            </a></li>
-                                    </ul>
-                                    </c:if>
+
+
+                                            <c:if test="${sessionScope.username != null}">
+                                                <c:set value="${sessionScope.userProfile}" var="u"></c:set>
+                                                
+
+                                                <li>${u.firstName} ${u.lastName}</li>
+                                                    <li class="dropdown2"><a href="#"> <img src="https://cdn-icons-png.freepik.com/512/3607/3607444.png" style="width: 30px; height: 30px; border-radius: 50%;"></a>
+                                                        <ul>
+                                                            <li><a href="/FB_N1/userProfile">User Profile</a></li>
+                                                            <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
+                                                                <i class="icon-user"></i> Đăng Xuất
+
+                                                            </a></li>
+                                                    </ul>
+                                                </c:if>
                                         </ul>
-                                        
+
                                     </div>
                                 </nav>
                                 <!-- Main Menu End-->
                             </div>
 
-                            
-                          
-                                    <div class="dropdown2-btn"></div></li>
-                                
+
+
+                            <div class="dropdown2-btn"></div></li>
+
 
 
 

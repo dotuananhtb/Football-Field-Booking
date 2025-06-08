@@ -47,26 +47,19 @@ public class HomeControl extends HttpServlet {
 //        
         FieldDAO fdao = new FieldDAO();
         Vector<Field> list = new Vector<>();
-        list = fdao.getAllField();
+ProductDAO pdao = new ProductDAO();
+Vector<Product> plist = pdao.getAllProductsWithCategory();
+request.setAttribute("plist", plist);
         
-        request.setAttribute("field", list);
-        
-        FieldDAO daoZone = new FieldDAO();
-        Vector<Zone> listZone;
-        listZone = daoZone.getAllZone();
-        request.setAttribute("zone", listZone);
-        
-        FieldDAO daoTypeOfField = new FieldDAO();
-        Vector<TypeOfField> listTypeOfField;
-        listTypeOfField = daoTypeOfField.getAllTypeOfField();
-                request.setAttribute("listTypeOfField", listTypeOfField);
 
         
-        FieldDAO daoSlotsOfField = new FieldDAO();
-        Vector<SlotsOfField> listSlotsOfField;
-        listSlotsOfField = daoSlotsOfField.getAllSlotsOfField();
-        request.setAttribute("listSlotsOfField", listSlotsOfField);
+
+
         
+        
+
+        Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
+        request.setAttribute("fieldList", fieldList);
                 UserProfileDAO dao = new UserProfileDAO();
     Contact ct = dao.getContact();
     request.setAttribute("ct", ct);
