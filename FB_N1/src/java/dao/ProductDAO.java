@@ -30,7 +30,7 @@ public class ProductDAO extends DBContext {
                         rs.getString(5),
                         rs.getString(6),
                 rs.getString(7));
-                listProduct.add(p);
+                listProduct.add(p); 
             }
         } catch (SQLException ex) {
             ex.getStackTrace();

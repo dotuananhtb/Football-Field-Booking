@@ -127,10 +127,10 @@
                                                                                                         </h4>
 
                                                                                                         <div class="icon-box flex-three">
-<!--                                                                                                            <div class="icons flex-three">
+                                                                                                            <div class="icons flex-three">
                                                                                                                 <i class="icon-time-left"></i>
-                                                                                                                <span>5 days</span>
-                                                                                                            </div>-->
+                                                                                                                <span>${item.status}</span>
+                                                                                                            </div>
                                                                                                             <div class="icons flex-three">
                                                                                                                 <svg width="21" height="16" viewBox="0 0 21 16"
                                                                                                                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -257,7 +257,7 @@
                                                                                                         <div class="icon-box flex-three">
 <!--                                                                                                            <div class="icons flex-three">
                                                                                                                 <i class="icon-time-left"></i>
-                                                                                                                <span>5 days</span>
+                                                                                                                <span>${plist.productStatus}</span>
                                                                                                             </div>-->
                                                                                                             <div class="icons flex-three">
                                                                                                                 <svg width="21" height="16" viewBox="0 0 21 16"
