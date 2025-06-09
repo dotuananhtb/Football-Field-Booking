@@ -98,6 +98,7 @@ public class UserProfileDAO extends DBContext {
                 + "      ,[gender] = ?\n"
                 + "      ,[dob] = ?\n"
                 + "      ,[phone] = ?\n"
+                + "      ,[avatar] = ?\n"
                 + " WHERE account_id =?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
@@ -107,7 +108,8 @@ public class UserProfileDAO extends DBContext {
             ptm.setString(4, up.getGender());
             ptm.setString(5, up.getDob());
             ptm.setString(6, up.getPhone());
-            ptm.setInt(7, up.getAccountId());
+            ptm.setString(7, up.getAvatar());
+            ptm.setInt(8, up.getAccountId());
             ptm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

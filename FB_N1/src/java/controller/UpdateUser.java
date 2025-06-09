@@ -45,8 +45,10 @@ public class UpdateUser extends HttpServlet {
         String username = request.getParameter("username");
         String phone = request.getParameter("phone");
         String id = request.getParameter("id");
+        String avatar = request.getParameter("avatar");
         UserProfileDAO uP = new UserProfileDAO();
-        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
+//        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
+        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone, avatar);
         uP.updateProfile1(u, id);
         //thêm method update username
         AccountDAO accountDAO = new AccountDAO();
