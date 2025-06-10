@@ -84,8 +84,8 @@
                                                                                         <!-- Họ -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Họ</label>
-                                                                                                <input type="text" name="lastname" placeholder="Nhập họ của bạn*" 
+                                                                                                <label>Họ *</label>
+                                                                                                <input type="text" name="lastname" placeholder="Nhập họ của bạn" 
                                                                                                        pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" required>
                                                                                             </div>
                                                                                         </div>
@@ -93,8 +93,8 @@
                                                                                         <!-- Tên -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Tên</label>
-                                                                                                <input type="text" name="firstname" placeholder="Nhập tên của bạn*" 
+                                                                                                <label>Tên *</label>
+                                                                                                <input type="text" name="firstname" placeholder="Nhập tên của bạn" 
                                                                                                        pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" required>
                                                                                             </div>
                                                                                         </div>
@@ -102,8 +102,8 @@
                                                                                         <!-- Tên đăng nhập -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Tên đăng nhập</label>
-                                                                                                <input type="text" name="username" placeholder="Nhập tên đăng nhập*" 
+                                                                                                <label>Tên đăng nhập *</label>
+                                                                                                <input type="text" name="username" placeholder="Nhập tên đăng nhập" 
                                                                                                        pattern="^[a-zA-Z0-9_.]{6,}$" minlength="6"
                                                                                                        title="Tối thiểu 6 ký tự, chỉ gồm chữ, số, dấu gạch dưới và dấu chấm" required>
                                                                                             </div>
@@ -112,16 +112,36 @@
                                                                                         <!-- Email -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Email</label>
-                                                                                                <input type="email" name="email" placeholder="Nhập email của bạn*" required>
+                                                                                                <label>Email *</label>
+                                                                                                <input type="email" name="email" placeholder="Nhập email của bạn" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        
+                                                                                        <!-- Mật khẩu -->
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="input-wrap">
+                                                                                                <label>Mật khẩu *</label>
+                                                                                                <input type="password" name="password" placeholder="Nhập mật khẩu" 
+                                                                                                       pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt" required>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <!-- Nhập lại mật khẩu -->
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="input-wrap">
+                                                                                                <label>Nhập lại mật khẩu *</label>
+                                                                                                <input type="password" name="password_confirm" placeholder="Nhập lại mật khẩu"
+                                                                                                       pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt"required>
                                                                                             </div>
                                                                                         </div>
 
                                                                                         <!-- Số điện thoại -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Số điện thoại</label>
-                                                                                                <input type="tel" name="phone" placeholder="Nhập số điện thoại*" 
+                                                                                                <label>Số điện thoại *</label>
+                                                                                                <input type="tel" name="phone" placeholder="Nhập số điện thoại" 
                                                                                                        pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số" required>
                                                                                             </div>
                                                                                         </div>
@@ -129,16 +149,18 @@
                                                                                         <!-- Ngày sinh -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Ngày sinh</label>
+                                                                                                <label>Ngày sinh *</label>
                                                                                                 <input type="date" name="dob" max="<?= date('Y-m-d') ?>" required>
                                                                                             </div>
                                                                                         </div>
 
                                                                                         <!-- Giới tính -->
                                                                                         <div class="col-md-6">
+
                                                                                             <div class="input-wrap">
-                                                                                                <label>Giới tính</label>
-                                                                                                <select name="gender" required>
+
+                                                                                                <label for="gender">Giới tính *</label>
+                                                                                                <select name="gender" id="gender" class="nice-select" required>
                                                                                                     <option value="">-- Chọn giới tính --</option>
                                                                                                     <option value="Nam">Nam</option>
                                                                                                     <option value="Nữ">Nữ</option>
@@ -150,36 +172,18 @@
                                                                                         <!-- Địa chỉ -->
                                                                                         <div class="col-md-6">
                                                                                             <div class="input-wrap">
-                                                                                                <label>Địa chỉ</label>
-                                                                                                <input type="text" name="address" placeholder="Nhập địa chỉ*" required>
+                                                                                                <label>Địa chỉ *</label>
+                                                                                                <input type="text" name="address" placeholder="Nhập địa chỉ" required>
                                                                                             </div>
                                                                                         </div>
 
-                                                                                        <!-- Mật khẩu -->
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="input-wrap">
-                                                                                                <label>Mật khẩu</label>
-                                                                                                <input type="password" name="password" placeholder="Nhập mật khẩu*" 
-                                                                                                       pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
-                                                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt" required>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <!-- Nhập lại mật khẩu -->
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="input-wrap">
-                                                                                                <label>Nhập lại mật khẩu</label>
-                                                                                                <input type="password" name="password_confirm" placeholder="Nhập lại mật khẩu*"
-                                                                                                       pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
-                                                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt"required>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                        
 
                                                                                         <!-- Xác nhận điều khoản -->
                                                                                         <div class="col-lg-12 mb-30">
                                                                                             <div class="checkbox">
                                                                                                 <input id="check-policy" type="checkbox" name="check" value="check" >
-                                                                                                    <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</label>
+                                                                                                    <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật *</label>
                                                                                             </div>
                                                                                         </div>
 

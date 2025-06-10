@@ -38,17 +38,15 @@ public class HomeControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        FieldDAO dao = new  FieldDAO();
-        Zone_DAO Zdao= new Zone_DAO();
+        FieldDAO dao = new FieldDAO();
+        Zone_DAO Zdao = new Zone_DAO();
         Vector<Field> list = dao.getAllField();
         List<Zone> listZ = Zdao.getAllZone();
-        
+
         request.setAttribute("listF", list);
         request.setAttribute("listZ", listZ);
 
-         response.sendRedirect("UI/homePage.jsp");
-    } 
-
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -62,7 +60,8 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
     }
 
     /**
