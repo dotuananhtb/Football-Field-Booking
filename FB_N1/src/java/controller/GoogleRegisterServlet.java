@@ -64,8 +64,8 @@ public class GoogleRegisterServlet extends HttpServlet {
                     UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
 
                     request.getSession().setAttribute("username", acc.getUsername());
-                    request.getSession().setAttribute("acc", acc);
-                    request.getSession().setAttribute("profile", profile);
+                    request.getSession().setAttribute("account", acc);
+                    request.getSession().setAttribute("userProfile", profile);
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
@@ -85,8 +85,8 @@ public class GoogleRegisterServlet extends HttpServlet {
                     UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
 
                     request.getSession().setAttribute("username", acc.getUsername());
-                    request.getSession().setAttribute("acc", acc);
-                    request.getSession().setAttribute("profile", profile);
+                    request.getSession().setAttribute("account", acc);
+                    request.getSession().setAttribute("userProfile", profile);
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
