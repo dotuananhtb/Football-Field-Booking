@@ -47,7 +47,9 @@ public class UserProfileDAO extends DBContext {
     }
 
     public UserProfile getProfileByAccountId(int accountId) {
-        String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[UserProfile]\n"
+                + "  where account_id = ?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, accountId);
@@ -172,8 +174,6 @@ public class UserProfileDAO extends DBContext {
         up.setAddress("123 Đường ABC");
         up.setPhone("0909123456");
         up.setDob("2000-01-01");
-
-
 
     }
 

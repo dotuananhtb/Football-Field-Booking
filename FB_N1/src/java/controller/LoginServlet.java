@@ -5,6 +5,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import model.Account;
+import model.UserProfile;
 
 /**
  *
@@ -42,7 +45,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-     HttpSession session = request.getSession(true);
+     HttpSession session = request.getSession();
 String submit = request.getParameter("submit_Btn");
 
 if (submit == null) {
@@ -61,46 +64,43 @@ if (submit == null) {
     String password = request.getParameter("password");
     String remember = request.getParameter("remember");
     AccountDAO dao = new AccountDAO();
+    UserProfileDAO daoU = new UserProfileDAO();
+    Account acc = dao.getAccountByUsername(username);
+    UserProfile uP = daoU.getProfileByAccountId(acc.getAccountId());
     boolean isSuccess = dao.checkLogin(username, password);
     int a = dao.getRoleIDbyAccount(username, password);
     int b = dao.getStatusIDbyAccount(username, password);
+    
 
     if (isSuccess && b == 1) {
-        session.setAttribute("username", username);
+        session.setAttribute("account", acc);
+        session.setAttribute("userProfile", uP);
         session.setAttribute("roleID", a);
         session.setAttribute("statusID", b);
 
         if ("on".equals(remember)) {
             Cookie userCookie = new Cookie("username", username);
-            Cookie passCookie = new Cookie("password", password);
             Cookie rememberCookie = new Cookie("remember", "true");
 
             userCookie.setMaxAge(7 * 24 * 60 * 60);
-            passCookie.setMaxAge(7 * 24 * 60 * 60);
             rememberCookie.setMaxAge(7 * 24 * 60 * 60);
 
             userCookie.setPath("/");
-            passCookie.setPath("/");
             rememberCookie.setPath("/");
 
             response.addCookie(userCookie);
-            response.addCookie(passCookie);
             response.addCookie(rememberCookie);
         } else {
             Cookie userCookie = new Cookie("username", username);
-            Cookie passCookie = new Cookie("password", password);
             Cookie rememberCookie = new Cookie("remember", "true");
 
             userCookie.setMaxAge(0);
-            passCookie.setMaxAge(0);
             rememberCookie.setMaxAge(0);
 
             userCookie.setPath("/");
-            passCookie.setPath("/");
             rememberCookie.setPath("/");
 
             response.addCookie(userCookie);
-            response.addCookie(passCookie);
             response.addCookie(rememberCookie);
         }
 

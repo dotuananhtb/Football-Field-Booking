@@ -36,7 +36,7 @@
                                                         id="navbarSupportedContent">
                                                         <ul class="navigation clearfix">
                                                             <li class="dropdown">
-                                                                <a href="#">Trang chủ</a>
+                                                                <a href="/FB_N1/home">Trang chủ</a>
                                                                 <ul>
                                                                     <li><a href="index.html">Home Page 01</a></li>
                                                                     <li><a href="home2.html">Home Page 02</a></li>
@@ -134,7 +134,7 @@
                                                 </div> 
                                                 <div class="dropdown account">
                                                     <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <img src="./assets/images/page/avata.jpg" alt="image">
+                                                        <img src="${sessionScope.userProfile.avatar}" alt="image">
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                       <li><a  href="#">Account</a></li>

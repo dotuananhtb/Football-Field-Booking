@@ -74,7 +74,7 @@
                                             
                                             
                                             <li><a href="contact-us.html">Liên Hệ</a></li>
-                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.username == null}">
+                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.account == null}">
                                             <li><a href="#" >Đặt Sân </a></li>
                                             </c:if>
                                             <c:if test="${sessionScope.roleID == 1}">
@@ -83,9 +83,9 @@
                                             
                                             
                                             
-                                              <c:if test="${sessionScope.username != null}">
-                                <c:set value="${sessionScope.userProfile}" var="u"></c:set>
-                                <li class="dropdown2"><a href="#"> <img src="${u.getAvatar()}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.username}</a>
+                                              <c:if test="${sessionScope.account != null}">
+                                
+                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
                                     <ul>
                                         <li><a href="/FB_N1/UI/userProfile2.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
                                         <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
@@ -122,7 +122,7 @@
                             </a>
 
 
-                            <c:if test="${sessionScope.username == null}">
+                            <c:if test="${sessionScope.account == null}">
                                 <div class="header-account flex align-center">
                                     <div class="register">
                                         <ul class="flex align-center">

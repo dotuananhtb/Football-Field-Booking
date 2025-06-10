@@ -5,6 +5,7 @@
 package controller;
 
 import dao.FieldDAO;
+import dao.UserProfileDAO;
 import dao.Zone_DAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Vector;
+import model.Account;
 import model.Field;
+import model.UserProfile;
 import model.Zone;
 
 /**
@@ -37,18 +40,15 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        FieldDAO dao = new  FieldDAO();
-        Zone_DAO Zdao= new Zone_DAO();
+        FieldDAO dao = new FieldDAO();
+        Zone_DAO Zdao = new Zone_DAO();
         Vector<Field> list = dao.getAllField();
         List<Zone> listZ = Zdao.getAllZone();
-        
+
         request.setAttribute("listF", list);
         request.setAttribute("listZ", listZ);
 
-         response.sendRedirect("UI/homePage.jsp");
-    } 
-
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -62,7 +62,7 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
     }
 
     /**
