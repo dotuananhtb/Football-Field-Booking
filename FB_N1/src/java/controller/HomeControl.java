@@ -44,23 +44,27 @@ public class HomeControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        FieldDAO dao = new FieldDAO();
+       FieldDAO fdao = new FieldDAO();
         Zone_DAO Zdao = new Zone_DAO();
-        Vector<Field> list = dao.getAllField();
-        List<Zone> listZ = Zdao.getAllZone();
+//        Vector<Field> list = dao.getAllField();
+//        List<Zone> listZ = Zdao.getAllZone();
+//
+//        request.setAttribute("listF", list);
+//        request.setAttribute("listZ", listZ);
 
-        request.setAttribute("listF", list);
-        request.setAttribute("listZ", listZ);
+Vector<Field> daof = fdao.getAllFieldLast();
+request.setAttribute("fdao", daof);
 
-        FieldDAO fdao = new FieldDAO();
+        
         ProductDAO pdao = new ProductDAO();
         Vector<Product> plist = pdao.getAllProductsWithCategory();
         request.setAttribute("plist", plist);
 
         Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
         request.setAttribute("fieldList", fieldList);
-
-        request.getRequestDispatcher("UI/trang-chu.jsp").forward(request, response);
+        
+request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
+//        request.getRequestDispatcher("/UI/trang-chu.jsp").forward(request, response);
 
         // response.sendRedirect("UI/trang-chu.jsp");
     }
@@ -78,8 +82,8 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
+   processRequest(request, response);
+        
     }
 
     /**

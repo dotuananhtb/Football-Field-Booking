@@ -165,7 +165,53 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
-
+public Vector<Field> getAllFieldLast() {
+        Vector<Field> list = new Vector<>();
+        String sql = "SELECT f.field_id, f.field_name,f.image,f.status,f.description,  z.Address, t.field_type_name, \n" +
+"                \n" +
+"               MIN(sf.slot_field_price) as min_price\n" +
+"        FROM Field f\n" +
+"        INNER JOIN Zone z ON f.zone_id = z.zone_id\n" +
+"        INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id\n" +
+"        LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id\n" +
+"        \n" +
+"        GROUP BY f.field_id, f.field_name, z.Address, t.field_type_name, \n" +
+"                 f.image, f.description, f.status\n" +
+"        ORDER BY f.field_id;\n" +
+"";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+               // Tạo Zone object
+            Zone zone = new Zone();
+            zone.setAddress(rs.getString("Address"));
+            
+            // Tạo TypeOfField object
+            TypeOfField typeOfField = new TypeOfField();
+            typeOfField.setFieldTypeName(rs.getString("field_type_name"));
+            
+            // Tạo SlotsOfField object với giá thấp nhất
+            SlotsOfField slotsOfField = new SlotsOfField();
+            slotsOfField.setSlotFieldPrice(rs.getDouble("min_price"));
+            
+                Field field = new Field(
+                rs.getInt("field_id"),
+                rs.getString("field_name"),
+                rs.getString("image"),
+                rs.getString("status"),
+                rs.getString("description"),
+                zone,
+                typeOfField,
+                slotsOfField
+            );
+                list.add(field);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
     public int getTotalField() {
 
         String sql = "Select count(*) from Field";
@@ -187,10 +233,10 @@ public class FieldDAO extends DBContext {
 //    }
 
     public static void main(String[] args) {
-        Vector<FieldDetails> listFields;
+        Vector<Field> listFields;
         FieldDAO dao = new FieldDAO();
-        listFields = dao.getAllFieldDetails();
-        for (FieldDetails listField : listFields) {
+        listFields = dao.getAllFieldLast();
+        for (Field listField : listFields) {
             System.out.println(listField);
         }
 
