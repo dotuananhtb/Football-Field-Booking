@@ -12,7 +12,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
     <head>
-        <base href="${pageContext.request.contextPath}/UI/">
         <meta charset="utf-8">
             <title>Vitour - Travel & Tour Booking HTML Template</title>
 
@@ -45,11 +44,11 @@
                                         <div id="pagee" class="clearfix">
 
 
-                                            <jsp:include page="dashboard_menu.jsp" />
+                                            <jsp:include page="header_menu.jsp"></jsp:include>
 
                                             <div class="has-dashboard">
 
-                                                <jsp:include page="header_bashboard.jsp" />
+                                                <jsp:include page="header_userP.jsp"></jsp:include>
                                                 </header>-->
                                                 <!-- End Main Header -->
                                                 <main id="main">
@@ -62,26 +61,27 @@
     String maxDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 %>
                                                         <form action="${pageContext.request.contextPath}/updateUser" method="post" class="edit-profile">
-                                                            <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                                             <div class="inner-header mb-40">
-                                                                <h3 class="title">Hồ sơ cá nhân </h3>
-                                                                
+                                                                <h3 class="title">My Profile</h3>
+                                                                <p class="des">There are many variations of passages of Lorem Ipsum</p>
                                                             </div>
                                                             <div class="upload-image-dashboard flex mb-80">
                                                                 <span class="title-avata">Avatar:</span>
                                                                 <div class="upload-image-wrap">
                                                                     <div class="avata relative">
-                                                                        <img id="frame" src="${u.avatar}" alt="avatar">
-                                                                            
+                                                                        <img id="frame" src="./assets/images/page/update-profile.jpg" alt="image">
+                                                                            <div class="icon-delete">
+                                                                                <i class="icon-delete-1"></i>
+                                                                            </div>
                                                                     </div>
-                                                                    
+                                                                    <span class="upload">Upload a new Avatar</span>
                                                                     <div class="upload-file">
-                                                                        
+                                                                        <input type="file">
                                                                     </div>
-                                                                    
+                                                                    <p>Png, Jpg, Svg dimenson (300* 350) max file not more then size 4 mb</p>
                                                                 </div>
                                                             </div>
-                                                            
+                                                            <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                                             <c:set value="${sessionScope.account}" var="a"></c:set>
                                                                 <div class="infomation-dashboard mb-70">
                                                                     <h4 class="title">Thông tin cá nhân</h4>
@@ -123,11 +123,12 @@
                                                                                 <label>Ngày sinh</label>
                                                                                 <input type="date" value="${u.getDob()}" name="dob" max="<?= date('Y-m-d') ?>" required>
                                                                             </div>
-                                                                            
-                                                                            
                                                                     </div>
-                                                                            <br/>
-                                                                            <div class="otp-dashboard">
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="otp-dashboard">
 
                                                                 <div class="flex-three">
                                                                     <div class="button-wrap">
@@ -137,11 +138,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            
                                                         </form><script>
 // JavaScript để đảm bảo validation ngày sinh
 document.addEventListener('DOMContentLoaded', function() {

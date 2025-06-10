@@ -507,6 +507,22 @@ public class AccountDAO extends DBContext {
         return statusID;
     }
 
+    public Account getAccountByUsername(String username) {
+        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1,username );
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getString(6));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

@@ -86,7 +86,7 @@
                                                                                                 <div class="col-md-12">
                                                                                                     <div class="input-wrap">
                                                                                                         <label>Name</label>
-                                                                                                        <input type="text" id ="username" name="username"   placeholder="Enter your username*" autofocus> 
+                                                                                                        <input type="text" id ="username" name="username"   placeholder="Enter your username" autofocus> 
                                                                                                     </div>
 
                                                                                                 </div>
@@ -98,7 +98,7 @@
 
                                                                                                         </div>
 
-                                                                                                        <input type="password" id="password"  name="password" placeholder="Enter your password*">
+                                                                                                        <input type="password" id="password"  name="password" placeholder="Enter your password">
                                                                                                     </div>
                                                                                                     <a class="fas fa-eye" href ="#" onclick="daoTT()" > Hiện thị mật khẩu</a>
 

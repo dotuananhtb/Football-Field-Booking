@@ -1,6 +1,4 @@
-
 <%--
-
     Created on : May 30, 2025, 8:15:12 AM
     Author     : Đỗ Tuấn Anh
 --%>
@@ -30,10 +28,7 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-
-
-                                    <a href="home">
-
+                                    <a href="/FB_N1/home">
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
@@ -43,7 +38,6 @@
                                 <nav class="main-menu show navbar-expand-md">
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
-
                                             <li class="dropdown2">
                                                 <a href="#">Cửa Hàng</a>
                                                 <ul>
@@ -69,7 +63,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
-
+                                            
                                             <li class="dropdown2 "><a href="#">Diễn Đàn</a>
                                                 <ul>
                                                     <li><a href="blog.html">Diễn Đàn Tìm Đối Thủ</a></li>
@@ -77,49 +71,48 @@
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
 
-
-
+                                            
+                                            
                                             <li><a href="contact-us.html">Liên Hệ</a></li>
-                                                <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.username == null}">
-                                                <li><a href="#" >Đặt Sân </a></li>
-                                                </c:if>
-                                                <c:if test="${sessionScope.roleID == 1}">
-                                                <li><a href="#" >Doanh Thu</a></li>
-                                                </c:if>
+                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.account == null}">
+                                            <li><a href="#" >Đặt Sân </a></li>
+                                            </c:if>
+                                            <c:if test="${sessionScope.roleID == 1}">
+                                            <li><a href="#" >Doanh Thu</a></li>
+                                            </c:if>
+                                            
+                                            
+                                            
+                                              <c:if test="${sessionScope.account != null}">
+                                
+                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
+                                    <ul>
+                                        <li><a href="/FB_N1/UI/userProfile2.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
+                                        <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
+                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
+                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
+                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
+                                        </c:if>
+                                        <c:if test="${sessionScope.roleId == 3}">
+                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
+                                        </c:if>
+                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
+                                                 <i class="icon-turn-off-1"></i>    Đăng Xuất
 
-
-
-                                            <c:if test="${sessionScope.username != null}">
-                                                
-                                                <li class="dropdown2"><a href="#"> <img src=" ${sessionScope.profile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.username}</a>
-                                                    <ul>
-                                                        <li><a href="/FB_N1/userProfile"> <i class="icon-user"></i> Trang cá nhân</a></li>
-                                                            <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
-                                                            </c:if>
-                                                            <c:if test="${sessionScope.roleId == 3}">
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
-                                                            </c:if>
-                                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
-                                                                <i class="icon-turn-off-1"></i>    Đăng Xuất
-
-
-                                                            </a></li>
-                                                    </ul>
-                                                </c:if>
+                                            </a></li>
+                                    </ul>
+                                    </c:if>
                                         </ul>
-
+                                        
                                     </div>
                                 </nav>
                                 <!-- Main Menu End-->
                             </div>
 
-
-
-                            <div class="dropdown2-btn"></div></li>
-
+                            
+                          
+                                    <div class="dropdown2-btn"></div></li>
+                                
 
 
 
@@ -129,7 +122,7 @@
                             </a>
 
 
-                            <c:if test="${sessionScope.username == null}">
+                            <c:if test="${sessionScope.account == null}">
                                 <div class="header-account flex align-center">
                                     <div class="register">
                                         <ul class="flex align-center">
@@ -251,4 +244,3 @@
 
 </header>
 <!-- End Main Header -->
-
