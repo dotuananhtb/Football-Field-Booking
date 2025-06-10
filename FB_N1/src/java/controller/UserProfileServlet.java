@@ -44,12 +44,15 @@ public class UserProfileServlet extends HttpServlet {
            String accountID = (String) session.getAttribute("username");
            AccountDAO dao = new AccountDAO();
            int accountID_int = dao.getAccountIDbyUsername(accountID);
+           
            Account account = dao.getAccountById(accountID_int);
            UserProfileDAO uPDAO = new UserProfileDAO();
            UserProfile uP = uPDAO.getProfileByAccountId(accountID_int);
+           
            session.setAttribute("userProfile", uP);
            session.setAttribute("account",account);
-           response.sendRedirect("UI/userProfile2.jsp");
+//           response.sendRedirect("UI/hoSoNguoiDung.jsp");
+request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
         
     } 
 

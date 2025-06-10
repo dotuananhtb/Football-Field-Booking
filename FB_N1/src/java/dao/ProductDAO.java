@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-import model.Product;
+import model.*;
 import util.DBContext;
 
 /**
@@ -30,13 +30,51 @@ public class ProductDAO extends DBContext {
                         rs.getString(5),
                         rs.getString(6),
                 rs.getString(7));
-                listProduct.add(p);
+                listProduct.add(p); 
             }
         } catch (SQLException ex) {
             ex.getStackTrace();
         }
         return listProduct;
     }
+    public Vector<Product> getAllProductsWithCategory() {
+    Vector<Product> products = new Vector<>();
+    String sql = "SELECT p.product_id, p.product_name, p.product_price, " +
+                "p.product_image, p.product_description, p.product_status, " +
+                "p.product_cate_id, cp.cate_name " +
+                "FROM Product p " +
+                "INNER JOIN Cate_Product cp ON p.product_cate_id = cp.product_cate_id";
+    
+    try (PreparedStatement pstmt = connection.prepareStatement(sql);
+         ResultSet rs = pstmt.executeQuery()) {
+        
+        while (rs.next()) {
+            // Tạo CateProduct object
+            CateProduct category = new CateProduct(
+                rs.getInt("product_cate_id"), 
+                rs.getString("cate_name")
+            );
+            
+            // Tạo Product với constructor đầy đủ
+            Product product = new Product(
+                rs.getInt("product_id"),
+                rs.getInt("product_cate_id"),
+                rs.getString("product_name"),
+                rs.getDouble("product_price"),
+                rs.getString("product_image"),
+                rs.getString("product_description"),
+                rs.getString("product_status"),
+                category
+            );
+            
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return products;
+}
     
     public int insertProduct(Product p) {
         String sql = "INSERT INTO [FootballFieldBooking].[dbo].[Product] "

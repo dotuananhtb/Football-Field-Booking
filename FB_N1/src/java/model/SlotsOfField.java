@@ -57,6 +57,11 @@ public class SlotsOfField {
     public void setSlotFieldPrice(double slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
+
+    @Override
+    public String toString() {
+        return "SlotsOfField{" + "slotFieldId=" + slotFieldId + ", slotId=" + slotId + ", fieldId=" + fieldId + ", slotFieldPrice=" + slotFieldPrice + '}';
+    }
     
     
 }

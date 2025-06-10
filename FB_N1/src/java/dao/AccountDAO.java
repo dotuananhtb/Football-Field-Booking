@@ -294,6 +294,38 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    public boolean checkLogin(String userName, String passWord) {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
+                + "  where username =? and password =?";
+        boolean check = false;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setString(2, passWord);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                check = true;
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return check;
+
+    }
+
+    public void updateUsername(String username, String accountId) {
+        String sql = "UPDATE Account SET username=? WHERE account_id=?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setString(1, username);
+            ptm.setString(2, accountId);
+            ptm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public int getAccountIDbyUsername(String username) {
         String sql = "SELECT account_id FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
@@ -356,7 +388,8 @@ public class AccountDAO extends DBContext {
         return null; // Trả về null nếu không tìm thấy
     }
 
-    public boolean addGoogleAccount(String googleId, String email, String firstName, String lastName, String avatar, String accessToken) {
+    public boolean addGoogleAccount(String googleId, String email, String firstName, String lastName, String avatar,
+            String accessToken) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertGoogleAuthSQL = "INSERT INTO GoogleAuth (account_id, google_id, access_token, refresh_token, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)";

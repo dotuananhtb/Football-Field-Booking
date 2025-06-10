@@ -3,59 +3,71 @@
     Created on : May 30, 2025, 8:46:37 AM
     Author     : Đỗ Tuấn Anh
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+<head>
+    <!-- comment -->
+    <base href="${pageContext.request.contextPath}/UI/">
+    <!-- comment -->
+</head>
+
 <footer class="footer footer-style1">
+    
     <div class="tf-container">
         <div class="footer-main">
+            <c:set value="${requestScope.ct}" var="ct"></c:set>
             <div class="footer-logo">
                 <div class="logo-footer">
                     <img src="./assets/images/logo2.png" alt="">
                 </div>
-                <p class="des-footer">The world’s first and largest digital market
-                    for crypto collectibles and non-fungible
+                <p class="des-footer">${ct.getDescription()}
                 </p>
+                
                 <ul class="footer-info">
                     <li class="flex-three">
                         <i class="icon-noun-mail-5780740-1"></i>
-                        <p>Info@webmail.com</p>
+                        <p>${ct.getEmail()}</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Group-9"></i>
-                        <p>684 555-0102 490</p>
+                        <p>${ct.getPhone()}</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Layer-19"></i>
-                        <p>6391 Elgin St. Celina, NYC 10299</p>
+                        <p>${ct.getAddress()}</p>
                     </li>
                 </ul>
-
+                    <br/>
+<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d238288.81639649623!2d105.59250864754692!3d21.06216523434805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zxJHhuqFpIGjhu41jIGZwdA!5e0!3m2!1svi!2s!4v1749128102553!5m2!1svi!2s" width="300px" height="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="footer-service">
-                <h5 class="title">Services Req</h5>
+                <h5 class="title">Quy định và chính sách</h5>
 
                 <ul class="footer-menu">
                     <li>
-                        <a href="about-us.html">About Us</a>
+                        <a href="about-us.html">Hướng dẫn sử dụng</a>
                     </li>
                     <li>
-                        <a href="gallery.html">Gallery</a>
+                        <a href="gallery.html">Quy chế Hoạt động ứng dụng</a>
                     </li>
                     <li>
-                        <a href="team.html">Our Team</a>
+                        <a href="team.html">Thông tin về thanh toán</a>
                     </li>
                     <li>
-                        <a href="blog.html">Blog Insights</a>
+                        <a href="blog.html">Chính sách bảo mật thông tin cá nhân</a>
                     </li>
                     <li>
-                        <a href="contact/">Contact</a>
+                        <a href="contact/">Thông tin chăm sóc khách hàng</a>
                     </li>
                 </ul>
 
             </div>
+            
             <div class="footer-gallery">
-                <h5 class="title">Gallery</h5>
+                <h5 class="title">Phòng trưng bày</h5>
 
                 <div class="gallery-img">
                     <a href="./assets/images/gallery/gl1.jpg" data-fancybox="gallery">
@@ -79,74 +91,26 @@
                 </div>
 
             </div>
-            <div class="footer-newsletter">
-                <h5 class="title">Newsletter</h5>
-                <form action="/" id="footer-form">
-                    <div class="input-wrap flex-three">
-                        <input type="email" placeholder="Enter Email Adress">
-                        <button type="submit"><i class="icon-paper-plane"></i></button>
-                    </div>
-                    <div class="check-form flex-three">
-                        <i class="icon-Vector-121"></i>
-                        <p>I agree to all your terms and policies</p>
-                    </div>
+            <div class="footer-service">
+                <h5 class="title">Liên kết nhanh</h5>
 
-                </form>
-                <ul class="social-ft flex-three">
+                <ul class="footer-menu">
                     <li>
-                        <a href="#">
-                            <i class="icon-icon-2"></i>
-                        </a>
+                        <a href="about-us.html">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="icon-x"></i>
-                        </a>
+                        <a href="gallery.html">Dành cho đối tác</a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="icon-8"></i>
-                        </a>
+                        <a href="team.html">Tin tức
+</a>
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="icon-2"></i>
-                        </a>
-                    </li>
+                    
                 </ul>
 
             </div>
         </div>
 
-        <div class="row footer-bottom">
-            <div class="col-md-6">
-                <p class="copy-right">Copyright © 2024 by <a href="#" class="text-main">Themesflat.</a> All
-                    Rights Reserved</p>
-            </div>
-            <div class="col-md-6">
-                <ul class="social flex-six">
-                    <li>
-                        <a href="#">
-                            <i class="icon-icon-2"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="icon-x"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="icon-icon_03"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="icon-2"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        
     </div>
 </footer>

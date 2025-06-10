@@ -13,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 import model.UserProfile;
 
 /**
@@ -34,18 +36,34 @@ public class UpdateUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String firstName = request.getParameter("fname");
+        String lastName = request.getParameter("lname");
+        String address = request.getParameter("address");
+        String gender = request.getParameter("gender");
+        String dob = request.getParameter("dob");
+        String username = request.getParameter("username");
+        String phone = request.getParameter("phone");
+        String id = request.getParameter("id");
+        String avatar = request.getParameter("avatar");
         UserProfileDAO uP = new UserProfileDAO();
-         String firstName =request.getParameter("fname");
-     String lastName =request.getParameter("lname");
-     String address =request.getParameter("address");
-     String gender =request.getParameter("gender");
-     String dob =request.getParameter("dob");
-     String phone =request.getParameter("phone");
-     String id = request.getParameter("id");
-     UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
-     uP.updateProfile1(u,id);
-     request.setAttribute("mess","Update Successful");
-     request.getRequestDispatcher("updateProfile").forward(request, response);
+//        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
+        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone, avatar);
+        uP.updateProfile1(u, id);
+        //thêm method update username
+        AccountDAO accountDAO = new AccountDAO();
+        accountDAO.updateUsername(username, id);
+        int accountId = Integer.parseInt(id);
+    UserProfile updatedProfile = uP.getProfileByAccountId(accountId);
+    Account updatedAccount = accountDAO.getAccountById(accountId);
+    session.setAttribute("userProfile", updatedProfile);
+    session.setAttribute("account", updatedAccount);
+    session.setAttribute("username", username);
+    
+    session.setAttribute("mess", "Cập nhật thành công!");
+    response.sendRedirect("userProfile"); // Chuyển về trang profile
+//        request.setAttribute("mess", "Update Successful");
+//        request.getRequestDispatcher("updateProfile").forward(request, response);
 //        response.sendRedirect("UI/UserDetail.jsp");
     }
 

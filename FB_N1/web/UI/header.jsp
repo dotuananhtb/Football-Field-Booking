@@ -1,4 +1,6 @@
+
 <%--
+
     Created on : May 30, 2025, 8:15:12 AM
     Author     : Đỗ Tuấn Anh
 --%>
@@ -28,7 +30,10 @@
                             </div>
                             <div class="logo-box">
                                 <div class="logo">
-                                    <a href="/FB_N1/home">
+
+
+                                    <a href="home">
+
                                         <img src="assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div>
@@ -38,6 +43,7 @@
                                 <nav class="main-menu show navbar-expand-md">
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
+
                                             <li class="dropdown2">
                                                 <a href="#">Cửa Hàng</a>
                                                 <ul>
@@ -98,6 +104,7 @@
                                                             </c:if>
                                                         <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
                                                                 <i class="icon-turn-off-1"></i>    Đăng Xuất
+
 
                                                             </a></li>
                                                     </ul>
@@ -244,3 +251,4 @@
 
 </header>
 <!-- End Main Header -->
+

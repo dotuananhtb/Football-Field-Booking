@@ -98,6 +98,7 @@ public class UserProfileDAO extends DBContext {
                 + "      ,[gender] = ?\n"
                 + "      ,[dob] = ?\n"
                 + "      ,[phone] = ?\n"
+                + "      ,[avatar] = ?\n"
                 + " WHERE account_id =?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
@@ -107,7 +108,8 @@ public class UserProfileDAO extends DBContext {
             ptm.setString(4, up.getGender());
             ptm.setString(5, up.getDob());
             ptm.setString(6, up.getPhone());
-            ptm.setInt(7, up.getAccountId());
+            ptm.setString(7, up.getAvatar());
+            ptm.setInt(8, up.getAccountId());
             ptm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -116,15 +118,16 @@ public class UserProfileDAO extends DBContext {
     }
 
     public void updateProfile1(UserProfile up, String id) {
-        String sql = "UPDATE UserProfile SET  first_name=?, address=?,  phone=? ,dob = ? WHERE account_id=?";
+        String sql = "UPDATE UserProfile SET  first_name=?, last_name=?, address=?,  phone=? ,dob = ? WHERE account_id=?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
 
             ptm.setString(1, up.getFirstName());
-            ptm.setString(2, up.getAddress());
-            ptm.setString(3, up.getPhone());
-            ptm.setString(4, up.getDob());
-            ptm.setString(5, id);
+            ptm.setString(2, up.getLastName());
+            ptm.setString(3, up.getAddress());
+            ptm.setString(4, up.getPhone());
+            ptm.setString(5, up.getDob());
+            ptm.setString(6, id);
             ptm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -163,16 +166,49 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-
+    
+//public Contact getContact() {
+//        String sql = "SELECT * FROM contact_info WHERE id = 1";
+//        try {
+//            PreparedStatement ptm = connection.prepareStatement(sql);
+//            
+//            ResultSet rs = ptm.executeQuery();
+//            if (rs.next()) {
+//                return new Contact(
+//                        
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4),
+//                        rs.getString(5)
+//                        
+//                );
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return null;
+//    }
+public Contact getContact() {
+    String sql = "SELECT * FROM contact_info WHERE id = 1";
+    try (PreparedStatement pts = connection.prepareStatement(sql)) {
+        ResultSet rs = pts.executeQuery();
+        if (rs.next()) {
+            Contact contact = new Contact();
+            contact.setDescription(rs.getString(5)); // Sửa tên cột đúng với database
+            contact.setEmail(rs.getString(2));
+            contact.setPhone(rs.getString(3));
+            contact.setAddress(rs.getString(4));
+            return contact; // Trả về đối tượng Contact
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace(); // In lỗi nếu có
+    }
+    return null; // Trả về null nếu không có dữ liệu
+}
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        UserProfile up = new UserProfile();
-        up.setAccountId(1);
-        up.setFirstName("Nguyen Van A");
-        up.setAddress("123 Đường ABC");
-        up.setPhone("0909123456");
-        up.setDob("2000-01-01");
-
+ Contact ct = dao.getContact();
+        System.out.println(ct);
 
 
     }
