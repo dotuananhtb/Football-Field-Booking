@@ -64,17 +64,19 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             String remember = request.getParameter("remember");
             AccountDAO dao = new AccountDAO();
+            UserProfileDAO profile_dao = new UserProfileDAO();
+            
             boolean isSuccess = dao.checkLogin(username, password);
             int a = dao.getRoleIDbyAccount(username, password);
             int b = dao.getStatusIDbyAccount(username, password);
-            Account acc = new Account();
-            UserProfile profile = new UserProfile();
-            UserProfileDAO profile_dao = new UserProfileDAO();
-            acc = dao.getAccountById(dao.getAccountIDbyUsername(username));
-            profile = profile_dao.getProfileByAccountId(dao.getAccountIDbyUsername(username));
+
+            
+            Account acc = dao.getAccountById(dao.getAccountIDbyUsername(username));
+            UserProfile profile = profile_dao.getProfileByAccountId(dao.getAccountIDbyUsername(username));
 
             if (isSuccess && b == 1) {
                 session.setAttribute("username", username);
+                /////
                 session.setAttribute("acc", acc);
                 session.setAttribute("profile", profile);
 
