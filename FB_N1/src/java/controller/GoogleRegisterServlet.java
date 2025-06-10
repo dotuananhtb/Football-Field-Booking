@@ -16,7 +16,11 @@ import com.google.gson.JsonParser;
 
 import dao.AccountDAO;
 import dao.EmailVerificationTokenDAO;
+import dao.UserProfileDAO;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.UserProfile;
 
 @WebServlet("/googleRegister")
 public class GoogleRegisterServlet extends HttpServlet {
@@ -54,12 +58,15 @@ public class GoogleRegisterServlet extends HttpServlet {
                         emailVerificationTokenDAO.activateAccount(accountDAO.getAccountByEmail(email).getAccountId());
                     }
                     // Đăng nhập nếu status_id là 1 hoặc 2
-                    request.getSession().setAttribute("username", accountDAO.getAccountByEmail(email).getUsername());
-                    request.getSession().setAttribute("password", accountDAO.getAccountByEmail(email).getPassword());
-                    request.getSession().setAttribute("email", email);
-                    request.getSession().setAttribute("firstName", firstName);
-                    request.getSession().setAttribute("lastName", lastName);
-                    request.getSession().setAttribute("avatar", avatar);
+
+                    Account acc = accountDAO.getAccountByEmail(email);
+                    UserProfileDAO userProfileDAO = new UserProfileDAO();
+                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
+
+                    request.getSession().setAttribute("username", acc.getUsername());
+                    request.getSession().setAttribute("acc", acc);
+                    request.getSession().setAttribute("profile", profile);
+
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
                     request.getRequestDispatcher("home").forward(request, response);
@@ -73,13 +80,14 @@ public class GoogleRegisterServlet extends HttpServlet {
                 // Email chưa tồn tại, gọi addGoogleAccount
                 boolean success = accountDAO.addGoogleAccount(googleId, email, firstName, lastName, avatar, null);
                 if (success) {
+                    Account acc = accountDAO.getAccountByEmail(email);
+                    UserProfileDAO userProfileDAO = new UserProfileDAO();
+                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
 
-                    request.getSession().setAttribute("username", accountDAO.getAccountByEmail(email).getUsername());
-                    request.getSession().setAttribute("password", accountDAO.getAccountByEmail(email).getPassword());
-                    request.getSession().setAttribute("email", email);
-                    request.getSession().setAttribute("firstName", firstName);
-                    request.getSession().setAttribute("lastName", lastName);
-                    request.getSession().setAttribute("avatar", avatar);
+                    request.getSession().setAttribute("username", acc.getUsername());
+                    request.getSession().setAttribute("acc", acc);
+                    request.getSession().setAttribute("profile", profile);
+
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
                     request.getRequestDispatcher("home").forward(request, response);
