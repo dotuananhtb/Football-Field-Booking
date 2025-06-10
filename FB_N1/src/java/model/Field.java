@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import model.*;
 
 /**
  *
@@ -16,6 +17,20 @@ public class Field {
     private String image;
     private String status;
     private String description;
+    private Zone Zone;
+    private TypeOfField TypeOfField;
+    private SlotsOfField SlotsOfField;
+
+    public Field(int fieldId, String fieldName, String image, String status, String description, Zone Zone, TypeOfField TypeOfField, SlotsOfField SlotsOfField) {
+        this.fieldId = fieldId;
+        this.fieldName = fieldName;
+        this.image = image;
+        this.status = status;
+        this.description = description;
+        this.Zone = Zone;
+        this.TypeOfField = TypeOfField;
+        this.SlotsOfField = SlotsOfField;
+    }
 
     public Field(int fieldId, int zoneId, int fieldTypeId, String fieldName, String image, String status, String description) {
         this.fieldId = fieldId;
@@ -86,9 +101,38 @@ public class Field {
         this.description = description;
     }
 
+    public Zone getZone() {
+        return Zone;
+    }
+
+    public void setZone(Zone Zone) {
+        this.Zone = Zone;
+    }
+
+    public TypeOfField getTypeOfField() {
+        return TypeOfField;
+    }
+
+    public void setTypeOfField(TypeOfField TypeOfField) {
+        this.TypeOfField = TypeOfField;
+    }
+
+    public SlotsOfField getSlotsOfField() {
+        return SlotsOfField;
+    }
+
+    public void setSlotsOfField(SlotsOfField SlotsOfField) {
+        this.SlotsOfField = SlotsOfField;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + '}';
+//    }
+
     @Override
     public String toString() {
-        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + '}';
+        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + ", Zone=" + Zone + ", TypeOfField=" + TypeOfField + ", SlotsOfField=" + SlotsOfField + '}';
     }
     
     
