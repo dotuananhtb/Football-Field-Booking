@@ -341,19 +341,7 @@ public class AccountDAO extends DBContext {
         return 0;
     }
 
-    public boolean checkLogin(String userName, String passWord) {
-        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ? AND password = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, userName);
-            st.setString(2, passWord);
-            ResultSet rs = st.executeQuery();
-            return rs.next();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+
 
     // New methods for Google Sign-In
     public int getStatusByEmail(String email) throws SQLException {

@@ -53,7 +53,7 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("listF", list);
         request.setAttribute("listZ", listZ);
 
-    }
+    
 
     
     FieldDAO fdao = new FieldDAO();
