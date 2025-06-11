@@ -6,19 +6,17 @@ package model;
 
 /**
  *
- * @author VAN NGUYEN
+ * @author Đỗ Tuấn Anh
  */
-import java.sql.Date;
-
 public class Booking {
-    private int bookingId;
+      private int bookingId;
     private int accountId;
-    private int saleId;
-    private Date bookingDate;
+    private Integer saleId;
+    private String bookingDate;
     private double totalAmount;
     private String email;
 
-    public Booking(int bookingId, int accountId, int saleId, Date bookingDate, double totalAmount, String email) {
+    public Booking(int bookingId, int accountId, Integer saleId, String bookingDate, double totalAmount, String email) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.saleId = saleId;
@@ -26,6 +24,8 @@ public class Booking {
         this.totalAmount = totalAmount;
         this.email = email;
     }
+
+    // Getters & Setters
 
     public Booking() {
     }
@@ -46,19 +46,19 @@ public class Booking {
         this.accountId = accountId;
     }
 
-    public int getSaleId() {
+    public Integer getSaleId() {
         return saleId;
     }
 
-    public void setSaleId(int saleId) {
+    public void setSaleId(Integer saleId) {
         this.saleId = saleId;
     }
 
-    public Date getBookingDate() {
+    public String getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Date bookingDate) {
+    public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
 
@@ -77,8 +77,11 @@ public class Booking {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Booking{" + "bookingId=" + bookingId + ", accountId=" + accountId + ", saleId=" + saleId + ", bookingDate=" + bookingDate + ", totalAmount=" + totalAmount + ", email=" + email + '}';
+    }
     
     
 }

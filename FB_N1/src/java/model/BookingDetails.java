@@ -6,24 +6,26 @@ package model;
 
 /**
  *
- * @author VAN NGUYEN
+ * @author Đỗ Tuấn Anh
  */
-
-
 public class BookingDetails {
-    private int bookingDetailsId;
+     private int bookingDetailsId;
     private int bookingId;
     private int slotFieldId;
     private double slotFieldPrice;
+    private int extraMinutes;
+    private double extraFee;
 
-    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, double slotFieldPrice) {
+    public BookingDetails() {
+    }
+
+    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, double slotFieldPrice, int extraMinutes, double extraFee) {
         this.bookingDetailsId = bookingDetailsId;
         this.bookingId = bookingId;
         this.slotFieldId = slotFieldId;
         this.slotFieldPrice = slotFieldPrice;
-    }
-
-    public BookingDetails() {
+        this.extraMinutes = extraMinutes;
+        this.extraFee = extraFee;
     }
 
     public int getBookingDetailsId() {
@@ -57,7 +59,27 @@ public class BookingDetails {
     public void setSlotFieldPrice(double slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
-    
-    
+
+    public int getExtraMinutes() {
+        return extraMinutes;
+    }
+
+    public void setExtraMinutes(int extraMinutes) {
+        this.extraMinutes = extraMinutes;
+    }
+
+    public double getExtraFee() {
+        return extraFee;
+    }
+
+    public void setExtraFee(double extraFee) {
+        this.extraFee = extraFee;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingDetails{" + "bookingDetailsId=" + bookingDetailsId + ", bookingId=" + bookingId + ", slotFieldId=" + slotFieldId + ", slotFieldPrice=" + slotFieldPrice + ", extraMinutes=" + extraMinutes + ", extraFee=" + extraFee + '}';
+    }
+
     
 }

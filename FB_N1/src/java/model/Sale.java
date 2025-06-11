@@ -6,14 +6,18 @@ package model;
 
 /**
  *
- * @author VAN NGUYEN
+ * @author Đỗ Tuấn Anh
  */
 public class Sale {
+
     private int saleId;
     private int minSlot;
     private int maxSlot;
     private int salePercent;
     private String description;
+
+    public Sale() {
+    }
 
     public Sale(int saleId, int minSlot, int maxSlot, int salePercent, String description) {
         this.saleId = saleId;
@@ -21,9 +25,6 @@ public class Sale {
         this.maxSlot = maxSlot;
         this.salePercent = salePercent;
         this.description = description;
-    }
-
-    public Sale() {
     }
 
     public int getSaleId() {
@@ -65,7 +66,10 @@ public class Sale {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Sale{" + "saleId=" + saleId + ", minSlot=" + minSlot + ", maxSlot=" + maxSlot + ", salePercent=" + salePercent + ", description=" + description + '}';
+    }
+
 }
