@@ -13,6 +13,7 @@
 
     <head>
         <meta charset="utf-8">
+            <base href="${pageContext.request.contextPath}/UI/">
             <title>Vitour - Travel & Tour Booking HTML Template</title>
 
             <meta name="author" content="themesflat.com">

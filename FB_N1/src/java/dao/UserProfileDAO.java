@@ -118,7 +118,7 @@ public class UserProfileDAO extends DBContext {
     }
 
     public void updateProfile1(UserProfile up, String id) {
-        String sql = "UPDATE UserProfile SET  first_name=?, last_name=?, address=?,  phone=? ,dob = ? WHERE account_id=?";
+        String sql = "UPDATE UserProfile SET  first_name=?, last_name=?, address=?,  phone=? ,dob = ?,gender=? WHERE account_id=?";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
 
@@ -127,7 +127,8 @@ public class UserProfileDAO extends DBContext {
             ptm.setString(3, up.getAddress());
             ptm.setString(4, up.getPhone());
             ptm.setString(5, up.getDob());
-            ptm.setString(6, id);
+            ptm.setString(6, up.getGender());
+            ptm.setString(7, id);
             ptm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -34,9 +34,13 @@ public class UpdateUser extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    HttpSession session = request.getSession();
+    String mess = "";
+    
+    try {
+        
         String firstName = request.getParameter("fname");
         String lastName = request.getParameter("lname");
         String address = request.getParameter("address");
@@ -46,26 +50,60 @@ public class UpdateUser extends HttpServlet {
         String phone = request.getParameter("phone");
         String id = request.getParameter("id");
         String avatar = request.getParameter("avatar");
-        UserProfileDAO uP = new UserProfileDAO();
-//        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone);
-        UserProfile u = new UserProfile(firstName, lastName, address, gender, dob, phone, avatar);
-        uP.updateProfile1(u, id);
-        //thêm method update username
+        
+        // Kiểm tra dữ liệu đầu vào
+        if (username == null || username.trim().isEmpty()) {
+            mess = "Tên đăng nhập không được để trống";
+            session.setAttribute("mess", mess);
+            request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+            return;
+        }
+        
         AccountDAO accountDAO = new AccountDAO();
-        accountDAO.updateUsername(username, id);
+        Account currentAccount = (Account) session.getAttribute("account");
+        
+        // Kiểm tra username đã tồn tại và không phải là username hiện tại
+        if (!username.equals(currentAccount.getUsername())) {
+            Account existingAccount = accountDAO.getAccountByUsername(username);
+            if (existingAccount != null) {
+                mess = "Tài khoản đã tồn tại";
+                session.setAttribute("mess", mess);
+                request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+                return;
+            }
+        }
+        
+        // Cập nhật thông tin profile
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        UserProfile userProfile = new UserProfile(firstName, lastName, address, gender, dob, phone, avatar);
+        userProfileDAO.updateProfile1(userProfile, id);
+        
+        // Cập nhật username nếu thay đổi
+        if (!username.equals(currentAccount.getUsername())) {
+            accountDAO.updateUsername(username, id);
+        }
+        
+        // Lấy lại thông tin mới nhất từ db
         int accountId = Integer.parseInt(id);
-    UserProfile updatedProfile = uP.getProfileByAccountId(accountId);
-    Account updatedAccount = accountDAO.getAccountById(accountId);
-    session.setAttribute("userProfile", updatedProfile);
-    session.setAttribute("account", updatedAccount);
-    session.setAttribute("username", username);
-    
-    session.setAttribute("mess", "Cập nhật thành công!");
-    response.sendRedirect("userProfile"); // Chuyển về trang profile
-//        request.setAttribute("mess", "Update Successful");
-//        request.getRequestDispatcher("updateProfile").forward(request, response);
-//        response.sendRedirect("UI/UserDetail.jsp");
+        UserProfile updatedProfile = userProfileDAO.getProfileByAccountId(accountId);
+        Account updatedAccount = accountDAO.getAccountById(accountId);
+        
+        
+        session.setAttribute("userProfile", updatedProfile);
+        session.setAttribute("account", updatedAccount);
+        session.setAttribute("username", username);
+        session.removeAttribute("mess"); 
+        
+        
+        request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        mess = "Đã xảy ra lỗi khi cập nhật thông tin";
+        session.setAttribute("mess", mess);
+        request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
     }
+}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
