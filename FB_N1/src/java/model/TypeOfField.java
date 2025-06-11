@@ -6,18 +6,14 @@ package model;
 
 /**
  *
- * @author Asus
+ * @author Đỗ Tuấn Anh
  */
 public class TypeOfField {
-     private int fieldTypeId;
+
+    private int fieldTypeId;
     private String fieldTypeName;
 
     public TypeOfField() {
-    }
-
-    public TypeOfField(int fieldTypeId, String fieldTypeName) {
-        this.fieldTypeId = fieldTypeId;
-        this.fieldTypeName = fieldTypeName;
     }
 
     public int getFieldTypeId() {
@@ -36,9 +32,19 @@ public class TypeOfField {
         this.fieldTypeName = fieldTypeName;
     }
 
+    public TypeOfField(int fieldTypeId, String fieldTypeName) {
+        this.fieldTypeId = fieldTypeId;
+        this.fieldTypeName = fieldTypeName;
+    }
+
     @Override
     public String toString() {
-        return "TypeOfField{" + "fieldTypeId=" + fieldTypeId + ", fieldTypeName=" + fieldTypeName + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("TypeOfField{");
+        sb.append("fieldTypeId=").append(fieldTypeId);
+        sb.append(", fieldTypeName=").append(fieldTypeName);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
 }

@@ -46,23 +46,23 @@ public class HomeControl extends HttpServlet {
                         throws ServletException, IOException {
                 response.setContentType("text/html;charset=UTF-8");
 
-                FieldDAO fdao = new FieldDAO();
-                Zone_DAO Zdao = new Zone_DAO();
-                // Vector<Field> list = dao.getAllField();
-                // List<Zone> listZ = Zdao.getAllZone();
-                //
-                // request.setAttribute("listF", list);
-                // request.setAttribute("listZ", listZ);
-
-                Vector<Field> daof = fdao.getAllFieldLast();
-                request.setAttribute("fdao", daof);
-
-                ProductDAO pdao = new ProductDAO();
-                Vector<Product> plist = pdao.getAllProductsWithCategory();
-                request.setAttribute("plist", plist);
-
-                Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
-                request.setAttribute("fieldList", fieldList);
+//                FieldDAO fdao = new FieldDAO();
+//                Zone_DAO Zdao = new Zone_DAO();
+//                // Vector<Field> list = dao.getAllField();
+//                // List<Zone> listZ = Zdao.getAllZone();
+//                //
+//                // request.setAttribute("listF", list);
+//                // request.setAttribute("listZ", listZ);
+//
+//                Vector<Field> daof = fdao.getAllFieldLast();
+//                request.setAttribute("fdao", daof);
+//
+//                ProductDAO pdao = new ProductDAO();
+//                Vector<Product> plist = pdao.getAllProductsWithCategory();
+//                request.setAttribute("plist", plist);
+//
+//                Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
+//                request.setAttribute("fieldList", fieldList);
 
         }
 

@@ -6,24 +6,25 @@ package model;
 
 /**
  *
- * @author VAN NGUYEN
+ * @author Đỗ Tuấn Anh
  */
-import java.math.BigDecimal;
-
 public class SlotsOfField {
+
     private int slotFieldId;
-    private int slotId;
-    private int fieldId;
     private double slotFieldPrice;
 
-    public SlotsOfField(int slotFieldId, int slotId, int fieldId, double slotFieldPrice) {
-        this.slotFieldId = slotFieldId;
-        this.slotId = slotId;
-        this.fieldId = fieldId;
-        this.slotFieldPrice = slotFieldPrice;
+    private Field field;           // để biết ca này thuộc sân nào (nếu cần)
+    private SlotsOfDay slotInfo;   // thông tin giờ bắt đầu/kết thúc
+
+    // Getters & Setters
+    public SlotsOfField() {
     }
 
-    public SlotsOfField() {
+    public SlotsOfField(int slotFieldId, double slotFieldPrice, Field field, SlotsOfDay slotInfo) {
+        this.slotFieldId = slotFieldId;
+        this.slotFieldPrice = slotFieldPrice;
+        this.field = field;
+        this.slotInfo = slotInfo;
     }
 
     public int getSlotFieldId() {
@@ -34,22 +35,6 @@ public class SlotsOfField {
         this.slotFieldId = slotFieldId;
     }
 
-    public int getSlotId() {
-        return slotId;
-    }
-
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
-
-    public int getFieldId() {
-        return fieldId;
-    }
-
-    public void setFieldId(int fieldId) {
-        this.fieldId = fieldId;
-    }
-
     public double getSlotFieldPrice() {
         return slotFieldPrice;
     }
@@ -58,12 +43,25 @@ public class SlotsOfField {
         this.slotFieldPrice = slotFieldPrice;
     }
 
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
+    }
+
+    public SlotsOfDay getSlotInfo() {
+        return slotInfo;
+    }
+
+    public void setSlotInfo(SlotsOfDay slotInfo) {
+        this.slotInfo = slotInfo;
+    }
+
     @Override
     public String toString() {
-        return "SlotsOfField{" + "slotFieldId=" + slotFieldId + ", slotId=" + slotId + ", fieldId=" + fieldId + ", slotFieldPrice=" + slotFieldPrice + '}';
+        return "SlotsOfField{" + "slotFieldId=" + slotFieldId + ", slotFieldPrice=" + slotFieldPrice + ", field=" + field + ", slotInfo=" + slotInfo + '}';
     }
-    
-    
+
 }
-
-
