@@ -1,3 +1,6 @@
+<%@page import="model.Field"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.FieldDAO"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -27,16 +30,23 @@
     <body>
 
         <!-- Dropdown chọn sân -->
-        <select id="fieldId">
-            <option value="9">Sân 1</option>
-            <option value="10">Sân 2</option>
+        <label for="fieldSelect">Chọn sân:</label>
+        <select id="fieldSelect">
+            <option value="">-- Chọn sân --</option>
+            <%
+                FieldDAO fieldDAO = new FieldDAO();
+                List<Field> fields = fieldDAO.getAllFields();
+                for (Field field : fields) {
+            %>
+            <option value="<%= field.getFieldId()%>"><%= field.getFieldName()%></option>
+            <% }%>
         </select>
 
-
+        <!-- Hiển thị lịch -->
         <div id='calendar'></div>
 
         <script>
-            let calendar; // khai báo ngoài để tái sử dụng
+            let calendar;
 
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
@@ -60,10 +70,10 @@
                     events: function (fetchInfo, successCallback, failureCallback) {
                         const startDate = fetchInfo.startStr.substring(0, 10);
                         const endDate = fetchInfo.endStr.substring(0, 10);
-                        const fieldId = $('#fieldId').val();
+                        const fieldId = $('#fieldSelect').val(); // ✅ đúng ID dropdown
 
                         if (!fieldId) {
-                            alert("Vui lòng chọn sân!");
+                            successCallback([]); // Không hiển thị gì nếu chưa chọn sân
                             return;
                         }
 
@@ -89,13 +99,11 @@
 
                 calendar.render();
 
-                // ✅ Khi người dùng chọn sân khác → load lại sự kiện
-                $('#fieldId').on('change', function () {
+                // ✅ Load lại sự kiện khi người dùng đổi sân
+                $('#fieldSelect').on('change', function () {
                     calendar.refetchEvents();
                 });
             });
         </script>
-
-
     </body>
 </html>
