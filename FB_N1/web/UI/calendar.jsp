@@ -36,26 +36,25 @@
         <div id='calendar'></div>
 
         <script>
+            let calendar; // khai báo ngoài để tái sử dụng
+
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth', // view mặc định: tháng
-
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                     },
-
                     views: {
                         dayGridMonth: {buttonText: 'Tháng'},
                         timeGridWeek: {buttonText: 'Tuần'},
                         timeGridDay: {buttonText: 'Ngày'},
                         listWeek: {buttonText: 'Danh sách'}
                     },
-
-                    locale: 'vi', // tiếng Việt
+                    locale: 'vi',
                     height: 'auto',
 
                     events: function (fetchInfo, successCallback, failureCallback) {
@@ -89,6 +88,11 @@
                 });
 
                 calendar.render();
+
+                // ✅ Khi người dùng chọn sân khác → load lại sự kiện
+                $('#fieldId').on('change', function () {
+                    calendar.refetchEvents();
+                });
             });
         </script>
 
