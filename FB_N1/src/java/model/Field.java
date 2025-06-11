@@ -3,46 +3,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
-import model.*;
+
+import java.util.List;
 
 /**
  *
  * @author Đỗ Tuấn Anh
  */
 public class Field {
+
     private int fieldId;
-    private int zoneId;
-    private int fieldTypeId;
     private String fieldName;
     private String image;
     private String status;
     private String description;
-    private Zone Zone;
-    private TypeOfField TypeOfField;
-    private SlotsOfField SlotsOfField;
 
-    public Field(int fieldId, String fieldName, String image, String status, String description, Zone Zone, TypeOfField TypeOfField, SlotsOfField SlotsOfField) {
-        this.fieldId = fieldId;
-        this.fieldName = fieldName;
-        this.image = image;
-        this.status = status;
-        this.description = description;
-        this.Zone = Zone;
-        this.TypeOfField = TypeOfField;
-        this.SlotsOfField = SlotsOfField;
-    }
+    // Liên kết tới các bảng khác
+    private Zone zone;
+    private TypeOfField typeOfField;
+    private List<SlotsOfField> slots; // các ca tương ứng sân này
 
-    public Field(int fieldId, int zoneId, int fieldTypeId, String fieldName, String image, String status, String description) {
-        this.fieldId = fieldId;
-        this.zoneId = zoneId;
-        this.fieldTypeId = fieldTypeId;
-        this.fieldName = fieldName;
-        this.image = image;
-        this.status = status;
-        this.description = description;
-    }
-
+    // Getters & Setters
     public Field() {
+    }
+
+    public Field(int fieldId, String fieldName, String image, String status, String description, Zone zone, TypeOfField typeOfField, List<SlotsOfField> slots) {
+        this.fieldId = fieldId;
+        this.fieldName = fieldName;
+        this.image = image;
+        this.status = status;
+        this.description = description;
+        this.zone = zone;
+        this.typeOfField = typeOfField;
+        this.slots = slots;
     }
 
     public int getFieldId() {
@@ -51,22 +44,6 @@ public class Field {
 
     public void setFieldId(int fieldId) {
         this.fieldId = fieldId;
-    }
-
-    public int getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(int zoneId) {
-        this.zoneId = zoneId;
-    }
-
-    public int getFieldTypeId() {
-        return fieldTypeId;
-    }
-
-    public void setFieldTypeId(int fieldTypeId) {
-        this.fieldTypeId = fieldTypeId;
     }
 
     public String getFieldName() {
@@ -102,40 +79,32 @@ public class Field {
     }
 
     public Zone getZone() {
-        return Zone;
+        return zone;
     }
 
-    public void setZone(Zone Zone) {
-        this.Zone = Zone;
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
 
     public TypeOfField getTypeOfField() {
-        return TypeOfField;
+        return typeOfField;
     }
 
-    public void setTypeOfField(TypeOfField TypeOfField) {
-        this.TypeOfField = TypeOfField;
+    public void setTypeOfField(TypeOfField typeOfField) {
+        this.typeOfField = typeOfField;
     }
 
-    public SlotsOfField getSlotsOfField() {
-        return SlotsOfField;
+    public List<SlotsOfField> getSlots() {
+        return slots;
     }
 
-    public void setSlotsOfField(SlotsOfField SlotsOfField) {
-        this.SlotsOfField = SlotsOfField;
+    public void setSlots(List<SlotsOfField> slots) {
+        this.slots = slots;
     }
-
-//    @Override
-//    public String toString() {
-//        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + '}';
-//    }
 
     @Override
     public String toString() {
-        return "Field{" + "fieldId=" + fieldId + ", zoneId=" + zoneId + ", fieldTypeId=" + fieldTypeId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + ", Zone=" + Zone + ", TypeOfField=" + TypeOfField + ", SlotsOfField=" + SlotsOfField + '}';
+        return "Field{" + "fieldId=" + fieldId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + ", zone=" + zone + ", typeOfField=" + typeOfField + ", slots=" + slots + '}';
     }
-    
-    
-    
-    
+
 }
