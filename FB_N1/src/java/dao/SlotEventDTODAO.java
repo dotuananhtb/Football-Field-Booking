@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.BookingDetails;
 import model.SlotEventDTO;
 import model.SlotsOfField;
 import util.DBContext;
@@ -25,47 +26,63 @@ public class SlotEventDTODAO extends DBContext {
     public List<Map<String, Object>> getAllSlotsForRange(int fieldId, String startDate, String endDate) {
         List<Map<String, Object>> list = new ArrayList<>();
 
-        // Bước 1: Lấy danh sách ca mặc định của sân
-        SlotsOfFieldDAO slotsOfFieldDAO= new SlotsOfFieldDAO();
-        List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId); // mỗi slot có: slotFieldId, startTime, endTime
+        // DAO để truy xuất dữ liệu
+        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+        BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
 
-        // Bước 2: Duyệt từng ngày trong khoảng
+        // Lấy danh sách slot theo sân
+        List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
+
+        // Xử lý khoảng ngày
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-            String dateStr = date.format(dateFormat);
+            String slotDate = date.format(dateFormat);
 
             for (SlotsOfField slot : slots) {
                 int slotFieldId = slot.getSlotFieldId();
 
-                // Bước 3: Check trong bảng CheckingSlot
-                CheckingSlotDAO checkingSlotDAO = new CheckingSlotDAO();
-                String status = checkingSlotDAO.getSlotStatus(slotFieldId, dateStr); // nếu không có bản ghi trả "available"
+                // Kiểm tra xem slot này trong ngày đó đã được đặt hay chưa
+                BookingDetails detail = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
 
-                // Bước 4: Tạo sự kiện cho FullCalendar
+                String status;
+                String color;
+                if (detail == null || detail.getStatusCheckingId() == 3) {
+                    status = "Available";
+                    color = "#28a745"; // xanh
+                } else if (detail.getStatusCheckingId() == 2) {
+                    status = "Pending";
+                    color = "#ffc107"; // vàng
+                } else {
+                    status = "Booked";
+                    color = "#dc3545"; // đỏ
+                }
+
+                // Tạo object event để hiển thị
                 Map<String, Object> event = new HashMap<>();
-                event.put("title", status.equals("available") ? "Available" : "Booked");
-                event.put("start", dateStr + "T" + slot.getSlotInfo().getStartTime()); // "2025-06-13T08:00:00"
-                event.put("end", dateStr + "T" + slot.getSlotInfo().getEndTime());
-                event.put("color", status.equals("available") ? "#28a745" : "#dc3545"); // xanh/đỏ
+                event.put("title", status);
+                event.put("start", slotDate + "T" + slot.getSlotInfo().getStartTime());
+                event.put("end", slotDate + "T" + slot.getSlotInfo().getEndTime());
+                event.put("color", color);
+
                 list.add(event);
             }
         }
 
         return list;
     }
-    
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
         // Khởi tạo DAO
         SlotEventDTODAO dao = new SlotEventDTODAO();
 
         // Gọi hàm chính để lấy danh sách slot
         List<Map<String, Object>> result = dao.getAllSlotsForRange(
-            9,                       // fieldId: sân số 2
-            "2025-06-13",            // startDate
-            "2025-06-22"             // endDate
+                9, // fieldId: sân số 2
+                "2025-06-13", // startDate
+                "2025-06-22" // endDate
         );
 
         // In ra dưới dạng JSON

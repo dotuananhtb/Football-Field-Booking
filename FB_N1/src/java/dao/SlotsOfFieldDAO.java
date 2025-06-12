@@ -8,6 +8,7 @@ package dao;
  *
  * @author Đỗ Tuấn Anh
  */
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 import model.*;
@@ -70,7 +71,7 @@ public class SlotsOfFieldDAO extends DBContext {
                     // Tạo đối tượng SlotsOfField
                     SlotsOfField slotField = new SlotsOfField();
                     slotField.setSlotFieldId(rs.getInt("slot_field_id"));
-                    slotField.setSlotFieldPrice(rs.getDouble("slot_field_price"));
+                    slotField.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
                     slotField.setSlotInfo(slotOfDay);  // Gán thông tin slot
 
                     list.add(slotField);
@@ -80,6 +81,20 @@ public class SlotsOfFieldDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public BigDecimal getPriceBySlotFieldId(int slotFieldId) {
+        String sql = "SELECT slot_field_price FROM SlotsOfField WHERE slot_field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("slot_field_price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // hoặc BigDecimal.ZERO nếu bạn muốn tránh null
     }
 
 }

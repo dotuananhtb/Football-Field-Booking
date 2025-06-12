@@ -4,19 +4,22 @@
  */
 package model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Đỗ Tuấn Anh
  */
 public class Booking {
-      private int bookingId;
+
+    private int bookingId;
     private int accountId;
-    private Integer saleId;
+    private Integer saleId; // Dữ liệu có thể null
     private String bookingDate;
-    private double totalAmount;
+    private BigDecimal totalAmount;
     private String email;
 
-    public Booking(int bookingId, int accountId, Integer saleId, String bookingDate, double totalAmount, String email) {
+    public Booking(int bookingId, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.saleId = saleId;
@@ -26,7 +29,6 @@ public class Booking {
     }
 
     // Getters & Setters
-
     public Booking() {
     }
 
@@ -62,11 +64,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -82,6 +84,5 @@ public class Booking {
     public String toString() {
         return "Booking{" + "bookingId=" + bookingId + ", accountId=" + accountId + ", saleId=" + saleId + ", bookingDate=" + bookingDate + ", totalAmount=" + totalAmount + ", email=" + email + '}';
     }
-    
-    
+
 }

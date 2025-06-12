@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Đỗ Tuấn Anh
@@ -11,7 +13,7 @@ package model;
 public class SlotsOfField {
 
     private int slotFieldId;
-    private double slotFieldPrice;
+    private BigDecimal slotFieldPrice;
 
     private Field field;           // để biết ca này thuộc sân nào (nếu cần)
     private SlotsOfDay slotInfo;   // thông tin giờ bắt đầu/kết thúc
@@ -20,7 +22,7 @@ public class SlotsOfField {
     public SlotsOfField() {
     }
 
-    public SlotsOfField(int slotFieldId, double slotFieldPrice, Field field, SlotsOfDay slotInfo) {
+    public SlotsOfField(int slotFieldId, BigDecimal slotFieldPrice, Field field, SlotsOfDay slotInfo) {
         this.slotFieldId = slotFieldId;
         this.slotFieldPrice = slotFieldPrice;
         this.field = field;
@@ -35,11 +37,11 @@ public class SlotsOfField {
         this.slotFieldId = slotFieldId;
     }
 
-    public double getSlotFieldPrice() {
+    public BigDecimal getSlotFieldPrice() {
         return slotFieldPrice;
     }
 
-    public void setSlotFieldPrice(double slotFieldPrice) {
+    public void setSlotFieldPrice(BigDecimal slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
 
