@@ -17,13 +17,43 @@
             }
 
             #calendar {
+                width: 100%;
                 max-width: 1100px;
+                height: 600px; /* Chiều cao cố định để cuộn */
+                overflow: auto; /* Cho phép cuộn nếu nội dung vượt khung */
                 margin: 30px auto;
                 padding: 10px;
                 background: #ffffff;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0,0,0,0.1);
             }
+            #calendar-wrapper {
+                max-width: 1100px;
+                margin: 0 auto;
+                background: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                height: 650px; /* chiều cao tổng */
+            }
+
+            .calendar-header {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: white;
+                border-bottom: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .calendar-body-scroll {
+                flex: 1;
+                overflow-y: auto;
+                overflow-x: auto;
+            }
+
 
             #fieldSelect {
                 display: block;
@@ -50,6 +80,7 @@
             }
 
             button#bookNowBtn {
+                display: none; /* Ẩn ban đầu */
                 padding: 10px 20px;
                 background-color: #28a745;
                 color: white;
@@ -106,7 +137,13 @@
         </select>
 
         <!-- Lịch đặt -->
-        <div id="calendar"></div>
+        <div id="calendar-wrapper">
+            <div class="calendar-header"></div> <!-- header sẽ được render riêng -->
+            <div class="calendar-body-scroll">
+                <div id="calendar"></div> <!-- FullCalendar sẽ render vào đây, bỏ header -->
+            </div>
+        </div>
+
 
         <!-- Bảng ca đã chọn -->
         <table id="selectedSlotsTable" class="table" style="display:none;">
@@ -273,9 +310,11 @@
                 if (selectedSlots.length > 0) {
                     $("#selectedSlotsTable").show();
                     $("#totalPrice").show().html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+                    $("#bookNowBtn").show();
                 } else {
                     $("#selectedSlotsTable").hide();
                     $("#totalPrice").hide();
+                    $("#bookNowBtn").hide();
                 }
             }
         </script>
