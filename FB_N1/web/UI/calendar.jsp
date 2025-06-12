@@ -188,7 +188,7 @@
 
                             if (existsIndex > -1) {
                                 selectedSlots.splice(existsIndex, 1);
-                                $(info.el).removeClass("selected-slot");
+                                info.event.setProp('classNames', []); // ❌ Xoá style đã chọn
                             } else {
                                 selectedSlots.push({
                                     slot_field_id: slot.slot_field_id,
@@ -198,7 +198,7 @@
                                     price: parseFloat(slot.price),
                                     title: info.event.title
                                 });
-                                $(info.el).addClass("selected-slot");
+                                info.event.setProp('classNames', ['selected-slot']); // ✅ Gán style
                             }
 
                             renderSelectedTable();
@@ -208,10 +208,9 @@
 
                 calendar.render();
 
-                // 🔧 Không reset selectedSlots khi đổi sân nữa
                 $('#fieldSelect').on('change', function () {
-                    calendar.refetchEvents();         // chỉ reload lịch sân
-                    renderSelectedTable();            // vẽ lại bảng (slot các sân vẫn giữ)
+                    calendar.refetchEvents();
+                    renderSelectedTable();
                 });
 
                 $('#bookNowBtn').on('click', function () {
@@ -220,31 +219,13 @@
                         return;
                     }
 
-                    // Gửi dữ liệu (đã bỏ comment nếu bạn muốn bật lại AJAX)
-                    /*
-                     $.ajax({
-                     url: "/FB_N1/book",
-                     method: "POST",
-                     contentType: "application/json",
-                     data: JSON.stringify(selectedSlots),
-                     success: function (response) {
-                     alert("Đặt sân thành công!");
-                     selectedSlots = [];
-                     renderSelectedTable();
-                     calendar.refetchEvents();
-                     },
-                     error: function () {
-                     alert("Có lỗi xảy ra khi đặt sân.");
-                     }
-                     });
-                     */
+                    // Gửi dữ liệu nếu muốn
                 });
             });
 
             function renderSelectedTable() {
                 const tbody = $("#selectedSlotsTable tbody");
                 tbody.empty();
-
                 let total = 0;
 
                 selectedSlots.forEach((slot, index) => {
@@ -265,12 +246,27 @@
                     total += price;
                 });
 
-                // Gán sự kiện xoá slot
-                $(".remove-slot-btn").on("click", function () {
+                $(".remove-slot-btn").off("click").on("click", function () {
                     const rowIndex = $(this).closest("tr").data("index");
+
                     if (rowIndex !== undefined) {
+                        const removedSlot = selectedSlots[rowIndex];
+
+                        // ❗ Xoá style selected-slot trên lịch
+                        calendar.getEvents().forEach(event => {
+                            const props = event.extendedProps;
+                            if (
+                                    String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                                    props.slot_date === removedSlot.slot_date &&
+                                    event.startStr === removedSlot.start &&
+                                    event.endStr === removedSlot.end
+                                    ) {
+                                event.setProp('classNames', []);
+                            }
+                        });
+
                         selectedSlots.splice(rowIndex, 1);
-                        renderSelectedTable(); // vẽ lại bảng sau khi xoá
+                        renderSelectedTable();
                     }
                 });
 
@@ -283,6 +279,7 @@
                 }
             }
         </script>
+
 
 
 
