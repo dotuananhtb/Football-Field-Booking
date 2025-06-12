@@ -84,7 +84,7 @@ public class BookingService extends DBContext {
                 try {
                     // Ví dụ: gửi mail xác nhận đặt sân
                     SendMail sender = new SendMail();
-                    sender.guiMailDatSanThanhCong(account.getEmail(), account.getUserProfile().getLastName() + account.getUserProfile().getFirstName(), finalBookingId,totalAmount);
+                    sender.guiMailDatSanThanhCong(account.getEmail(), account.getUserProfile().getLastName()+" "+ account.getUserProfile().getFirstName(), finalBookingId,totalAmount);
                 } catch (Exception ex) {
                     ex.printStackTrace(); // không ảnh hưởng logic chính
                 }
