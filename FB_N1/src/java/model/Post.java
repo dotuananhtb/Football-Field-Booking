@@ -14,20 +14,23 @@ public class Post {
     private int postId;
     private int accountId;
     private String title;
+    private String img;
     private String contentPost;
-    private Date postDate;
+    private String postDate;
     private String statusPost;
+    private Account account;
 
-    public Post(int postId, int accountId, String title, String contentPost, Date postDate, String statusPost) {
+    public Post() {
+    }
+
+    public Post(int postId, int accountId, String title, String img, String contentPost, String postDate, String statusPost) {
         this.postId = postId;
         this.accountId = accountId;
         this.title = title;
+        this.img = img;
         this.contentPost = contentPost;
         this.postDate = postDate;
         this.statusPost = statusPost;
-    }
-
-    public Post() {
     }
 
     public int getPostId() {
@@ -54,6 +57,14 @@ public class Post {
         this.title = title;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public String getContentPost() {
         return contentPost;
     }
@@ -62,11 +73,11 @@ public class Post {
         this.contentPost = contentPost;
     }
 
-    public Date getPostDate() {
+    public String getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
 
@@ -78,9 +89,17 @@ public class Post {
         this.statusPost = statusPost;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public String toString() {
-        return "Post{" + "postId=" + postId + ", accountId=" + accountId + ", title=" + title + ", contentPost=" + contentPost + ", postDate=" + postDate + ", statusPost=" + statusPost + '}';
+        return "Post{" + "postId=" + postId + ", accountId=" + accountId + ", title=" + title + ", img=" + img + ", contentPost=" + contentPost + ", postDate=" + postDate + ", statusPost=" + statusPost + '}';
     }
     
 }
