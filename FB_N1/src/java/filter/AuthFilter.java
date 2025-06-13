@@ -1,16 +1,5 @@
 package filter;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -21,15 +10,10 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.*;
 import java.io.IOException;
 import model.Account;
 
 @WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/admin/*"})
-
 public class AuthFilter implements Filter {
 
     @Override
@@ -43,21 +27,42 @@ public class AuthFilter implements Filter {
         Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
 
         if (acc == null) {
+            // AJAX request → trả JSON 401
             String requestedWith = req.getHeader("X-Requested-With");
-
             if ("XMLHttpRequest".equals(requestedWith)) {
-                // Nếu là AJAX request → trả về JSON báo lỗi
                 res.setContentType("application/json");
                 res.setCharacterEncoding("UTF-8");
-                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 res.getWriter().write("{\"success\": false, \"message\": \"Bạn chưa đăng nhập.\"}");
-            } else {
-                // Nếu là request thông thường (trình duyệt load trang) → redirect
-                res.sendRedirect(req.getContextPath() + "/login");
+                return;
             }
+
+            // Với request thường → redirect đến /login kèm lưu đường dẫn gốc
+            String contextPath = req.getContextPath();
+            String requestURI = req.getRequestURI();
+            String query = req.getQueryString();
+
+            String fullPath = requestURI + (query != null ? "?" + query : "");
+            String redirectPath = fullPath.substring(contextPath.length());
+
+            HttpSession newSession = req.getSession(true);
+            newSession.setAttribute("redirectAfterLogin", redirectPath);
+
+            res.sendRedirect(contextPath + "/login");
             return;
         }
 
+        // Đã đăng nhập → cho qua
         chain.doFilter(request, response);
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // Không cần xử lý gì thêm khi init
+    }
+
+    @Override
+    public void destroy() {
+        // Không cần xử lý gì thêm khi destroy
     }
 }

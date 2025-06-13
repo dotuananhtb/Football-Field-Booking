@@ -132,7 +132,7 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-30">
-                                                                                                        <button type="submit " name ="submit_Btn" id="btndangnhap" onclick="checkLogin()" class="btn-submit">Đăng nhập</button>
+                                                                                                        <button type="submit" name ="submit_Btn" id="btndangnhap" onclick="checkLogin()" class="btn-submit">Đăng nhập</button>
                                                                                                     </div>
 
                                                                                                     <div class="col-md-12">
