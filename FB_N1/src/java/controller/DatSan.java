@@ -21,11 +21,6 @@ public class DatSan extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("accountId") == null) {
-            response.sendRedirect("login"); 
-            return;
-        }
 
         // Forward tới trang đặt sân
         request.getRequestDispatcher("/UI/calendar.jsp").forward(request, response);

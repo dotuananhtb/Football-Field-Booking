@@ -96,11 +96,12 @@ public class LoginServlet extends HttpServlet {
             // ✅ Redirect về trang trước khi login nếu có
             String redirectPath = (String) session.getAttribute("redirectAfterLogin");
 
-            System.out.println("Redirect after login to: " + request.getContextPath() + redirectPath);
 
-            if (redirectPath != null && !redirectPath.trim().isEmpty()) {
+            if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
                 session.removeAttribute("redirectAfterLogin");
-                response.sendRedirect(request.getContextPath() + redirectPath);
+                String finalRedirect = request.getContextPath() + redirectPath;
+                response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
+
             } else {
                 response.sendRedirect(request.getContextPath() + "/home");
             }

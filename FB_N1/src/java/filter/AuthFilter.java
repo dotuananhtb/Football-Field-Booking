@@ -23,7 +23,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
         Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
 
         if (acc == null) {

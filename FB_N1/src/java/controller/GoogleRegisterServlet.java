@@ -68,7 +68,16 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
-                    request.getRequestDispatcher("home").forward(request, response);
+                    String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
+
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                        request.getSession().removeAttribute("redirectAfterLogin");
+                        String finalRedirect = request.getContextPath() + redirectPath;
+                        response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
+
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    }
                     return;
 
                 } else if (statusId == 3) {
@@ -88,7 +97,16 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
-                    request.getRequestDispatcher("home").forward(request, response);
+                    String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
+
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                        request.getSession().removeAttribute("redirectAfterLogin");
+                        String finalRedirect = request.getContextPath() + redirectPath;
+                        response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
+
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    }
                     return;
                 } else {
                     response.getWriter().println("<h2>Đăng ký thất bại!</h2>");
