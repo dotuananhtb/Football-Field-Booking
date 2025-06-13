@@ -44,12 +44,12 @@ public class PostDAO extends DBContext {
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Post p = new Post(
-                    rs.getInt(1),    // post_id
-                    rs.getInt(2),    // account_id
-                    rs.getString(3), // title
-                    rs.getString(4), // content_post
-                    rs.getString(5), // post_date
-                    rs.getString(6)  // status_post
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getString(4), 
+                    rs.getString(5), 
+                    rs.getString(6) 
                 );
                 listPost.add(p);
             }
@@ -136,14 +136,63 @@ public class PostDAO extends DBContext {
         Vector<Post> list = new Vector<>();
         String query = "SELECT p.*, a.username FROM Post p " +
                        "JOIN Account a ON p.account_id = a.account_id " +
-                       "WHERE p.title LIKE N? " +
+                       "WHERE p.title LIKE ? " +
                        "ORDER BY p.post_date DESC " +
                        "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
+          
+            
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setString(1, "%" + title + "%");
             ptm.setInt(2, (page - 1) * pageSize);
             ptm.setInt(3, pageSize);
+            
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setPostId(rs.getInt("post_id"));
+                post.setAccountId(rs.getInt("account_id"));
+                post.setTitle(rs.getString("title"));
+                post.setContentPost(rs.getString("content_post"));
+                post.setPostDate(rs.getString("post_date"));
+                post.setStatusPost(rs.getString("status_post"));
+                Account account = new Account();
+                account.setUsername(rs.getString("username"));
+                post.setAccount(account);
+                list.add(post);
+            }
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countPostsByTitle(String title) {
+        String query = "SELECT COUNT(*) FROM Post WHERE title LIKE ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setString(1, "%" + title + "%");
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Vector<Post> getRecentPosts(int limit) {
+        Vector<Post> list = new Vector<>();
+        String query = "SELECT TOP (?) p.*, a.username FROM Post p " +
+                      "JOIN Account a ON p.account_id = a.account_id " +
+                      "ORDER BY p.post_date DESC";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setInt(1, limit);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Post post = new Post();
@@ -159,23 +208,9 @@ public class PostDAO extends DBContext {
                 list.add(post);
             }
         } catch (SQLException e) {
+           
             e.printStackTrace();
         }
         return list;
-    }
-
-    public int countPostsByTitle(String title) {
-        String query = "SELECT COUNT(*) FROM Post WHERE title LIKE N?";
-        try {
-            PreparedStatement ptm = connection.prepareStatement(query);
-            ptm.setString(1, "%" + title + "%");
-            ResultSet rs = ptm.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 } 

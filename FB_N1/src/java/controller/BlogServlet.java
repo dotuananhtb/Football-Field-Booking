@@ -16,6 +16,9 @@ public class BlogServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            
             PostDAO postDAO = new PostDAO();
             CommentDAO commentDAO = new CommentDAO();
             
@@ -24,11 +27,15 @@ public class BlogServlet extends HttpServlet {
             int pageSize = 4;
 
             String search = request.getParameter("search");
+
+
             Vector<Post> posts;
             int totalPosts;
             if (search != null && !search.trim().isEmpty()) {
+
                 posts = postDAO.searchPostsByTitle(search, page, pageSize);
                 totalPosts = postDAO.countPostsByTitle(search);
+
                 request.setAttribute("search", search);
             } else {
                 posts = postDAO.getAllPosts(page, pageSize);
@@ -41,8 +48,8 @@ public class BlogServlet extends HttpServlet {
             }
             int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
 
-            // Lấy 3 bài viết mới nhất cho Recent News
-            Vector<Post> recentPosts = postDAO.getAllPosts(1, 3);
+            // Lấy 3 bài viết mới nhất 
+            Vector<Post> recentPosts = postDAO.getRecentPosts(3);
             request.setAttribute("recentPosts", recentPosts);
 
             request.setAttribute("posts", posts);

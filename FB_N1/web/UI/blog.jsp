@@ -52,10 +52,10 @@
                     <div class="tf-container">
                         <div class="row">
                             <div class="col-lg-12 center z-index1">
-                                <h1 class="title">Blog Page</h1>
+                                <h1 class="title">Trang Blog</h1>
                                 <ul class="breadcumb-list flex-five">
-                                    <li><a href="/FB_N1/home">Home</a></li>
-                                    <li><span>Blog Page</span></li>
+                                    <li><a href="/FB_N1/home">Trang chủ</a></li>
+                                    <li><span>Tin tức</span></li>
                                 </ul>
                                 <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
                             </div>

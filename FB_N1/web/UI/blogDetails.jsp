@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -54,8 +55,8 @@
                             <div class="col-lg-12 center z-index1">
                                 <h1 class="title">Chi tiết bài viết</h1>
                                 <ul class="breadcumb-list flex-five">
-                                    <li><a href="/FB_N1/home">Home</a></li>
-                                    <li><span>Blog Details</span></li>
+                                    <li><a href="/FB_N1/home">Trang chủ</a></li>
+                                    <li><span>Xem bài viết</span></li>
                                 </ul>
                                 <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
                             </div>
@@ -66,7 +67,7 @@
 
                 <section class="our-blog pd-main">
                     <div class="tf-container">
-                        <div class="row">
+                        <div class="row justify-content-center">
                             <div class="col-lg-8 col-12">
                                 <article class="side-blog side-blog-single">
                                     <div class="image">
