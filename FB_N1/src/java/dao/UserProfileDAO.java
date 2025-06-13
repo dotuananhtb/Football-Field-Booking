@@ -28,15 +28,15 @@ public class UserProfileDAO extends DBContext {
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 UserProfile up = new UserProfile(
-                        rs.getInt("accountId"),
-                        rs.getInt("roleId"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
-                        rs.getString("address"),
-                        rs.getString("gender"),
-                        rs.getString("dob"),
-                        rs.getString("phone"),
-                        rs.getString("avatar")
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9)
                 );
                 list.add(up);
             }
@@ -69,7 +69,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-
+     
     public void insertProfile(UserProfile up) {
         String sql = "INSERT INTO tblUserProfile (accountId, roleId, firstName, lastName, address, gender, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -208,8 +208,10 @@ public Contact getContact() {
 }
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
- Contact ct = dao.getContact();
-        System.out.println(ct);
+        Vector<UserProfile> us = dao.getAllProfiles();
+        for (UserProfile user : us){
+            System.out.println(user);
+        }
 
 
     }

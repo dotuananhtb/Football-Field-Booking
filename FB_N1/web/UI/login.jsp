@@ -56,10 +56,10 @@
                                                                         <div class="tf-container">
                                                                             <div class="row">
                                                                                 <div class="col-lg-12 center z-index1">
-                                                                                    <h1 class="title">User Login</h1>
+                                                                                    <h1 class="title">Đăng nhập tài khoản</h1>
                                                                                     <ul class="breadcumb-list flex-five">
-                                                                                        <li><a href="homePage.jsp">Home</a></li>
-                                                                                        <li><span>User Login</span></li>
+                                                                                        <li><a href="homePage.jsp">Trang chủ</a></li>
+                                                                                        <li><span>Đăng nhập </span></li>
                                                                                     </ul>
                                                                                     <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
                                                                                 </div>
@@ -78,15 +78,15 @@
                                                                                         </div>
                                                                                         <div class="content">
                                                                                             <div class="inner-header-login">
-                                                                                                <h3 class="title">Login</h3>
+                                                                                                <h3 class="title">Đăng nhập </h3>
 
                                                                                             </div>
                                                                                             <form action="${pageContext.request.contextPath}/login" method="post" id="login" class="login-user">
                                                                                             <div class="row">
                                                                                                 <div class="col-md-12">
                                                                                                     <div class="input-wrap">
-                                                                                                        <label>Name</label>
-                                                                                                        <input type="text" id ="username" name="username"   placeholder="Enter your username" autofocus> 
+                                                                                                        <label>Tên đăng nhập*</label>
+                                                                                                        <input type="text" id ="username" name="username"   placeholder="Tên đăng nhập của bạn" autofocus> 
                                                                                                     </div>
 
                                                                                                 </div>
@@ -94,13 +94,15 @@
                                                                                                 <div class="col-lg-12">
                                                                                                     <div class="input-wrap">
                                                                                                         <div class="flex-two">
-                                                                                                            <label>Your password</label>
+                                                                                                            <label>Mật khẩu*</label>
 
                                                                                                         </div>
 
-                                                                                                        <input type="password" id="password"  name="password" placeholder="Enter your password">
+                                                                                                        <input type="password" id="password"  name="password" placeholder="Mật Khẩu của bạn">
                                                                                                     </div>
-                                                                                                    <a class="fas fa-eye" href ="#" onclick="daoTT()" > Hiện thị mật khẩu</a>
+                                                                                                    <a  style="font-family: DM Sans, sans-serif;;
+                                                                                                       font-weight: 400;
+                                                                                                       font-size: 16px;"  href ="javascript:void(0);" onclick="daoTT()" > <span>Hiển thị mật khẩu</span></a>
 
                                                                                                     <div id="loginError" class="text-danger mb-2" style="font-size: 14px;">
                                                                                                     </div>
@@ -113,7 +115,7 @@
 
                                                                                                         <input type="checkbox" name="remember" class="custom-control-input" id="rememberCheck">
                                                                                                             <label class="custom-control-label mb-0" for="rememberCheck">Nhớ Mật Khẩu</label>
-                                                                                                            <a href="${pageContext.request.contextPath}/requestPassword"  class="mb-15 float-end">Forgot Password?</a>
+                                                                                                            <a href="${pageContext.request.contextPath}/requestPassword"  class="mb-15 float-end">Quên mật khẩu</a>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-40">
                                                                                                         <div class="input-wrap-social ">
@@ -130,13 +132,13 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-lg-12 mb-30">
-                                                                                                        <button type="submit " name ="submit_Btn" id="btndangnhap" onclick="checkLogin()" class="btn-submit">Sign in</button>
+                                                                                                        <button type="submit " name ="submit_Btn" id="btndangnhap" onclick="checkLogin()" class="btn-submit">Đăng nhập</button>
                                                                                                     </div>
 
                                                                                                     <div class="col-md-12">
                                                                                                         <div class="flex-three">
-                                                                                                            <span class="account">Do you have an account?</span>
-                                                                                                            <a href="${pageContext.request.contextPath}/dang-ki" class="link-login">Register</a>
+                                                                                                            <span class="account">Bạn chưa có tài khoản ?</span>
+                                                                                                            <a href="${pageContext.request.contextPath}/dang-ki" class="link-login">Đăng ký ngay</a>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
