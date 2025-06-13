@@ -17,11 +17,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.System.Logger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import model.Account;
 import model.UserProfile;
+import org.w3c.dom.ls.LSOutput;
 
 /**
  *
@@ -93,7 +95,12 @@ public class LoginServlet extends HttpServlet {
 
             // ✅ Redirect về trang trước khi login nếu có
             String redirectPath = (String) session.getAttribute("redirectAfterLogin");
-            if (redirectPath != null && !redirectPath.trim().isEmpty()) {
+
+            System.out.println("Redirect after login to: " + request.getContextPath() + redirectPath);
+
+            if (redirectPath
+                    != null && !redirectPath.trim()
+                            .isEmpty()) {
                 session.removeAttribute("redirectAfterLogin");
                 response.sendRedirect(request.getContextPath() + redirectPath);
             } else {

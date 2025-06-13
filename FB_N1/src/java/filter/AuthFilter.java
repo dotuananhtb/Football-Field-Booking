@@ -38,16 +38,21 @@ public class AuthFilter implements Filter {
             }
 
             // Với request thường → redirect đến /login kèm lưu đường dẫn gốc
-            String contextPath = req.getContextPath();
-            String requestURI = req.getRequestURI();
-            String query = req.getQueryString();
+            String contextPath = req.getContextPath();   // VD: /FootballFieldBooking
+            String requestURI = req.getRequestURI();     // VD: /FootballFieldBooking/dat-san
+            String query = req.getQueryString();         // VD: slot=3&date=2025-06-13
 
-            String fullPath = requestURI + (query != null ? "?" + query : "");
-            String redirectPath = fullPath.substring(contextPath.length());
+// Lấy phần URI không bao gồm context path
+            String path = requestURI.substring(contextPath.length()); // VD: /dat-san
 
+// Gắn query string nếu có
+            String redirectPath = path + (query != null ? "?" + query : ""); // VD: /dat-san?slot=3&date=...
+
+// Gán vào session
             HttpSession newSession = req.getSession(true);
             newSession.setAttribute("redirectAfterLogin", redirectPath);
 
+// Chuyển hướng đến trang login
             res.sendRedirect(contextPath + "/login");
             return;
         }
