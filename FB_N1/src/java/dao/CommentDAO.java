@@ -40,9 +40,24 @@ public class CommentDAO extends DBContext {
         return list;
     }
 
+    public int countCommentsByPostId(int postId) {
+        String sql = "SELECT COUNT(*) FROM Comment WHERE post_id = ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, postId);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public void addComment(Comment comment) {
         String query = "INSERT INTO Comment (post_id, account_id, content_cmt, cmt_date) "
-                + "VALUES (?, ?, ?, GETDATE())";
+                + "VALUES (?, ?, ?, CONVERT(NVARCHAR(50), GETDATE(), 120))";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setInt(1, comment.getPostId());

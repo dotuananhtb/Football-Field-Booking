@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -66,308 +68,102 @@
                     <div class="tf-container">
                         <div class="row">
                             <div class="col-lg-8 col-12">
-                                <article class="side-blog mb-56px">
-                                    <div class="blog-image">
-                                        <div class="list-categories">
-                                            <a href="#" class="new">24 Feb</a>
-                                        </div>
-                                        <a class="post-thumbnail" href="blog-details.html">
-                                            <img src="./assets/images/blog/blog.jpg" alt="Image blog">
-                                        </a>
-
-                                    </div>
-                                    <div class="blog-content">
-                                        <div class="top-detail-info">
-                                            <ul class="flex-three">
-                                                <li>
-                                                    <i class="icon-user"></i>
-                                                    <a href="#">Mehedii .Ha</a>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-25"></i>
-                                                    <span class="date">Coments (03)</span>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-24"></i>
-                                                    <span class="date">3 min Read</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h3 class="entry-title">
-                                            <a href="blog-details.html">The whimsically named Egg Canvas brainch </a>
-                                        </h3>
-                                        <p class="description">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.
-                                        </p>
-                                        <div class="button-main ">
-                                            <a href="blog-details.html" class="button-link">Read More <i
-                                                    class="icon-Arrow-11"></i></a>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article class="side-blog mb-56px">
-                                    <div class="blog-image">
-                                        <div class="list-categories">
-                                            <a href="#" class="new">24 Feb</a>
-                                        </div>
-                                        <a class="post-thumbnail" href="blog-details.html">
-                                            <img src="./assets/images/blog/blog1.jpg" alt="Image blog">
-                                        </a>
-
-                                    </div>
-                                    <div class="blog-content">
-                                        <div class="top-detail-info">
-                                            <ul class="flex-three">
-                                                <li>
-                                                    <i class="icon-user"></i>
-                                                    <a href="#">Mehedii .Ha</a>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-25"></i>
-                                                    <span class="date">Coments (03)</span>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-24"></i>
-                                                    <span class="date">3 min Read</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h3 class="entry-title">
-                                            <a href="blog-details.html">The whimsically named Egg Canvas brainch </a>
-                                        </h3>
-                                        <p class="description">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.
-                                        </p>
-                                        <div class="button-main">
-                                            <a href="blog-details.html" class="button-link">Read More<i
-                                                    class="icon-Arrow-11"></i></a>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article class="side-blog mb-56px">
-                                    <div class="blog-image">
-                                        <div class="list-categories">
-                                            <a href="#" class="new">24 Feb</a>
-                                        </div>
-                                        <a class="post-thumbnail" href="blog-details.html">
-                                            <img src="./assets/images/blog/blog2.jpg" alt="Image blog">
-                                        </a>
-
-                                    </div>
-                                    <div class="blog-content">
-                                        <div class="top-detail-info">
-                                            <ul class="flex-three">
-                                                <li>
-                                                    <i class="icon-user"></i>
-                                                    <a href="#">Mehedii .Ha</a>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-25"></i>
-                                                    <span class="date">Coments (03)</span>
-                                                </li>
-                                                <li>
-                                                    <i class="icon-24"></i>
-                                                    <span class="date">3 min Read</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h3 class="entry-title">
-                                            <a href="blog-details.html">The whimsically named Egg Canvas brainch </a>
-                                        </h3>
-                                        <p class="description">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.
-                                        </p>
-                                        <div class="button-main">
-                                            <a href="blog-details.html" class="button-link">Read More<i
-                                                    class="icon-Arrow-11"></i></a>
-                                        </div>
-                                    </div>
-                                </article>
-
+                                <!-- Search Form (trên danh sách bài viết) -->
+                               
+                                <div class="blog-posts">
+                                    <c:forEach items="${posts}" var="post">
+                                        <article class="side-blog mb-56px">
+                                            <div class="blog-image">
+                                                
+                                                <a class="post-thumbnail" href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">
+                                                    
+                                                </a>
+                                            </div>
+                                            <div class="blog-content">
+                                                <div class="top-detail-info">
+                                                    <ul class="flex-three">
+                                                        <li>
+                                                            <i class="icon-user"></i>
+                                                            <a href="#">${post.account.username}</a>
+                                                        </li>
+                                                        <li>
+                                                            <i class="icon-25"></i>
+                                                            <span class="date"> Bình luận:${post.commentCount}</span>
+                                                        </li>
+                                                        <li>
+                                                            <i class="icon-24"></i>
+                                                            <span class="date">${post.postDate}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <h3 class="entry-title">
+                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">${post.title}</a>
+                                                </h3>
+                                                <p class="description">${post.contentPost}</p>
+                                                <div class="button-main ">
+                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link">Xem thêm<i class="icon-Arrow-11"></i></a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </c:forEach>
+                                    <c:if test="${empty posts}">
+                                        <p>Không có bài viết nào.</p>
+                                    </c:if>
+                                </div>
+                                <!-- Pagination -->
                                 <div class="row">
                                     <div class="col-md-12 ">
                                         <ul class="tf-pagination flex-five mt-20">
                                             <li>
-                                                <a class="pages-link" href="#"> <i class="icon-29"></i></a>
+                                                <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=1${search != null ? '&search=' + search : ''}"><i class="icon-29"></i></a>
                                             </li>
+                                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                                <li class="pages-item${currentPage == i ? ' active' : ''}" aria-current="${currentPage == i ? 'page' : ''}">
+                                                    <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=${i}${search != null ? '&search=' + search : ''}">${i}</a>
+                                                </li>
+                                            </c:forEach>
                                             <li>
-                                                <a class="pages-link" href="#">1</a>
-                                            </li>
-                                            <li class="pages-item active" aria-current="page">
-                                                <a class="pages-link" href="#">2</a>
-                                            </li>
-                                            <li><a class="pages-link" href="#">3</a></li>
-                                            <li>
-                                                <a class="pages-link" href="#"><i class=" icon--1"></i></a>
+                                                <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=${totalPages}${search != null ? '&search=' + search : ''}"><i class="icon--1"></i></a>
                                             </li>
                                         </ul>
-
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-12">
                                 <div class="side-bar-right">
-                                    <div class="sidebar-widget">
-                                        <div class="profile-widget center">
-                                            <img src="./assets/images/avata/avt-blog.jpg" alt="Image Blog"
-                                                class="avata">
-                                            <div class="name">Rosalina D. Willaim</div>
-                                            <span class="job">Blogger/Photographer</span>
-                                            <p class="des">he whimsically named Egg Canvas is the
-                                                design director and photographer
-                                                in New York. Why the nam
-                                            </p>
-                                            <ul class="social">
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="icon-icon-2"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="icon-x"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="icon-icon_03"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="icon-2"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-
-                                        </div>
+                                    
                                     </div>
                                     <div class="sidebar-widget">
-                                        <h4 class="block-heading">search here</h4>
-                                        <form action="/" id="search-bar-widget">
-                                            <input type="text" placeholder="Search here...">
-                                            <button type="button"><i class="icon-search-2"></i></button>
+                                        <h4 class="block-heading">Tìm kiếm</h4>
+                                        <form action="${pageContext.request.contextPath}/blog" method="get" id="search-bar-widget">
+                                            <input type="text" name="search" value="${search}" placeholder="Tìm kiếm bài viết...">
+                                            <button type="submit"><i class="icon-search-2"></i></button>
                                         </form>
 
                                     </div>
                                     <div class="sidebar-widget">
                                         <h4 class="block-heading">Recent News</h4>
                                         <div class="recent-post-list">
-                                            <div class="list-recent flex-three">
-                                                <a href="blog-details.html" class="recent-image">
-                                                    <img src="./assets/images/blog/re-blog1.jpg" alt="Image">
-                                                </a>
-                                                <div class="recent-info">
-                                                    <div class="date">
-                                                        <i class="icon-4"></i>
-                                                        <span>Jan 23,2022</span>
+                                            <c:forEach var="post" items="${recentPosts}">
+                                                <div class="list-recent flex-three">
+                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="recent-image">
+                                                        
+                                                    </a>
+                                                    <div class="recent-info">
+                                                        <div class="date">
+                                                            <i class="icon-4"></i>
+                                                            <span>${post.postDate}</span>
+                                                        </div>
+                                                        <h4 class="title">
+                                                            <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">${post.title}</a>
+                                                        </h4>
                                                     </div>
-                                                    <h4 class="title">
-                                                        <a href="blog-details.html">Budget Issues Force The Our To
-                                                            Become</a>
-                                                    </h4>
                                                 </div>
-                                            </div>
-                                            <div class="list-recent flex-three">
-                                                <a href="blog-details.html" class="recent-image">
-                                                    <img src="./assets/images/blog/re-blog2.jpg" alt="Image">
-                                                </a>
-                                                <div class="recent-info">
-                                                    <div class="date">
-                                                        <i class="icon-4"></i>
-                                                        <span>Jan 23,2022</span>
-                                                    </div>
-                                                    <h4 class="title">
-                                                        <a href="blog-details.html">The Best Products That Shape
-                                                            Fashion</a>
-                                                    </h4>
-                                                </div>
-                                            </div>
-                                            <div class="list-recent flex-three">
-                                                <a href="blog-details.html" class="recent-image">
-                                                    <img src="./assets/images/blog/re-blog3.jpg" alt="Image">
-                                                </a>
-                                                <div class="recent-info">
-                                                    <div class="date">
-                                                        <i class="icon-4"></i>
-                                                        <span>Jan 23,2022</span>
-                                                    </div>
-                                                    <h4 class="title">
-                                                        <a href="blog-details.html">The Best Products That Shape
-                                                            Fashion</a>
-                                                    </h4>
-                                                </div>
-                                            </div>
+                                            </c:forEach>
                                         </div>
                                     </div>
-                                    <div class="sidebar-widget">
-                                        <h4 class="block-heading">Categories</h4>
-                                        <ul class="category-blog">
-                                            <li>
-                                                <a href="#" class="flex-two">
-                                                    <span>Mobile Set</span>
-                                                    <span>03</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="flex-two">
-                                                    <span>Mobile Set</span>
-                                                    <span>03</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="flex-two">
-                                                    <span>Mobile Set</span>
-                                                    <span>03</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="flex-two">
-                                                    <span>Mobile Set</span>
-                                                    <span>03</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="sidebar-widget">
-                                        <h4 class="block-heading">Tags</h4>
-                                        <ul class="tag">
-                                            <li>
-                                                <a href="#">Tourist</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Traveling</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Cave</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Sky Dive</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Hill Climb</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Oppos</a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="active">Landing</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Oppos</a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -397,7 +193,7 @@
             <div class="logo-canvas">
                 <img src="./assets/images/logo.png" alt="image">
             </div>
-            <p class="des">The world’s first and largest digital market
+            <p class="des">The world's first and largest digital market
                 for crypto collectibles and non-fungible
             </p>
             <ul class="canvas-info">

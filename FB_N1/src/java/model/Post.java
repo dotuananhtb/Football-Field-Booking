@@ -14,20 +14,19 @@ public class Post {
     private int postId;
     private int accountId;
     private String title;
-    private String img;
     private String contentPost;
     private String postDate;
     private String statusPost;
     private Account account;
+    private int commentCount;
 
     public Post() {
     }
 
-    public Post(int postId, int accountId, String title, String img, String contentPost, String postDate, String statusPost) {
+    public Post(int postId, int accountId, String title, String contentPost, String postDate, String statusPost) {
         this.postId = postId;
         this.accountId = accountId;
         this.title = title;
-        this.img = img;
         this.contentPost = contentPost;
         this.postDate = postDate;
         this.statusPost = statusPost;
@@ -55,14 +54,6 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 
     public String getContentPost() {
@@ -97,9 +88,17 @@ public class Post {
         this.account = account;
     }
 
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
     @Override
     public String toString() {
-        return "Post{" + "postId=" + postId + ", accountId=" + accountId + ", title=" + title + ", img=" + img + ", contentPost=" + contentPost + ", postDate=" + postDate + ", statusPost=" + statusPost + '}';
+        return "Post{" + "postId=" + postId + ", accountId=" + accountId + ", title=" + title + ", contentPost=" + contentPost + ", postDate=" + postDate + ", statusPost=" + statusPost + '}';
     }
     
 }
