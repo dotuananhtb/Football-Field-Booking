@@ -45,101 +45,99 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-     HttpSession session = request.getSession();
-String submit = request.getParameter("submit_Btn");
+        HttpSession session = request.getSession();
+        String submit = request.getParameter("submit_Btn");
 
-if (submit == null) {
-    request.getRequestDispatcher("UI/login.jsp").forward(request, response);
-} else {
-    String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-    boolean isCaptchaVerified = verifyRecaptcha(gRecaptchaResponse);
-    if (!isCaptchaVerified) {
-        request.setAttribute("error", "Xác minh captcha thất bại. Vui lòng thử lại.");
-        request.getRequestDispatcher("UI/login.jsp").forward(request, response);
-        return;
-
-    }
-
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
-    String remember = request.getParameter("remember");
-    AccountDAO dao = new AccountDAO();
-    UserProfileDAO daoU = new UserProfileDAO(); 
-    boolean isSuccess = dao.checkLogin(username, password);
-    int a = dao.getRoleIDbyAccount(username, password);
-    int b = dao.getStatusIDbyAccount(username, password);
-    
-
-    if (isSuccess && b == 1) {
-        Account acc = dao.getAccountByUsername(username);
-    UserProfile uP = daoU.getProfileByAccountId(acc.getAccountId());
-        session.setAttribute("account", acc);
-        session.setAttribute("userProfile", uP);
-        session.setAttribute("roleID", a);
-        session.setAttribute("statusID", b);
-
-        if ("on".equals(remember)) {
-            Cookie userCookie = new Cookie("username", username);
-            Cookie rememberCookie = new Cookie("remember", "true");
-
-            userCookie.setMaxAge(7 * 24 * 60 * 60);
-            rememberCookie.setMaxAge(7 * 24 * 60 * 60);
-
-            userCookie.setPath("/");
-            rememberCookie.setPath("/");
-
-            response.addCookie(userCookie);
-            response.addCookie(rememberCookie);
+        if (submit == null) {
+            request.getRequestDispatcher("UI/login.jsp").forward(request, response);
         } else {
-            Cookie userCookie = new Cookie("username", username);
-            Cookie rememberCookie = new Cookie("remember", "true");
+            String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+            boolean isCaptchaVerified = verifyRecaptcha(gRecaptchaResponse);
+            if (!isCaptchaVerified) {
+                request.setAttribute("error", "Xác minh captcha thất bại. Vui lòng thử lại.");
+                request.getRequestDispatcher("UI/login.jsp").forward(request, response);
+                return;
 
-            userCookie.setMaxAge(0);
-            rememberCookie.setMaxAge(0);
+            }
 
-            userCookie.setPath("/");
-            rememberCookie.setPath("/");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String remember = request.getParameter("remember");
+            AccountDAO dao = new AccountDAO();
+            UserProfileDAO daoU = new UserProfileDAO();
+            boolean isSuccess = dao.checkLogin(username, password);
+            int a = dao.getRoleIDbyAccount(username, password);
+            int b = dao.getStatusIDbyAccount(username, password);
 
-            response.addCookie(userCookie);
-            response.addCookie(rememberCookie);
+            if (isSuccess && b == 1) {
+                Account acc = dao.getAccountByUsername(username);
+                UserProfile uP = acc.getUserProfile();
+                session.setAttribute("account", acc);
+                session.setAttribute("userProfile", uP);
+                session.setAttribute("roleID", a);
+                session.setAttribute("statusID", b);
+
+                if ("on".equals(remember)) {
+                    Cookie userCookie = new Cookie("username", username);
+                    Cookie rememberCookie = new Cookie("remember", "true");
+
+                    userCookie.setMaxAge(7 * 24 * 60 * 60);
+                    rememberCookie.setMaxAge(7 * 24 * 60 * 60);
+
+                    userCookie.setPath("/");
+                    rememberCookie.setPath("/");
+
+                    response.addCookie(userCookie);
+                    response.addCookie(rememberCookie);
+                } else {
+                    Cookie userCookie = new Cookie("username", username);
+                    Cookie rememberCookie = new Cookie("remember", "true");
+
+                    userCookie.setMaxAge(0);
+                    rememberCookie.setMaxAge(0);
+
+                    userCookie.setPath("/");
+                    rememberCookie.setPath("/");
+
+                    response.addCookie(userCookie);
+                    response.addCookie(rememberCookie);
+                }
+
+                response.sendRedirect("home");
+
+            } else if (isSuccess && b == 2) {
+                request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
+            } else if (isSuccess && b == 3) {
+                request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
+            } else {
+                String errorMess = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                request.setAttribute("error", errorMess);
+                request.getRequestDispatcher("UI/login.jsp").forward(request, response);
+            }
         }
-
-        response.sendRedirect("home");
-
-    } else if (isSuccess && b == 2) {
-        request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
-    } else if (isSuccess && b == 3) {
-        request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
-    } else  {
-        String errorMess = "Tên đăng nhập hoặc mật khẩu không đúng.";
-        request.setAttribute("error", errorMess);
-        request.getRequestDispatcher("UI/login.jsp").forward(request, response);
     }
-}
-    }
+
     private boolean verifyRecaptcha(String gRecaptchaResponse) throws IOException {
-    String SECRET_KEY = "6LcquVMrAAAAAGVqDcJAVf_gN-a66-dMxPwtLTvr"; // Lấy từ Google
-    String url = "https://www.google.com/recaptcha/api/siteverify";
-    String params = "secret=" + URLEncoder.encode(SECRET_KEY, "UTF-8") +
-                    "&response=" + URLEncoder.encode(gRecaptchaResponse, "UTF-8");
+        String SECRET_KEY = "6LcquVMrAAAAAGVqDcJAVf_gN-a66-dMxPwtLTvr"; // Lấy từ Google
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        String params = "secret=" + URLEncoder.encode(SECRET_KEY, "UTF-8")
+                + "&response=" + URLEncoder.encode(gRecaptchaResponse, "UTF-8");
 
-    URL obj = new URL(url);
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    con.setRequestMethod("POST");
-    con.setDoOutput(true);
-    con.getOutputStream().write(params.getBytes("UTF-8"));
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.getOutputStream().write(params.getBytes("UTF-8"));
 
-    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-    String inputLine, response = "";
-    while ((inputLine = in.readLine()) != null) {
-        response += inputLine;
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine, response = "";
+        while ((inputLine = in.readLine()) != null) {
+            response += inputLine;
+        }
+        in.close();
+
+        return response.contains("\"success\": true");
     }
-    in.close();
-
-    return response.contains("\"success\": true");
-}
-
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -14,7 +14,7 @@ import model.UserProfile;
 import util.DBContext;
 
 public class AccountDAO extends DBContext {
-    
+
     public boolean updateStatus(int accountId, int newStatusId) {
         String sql = "UPDATE Account SET status_id = ? WHERE account_id = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -36,15 +36,16 @@ public class AccountDAO extends DBContext {
         }
         return acc.getPassword().equals(newPassword);
     }
-    
+
     public boolean isStrongPassword(String password) {
         // Regex: ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt
         String check = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!()_\\-{}\\[\\]:;\"'<>,.?/~`|\\\\]).{8,}$";
         return password != null && password.matches(check);
     }
-    
+
+    //
     public Account getAccountById(int accountId) {
-        UserProfileDAO userProfileDAO= new UserProfileDAO();
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -52,16 +53,15 @@ public class AccountDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6),userProfileDAO.getProfileByAccountId(accountId));
-            
-         
+                        rs.getString(6), userProfileDAO.getProfileByAccountId(accountId));
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
     public void updatePassword(String email, String password) {
         String sql = "UPDATE [dbo].[Account] SET [password] = ? WHERE [email] = ?";
         try {
@@ -73,7 +73,7 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public boolean resetPass(String email) {
         String insertTokenSQL = "INSERT INTO EmailVerification (account_id, token, created_at, expires_at, is_used) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement psToken = null;
@@ -81,7 +81,7 @@ public class AccountDAO extends DBContext {
             String token = java.util.UUID.randomUUID().toString();
             String createdAt = java.time.LocalDateTime.now().toString();
             String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
-            
+
             psToken = connection.prepareStatement(insertTokenSQL);
             psToken.setInt(1, getAcountIdByEmail(email));
             psToken.setString(2, token);
@@ -90,7 +90,7 @@ public class AccountDAO extends DBContext {
             psToken.setBoolean(5, false);
             psToken.executeUpdate();
             connection.commit();
-            
+
             String verifyLink = "http://localhost:9999/FB_N1/resetPassword?token=" + token;
             SendMail sender = new SendMail();
             sender.guiResetPasswordMail(email, verifyLink, getLastNameByEmail(email));
@@ -100,7 +100,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public String getLastNameByEmail(String email) {
         String sql = "SELECT up.last_name FROM Account a JOIN UserProfile up ON a.account_id = up.account_id WHERE a.email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -114,7 +114,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Integer getAcountIdByEmail(String email) {
         String sql = "SELECT account_id FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -128,7 +128,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Integer getStatusIdByEmail(String email) {
         String sql = "SELECT status_id FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -142,7 +142,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    
+
     public boolean checkTonTaiUsername(String username) {
         String sql = "SELECT 1 FROM Account WHERE username = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -154,7 +154,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checkTonTaiEmail(String email) {
         String sql = "SELECT 1 FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -166,20 +166,20 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean addAccountAndSendVerificationEmail(Account account) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertTokenSQL = "INSERT INTO EmailVerification (account_id, token, created_at, expires_at, is_used) VALUES (?, ?, ?, ?, ?)";
-        
+
         PreparedStatement psAccount = null;
         PreparedStatement psProfile = null;
         PreparedStatement psToken = null;
         ResultSet generatedKeys = null;
-        
+
         try {
             connection.setAutoCommit(false);
-            
+
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
             psAccount.setInt(1, 2); // statusId = 2 (chưa xác minh)
             psAccount.setString(2, account.getUsername());
@@ -187,12 +187,12 @@ public class AccountDAO extends DBContext {
             psAccount.setString(4, account.getEmail());
             psAccount.setString(5, account.getCreatedAt());
             int affectedRows = psAccount.executeUpdate();
-            
+
             if (affectedRows == 0) {
                 connection.rollback();
                 return false;
             }
-            
+
             generatedKeys = psAccount.getGeneratedKeys();
             int accountId = -1;
             if (generatedKeys.next()) {
@@ -201,7 +201,7 @@ public class AccountDAO extends DBContext {
                 connection.rollback();
                 return false;
             }
-            
+
             UserProfile p = account.getUserProfile();
             psProfile = connection.prepareStatement(insertProfileSQL);
             psProfile.setInt(1, accountId);
@@ -214,11 +214,11 @@ public class AccountDAO extends DBContext {
             psProfile.setString(8, p.getPhone());
             psProfile.setString(9, p.getAvatar());
             psProfile.executeUpdate();
-            
+
             String token = java.util.UUID.randomUUID().toString();
             String createdAt = java.time.LocalDateTime.now().toString();
             String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
-            
+
             psToken = connection.prepareStatement(insertTokenSQL);
             psToken.setInt(1, accountId);
             psToken.setString(2, token);
@@ -226,9 +226,9 @@ public class AccountDAO extends DBContext {
             psToken.setString(4, expiresAt);
             psToken.setBoolean(5, false);
             psToken.executeUpdate();
-            
+
             connection.commit();
-            
+
             String verifyLink = "http://localhost:9999/FB_N1/verify?token=" + token;
             SendMail sender = new SendMail();
             Thread thread = new Thread(() -> {
@@ -240,7 +240,7 @@ public class AccountDAO extends DBContext {
             });
             thread.start();
             return true;
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             try {
@@ -269,7 +269,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean update_Password(String username, String newPassword) {
         String sql = "UPDATE [Account] SET password = ? WHERE username = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -282,7 +282,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checkPassword(String username, String password) {
         String sql = "SELECT password FROM [Account] WHERE username = ? AND password = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -296,7 +296,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checkLogin(String userName, String passWord) {
         String sql = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
@@ -314,9 +314,9 @@ public class AccountDAO extends DBContext {
             ex.getStackTrace();
         }
         return check;
-        
+
     }
-    
+
     public void updateUsername(String username, String accountId) {
         String sql = "UPDATE Account SET username=? WHERE account_id=?";
         try {
@@ -328,7 +328,7 @@ public class AccountDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
+
     public int getAccountIDbyUsername(String username) {
         String sql = "SELECT account_id FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
@@ -356,13 +356,13 @@ public class AccountDAO extends DBContext {
         }
         return -1; // Trả về -1 nếu email không tồn tại
     }
-    
+
     public Account getAccountByEmail(String email) throws SQLException {
         String sql = "SELECT account_id, status_id, username, password, email, created_at FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
                 Account account = new Account();
                 account.setAccountId(rs.getInt("account_id"));
@@ -376,18 +376,18 @@ public class AccountDAO extends DBContext {
         }
         return null; // Trả về null nếu không tìm thấy
     }
-    
+
     public boolean addGoogleAccount(String googleId, String email, String firstName, String lastName, String avatar,
             String accessToken) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertGoogleAuthSQL = "INSERT INTO GoogleAuth (account_id, google_id, access_token, refresh_token, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)";
-        
+
         PreparedStatement psAccount = null;
         PreparedStatement psProfile = null;
         PreparedStatement psGoogleAuth = null;
         ResultSet generatedKeys = null;
-        
+
         try {
             connection.setAutoCommit(false);
 
@@ -400,12 +400,12 @@ public class AccountDAO extends DBContext {
             String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             psAccount.setString(5, createdAt);
             int affectedRows = psAccount.executeUpdate();
-            
+
             if (affectedRows == 0) {
                 connection.rollback();
                 return false;
             }
-            
+
             generatedKeys = psAccount.getGeneratedKeys();
             int accountId = -1;
             if (generatedKeys.next()) {
@@ -437,10 +437,10 @@ public class AccountDAO extends DBContext {
             psGoogleAuth.setString(5, null); // expires_at (còn trống, cần lấy từ token response)
             psGoogleAuth.setString(6, createdAt);
             psGoogleAuth.executeUpdate();
-            
+
             connection.commit();
             return true;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -469,7 +469,7 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public int getRoleIDbyAccount(String username, String password) {
         int roleID = 0;
         String sql = "SELECT u.role_id\n"
@@ -488,7 +488,7 @@ public class AccountDAO extends DBContext {
         }
         return roleID;
     }
-    
+
     public int getStatusIDbyAccount(String username, String password) {
         int statusID = 0;
         String sql = "SELECT a.status_id\n"
@@ -507,8 +507,10 @@ public class AccountDAO extends DBContext {
         }
         return statusID;
     }
-    
+
     public Account getAccountByUsername(String username) {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        AccountDAO accountDAO = new AccountDAO();
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -516,18 +518,18 @@ public class AccountDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6), userProfileDAO.getProfileByAccountId(accountDAO.getAccountIDbyUsername(username)));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        
+
         UserProfile profile = new UserProfile();
         profile.setRoleId(3);
         profile.setFirstName("Tuan");
@@ -537,7 +539,7 @@ public class AccountDAO extends DBContext {
         profile.setDob("2000-01-01");
         profile.setPhone("0123456789");
         profile.setAvatar("assets/img/avatars/avatar_goc.jpg");
-        
+
         Account account = new Account();
         account.setStatusId(3);
         account.setUsername("binhcute5a");
@@ -545,7 +547,7 @@ public class AccountDAO extends DBContext {
         account.setEmail("pitiy69288@pricegh.com");
         account.setCreatedAt(createdAt);
         account.setUserProfile(profile);
-        
+
         boolean result = dao.addAccountAndSendVerificationEmail(account);
     }
 }
