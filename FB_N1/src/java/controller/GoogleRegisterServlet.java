@@ -60,8 +60,7 @@ public class GoogleRegisterServlet extends HttpServlet {
                     // Đăng nhập nếu status_id là 1 hoặc 2
 
                     Account acc = accountDAO.getAccountByEmail(email);
-                    UserProfileDAO userProfileDAO = new UserProfileDAO();
-                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
+                    UserProfile profile = acc.getUserProfile();
 
                     request.getSession().setAttribute("username", acc.getUsername());
                     request.getSession().setAttribute("account", acc);
@@ -81,8 +80,7 @@ public class GoogleRegisterServlet extends HttpServlet {
                 boolean success = accountDAO.addGoogleAccount(googleId, email, firstName, lastName, avatar, null);
                 if (success) {
                     Account acc = accountDAO.getAccountByEmail(email);
-                    UserProfileDAO userProfileDAO = new UserProfileDAO();
-                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
+                    UserProfile profile = acc.getUserProfile();
 
                     request.getSession().setAttribute("username", acc.getUsername());
                     request.getSession().setAttribute("account", acc);

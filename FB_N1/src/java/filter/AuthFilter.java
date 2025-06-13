@@ -28,28 +28,36 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import model.Account;
 
-@WebFilter(urlPatterns = {"/userProfile", "/booking", "/admin/*"})
+@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/admin/*"})
+
 public class AuthFilter implements Filter {
+
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+
         HttpSession session = req.getSession(false);
+        Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
 
-        if (session == null || session.getAttribute("account") == null) {
-            res.sendRedirect(req.getContextPath() + "/login");
+        if (acc == null) {
+            String requestedWith = req.getHeader("X-Requested-With");
+
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                // Nếu là AJAX request → trả về JSON báo lỗi
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                res.getWriter().write("{\"success\": false, \"message\": \"Bạn chưa đăng nhập.\"}");
+            } else {
+                // Nếu là request thông thường (trình duyệt load trang) → redirect
+                res.sendRedirect(req.getContextPath() + "/login");
+            }
             return;
-        }else{
-
-        String uri = req.getRequestURI();
-        Account acc = (Account) session.getAttribute("account");
-//        if (uri.contains("/admin/") && acc.getRoleId() != 1) {
-//            res.sendRedirect(req.getContextPath() + "/home.jsp");
-//            return;
-//        }
+        }
 
         chain.doFilter(request, response);
-    }
     }
 }

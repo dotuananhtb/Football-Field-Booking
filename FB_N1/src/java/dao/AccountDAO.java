@@ -358,6 +358,8 @@ public class AccountDAO extends DBContext {
     }
 
     public Account getAccountByEmail(String email) throws SQLException {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        AccountDAO accountDAO = new AccountDAO();
         String sql = "SELECT account_id, status_id, username, password, email, created_at FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
@@ -371,6 +373,7 @@ public class AccountDAO extends DBContext {
                 account.setPassword(rs.getString("password"));
                 account.setEmail(rs.getString("email"));
                 account.setCreatedAt(rs.getTimestamp("created_at").toString());
+                account.setUserProfile(userProfileDAO.getProfileByAccountId(accountDAO.getAcountIdByEmail(email)));
                 return account;
             }
         }

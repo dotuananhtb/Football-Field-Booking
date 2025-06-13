@@ -189,6 +189,8 @@
 
                     events: function (fetchInfo, successCallback, failureCallback) {
                         const fieldId = $('#fieldSelect').val();
+                        console.log("📅 Fetching slots for fieldId:", fieldId);
+
                         if (!fieldId) {
                             successCallback([]);
                             return;
@@ -204,10 +206,12 @@
                             },
                             dataType: 'json',
                             success: function (events) {
+                                console.log("✅ Slots loaded:", events);
                                 successCallback(events);
                             },
                             error: function (xhr, status, error) {
-                                console.error("Lỗi khi lấy dữ liệu:", error);
+                                console.error("❌ Lỗi khi lấy dữ liệu:", error);
+                                console.log("📥 Response Text:", xhr.responseText);
                                 failureCallback(error);
                             }
                         });
@@ -215,6 +219,7 @@
 
                     eventClick: function (info) {
                         const slot = info.event.extendedProps;
+                        console.log("🖱️ Slot clicked:", slot);
 
                         if (slot.status === "Available") {
                             const existsIndex = selectedSlots.findIndex(s =>
@@ -226,20 +231,25 @@
 
                             if (existsIndex > -1) {
                                 selectedSlots.splice(existsIndex, 1);
-                                info.event.setProp('classNames', []); // ❌ Xoá style đã chọn
+                                info.event.setProp('classNames', []);
+                                console.log("➖ Slot removed:", slot);
                             } else {
-                                selectedSlots.push({
+                                const newSlot = {
                                     slot_field_id: slot.slot_field_id,
                                     slot_date: slot.slot_date,
                                     start: info.event.startStr,
                                     end: info.event.endStr,
                                     price: parseFloat(slot.price),
                                     title: info.event.title
-                                });
-                                info.event.setProp('classNames', ['selected-slot']); // ✅ Gán style
+                                };
+                                selectedSlots.push(newSlot);
+                                info.event.setProp('classNames', ['selected-slot']);
+                                console.log("➕ Slot added:", newSlot);
                             }
 
                             renderSelectedTable();
+                        } else {
+                            console.log("⚠️ Slot không khả dụng:", slot);
                         }
                     }
                 });
@@ -247,17 +257,50 @@
                 calendar.render();
 
                 $('#fieldSelect').on('change', function () {
+                    console.log("🔄 Field changed:", $(this).val());
                     calendar.refetchEvents();
                     renderSelectedTable();
                 });
 
                 $('#bookNowBtn').on('click', function () {
                     if (selectedSlots.length === 0) {
-                        alert("Bạn chưa chọn ca nào để đặt.");
+                        alert("⚠️ Bạn chưa chọn ca nào để đặt.");
                         return;
                     }
 
-                    // Gửi dữ liệu nếu muốn
+                    console.log("📤 Sending booking data:", selectedSlots);
+
+                    $.ajax({
+                        url: '/FB_N1/dat-san',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(selectedSlots),
+                        success: function (response) {
+                            console.log("✅ Server response:", response);
+
+                            if (response && response.success) {
+                                alert("✅ Đặt sân thành công!");
+                                selectedSlots = [];
+                                calendar.refetchEvents();
+                                renderSelectedTable();
+                            } else {
+                                alert("❌ Lỗi: " + (response.message || "Không rõ nguyên nhân"));
+                                console.warn("⚠️ Lỗi chi tiết:", response);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("❌ Lỗi khi gửi yêu cầu:", error);
+                            console.log("📤 Dữ liệu gửi đi:", JSON.stringify(selectedSlots));
+                            console.log("📥 Phản hồi server:", xhr.responseText);
+
+                            if (xhr.status === 401 || xhr.status === 302) {
+                                alert("⚠️ Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+                                window.location.href = "/FB_N1/login";
+                            } else {
+                                alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
+                            }
+                        }
+                    });
                 });
             });
 
@@ -290,7 +333,6 @@
                     if (rowIndex !== undefined) {
                         const removedSlot = selectedSlots[rowIndex];
 
-                        // ❗ Xoá style selected-slot trên lịch
                         calendar.getEvents().forEach(event => {
                             const props = event.extendedProps;
                             if (
@@ -303,6 +345,7 @@
                             }
                         });
 
+                        console.log("➖ Slot manually removed:", removedSlot);
                         selectedSlots.splice(rowIndex, 1);
                         renderSelectedTable();
                     }
@@ -319,6 +362,8 @@
                 }
             }
         </script>
+
+
 
 
 
