@@ -21,11 +21,12 @@
                             <link rel="stylesheet" type="text/css" href="app/css/magnific-popup.css">
                                 <link rel="stylesheet" type="text/css" href="app/css/jquery.fancybox.min.css">
                                     <link rel="stylesheet" type="text/css" href="app/css/textanimation.css">
-
+                                        
+                                        
                                         <!-- Favicon and Touch Icons  -->
-                                        <link rel="shortcut icon" href="assets/images/favico.png">
-                                            <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
-
+                                        <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                            <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+                                                
                                                 </head>
 
                                                 <body class="body header-fixed counter-scroll">
@@ -54,406 +55,317 @@
                                                                 <main id="main">
 
 
-                                                                    <!-- Widget Slider -->
-                                                                    <section class="slider relative">
-                                                                        <div class="swiper mySwiper">
-                                                                            <div class="swiper-wrapper">
+                                                                
+
+
+                                                                <!-- Widget Slider -->
+                                                                <section class="slider relative">
+                                                                    <div class="swiper mySwiper">
+
+                                                                        <div class="swiper-wrapper">
+                                                                            <c:forEach items="${listS}" var="o">
                                                                                 <div class="slider-home1 relative overflow-hidden swiper-slide">
                                                                                     <div class="silider-image">
-                                                                                        <img src="./assets/images/slide/slide1.jpg" alt="Image" class="image-slide">
-                                                                                            <img src="./assets/images/slide/mask-slide.png" alt="Image" class="mask-slide">
-                                                                                                <img src="./assets/images/slide/mask-fly.png" alt="Image" class="mask-flane">
-                                                                                                    <div class="booking-title tf-anime-rorate">
-                                                                                                        <p class="booking">Booking</p>
-                                                                                                        <span></span>
+                                                                                        <img src="${o.image}" alt="Image" class="image-slide">
+
+                                                                                            <div class="booking-title tf-anime-rorate">
+                                                                                                <p class="booking">Xem Ngay</p>
+                                                                                                <span></span>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div class="slider-content">
+                                                                                        <div class="tf-container">
+                                                                                            <div class="row">
+
+                                                                                                <div class="col-lg-8">
+                                                                                                    <span
+                                                                                                        class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Football Star</span>
+                                                                                                    <h1 class="title-slide text-white mb-32 fadeInDown wow"> ${o.content1_big}
+                                                                                                        <span class="animationtext clip text-main">
+                                                                                                            <span class="cd-words-wrapper">
+                                                                                                                <span class="item-text is-visible">${o.content1_small}</span>
+                                                                                                                <span class="item-text is-hidden">${o.content1_small}</span>
+                                                                                                            </span>                                          
+                                                                                                        </span>
+                                                                                                    </h1>
+                                                                                                    <p class="des text-white mb-45 fadeInDown wow">${o.content2_small}
+                                                                                                    </p>
+                                                                                                    
+                                                                                                    <div class="btn-group">
+                                                                                                      
+                                                                                                        <a href="/FB_N1/UI/home2.jsp" class="btn-main fadeInDown wow">
+                                                                                                            <p class="btn-main-text">Tìm hiểu thêm</p>
+                                                                                                            <p class="iconer">
+                                                                                                                <i class="icon-arrow-right"></i>
+                                                                                                            </p>
+                                                                                                        </a>
+                                                                                                 
+                                                                                                        <a href="#" class="btn-w-wa fadeInDown wow">Về Chúng tôi<i
+                                                                                                                class="icon-Group-13"></i></a>
+                                                                                                                
                                                                                                     </div>
+                                           
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </c:forEach>
+
+                                                                        </div>
+
+                                                                        <div class="btn-nex-prev">
+                                                                            <div class="swiper-button-next  next-home1"></div>
+                                                                            <div class="swiper-button-prev  prev-home1"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                                <!-- Widget Slider -->
+
+                                                                <!-- Widget Select Form -->
+                                                                <div class="mt--82 z-index4 relative fadeInUp wow">
+                                                                    <div class="tf-container">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="search-form-widget-slider relative">
+                                                                                    <form action="/" id="search-form-slider">
+                                                                                        <div class="flex wd-search">
+                                                                                            <div class="form-group flex">
+                                                                                                <i class="icon-18"></i>
+                                                                                                <div class="search-bar-group">
+                                                                                                    <label>Destination</label>
+                                                                                                    <div class="nice-select" tabindex="0">
+                                                                                                        <span class="current">Melborn ,Australia</span>
+                                                                                                        <ul class="list">
+                                                                                                            <li data-value class="option selected">Melborn ,Australia
+                                                                                                            </li>
+                                                                                                            <li data-value="hanoi" class="option">HaNoi ,Vietnam</li>
+                                                                                                            <li data-value="tolyo" class="option">Tokyo , Janpan</li>
+                                                                                                            <li data-value="korea" class="option">Seoul , Korea</li>
+                                                                                                        </ul>
                                                                                                     </div>
-                                                                                                    <div class="slider-content">
-                                                                                                        <div class="tf-container">
-                                                                                                            <div class="row">
-                                                                                                                <div class="col-lg-8">
-                                                                                                                    <span
-                                                                                                                        class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Explore
-                                                                                                                        the
-                                                                                                                        world</span>
-                                                                                                                    <h1 class="title-slide text-white mb-32 fadeInDown wow">Tour Travel &
-                                                                                                                        adventure
-                                                                                                                        <span class="animationtext clip text-main">
-                                                                                                                            <span class="cd-words-wrapper">
-                                                                                                                                <span class="item-text is-visible">Camping</span>
-                                                                                                                                <span class="item-text is-hidden">Camping</span>
-                                                                                                                            </span>                                          
-                                                                                                                        </span>
-                                                                                                                    </h1>
-                                                                                                                    <p class="des text-white mb-45 fadeInDown wow">Welcome to our Print 128
-                                                                                                                        website! We are
-                                                                                                                        a
-                                                                                                                        professional and reliable printing
-                                                                                                                        company that offers a wide range of printing services to
-                                                                                                                    </p>
-                                                                                                                    <div class="btn-group">
-                                                                                                                        <a href="#" class="btn-main fadeInDown wow">
-                                                                                                                            <p class="btn-main-text">Let,s get started</p>
-                                                                                                                            <p class="iconer">
-                                                                                                                                <i class="icon-arrow-right"></i>
-                                                                                                                            </p>
-                                                                                                                        </a>
-                                                                                                                        <a href="#" class="btn-w-wa fadeInDown wow">Who we are <i
-                                                                                                                                class="icon-Group-13"></i></a>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
+
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                            <div class="form-group flex">
+                                                                                                <i class="icon-hiking-1-1 "></i>
+                                                                                                <div class="search-bar-group">
+                                                                                                    <label>Type</label>
+                                                                                                    <div class="nice-select" tabindex="0">
+                                                                                                        <span class="current">Booking Type</span>
+                                                                                                        <ul class="list">
+                                                                                                            <li data-value class="option selected">Booking Type</li>
+                                                                                                            <li data-value="booking" class="option">Booking Type</li>
+                                                                                                            <li data-value="booking" class="option">Booking Type</li>
+                                                                                                            <li data-value="booking" class="option">Booking Type</li>
+                                                                                                        </ul>
                                                                                                     </div>
+
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                            <div class="form-group flex">
+                                                                                                <i class=" icon-time-left "></i>
+                                                                                                <div class="search-bar-group">
+                                                                                                    <label>Duration</label>
+                                                                                                    <div class="nice-select" tabindex="0">
+                                                                                                        <span class="current">2-4 days tour</span>
+                                                                                                        <ul class="list">
+                                                                                                            <li data-value class="option selected">2-4 days tour</li>
+                                                                                                            <li data-value="booking" class="option">3-6 days tour</li>
+                                                                                                            <li data-value="booking" class="option">4-8 days tour</li>
+                                                                                                            <li data-value="booking" class="option">5-10 days tour</li>
+                                                                                                        </ul>
                                                                                                     </div>
-                                                                                                    <div class="slider-home1 relative overflow-hidden swiper-slide">
-                                                                                                        <div class="silider-image">
-                                                                                                            <img src="./assets/images/slide/slide1.jpg" alt="Image" class="image-slide">
-                                                                                                                <img src="./assets/images/slide/mask-slide.png" alt="Image" class="mask-slide">
-                                                                                                                    <img src="./assets/images/slide/mask-fly.png" alt="Image" class="mask-flane">
-                                                                                                                        <div class="booking-title tf-anime-rorate">
-                                                                                                                            <p class="booking">Booking</p>
-                                                                                                                            <span></span>
+
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                            <div class="form-group flex">
+                                                                                                <i class="icon-user"></i>
+                                                                                                <div class="search-bar-group">
+                                                                                                    <label>Guests</label>
+                                                                                                    <input type="text" value="0">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group flex-two">
+                                                                                                <div class="icon-icon-filter">
+                                                                                                    <i class="icon-14"></i>
+                                                                                                </div>
+                                                                                                <a href="#" class="btn-search"><i class="icon-Vector5"></i>Search</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="wd-search-form">
+                                                                                            <div class="input-group-grid">
+                                                                                                <fieldset class="group-select relative ">
+                                                                                                    <label>Filter By Price</label>
+                                                                                                    <div class="widget widget-price ">
+                                                                                                        <div id="slider-range"></div>
+                                                                                                        <div class="slider-labels">
+                                                                                                            <div>
+                                                                                                                <input type="hidden" name="min-value" value="">
+                                                                                                                    <input type="hidden" name="max-value" value="">
                                                                                                                         </div>
+                                                                                                                        <div class="caption flex-three">
+                                                                                                                            <p class="price-range">Price: </p>
+                                                                                                                            <div class="number-range">
+                                                                                                                                <span id="slider-range-value1"></span>
+                                                                                                                                <span id="slider-range-value2"></span>
+                                                                                                                            </div>
                                                                                                                         </div>
-                                                                                                                        <div class="slider-content">
-                                                                                                                            <div class="tf-container">
-                                                                                                                                <div class="row">
-                                                                                                                                    <div class="col-lg-8">
-                                                                                                                                        <span
-                                                                                                                                            class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Explore
-                                                                                                                                            the
-                                                                                                                                            world</span>
-                                                                                                                                        <h1 class="title-slide text-white mb-32 fadeInDown wow">Tour Travel &
-                                                                                                                                            adventure
-                                                                                                                                            <span class="animationtext clip text-main">
-                                                                                                                                                <span class="cd-words-wrapper">
-                                                                                                                                                    <span class="item-text is-visible">Camping</span>
-                                                                                                                                                    <span class="item-text is-hidden">Camping</span>
-                                                                                                                                                </span>                                          
-                                                                                                                                            </span>
-                                                                                                                                        </h1>
-                                                                                                                                        <p class="des text-white mb-45 fadeInDown wow">Welcome to our Print 128
-                                                                                                                                            website! We are
-                                                                                                                                            a
-                                                                                                                                            professional and reliable printing
-                                                                                                                                            company that offers a wide range of printing services to
-                                                                                                                                        </p>
-                                                                                                                                        <div class="btn-group">
-                                                                                                                                            <a href="#" class="btn-main fadeInDown wow">
-                                                                                                                                                <p class="btn-main-text">Let,s get started</p>
-                                                                                                                                                <p class="iconer">
-                                                                                                                                                    <i class="icon-arrow-right"></i>
-                                                                                                                                                </p>
-                                                                                                                                            </a>
-                                                                                                                                            <a href="#" class="btn-w-wa fadeInDown wow">Who we are <i
-                                                                                                                                                    class="icon-Group-13"></i></a>
-                                                                                                                                        </div>
-                                                                                                                                    </div>
+
+                                                                                                                        </div>
+                                                                                                                        </div><!-- /.widget_price -->
+                                                                                                                        </fieldset>
+                                                                                                                        <fieldset class="group-select relative input-npd ">
+                                                                                                                            <div class="search-bar-group relative">
+                                                                                                                                <label>0</label>
+                                                                                                                                <div class="nice-select" tabindex="0">
+                                                                                                                                    <span class="current">English</span>
+                                                                                                                                    <ul class="list">
+                                                                                                                                        <li data-value="" class="option selected focus">Language
+                                                                                                                                        </li>
+                                                                                                                                        <li data-value="language1" class="option">Japan</li>
+                                                                                                                                        <li data-value="language2" class="option">Vietnames</li>
+                                                                                                                                        <li data-value="language3" class="option">Korea</li>
+                                                                                                                                    </ul>
                                                                                                                                 </div>
+                                                                                                                            </div>
+                                                                                                                        </fieldset>
+                                                                                                                        <fieldset class="group-select relative input-npd ">
+                                                                                                                            <div class="search-bar-group relative">
+                                                                                                                                <label>Any</label>
+                                                                                                                                <div class="nice-select" tabindex="0">
+                                                                                                                                    <span class="current">Month</span>
+                                                                                                                                    <ul class="list">
+                                                                                                                                        <li data-value="" class="option selected focus">Month
+                                                                                                                                        </li>
+                                                                                                                                        <li data-value="month1" class="option">1 Month</li>
+                                                                                                                                        <li data-value="month2" class="option">2 Month</li>
+                                                                                                                                        <li data-value="month3" class="option">3 Month</li>
+                                                                                                                                    </ul>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </fieldset>
+                                                                                                                        <fieldset class="group-select relative input-npd">
+                                                                                                                            <div class="search-bar-group relative">
+                                                                                                                                <label>Any</label>
+                                                                                                                                <div class="nice-select" tabindex="0">
+                                                                                                                                    <span class="current">Duration</span>
+                                                                                                                                    <ul class="list">
+                                                                                                                                        <li data-value="" class="option selected focus">Duration
+                                                                                                                                        </li>
+                                                                                                                                        <li data-value="duration1" class="option">10-15 day</li>
+                                                                                                                                        <li data-value="duration2" class="option">15-30 day</li>
+                                                                                                                                        <li data-value="duration3" class="option">20-30 day</li>
+                                                                                                                                    </ul>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </fieldset>
+                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check4" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check4">Accepts Credit Cards</label>
+                                                                                                                            </div>
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check5" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check5">Car Parking</label>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check6" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check6">Free Coupons</label>
+                                                                                                                            </div>
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check7" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check7">Laundry Service</label>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check8" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check8">Outdoor Seating</label>
+                                                                                                                            </div>
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check9" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check9">Reservations</label>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check10" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check10">Restaurant</label>
+                                                                                                                            </div>
+                                                                                                                            <div class="checkbox">
+                                                                                                                                <input id="check11" type="checkbox" name="check" value="check">
+                                                                                                                                    <label for="check11">Smoking Allowed</label>
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                         </div>
-                                                                                                                        <div class="slider-home1 relative overflow-hidden swiper-slide">
-                                                                                                                            <div class="silider-image">
-                                                                                                                                <img src="./assets/images/slide/slide1.jpg" alt="Image" class="image-slide">
-                                                                                                                                    <img src="./assets/images/slide/mask-slide.png" alt="Image" class="mask-slide">
-                                                                                                                                        <img src="./assets/images/slide/mask-fly.png" alt="Image" class="mask-flane">
-                                                                                                                                            <div class="booking-title tf-anime-rorate">
-                                                                                                                                                <p class="booking">Booking</p>
-                                                                                                                                                <span></span>
-                                                                                                                                            </div>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="slider-content">
-                                                                                                                                                <div class="tf-container">
-                                                                                                                                                    <div class="row">
-                                                                                                                                                        <div class="col-lg-8">
-                                                                                                                                                            <span
-                                                                                                                                                                class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Explore
-                                                                                                                                                                the
-                                                                                                                                                                world</span>
-                                                                                                                                                            <h1 class="title-slide text-white mb-32 fadeInDown wow">Tour Travel &
-                                                                                                                                                                adventure
-                                                                                                                                                                <span class="animationtext clip text-main">
-                                                                                                                                                                    <span class="cd-words-wrapper">
-                                                                                                                                                                        <span class="item-text is-visible">Camping</span>
-                                                                                                                                                                        <span class="item-text is-hidden">Camping</span>
-                                                                                                                                                                    </span>                                          
-                                                                                                                                                                </span>
-                                                                                                                                                            </h1>
-                                                                                                                                                            <p class="des text-white mb-45 fadeInDown wow">Welcome to our Print 128
-                                                                                                                                                                website! We are
-                                                                                                                                                                a
-                                                                                                                                                                professional and reliable printing
-                                                                                                                                                                company that offers a wide range of printing services to
-                                                                                                                                                            </p>
-                                                                                                                                                            <div class="btn-group">
-                                                                                                                                                                <a href="#" class="btn-main fadeInDown wow">
-                                                                                                                                                                    <p class="btn-main-text">Let,s get started</p>
-                                                                                                                                                                    <p class="iconer">
-                                                                                                                                                                        <i class="icon-arrow-right"></i>
-                                                                                                                                                                    </p>
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="#" class="btn-w-wa fadeInDown wow">Who we are <i
-                                                                                                                                                                        class="icon-Group-13"></i></a>
-                                                                                                                                                            </div>
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            </div>
-                                                                                                                                            </div>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="btn-nex-prev">
-                                                                                                                                                <div class="swiper-button-next  next-home1"></div>
-                                                                                                                                                <div class="swiper-button-prev  prev-home1"></div>
-                                                                                                                                            </div>
-                                                                                                                                            </div>
-                                                                                                                                            </section>
-                                                                                                                                            <!-- Widget Slider -->
+                                                                                                                        </div>
 
-                                                                                                                                            <!-- Widget Select Form -->
-                                                                                                                                            <div class="mt--82 z-index4 relative fadeInUp wow">
-                                                                                                                                                <div class="tf-container">
-                                                                                                                                                    <div class="row">
-                                                                                                                                                        <div class="col-lg-12">
-                                                                                                                                                            <div class="search-form-widget-slider relative">
-                                                                                                                                                                <form action="/" id="search-form-slider">
-                                                                                                                                                                    <div class="flex wd-search">
-                                                                                                                                                                        <div class="form-group flex">
-                                                                                                                                                                            <i class="icon-18"></i>
-                                                                                                                                                                            <div class="search-bar-group">
-                                                                                                                                                                                <label>Destination</label>
-                                                                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                                                                    <span class="current">Melborn ,Australia</span>
-                                                                                                                                                                                    <ul class="list">
-                                                                                                                                                                                        <li data-value class="option selected">Melborn ,Australia
-                                                                                                                                                                                        </li>
-                                                                                                                                                                                        <li data-value="hanoi" class="option">HaNoi ,Vietnam</li>
-                                                                                                                                                                                        <li data-value="tolyo" class="option">Tokyo , Janpan</li>
-                                                                                                                                                                                        <li data-value="korea" class="option">Seoul , Korea</li>
-                                                                                                                                                                                    </ul>
-                                                                                                                                                                                </div>
+                                                                                                                        </form>
+                                                                                                                        </div>
+                                                                                                                        </div>
+                                                                                                                        </div>
+                                                                                                                        </div>
+                                                                                                                        </div>
+                                                                                                                        <!-- Widget Select Form -->
 
-                                                                                                                                                                            </div>
-
-
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="form-group flex">
-                                                                                                                                                                            <i class="icon-hiking-1-1 "></i>
-                                                                                                                                                                            <div class="search-bar-group">
-                                                                                                                                                                                <label>Type</label>
-                                                                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                                                                    <span class="current">Booking Type</span>
-                                                                                                                                                                                    <ul class="list">
-                                                                                                                                                                                        <li data-value class="option selected">Booking Type</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">Booking Type</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">Booking Type</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">Booking Type</li>
-                                                                                                                                                                                    </ul>
-                                                                                                                                                                                </div>
-
-                                                                                                                                                                            </div>
-
-
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="form-group flex">
-                                                                                                                                                                            <i class=" icon-time-left "></i>
-                                                                                                                                                                            <div class="search-bar-group">
-                                                                                                                                                                                <label>Duration</label>
-                                                                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                                                                    <span class="current">2-4 days tour</span>
-                                                                                                                                                                                    <ul class="list">
-                                                                                                                                                                                        <li data-value class="option selected">2-4 days tour</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">3-6 days tour</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">4-8 days tour</li>
-                                                                                                                                                                                        <li data-value="booking" class="option">5-10 days tour</li>
-                                                                                                                                                                                    </ul>
-                                                                                                                                                                                </div>
-
-                                                                                                                                                                            </div>
-
-
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="form-group flex">
-                                                                                                                                                                            <i class="icon-user"></i>
-                                                                                                                                                                            <div class="search-bar-group">
-                                                                                                                                                                                <label>Guests</label>
-                                                                                                                                                                                <input type="text" value="0">
-                                                                                                                                                                            </div>
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="form-group flex-two">
-                                                                                                                                                                            <div class="icon-icon-filter">
-                                                                                                                                                                                <i class="icon-14"></i>
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <a href="#" class="btn-search"><i class="icon-Vector5"></i>Search</a>
-                                                                                                                                                                        </div>
+                                                                                                                        <!-- Widget Aboutus -->
+                                                                                                                        <section class="about-us pb-150">
+                                                                                                                            <div class="tf-container">
+                                                                                                                                <div class="row pt-35">
+                                                                                                                                    <div class="col-lg-12 flex">
+                                                                                                                                        <div class="image-list flex-three">
+                                                                                                                                            <img src="./assets/images/avata/6.jpg" alt="Image" class="item">
+                                                                                                                                                <img src="./assets/images/avata/5.jpg" alt="Image" class="item">
+                                                                                                                                                    <img src="./assets/images/avata/4.jpg" alt="Image" class="item">
+                                                                                                                                                        <img src="./assets/images/avata/3.jpg" alt="Image" class="item">
+                                                                                                                                                            <img src="./assets/images/avata/1.jpg" alt="Image" class="item">
+                                                                                                                                                                <img src="./assets/images/avata/2.jpg" alt="Image" class="item">
+                                                                                                                                                                    <div class="icon text-white item flex-five">
+                                                                                                                                                                        <i class="icon-uniE914"></i>
                                                                                                                                                                     </div>
-                                                                                                                                                                    <div class="wd-search-form">
-                                                                                                                                                                        <div class="input-group-grid">
-                                                                                                                                                                            <fieldset class="group-select relative ">
-                                                                                                                                                                                <label>Filter By Price</label>
-                                                                                                                                                                                <div class="widget widget-price ">
-                                                                                                                                                                                    <div id="slider-range"></div>
-                                                                                                                                                                                    <div class="slider-labels">
-                                                                                                                                                                                        <div>
-                                                                                                                                                                                            <input type="hidden" name="min-value" value="">
-                                                                                                                                                                                                <input type="hidden" name="max-value" value="">
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="caption flex-three">
-                                                                                                                                                                                                        <p class="price-range">Price: </p>
-                                                                                                                                                                                                        <div class="number-range">
-                                                                                                                                                                                                        <span id="slider-range-value1"></span>
-                                                                                                                                                                                                        <span id="slider-range-value2"></span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    <p class="client fadeInUp wow">2,500 people booked Tommorow land Event in last 24
+                                                                                                                                                                        hours</p>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    <div class="row pt-115">
+                                                                                                                                                                        <div class="col-lg-6">
+                                                                                                                                                                            <div class="travel-video relative">
+                                                                                                                                                                                <img src="./assets/images/about-us/image-video.png" alt="Image" class="image-video">
+                                                                                                                                                                                    <div class="video-wrap">
+                                                                                                                                                                                        <a href="https://www.youtube.com/watch?v=n9LgeoJE4EI"
+                                                                                                                                                                                           class="widget-icon-video widget-videos flex-five z-index3">
+                                                                                                                                                                                            <i class="icon-Polygon-4"></i>
+                                                                                                                                                                                        </a>
+                                                                                                                                                                                    </div>
 
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div><!-- /.widget_price -->
-                                                                                                                                                                                                    </fieldset>
-                                                                                                                                                                                                    <fieldset class="group-select relative input-npd ">
-                                                                                                                                                                                                        <div class="search-bar-group relative">
-                                                                                                                                                                                                        <label>0</label>
-                                                                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                                                                        <span class="current">English</span>
-                                                                                                                                                                                                        <ul class="list">
-                                                                                                                                                                                                        <li data-value="" class="option selected focus">Language
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        <li data-value="language1" class="option">Japan</li>
-                                                                                                                                                                                                        <li data-value="language2" class="option">Vietnames</li>
-                                                                                                                                                                                                        <li data-value="language3" class="option">Korea</li>
-                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </fieldset>
-                                                                                                                                                                                                    <fieldset class="group-select relative input-npd ">
-                                                                                                                                                                                                        <div class="search-bar-group relative">
-                                                                                                                                                                                                        <label>Any</label>
-                                                                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                                                                        <span class="current">Month</span>
-                                                                                                                                                                                                        <ul class="list">
-                                                                                                                                                                                                        <li data-value="" class="option selected focus">Month
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        <li data-value="month1" class="option">1 Month</li>
-                                                                                                                                                                                                        <li data-value="month2" class="option">2 Month</li>
-                                                                                                                                                                                                        <li data-value="month3" class="option">3 Month</li>
-                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </fieldset>
-                                                                                                                                                                                                    <fieldset class="group-select relative input-npd">
-                                                                                                                                                                                                        <div class="search-bar-group relative">
-                                                                                                                                                                                                        <label>Any</label>
-                                                                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                                                                        <span class="current">Duration</span>
-                                                                                                                                                                                                        <ul class="list">
-                                                                                                                                                                                                        <li data-value="" class="option selected focus">Duration
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        <li data-value="duration1" class="option">10-15 day</li>
-                                                                                                                                                                                                        <li data-value="duration2" class="option">15-30 day</li>
-                                                                                                                                                                                                        <li data-value="duration3" class="option">20-30 day</li>
-                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </fieldset>
-                                                                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check4" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check4">Accepts Credit Cards</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check5" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check5">Car Parking</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check6" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check6">Free Coupons</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check7" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check7">Laundry Service</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check8" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check8">Outdoor Seating</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check9" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check9">Reservations</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check10" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check10">Restaurant</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                                                                        <input id="check11" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                        <label for="check11">Smoking Allowed</label>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <img src="./assets/images/about-us/vali.png" alt="Image"
+                                                                                                                                                                                         class="mask-video tf-anime-rorate">
+                                                                                                                                                                                        <img src="./assets/images/page/enjoy.png" alt="Image"
+                                                                                                                                                                                             class="mask-enjoy ">
+                                                                                                                                                                                            </div>
 
-                                                                                                                                                                                                    </form>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <!-- Widget Select Form -->
-
-                                                                                                                                                                                                    <!-- Widget Aboutus -->
-                                                                                                                                                                                                    <section class="about-us pb-150">
-                                                                                                                                                                                                        <div class="tf-container">
-                                                                                                                                                                                                        <div class="row pt-35">
-                                                                                                                                                                                                        <div class="col-lg-12 flex">
-                                                                                                                                                                                                        <div class="image-list flex-three">
-                                                                                                                                                                                                        <img src="./assets/images/avata/6.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <img src="./assets/images/avata/5.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <img src="./assets/images/avata/4.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <img src="./assets/images/avata/3.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <img src="./assets/images/avata/1.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <img src="./assets/images/avata/2.jpg" alt="Image" class="item">
-                                                                                                                                                                                                        <div class="icon text-white item flex-five">
-                                                                                                                                                                                                        <i class="icon-uniE914"></i>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <p class="client fadeInUp wow">2,500 people booked Tommorow land Event in last 24
-                                                                                                                                                                                                        hours</p>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="row pt-115">
-                                                                                                                                                                                                        <div class="col-lg-6">
-                                                                                                                                                                                                        <div class="travel-video relative">
-                                                                                                                                                                                                        <img src="./assets/images/about-us/image-video.png" alt="Image" class="image-video">
-                                                                                                                                                                                                        <div class="video-wrap">
-                                                                                                                                                                                                        <a href="https://www.youtube.com/watch?v=n9LgeoJE4EI"
-                                                                                                                                                                                                        class="widget-icon-video widget-videos flex-five z-index3">
-                                                                                                                                                                                                        <i class="icon-Polygon-4"></i>
-                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                        </div>
-
-                                                                                                                                                                                                        <img src="./assets/images/about-us/vali.png" alt="Image"
-                                                                                                                                                                                                        class="mask-video tf-anime-rorate">
-                                                                                                                                                                                                        <img src="./assets/images/page/enjoy.png" alt="Image"
-                                                                                                                                                                                                        class="mask-enjoy ">
-                                                                                                                                                                                                        </div>
-
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="col-lg-6">
-                                                                                                                                                                                                        <div class="inner-content-about">
-                                                                                                                                                                                                        <span class="sub-title-heading text-main mb-15 fadeInUp wow">Explore the
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            <div class="col-lg-6">
+                                                                                                                                                                                                <div class="inner-content-about">
+                                                                                                                                                                                                    <span class="sub-title-heading text-main mb-15 fadeInUp wow">Explore the
                                                                                                                                                                                                         world</span>
-                                                                                                                                                                                                        <h2 class="title-heading mb-18 fadeInUp wow">Great opportunity for <span
+                                                                                                                                                                                                    <h2 class="title-heading mb-18 fadeInUp wow">Great opportunity for <span
                                                                                                                                                                                                         class="text-gray font-yes">adventure</span> & travels</h2>
-                                                                                                                                                                                                        <p class="des-heading fadeInUp wow">Welcome to our Print 128 website! We are a
+                                                                                                                                                                                                    <p class="des-heading fadeInUp wow">Welcome to our Print 128 website! We are a
                                                                                                                                                                                                         professional and
                                                                                                                                                                                                         reliable printing company that offers a wide range of printing services to</p>
-                                                                                                                                                                                                        <div class="row mt-27 fadeInUp wow">
+                                                                                                                                                                                                    <div class="row mt-27 fadeInUp wow">
                                                                                                                                                                                                         <div class="col-sm-6">
                                                                                                                                                                                                         <div class="icon-box-style3">
                                                                                                                                                                                                         <div class="icon flex-three">
@@ -526,9 +438,9 @@
                                                                                                                                                                                                         wide r</p>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
 
-                                                                                                                                                                                                        <div class="flex-three btn-wrap-about mb-30 fadeInUp wow">
+                                                                                                                                                                                                    <div class="flex-three btn-wrap-about mb-30 fadeInUp wow">
                                                                                                                                                                                                         <a href="#" class="btn-main">
                                                                                                                                                                                                         <p class="btn-main-text">More about us</p>
                                                                                                                                                                                                         <p class="iconer">
@@ -545,9 +457,9 @@
                                                                                                                                                                                                         <span class="text-main">Ceo & Founder</span>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
 
-                                                                                                                                                                                                        <div class="map-check flex-three fadeInUp wow">
+                                                                                                                                                                                                    <div class="map-check flex-three fadeInUp wow">
                                                                                                                                                                                                         <div class="icon">
                                                                                                                                                                                                         <svg width="33" height="30" viewBox="0 0 33 30" fill="none"
                                                                                                                                                                                                         xmlns="http://www.w3.org/2000/svg">
@@ -577,18 +489,18 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         <span class="text-main">Checkout Beautiful Places Arround the World.</span>
 
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </section>
-                                                                                                                                                                                                        <!-- Widget Aboutus -->
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            </section>
+                                                                                                                                                                                            <!-- Widget Aboutus -->
 
-                                                                                                                                                                                                        <!-- Widget Tourpackage -->
-                                                                                                                                                                                                        <section class="tour-package pd-main">
-                                                                                                                                                                                                        <div class="tf-container w-1456">
-                                                                                                                                                                                                        <div class="row">
+                                                                                                                                                                                            <!-- Widget Tourpackage -->
+                                                                                                                                                                                            <section class="tour-package pd-main">
+                                                                                                                                                                                                <div class="tf-container w-1456">
+                                                                                                                                                                                                    <div class="row">
                                                                                                                                                                                                         <div class="col-lg-12">
                                                                                                                                                                                                         <div class="center m0-auto w-text-heading">
                                                                                                                                                                                                         <span class="sub-title-heading text-main mb-15 fadeInUp wow">Explore the
@@ -2268,16 +2180,16 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
 
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </section>
-                                                                                                                                                                                                        <!-- Widget Tourpackage -->
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </section>
+                                                                                                                                                                                            <!-- Widget Tourpackage -->
 
-                                                                                                                                                                                                        <!-- Widget activities -->
-                                                                                                                                                                                                        <section class="relative tf-widget-activities pd-main overflow-hidden">
-                                                                                                                                                                                                        <img src="./assets/images/page/mask-activiti.png" alt="image" class="mask-top">
-                                                                                                                                                                                                        <img src="./assets/images/page/mask-print-2.png" alt="image" class="mask-bottom">
+                                                                                                                                                                                            <!-- Widget activities -->
+                                                                                                                                                                                            <section class="relative tf-widget-activities pd-main overflow-hidden">
+                                                                                                                                                                                                <img src="./assets/images/page/mask-activiti.png" alt="image" class="mask-top">
+                                                                                                                                                                                                    <img src="./assets/images/page/mask-print-2.png" alt="image" class="mask-bottom">
                                                                                                                                                                                                         <div class="tf-container">
                                                                                                                                                                                                         <div class="row z-index3 relative">
                                                                                                                                                                                                         <div class="col-lg-12 mb-60">

@@ -43,7 +43,9 @@ public class AccountDAO extends DBContext {
         return password != null && password.matches(check);
     }
 
+    //
     public Account getAccountById(int accountId) {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -51,7 +53,8 @@ public class AccountDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6), userProfileDAO.getProfileByAccountId(accountId));
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -341,8 +344,6 @@ public class AccountDAO extends DBContext {
         return 0;
     }
 
-
-
     // New methods for Google Sign-In
     public int getStatusByEmail(String email) throws SQLException {
         String sql = "SELECT status_id FROM Account WHERE email = ?";
@@ -357,6 +358,8 @@ public class AccountDAO extends DBContext {
     }
 
     public Account getAccountByEmail(String email) throws SQLException {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        AccountDAO accountDAO = new AccountDAO();
         String sql = "SELECT account_id, status_id, username, password, email, created_at FROM Account WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
@@ -370,6 +373,7 @@ public class AccountDAO extends DBContext {
                 account.setPassword(rs.getString("password"));
                 account.setEmail(rs.getString("email"));
                 account.setCreatedAt(rs.getTimestamp("created_at").toString());
+                account.setUserProfile(userProfileDAO.getProfileByAccountId(accountDAO.getAcountIdByEmail(email)));
                 return account;
             }
         }
@@ -508,14 +512,16 @@ public class AccountDAO extends DBContext {
     }
 
     public Account getAccountByUsername(String username) {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        AccountDAO accountDAO = new AccountDAO();
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE username = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1,username );
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6), userProfileDAO.getProfileByAccountId(accountDAO.getAccountIDbyUsername(username)));
             }
         } catch (Exception e) {
             e.printStackTrace();

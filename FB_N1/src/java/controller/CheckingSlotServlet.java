@@ -4,38 +4,28 @@
  */
 package controller;
 
-import dao.*;
-import dao.UserProfileDAO;
+import com.google.gson.Gson;
+import dao.SlotEventDTODAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Vector;
-import model.Account;
-import model.Field;
-import model.UserProfile;
-import model.Zone;
-import java.util.Vector;
-import model.UserProfile;
-import model.Field;
-import model.*;
+import java.util.Map;
 
 /**
  *
- * @author VAN NGUYEN
+ * @author Đỗ Tuấn Anh
  */
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "CheckingSlotServlet", urlPatterns = {"/checking-slots"})
+public class CheckingSlotServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
      *
      * @param request servlet request
      * @param response servlet response
@@ -45,28 +35,21 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-//                FieldDAO fdao = new FieldDAO();
-//                Zone_DAO Zdao = new Zone_DAO();
-//                // Vector<Field> list = dao.getAllField();
-//                // List<Zone> listZ = Zdao.getAllZone();
-//                //
-//                // request.setAttribute("listF", list);
-//                // request.setAttribute("listZ", listZ);
-//
-//                Vector<Field> daof = fdao.getAllFieldLast();
-//                request.setAttribute("fdao", daof);
-//
-//                ProductDAO pdao = new ProductDAO();
-//                Vector<Product> plist = pdao.getAllProductsWithCategory();
-//                request.setAttribute("plist", plist);
-//
-//                Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
-//                request.setAttribute("fieldList", fieldList);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CheckingSlotServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CheckingSlotServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -76,15 +59,19 @@ public class HomeControl extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SliderDAO sDao = new SliderDAO();
 
-        List<Slider> listS = sDao.getAllSlider();
+        int fieldId = Integer.parseInt(request.getParameter("fieldId"));
+        String start = request.getParameter("start");
+        String end = request.getParameter("end");
 
-        request.setAttribute("listS", listS);
-        request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
+        SlotEventDTODAO dao = new SlotEventDTODAO();
+        List<Map<String, Object>> events = dao.getAllSlotsForRange(fieldId, start, end);
 
+        response.setContentType("application/json");
+        new Gson().toJson(events, response.getWriter());
     }
 
     /**

@@ -60,8 +60,7 @@ public class GoogleRegisterServlet extends HttpServlet {
                     // Đăng nhập nếu status_id là 1 hoặc 2
 
                     Account acc = accountDAO.getAccountByEmail(email);
-                    UserProfileDAO userProfileDAO = new UserProfileDAO();
-                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
+                    UserProfile profile = acc.getUserProfile();
 
                     request.getSession().setAttribute("username", acc.getUsername());
                     request.getSession().setAttribute("account", acc);
@@ -69,7 +68,16 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
-                    request.getRequestDispatcher("home").forward(request, response);
+                    String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
+
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                        request.getSession().removeAttribute("redirectAfterLogin");
+                        String finalRedirect = request.getContextPath() + redirectPath;
+                        response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
+
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    }
                     return;
 
                 } else if (statusId == 3) {
@@ -81,8 +89,7 @@ public class GoogleRegisterServlet extends HttpServlet {
                 boolean success = accountDAO.addGoogleAccount(googleId, email, firstName, lastName, avatar, null);
                 if (success) {
                     Account acc = accountDAO.getAccountByEmail(email);
-                    UserProfileDAO userProfileDAO = new UserProfileDAO();
-                    UserProfile profile = userProfileDAO.getProfileByAccountId(acc.getAccountId());
+                    UserProfile profile = acc.getUserProfile();
 
                     request.getSession().setAttribute("username", acc.getUsername());
                     request.getSession().setAttribute("account", acc);
@@ -90,7 +97,16 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     request.getSession().setAttribute("message", "Đăng nhập thành công!");
 
-                    request.getRequestDispatcher("home").forward(request, response);
+                    String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
+
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                        request.getSession().removeAttribute("redirectAfterLogin");
+                        String finalRedirect = request.getContextPath() + redirectPath;
+                        response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
+
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    }
                     return;
                 } else {
                     response.getWriter().println("<h2>Đăng ký thất bại!</h2>");

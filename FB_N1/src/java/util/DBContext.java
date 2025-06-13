@@ -29,6 +29,14 @@ public class DBContext {
             System.out.println(ex);
         }
     }
+
+    public static Connection getConnection() throws SQLException {
+        String url = "jdbc:sqlserver://localhost:1433;databaseName= FootballFieldBooking";
+        String username = "sa";
+        String password = "123";
+        return DriverManager.getConnection(url, username, password);
+    }
+
 //TEST DB//
     public static void main(String[] args) {
         DBContext db = new DBContext();
@@ -38,7 +46,5 @@ public class DBContext {
             System.out.println("❌ Kết nối thất bại!");
         }
     }
-
-    
 
 }

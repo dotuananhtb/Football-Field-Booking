@@ -4,28 +4,37 @@
  */
 package model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Đỗ Tuấn Anh
  */
 public class BookingDetails {
-     private int bookingDetailsId;
+
+    private int bookingDetailsId;
     private int bookingId;
     private int slotFieldId;
-    private double slotFieldPrice;
+    private BigDecimal slotFieldPrice;
     private int extraMinutes;
-    private double extraFee;
+    private BigDecimal extraFee;
+    private String slotDate; // Định dạng yyyy-MM-dd
+    private String note;
+    private int statusCheckingId;
 
     public BookingDetails() {
     }
 
-    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, double slotFieldPrice, int extraMinutes, double extraFee) {
+    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, BigDecimal slotFieldPrice, int extraMinutes, BigDecimal extraFee, String slotDate, String note, int statusCheckingId) {
         this.bookingDetailsId = bookingDetailsId;
         this.bookingId = bookingId;
         this.slotFieldId = slotFieldId;
         this.slotFieldPrice = slotFieldPrice;
         this.extraMinutes = extraMinutes;
         this.extraFee = extraFee;
+        this.slotDate = slotDate;
+        this.note = note;
+        this.statusCheckingId = statusCheckingId;
     }
 
     public int getBookingDetailsId() {
@@ -52,11 +61,11 @@ public class BookingDetails {
         this.slotFieldId = slotFieldId;
     }
 
-    public double getSlotFieldPrice() {
+    public BigDecimal getSlotFieldPrice() {
         return slotFieldPrice;
     }
 
-    public void setSlotFieldPrice(double slotFieldPrice) {
+    public void setSlotFieldPrice(BigDecimal slotFieldPrice) {
         this.slotFieldPrice = slotFieldPrice;
     }
 
@@ -68,17 +77,41 @@ public class BookingDetails {
         this.extraMinutes = extraMinutes;
     }
 
-    public double getExtraFee() {
+    public BigDecimal getExtraFee() {
         return extraFee;
     }
 
-    public void setExtraFee(double extraFee) {
+    public void setExtraFee(BigDecimal extraFee) {
         this.extraFee = extraFee;
+    }
+
+    public String getSlotDate() {
+        return slotDate;
+    }
+
+    public void setSlotDate(String slotDate) {
+        this.slotDate = slotDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public int getStatusCheckingId() {
+        return statusCheckingId;
+    }
+
+    public void setStatusCheckingId(int statusCheckingId) {
+        this.statusCheckingId = statusCheckingId;
     }
 
     @Override
     public String toString() {
-        return "BookingDetails{" + "bookingDetailsId=" + bookingDetailsId + ", bookingId=" + bookingId + ", slotFieldId=" + slotFieldId + ", slotFieldPrice=" + slotFieldPrice + ", extraMinutes=" + extraMinutes + ", extraFee=" + extraFee + '}';
+        return "BookingDetails{" + "bookingDetailsId=" + bookingDetailsId + ", bookingId=" + bookingId + ", slotFieldId=" + slotFieldId + ", slotFieldPrice=" + slotFieldPrice + ", extraMinutes=" + extraMinutes + ", extraFee=" + extraFee + ", slotDate=" + slotDate + ", note=" + note + ", statusCheckingId=" + statusCheckingId + '}';
     }
 
     
