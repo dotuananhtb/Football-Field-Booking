@@ -98,9 +98,7 @@ public class LoginServlet extends HttpServlet {
 
             System.out.println("Redirect after login to: " + request.getContextPath() + redirectPath);
 
-            if (redirectPath
-                    != null && !redirectPath.trim()
-                            .isEmpty()) {
+            if (redirectPath != null && !redirectPath.trim().isEmpty()) {
                 session.removeAttribute("redirectAfterLogin");
                 response.sendRedirect(request.getContextPath() + redirectPath);
             } else {
