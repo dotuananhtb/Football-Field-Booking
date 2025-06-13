@@ -64,15 +64,15 @@ if (submit == null) {
     String password = request.getParameter("password");
     String remember = request.getParameter("remember");
     AccountDAO dao = new AccountDAO();
-    UserProfileDAO daoU = new UserProfileDAO();
-    Account acc = dao.getAccountByUsername(username);
-    UserProfile uP = daoU.getProfileByAccountId(acc.getAccountId());
+    UserProfileDAO daoU = new UserProfileDAO(); 
     boolean isSuccess = dao.checkLogin(username, password);
     int a = dao.getRoleIDbyAccount(username, password);
     int b = dao.getStatusIDbyAccount(username, password);
     
 
     if (isSuccess && b == 1) {
+        Account acc = dao.getAccountByUsername(username);
+    UserProfile uP = daoU.getProfileByAccountId(acc.getAccountId());
         session.setAttribute("account", acc);
         session.setAttribute("userProfile", uP);
         session.setAttribute("roleID", a);
@@ -110,7 +110,7 @@ if (submit == null) {
         request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
     } else if (isSuccess && b == 3) {
         request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
-    } else {
+    } else  {
         String errorMess = "Tên đăng nhập hoặc mật khẩu không đúng.";
         request.setAttribute("error", errorMess);
         request.getRequestDispatcher("UI/login.jsp").forward(request, response);

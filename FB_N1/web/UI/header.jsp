@@ -29,7 +29,7 @@
                             <div class="logo-box">
                                 <div class="logo">
                                     <a href="/FB_N1/home">
-                                        <img src="assets/images/logo.png" alt="Logo">
+                                        <img src="assets/images/logo22.png" alt="Logo">
                                     </a>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
-                                            
+
                                             <li class="dropdown2 "><a href="#">Diễn Đàn</a>
                                                 <ul>
                                                     <li><a href="blog.html">Diễn Đàn Tìm Đối Thủ</a></li>
@@ -71,48 +71,61 @@
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
 
-                                            
-                                            
-                                            <li><a href="contact-us.html">Liên Hệ</a></li>
-                                            <c:if test="${sessionScope.roleID == 2 || sessionScope.roleID == 3|| sessionScope.account == null}">
-                                            <li><a href="#" >Đặt Sân </a></li>
-                                            </c:if>
-                                            <c:if test="${sessionScope.roleID == 1}">
-                                            <li><a href="#" >Doanh Thu</a></li>
-                                            </c:if>
-                                            
-                                            
-                                            
-                                              <c:if test="${sessionScope.account != null}">
-                                
-                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
-                                    <ul>
-                                        <li><a href="/FB_N1/UI/userProfile2.jsp"> <i class="icon-user"></i> Trang cá nhân</a></li>
-                                        <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
-                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
-                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
-                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
-                                        </c:if>
-                                        <c:if test="${sessionScope.roleId == 3}">
-                                        <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
-                                        </c:if>
-                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
-                                                 <i class="icon-turn-off-1"></i>    Đăng Xuất
 
-                                            </a></li>
-                                    </ul>
-                                    </c:if>
+
+                                            <li><a href="contact-us.html">Liên Hệ</a></li>
+                                                
+                                                
+                                                
+                                                <c:if test="${sessionScope.roleID == 1}">
+                                                <li><a href="#" >Doanh Thu</a></li>
+                                                </c:if>
+                                                
+
+
+
+                                            <c:if test="${sessionScope.account != null}">
+                                                <li class="dropdown2 "><a href="#">Quản Lý</a>
+                                                    <ul>
+                                                        <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
+                                                            <c:if test ="${sessionScope.roleID == 1}">
+                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
+                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Trang Chủ </a></li>
+                                                            </c:if>
+                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
+                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
+                                                            </c:if>
+                                                        <div class="dropdown2-btn"></div>
+                                                    </ul>
+
+                                                </li>
+
+                                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
+                                                    <ul>
+                                                        <li><a href="/FB_N1/userProfile"> <i class="icon-user"></i> Trang cá nhân</a></li>
+
+                                                        <c:if test="${sessionScope.roleId == 3}">
+                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
+                                                            </c:if>
+                                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
+                                                                <i class="icon-turn-off-1"></i>    Đăng Xuất
+
+                                                            </a></li>
+                                                    </ul></li>
+                                                
+                                            </c:if>
+                                                    <li><button style ="border-radius: 20px; " >Đặt Sân </button></li>
                                         </ul>
-                                        
+
                                     </div>
                                 </nav>
                                 <!-- Main Menu End-->
                             </div>
 
-                            
-                          
-                                    <div class="dropdown2-btn"></div></li>
-                                
+
+
+                            <div class="dropdown2-btn"></div></li>
+
 
 
 

@@ -52,7 +52,7 @@ public class UserProfileServlet extends HttpServlet {
            session.setAttribute("userProfile", uP);
            session.setAttribute("account",account);
 //           response.sendRedirect("UI/hoSoNguoiDung.jsp");
-request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+
         
     } 
 
@@ -67,7 +67,7 @@ request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
     } 
 
     /** 

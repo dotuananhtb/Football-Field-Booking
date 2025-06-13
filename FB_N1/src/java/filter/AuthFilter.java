@@ -22,18 +22,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author Đỗ Tuấn Anh
- */
-
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import model.Account;
 
-@WebFilter(urlPatterns = {"/user-profile", "/booking", "/admin/*"})
+@WebFilter(urlPatterns = {"/userProfile", "/booking", "/admin/*"})
 public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -43,9 +38,9 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         if (session == null || session.getAttribute("account") == null) {
-            res.sendRedirect(req.getContextPath() + "/home.jsp");
+            res.sendRedirect(req.getContextPath() + "/login");
             return;
-        }
+        }else{
 
         String uri = req.getRequestURI();
         Account acc = (Account) session.getAttribute("account");
@@ -55,5 +50,6 @@ public class AuthFilter implements Filter {
 //        }
 
         chain.doFilter(request, response);
+    }
     }
 }
