@@ -142,7 +142,7 @@
 
                                     </div>
                                     <div class="sidebar-widget">
-                                        <h4 class="block-heading">Recent News</h4>
+                                        <h4 class="block-heading">Tin tức gần đây</h4>
                                         <div class="recent-post-list">
                                             <c:forEach var="post" items="${recentPosts}">
                                                 <div class="list-recent flex-three">
