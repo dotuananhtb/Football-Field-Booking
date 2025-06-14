@@ -32,7 +32,7 @@
 
                                         <body class="body header-fixed">
                                             <jsp:include page="toast.jsp" />
-
+                                            <jsp:include page="sweetalert-include.jsp" />
                                             <jsp:include page="header_dashboard.jsp" />
                                             <!-- End Main Header -->
                                             <main id="main">
@@ -121,20 +121,22 @@
                                                                                     <input type="hidden" name="page" value="${currentPage}" />
 
                                                                                 </form>
+
+
                                                                                 <div class="action flex-five">
-                                                                                    <i class="icon-Vector-17"
-                                                                                       style="color:red; cursor:pointer;"
-                                                                                       title="Hủy ca"
-                                                                                       onclick="if (confirm('Bạn có chắc muốn hủy ca này?')) {
-                                                                                                   document.getElementById('cancel-form-${item.bookingDetailsId}').submit();
-                                                                                               }">
+                                                                                    <i class="icon-Vector-17" style="color:red; cursor:pointer;" title="Hủy ca"
+                                                                                       onclick="showConfirmDialog('Bạn có chắc muốn hủy ca này?', function () {
+                                                                                                       document.getElementById('cancel-form-${item.bookingDetailsId}').submit();
+                                                                                                   })">
                                                                                     </i>
+
                                                                                 </div>
                                                                             </div>
 
                                                                         </c:if>
                                                                 </li>
                                                             </ul>
+
                                                         </c:forEach>
 
                                                         <c:if test="${empty details}">
