@@ -111,7 +111,9 @@
                                                             </ul>
                                                         </c:forEach>
 
-
+                                                        <c:if test="${empty details}">
+                                                            <p>Không có ca nào được đặt của Mã đặt sân(BookingID): #${bookingId}</p>
+                                                        </c:if>
 
                                                         <c:if test="${totalPages > 1}">
                                                             <div class="row">
