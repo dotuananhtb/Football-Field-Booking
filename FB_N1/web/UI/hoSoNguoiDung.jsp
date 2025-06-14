@@ -14,7 +14,7 @@
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
             <meta charset="utf-8">
-                <title>Vitour - Travel & Tour Booking HTML Template</title>
+                <title>Hồ sơ người dùng - FootballStar</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,8 +24,8 @@
                                 <link rel="stylesheet" href="app/css/map.min.css">
 
                                     <!-- Favicon and Touch Icons  -->
-                                    <link rel="shortcut icon" href="assets/images/favico.png">
-                                        <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                             </head>
 
                                             <body class="body header-fixed">

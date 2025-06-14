@@ -21,12 +21,12 @@
                             <link rel="stylesheet" type="text/css" href="app/css/magnific-popup.css">
                                 <link rel="stylesheet" type="text/css" href="app/css/jquery.fancybox.min.css">
                                     <link rel="stylesheet" type="text/css" href="app/css/textanimation.css">
-                                        
-                                        
+
+
                                         <!-- Favicon and Touch Icons  -->
                                         <link rel="shortcut icon" href="assets/images/logoKoChu.png">
                                             <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
-                                                
+
                                                 </head>
 
                                                 <body class="body header-fixed counter-scroll">
@@ -55,14 +55,14 @@
                                                                 <main id="main">
 
 
-                                                                
 
 
-                                                                <!-- Widget Slider -->
-                                                                <section class="slider relative">
-                                                                    <div class="swiper mySwiper">
 
-                                                                        <div class="swiper-wrapper">
+                                                                    <!-- Widget Slider -->
+                                                                    <section class="slider relative">
+                                                                        <div class="swiper mySwiper">
+
+                                                                            <div class="swiper-wrapper">
                                                                             <c:forEach items="${listS}" var="o">
                                                                                 <div class="slider-home1 relative overflow-hidden swiper-slide">
                                                                                     <div class="silider-image">
@@ -90,21 +90,21 @@
                                                                                                     </h1>
                                                                                                     <p class="des text-white mb-45 fadeInDown wow">${o.content2_small}
                                                                                                     </p>
-                                                                                                    
+
                                                                                                     <div class="btn-group">
-                                                                                                      
+
                                                                                                         <a href="/FB_N1/UI/home2.jsp" class="btn-main fadeInDown wow">
                                                                                                             <p class="btn-main-text">Tìm hiểu thêm</p>
                                                                                                             <p class="iconer">
                                                                                                                 <i class="icon-arrow-right"></i>
                                                                                                             </p>
                                                                                                         </a>
-                                                                                                 
+
                                                                                                         <a href="#" class="btn-w-wa fadeInDown wow">Về Chúng tôi<i
                                                                                                                 class="icon-Group-13"></i></a>
-                                                                                                                
+
                                                                                                     </div>
-                                           
+
                                                                                                 </div>
 
                                                                                             </div>

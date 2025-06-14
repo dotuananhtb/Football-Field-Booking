@@ -10,6 +10,8 @@
     <!-- comment -->
     <base href="${pageContext.request.contextPath}/UI/">
     <!-- comment -->
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 </head>
 
 <!-- Main Header -->
@@ -74,13 +76,13 @@
 
 
                                             <li><a href="contact-us.html">Liên Hệ</a></li>
-                                                
-                                                
-                                                
-                                                <c:if test="${sessionScope.roleID == 1}">
+
+
+
+                                            <c:if test="${sessionScope.roleID == 1}">
                                                 <li><a href="#" >Doanh Thu</a></li>
                                                 </c:if>
-                                                
+
 
 
 
@@ -89,9 +91,9 @@
                                                     <ul>
                                                         <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
                                                             <c:if test ="${sessionScope.roleID == 1}">
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Trang Chủ </a></li>
-                                                            </c:if>
+                                                                <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
+                                                                <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Trang Chủ </a></li>
+                                                                </c:if>
                                                             <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
                                                             <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
                                                             </c:if>
@@ -112,9 +114,9 @@
 
                                                             </a></li>
                                                     </ul></li>
-                                                
+
                                             </c:if>
-                                                    <li><button style ="border-radius: 20px; " >Đặt Sân </button></li>
+                                            <li><button style ="border-radius: 20px; " >Đặt Sân </button></li>
                                         </ul>
 
                                     </div>

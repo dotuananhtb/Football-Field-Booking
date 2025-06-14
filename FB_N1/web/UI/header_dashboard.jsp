@@ -9,6 +9,8 @@
 <html>
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
+        <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
     </head>
     <div class="preload preload-container">
         <svg class="pl" width="240" height="240" viewBox="0 0 240 240">
