@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import model.Account;
 
-@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/lich-su-dat-san", "/admin/*", "/login", "/dang-ki"})
+@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
@@ -37,7 +37,7 @@ public class AuthFilter implements Filter {
         }
 
         // ✅ Nếu chưa đăng nhập và đang vào vùng bảo vệ → chặn
-        if (acc == null && (path.startsWith("/userProfile") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/admin"))) {
+        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/userProfile") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/admin"))) {
 
             // AJAX request → trả JSON 401
             String requestedWith = req.getHeader("X-Requested-With");

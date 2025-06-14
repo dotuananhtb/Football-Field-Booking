@@ -15,6 +15,8 @@ import java.util.*;
 @WebServlet(name = "BookingHistoryServlet", urlPatterns = {"/lich-su-dat-san"})
 public class BookingHistoryServlet extends HttpServlet {
 
+    private static final int PAGE_SIZE = 4;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,6 +30,7 @@ public class BookingHistoryServlet extends HttpServlet {
         }
 
         int accountId = account.getAccountId();
+
         int page = 1;
         String pageParam = request.getParameter("page");
         if (pageParam != null && pageParam.matches("\\d+")) {
@@ -37,11 +40,12 @@ public class BookingHistoryServlet extends HttpServlet {
         BookingDAO bookingDAO = new BookingDAO();
         SaleDAO saleDAO = new SaleDAO();
 
-        List<Booking> bookings = bookingDAO.getBookingsByAccountIdPaging(accountId, page);
         int totalBookings = bookingDAO.countBookingsByAccountId(accountId);
-        int totalPages = (int) Math.ceil((double) totalBookings / 4);
+        int totalPages = (int) Math.ceil((double) totalBookings / PAGE_SIZE);
 
-        // Tạo map để ánh xạ bookingId → salePercent
+        List<Booking> bookings = bookingDAO.getBookingsByAccountIdPaging(accountId, page, PAGE_SIZE);
+
+        // Tạo map sale
         Map<Integer, Integer> saleMap = new HashMap<>();
         for (Booking booking : bookings) {
             int salePercent = saleDAO.getSalePercentById(booking.getSaleId());
@@ -55,5 +59,4 @@ public class BookingHistoryServlet extends HttpServlet {
 
         request.getRequestDispatcher("UI/lichsuDatSan.jsp").forward(request, response);
     }
-
 }

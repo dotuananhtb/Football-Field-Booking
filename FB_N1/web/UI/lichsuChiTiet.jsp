@@ -1,6 +1,6 @@
 <%-- 
-    Document   : lichsuDatSan
-    Created on : Jun 14, 2025, 1:16:42 PM
+    Document   : lichsuChiTiet
+    Created on : Jun 14, 2025, 5:34:08 PM
     Author     : Đỗ Tuấn Anh
 --%>
 
@@ -37,115 +37,116 @@
                                             <main id="main">
                                                 <section class="profile-dashboard">
                                                     <div class="inner-header mb-40">
-                                                        <h3 class="title">Lịch sử đặt sân của bạn</h3>
-                                                        <p class="des">Dưới đây là danh sách các lần bạn đặt sân</p>
+                                                        <h3 class="title">Lịch sử chi tiết của Mã đặt sân(BookingID): #${bookingId}</h3>
+                                                        <p class="des">Dưới đây là danh sách chi tiết của mã đơn #${bookingId}</p>
                                                     </div>
                                                     <div class="my-booking-wrap ">
                                                         <ul class="booking-table-title flex-three">
                                                             <li>
-                                                                <p>Mã đơn đặt (BookingID)</p>
+                                                                <p>Ca sân</p>
                                                             </li>
                                                             <li>
-                                                                <p>Thời gian đặt</p>
+                                                                <p>Ngày đặt</p>
                                                             </li>
                                                             <li>
-                                                                <p>Giảm giá(nếu có)</p>
+                                                                <p>Thêm giờ</p>
                                                             </li>
                                                             <li>
-                                                                <p>Tổng thanh toán</p>
+                                                                <p>Trạng thái</p>
                                                             </li>
-
                                                             <li>
-                                                                <p>Xem chi tiết</p>
+                                                                <p>Thành tiền</p>
+                                                            </li>
+                                                            <li>
+                                                                <p>Ghi chú</p>
+                                                            </li>
+                                                            <li>
+                                                                <p>Hành động</p>
                                                             </li>
                                                         </ul>
-                                                        <!-- Danh sách Booking -->
-                                                        <c:forEach var="booking" items="${bookingList}">
+
+                                                        <c:forEach var="item" items="${details}">
                                                             <ul class="booking-table-content mb-60">
                                                                 <li class="flex-three">
-                                                                    <!-- Mã đơn đặt -->
                                                                     <div class="booking-list flex-three">
-                                                                        <p class="date-gues">ID: #${booking.bookingId}</p>
-                                                                    </div>
-
-                                                                    <!-- Thời gian đặt -->
-                                                                    <div class="booking-list-table">
-                                                                        <p class="date-gues">${booking.bookingDate}</p>
-                                                                    </div>
-
-                                                                    <!-- Giảm giá -->
-                                                                    <div class="booking-list-table">
-                                                                        <p class="status">
-                                                                            <c:choose>
-                                                                                <c:when test="${saleMap[booking.bookingId] > 0}">
-                                                                                    ${saleMap[booking.bookingId]}%
-                                                                                </c:when>
-                                                                                <c:otherwise>Không có</c:otherwise>
-                                                                            </c:choose>
-                                                                        </p>
-                                                                    </div>
-
-                                                                    <!-- Tổng thanh toán -->
-                                                                    <div class="booking-list-table">
-                                                                        <p style="font-weight: bold; color: red;">${booking.totalAmount} vnđ</p>
-                                                                    </div>
-
-                                                                    <!-- Hành động -->
-                                                                    <div class="flex-five action-wrap">
-                                                                        <div class="action flex-five">
-                                                                            <a href="/FB_N1/chi-tiet-dat-san?bookingId=${booking.bookingId}">
-                                                                                <i class="icon-Vector-21"></i>
-                                                                            </a>
+                                                                        <div class="image">
+                                                                            <img src="${item.imageUrl}" alt="Ảnh sân ${item.fieldName}">
+                                                                        </div>
+                                                                        <div class="content">
+                                                                            <p class="id">BookingDetailsID: #${item.bookingDetailsId}</p>
+                                                                            <h6 class="title-booking"><a href="#">${item.fieldName}</a></h6>
+                                                                            <p style="font-weight: bold; background-color: #003147; color: white; padding: 10px; border-radius: 5px; text-align: center;">
+                                                                                ${item.startTime} - ${item.endTime}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
-                                                                    <!--<div class="action flex-five">-->
-                                                                    <!--<i class="icon-Vector-17"></i>  -->
-                                                                    <!--</div>-->
-                                                                    <!--</div>-->
-
+                                                                    <div class="booking-list-table">
+                                                                        <p class="date-gues">${item.slotDate}</p>
+                                                                    </div>
+                                                                    <div class="booking-list-table">
+                                                                        <div class="content">
+                                                                            <h6 class="title-booking"><a href="#">${item.extraMinutes} phút</a></h6>
+                                                                            <p class="price">${item.extraFee} vnđ</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="booking-list-table">
+                                                                        <p class="status">${item.statusName}</p>
+                                                                    </div>
+                                                                    <div class="booking-list-table">
+                                                                        <p style="font-weight: bold; color: red;">${item.totalPrice} vnđ
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="booking-list-table">
+                                                                        <p class="date-gues">${item.note}</p>
+                                                                    </div>
+                                                                    <div class="flex-five action-wrap">
+                                                                        <!--<div class="action flex-five">-->
+                                                                        <!--<i class="icon-Vector-16"></i>-->
+                                                                        <!--</div>-->
+                                                                        <div class="action flex-five">
+                                                                            <i class="icon-Vector-17"></i>
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
                                                             </ul>
                                                         </c:forEach>
 
 
-                                                        <!-- Nếu không có booking -->
-                                                        <c:if test="${empty bookingList}">
-                                                            <p>Không có đơn đặt sân nào.</p>
-                                                        </c:if>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <ul class="tf-pagination flex-five">
 
-                                                                    <!-- Nút Previous -->
-                                                                    <c:if test="${currentPage > 1}">
-                                                                        <li>
-                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${currentPage - 1}">
-                                                                                <i class="icon-29"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    </c:if>
+                                                        <c:if test="${totalPages > 1}">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <ul class="tf-pagination flex-five">
 
-                                                                    <!-- Các số trang -->
-                                                                    <c:forEach var="i" begin="1" end="${totalPages}">
-                                                                        <li class="pages-item ${i == currentPage ? 'active' : ''}" aria-current="${i == currentPage ? 'page' : ''}">
-                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${i}">${i}</a>
-                                                                        </li>
-                                                                    </c:forEach>
+                                                                        <!-- Nút Previous -->
+                                                                        <c:if test="${currentPage > 1}">
+                                                                            <li>
+                                                                                <a class="pages-link" href="../chi-tiet-dat-san?bookingId=${bookingId}&page=${currentPage - 1}">
+                                                                                    <i class="icon-29"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
 
-                                                                    <!-- Nút Next -->
-                                                                    <c:if test="${currentPage < totalPages}">
-                                                                        <li>
-                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${currentPage + 1}">
-                                                                                <i class="icon--1"></i>
-                                                                            </a>
-                                                                        </li>
+                                                                        <!-- Các số trang -->
+                                                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                                                            <li class="pages-item ${i == currentPage ? 'active' : ''}" aria-current="${i == currentPage ? 'page' : ''}">
+                                                                                <a class="pages-link" href="../chi-tiet-dat-san?bookingId=${bookingId}&page=${i}">${i}</a>
+                                                                            </li>
+                                                                        </c:forEach>
+
+                                                                        <!-- Nút Next -->
+                                                                        <c:if test="${currentPage < totalPages}">
+                                                                            <li>
+                                                                                <a class="pages-link" href="../chi-tiet-dat-san?bookingId=${bookingId}&page=${currentPage + 1}">
+                                                                                    <i class="icon--1"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
+
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                         </c:if>
-
-
-
                                                     </div>
                                                 </section>
 
