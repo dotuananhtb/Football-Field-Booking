@@ -86,10 +86,10 @@ public class BookingDAO extends DBContext {
 
     public List<Booking> getBookingsByAccountIdPaging(int accountId, int page) {
         List<Booking> list = new ArrayList<>();
-        String sql = "SELECT * FROM Booking WHERE account_id = ? ORDER BY booking_date DESC OFFSET ? ROWS FETCH NEXT 3 ROWS ONLY";
+        String sql = "SELECT * FROM Booking WHERE account_id = ? ORDER BY booking_date DESC OFFSET ? ROWS FETCH NEXT 4 ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            int offset = (page - 1) * 3; // 3 dòng mỗi trang
+            int offset = (page - 1) * 4; // 3 dòng mỗi trang
             ps.setInt(1, accountId);
             ps.setInt(2, offset);
 

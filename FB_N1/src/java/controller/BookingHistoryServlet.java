@@ -39,7 +39,7 @@ public class BookingHistoryServlet extends HttpServlet {
 
         List<Booking> bookings = bookingDAO.getBookingsByAccountIdPaging(accountId, page);
         int totalBookings = bookingDAO.countBookingsByAccountId(accountId);
-        int totalPages = (int) Math.ceil((double) totalBookings / 3);
+        int totalPages = (int) Math.ceil((double) totalBookings / 4);
 
         // Tạo map để ánh xạ bookingId → salePercent
         Map<Integer, Integer> saleMap = new HashMap<>();
