@@ -9,6 +9,7 @@
 <html>
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
+        <!-- comment -->
         <link rel="shortcut icon" href="assets/images/logoKoChu.png">
         <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
     </head>
@@ -40,7 +41,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/FB_N1/UI/lichsuDatSan.jsp">
+                            <a href="/FB_N1/lich-su-dat-san">
                                 <i class="icon-Layer-2"></i>
                                 <span>Lịch sử đặt sân</span>
                             </a>

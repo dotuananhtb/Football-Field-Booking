@@ -84,6 +84,48 @@ public class BookingDAO extends DBContext {
         return list;
     }
 
+    public List<Booking> getBookingsByAccountIdPaging(int accountId, int page) {
+        List<Booking> list = new ArrayList<>();
+        String sql = "SELECT * FROM Booking WHERE account_id = ? ORDER BY booking_date DESC OFFSET ? ROWS FETCH NEXT 3 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int offset = (page - 1) * 3; // 3 dòng mỗi trang
+            ps.setInt(1, accountId);
+            ps.setInt(2, offset);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email")
+                );
+                list.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int countBookingsByAccountId(int accountId) {
+        String sql = "SELECT COUNT(*) FROM Booking WHERE account_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // Tính tổng tiền của 1 booking
     public BigDecimal calculateTotalBooking(List<BookingDetails> detailsList) {
         BigDecimal total = BigDecimal.ZERO;

@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -22,10 +24,10 @@
                         <link rel="stylesheet" href="app/css/app.css">
                             <link rel="stylesheet" href="app/css/map.min.css">
 
-                                <!-- Favicon and Touch Icons  -->
-                                <link rel="shortcut icon" href="assets/images/favico.png">
-                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
 
+                                <!-- comment -->
+                                <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                         </head>
 
                                         <body class="body header-fixed">
@@ -57,54 +59,90 @@
                                                                 <p>Xem chi tiết</p>
                                                             </li>
                                                         </ul>
-                                                        <ul class="booking-table-content mb-60">
-                                                            <li class="flex-three">
-                                                                <div class="booking-list flex-three">
-                                                                    <p class="id">ID: #6</p>                                                                                                    
-                                                                </div>
-
-                                                                <div class="booking-list-table">
-                                                                    <p class="date-gues">2025-06-14 10:56:51</p>
-                                                                </div>
-                                                                <div class="booking-list-table">
-                                                                    <p class="status">Approved</p>
-                                                                </div>
-                                                                <div class="booking-list-table">
-                                                                    <p class="price">360000.00 vnđ</p>
-                                                                </div>
-
-                                                                <div class="flex-five action-wrap">
-                                                                    <div class="action flex-five">
-                                                                        <i class="icon-Vector-16"></i>
+                                                        <!-- Danh sách Booking -->
+                                                        <c:forEach var="booking" items="${bookingList}">
+                                                            <ul class="booking-table-content mb-60">
+                                                                <li class="flex-three">
+                                                                    <!-- Mã đơn đặt -->
+                                                                    <div class="booking-list flex-three">
+                                                                        <p class="date-gues">ID: #${booking.bookingId}</p>
                                                                     </div>
-                                                                    <div class="action flex-five">
-                                                                        <i class="icon-Vector-17"></i>
+
+                                                                    <!-- Thời gian đặt -->
+                                                                    <div class="booking-list-table">
+                                                                        <p class="date-gues">${booking.bookingDate}</p>
                                                                     </div>
-                                                                </div>
-                                                            </li>
+
+                                                                    <!-- Giảm giá -->
+                                                                    <div class="booking-list-table">
+                                                                        <p class="status">
+                                                                            <c:choose>
+                                                                                <c:when test="${saleMap[booking.bookingId] > 0}">
+                                                                                    ${saleMap[booking.bookingId]}%
+                                                                                </c:when>
+                                                                                <c:otherwise>Không có</c:otherwise>
+                                                                            </c:choose>
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <!-- Tổng thanh toán -->
+                                                                    <div class="booking-list-table">
+                                                                        <p class="date-gues">${booking.totalAmount} vnđ</p>
+                                                                    </div>
+
+                                                                    <!-- Hành động -->
+                                                                    <div class="flex-five action-wrap">
+                                                                        <div class="action flex-five">
+                                                                            <i class="icon-Vector-4"></i> <!-- Ví dụ icon xem -->
+                                                                        </div>
+
+                                                                        <!--<div class="action flex-five">-->
+                                                                        <!--<i class="icon-Vector-17"></i>  -->
+                                                                        <!--</div>-->
+
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </c:forEach>
 
 
-                                                        </ul>
+                                                        <!-- Nếu không có booking -->
+                                                        <c:if test="${empty bookingList}">
+                                                            <p>Không có đơn đặt sân nào.</p>
+                                                        </c:if>
                                                         <div class="row">
-                                                            <div class="col-md-12 ">
+                                                            <div class="col-md-12">
                                                                 <ul class="tf-pagination flex-five">
-                                                                    <li>
-                                                                        <a class="pages-link" href="#"> <i class="icon-29"></i></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="pages-link" href="#">1</a>
-                                                                    </li>
-                                                                    <li class="pages-item active" aria-current="page">
-                                                                        <a class="pages-link" href="#">2</a>
-                                                                    </li>
-                                                                    <li><a class="pages-link" href="#">3</a></li>
-                                                                    <li>
-                                                                        <a class="pages-link" href="#"><i class=" icon--1"></i></a>
-                                                                    </li>
-                                                                </ul>
 
+                                                                    <!-- Nút Previous -->
+                                                                    <c:if test="${currentPage > 1}">
+                                                                        <li>
+                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${currentPage - 1}">
+                                                                                <i class="icon-29"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    </c:if>
+
+                                                                    <!-- Các số trang -->
+                                                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                                                        <li class="pages-item ${i == currentPage ? 'active' : ''}" aria-current="${i == currentPage ? 'page' : ''}">
+                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${i}">${i}</a>
+                                                                        </li>
+                                                                    </c:forEach>
+
+                                                                    <!-- Nút Next -->
+                                                                    <c:if test="${currentPage < totalPages}">
+                                                                        <li>
+                                                                            <a class="pages-link" href="../lich-su-dat-san?page=${currentPage + 1}">
+                                                                                <i class="icon--1"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    </c:if>
+
+                                                                </ul>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </section>
 
