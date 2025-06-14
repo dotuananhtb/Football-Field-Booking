@@ -70,9 +70,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-12">
                                 <article class="side-blog side-blog-single">
-                                    <div class="image">
-                                        <img src="./assets/images/blog/blog-details.jpg" alt="">
-                                    </div>
+                                    
                                     <div class="top-detail-info">
                                         <ul class="flex-three">
                                             <li>
@@ -98,6 +96,12 @@
                                                 ${comment.cmtDate}
                                             </div>
                                             <div style="font-size: 16px;">${comment.contentCmt}</div>
+                                            <c:if test="${sessionScope.account != null && (sessionScope.account.accountId == comment.accountId || sessionScope.account.roleId == 1 || sessionScope.account.roleId == 2 || sessionScope.account.accountId == post.account.accountId)}">
+                                                <form action="${pageContext.request.contextPath}/deleteComment" method="post" style="display:inline;">
+                                                    <input type="hidden" name="commentId" value="${comment.commentId}" />
+                                                    <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')" style="color:red;background:none;border:none;cursor:pointer;">Xóa</button>
+                                                </form>
+                                            </c:if>
                                         </div>
                                     </c:forEach>
                                     <c:if test="${empty comments}">
