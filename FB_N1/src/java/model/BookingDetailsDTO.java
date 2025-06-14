@@ -21,13 +21,16 @@ public class BookingDetailsDTO {
     private BigDecimal slotPrice;
     private BigDecimal extraFee;
     private String statusName;
+    private int statusId; // Thêm dòng này
     private String note;
     private int extraMinutes;
 
     public BookingDetailsDTO() {
     }
 
-    public BookingDetailsDTO(int bookingDetailsId, String fieldName, String imageUrl, String startTime, String endTime, String slotDate, BigDecimal slotPrice, BigDecimal extraFee, String statusName, String note, int extraMinutes) {
+    public BookingDetailsDTO(int bookingDetailsId, String fieldName, String imageUrl, String startTime,
+            String endTime, String slotDate, BigDecimal slotPrice, BigDecimal extraFee,
+            String statusName, int statusId, String note, int extraMinutes) {
         this.bookingDetailsId = bookingDetailsId;
         this.fieldName = fieldName;
         this.imageUrl = imageUrl;
@@ -37,8 +40,18 @@ public class BookingDetailsDTO {
         this.slotPrice = slotPrice;
         this.extraFee = extraFee;
         this.statusName = statusName;
+        this.statusId = statusId;
         this.note = note;
         this.extraMinutes = extraMinutes;
+    }
+
+    // Getter & Setter cho statusId
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
     public BigDecimal getTotalPrice() {

@@ -149,7 +149,7 @@ public class BookingDetailsDAO extends DBContext {
 
         String sql = "SELECT bd.booking_details_id, f.field_name, f.image, sd.start_time, sd.end_time, "
                 + "bd.slot_date, bd.slot_field_price, bd.extra_fee, bd.extra_minutes, "
-                + "scs.status_name, bd.note "
+                + "scs.status_name, scs.status_checking_id, bd.note "
                 + "FROM BookingDetails bd "
                 + "JOIN Booking b ON bd.booking_id = b.booking_id "
                 + "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id "
@@ -158,13 +158,13 @@ public class BookingDetailsDAO extends DBContext {
                 + "JOIN StatusCheckingSlot scs ON bd.status_checking_id = scs.status_checking_id "
                 + "WHERE b.booking_id = ? AND b.account_id = ? "
                 + "ORDER BY bd.booking_details_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"; // <-- phân trang
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, bookingId);
             ps.setInt(2, accountId);
-            ps.setInt(3, (pageIndex - 1) * pageSize); // OFFSET
-            ps.setInt(4, pageSize); // FETCH NEXT
+            ps.setInt(3, (pageIndex - 1) * pageSize);
+            ps.setInt(4, pageSize);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -178,6 +178,7 @@ public class BookingDetailsDAO extends DBContext {
                             rs.getBigDecimal("slot_field_price"),
                             rs.getBigDecimal("extra_fee"),
                             rs.getString("status_name"),
+                            rs.getInt("status_checking_id"),
                             rs.getString("note"),
                             rs.getInt("extra_minutes")
                     );

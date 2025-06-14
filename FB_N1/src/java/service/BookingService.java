@@ -19,7 +19,10 @@ import model.BookingDetails;
 import java.sql.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,13 +81,13 @@ public class BookingService extends DBContext {
             }
 
             conn.commit();
-            
+
             String finalBookingId = Integer.toString(bookingId);
             new Thread(() -> {
                 try {
                     // Ví dụ: gửi mail xác nhận đặt sân
                     SendMail sender = new SendMail();
-                    sender.guiMailDatSanThanhCong(account.getEmail(), account.getUserProfile().getLastName()+" "+ account.getUserProfile().getFirstName(), finalBookingId,totalAmount);
+                    sender.guiMailDatSanThanhCong(account.getEmail(), account.getUserProfile().getLastName() + " " + account.getUserProfile().getFirstName(), finalBookingId, totalAmount);
                 } catch (Exception ex) {
                     ex.printStackTrace(); // không ảnh hưởng logic chính
                 }
@@ -117,16 +120,13 @@ public class BookingService extends DBContext {
     }
 
 // 2. Hủy đơn (chuyển trạng thái từng detail về Canceled)
-    public boolean cancelBooking(int bookingId) {
-        List<BookingDetails> details = bookingDetailsDAO.getDetailsByBookingId(bookingId);
-        boolean allUpdated = true;
-        for (BookingDetails detail : details) {
-            boolean success = bookingDetailsDAO.updateStatus(detail.getBookingDetailsId(), 3); // 3 = Canceled
-            if (!success) {
-                allUpdated = false;
-            }
-        }
-        return allUpdated;
+    public boolean cancelBooking(int bookingDetailsId) {
+
+        boolean updated = false;
+
+        updated = bookingDetailsDAO.updateStatus(bookingDetailsId, 3); // 3 = Canceled
+
+        return updated;
     }
 
     // 3. Lấy danh sách chi tiết đặt sân theo bookingId
@@ -148,6 +148,34 @@ public class BookingService extends DBContext {
     // 6. Cập nhật trạng thái (tùy loại: pending, checked, cancel...)
     public boolean updateStatus(int bookingDetailId, int newStatus) {
         return bookingDetailsDAO.updateStatus(bookingDetailId, newStatus);
+    }
+    //7.Check thời gian thực dk trước 30p mới dc huỷ
+
+    public boolean isCancelable(int bookingDetailsId) {
+        String sql = "SELECT bd.slot_date, sd.start_time "
+                + "FROM BookingDetails bd "
+                + "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id "
+                + "JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id "
+                + "WHERE bd.booking_details_id = ?";
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, bookingDetailsId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    LocalDate slotDate = LocalDate.parse(rs.getString("slot_date"));
+                    LocalTime startTime = LocalTime.parse(rs.getString("start_time"));
+                    LocalDateTime startDateTime = LocalDateTime.of(slotDate, startTime);
+                    LocalDateTime now = LocalDateTime.now();
+
+                    long minutesUntilStart = Duration.between(now, startDateTime).toMinutes();
+                    return minutesUntilStart >= 30;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; // Không tìm thấy hoặc lỗi → không cho hủy
     }
 
     //////////
@@ -214,7 +242,7 @@ public class BookingService extends DBContext {
     }
 
 }
-    ////----------////
+////----------////
 
 //    public boolean createBooking(Account account, List<BookingDetails> detailsList) {
 //        String insertBookingSQL = "INSERT INTO Booking (account_id, sale_id, booking_date, total_amount, email) VALUES (?, ?, ?, ?, ?)";

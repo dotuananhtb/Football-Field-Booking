@@ -31,6 +31,7 @@
                                         </head>
 
                                         <body class="body header-fixed">
+                                            <jsp:include page="toast.jsp" />
 
                                             <jsp:include page="header_dashboard.jsp" />
                                             <!-- End Main Header -->
@@ -90,8 +91,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="booking-list-table">
-                                                                        <p class="status">${item.statusName}</p>
+                                                                        <p class="status"
+                                                                           style="font-weight: bold;
+                                                                           background-color: ${item.statusId == 1 ? '#28a745' : (item.statusId == 2 ? '#ffc107' : (item.statusId == 3 ? '#6c757d' : 'transparent'))};
+                                                                           color: white;
+                                                                           padding: 6px 12px;
+                                                                           border-radius: 5px;
+                                                                           text-align: center;">
+                                                                            ${item.statusName}
+                                                                        </p>
                                                                     </div>
+
                                                                     <div class="booking-list-table">
                                                                         <p style="font-weight: bold; color: red;">${item.totalPrice} vnđ
                                                                         </p>
@@ -100,13 +110,29 @@
                                                                         <p class="date-gues">${item.note}</p>
                                                                     </div>
                                                                     <div class="flex-five action-wrap">
-                                                                        <!--<div class="action flex-five">-->
-                                                                        <!--<i class="icon-Vector-16"></i>-->
-                                                                        <!--</div>-->
-                                                                        <div class="action flex-five">
-                                                                            <i class="icon-Vector-17"></i>
-                                                                        </div>
-                                                                    </div>
+
+
+                                                                        <!-- Nút icon Hủy (nếu statusId == 1 nghĩa là 'Đã đặt') -->
+                                                                        <div class="flex-five action-wrap">
+                                                                            <c:if test="${item.statusId == 1}">
+                                                                                <form id="cancel-form-${item.bookingDetailsId}" action="../huy-dat-san" method="post" style="display:none;">
+                                                                                    <input type="hidden" name="bookingDetailsId" value="${item.bookingDetailsId}" />
+                                                                                    <input type="hidden" name="bookingId" value="${bookingId}" />
+                                                                                    <input type="hidden" name="page" value="${currentPage}" />
+
+                                                                                </form>
+                                                                                <div class="action flex-five">
+                                                                                    <i class="icon-Vector-17"
+                                                                                       style="color:red; cursor:pointer;"
+                                                                                       title="Hủy ca"
+                                                                                       onclick="if (confirm('Bạn có chắc muốn hủy ca này?')) {
+                                                                                                   document.getElementById('cancel-form-${item.bookingDetailsId}').submit();
+                                                                                               }">
+                                                                                    </i>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </c:if>
                                                                 </li>
                                                             </ul>
                                                         </c:forEach>
