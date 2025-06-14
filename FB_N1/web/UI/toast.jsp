@@ -23,7 +23,7 @@
     <style>
         .toast {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             z-index: 9999;
             display: flex;
@@ -63,7 +63,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-20px); /* Di chuyển từ trên xuống */
             }
             to {
                 opacity: 1;
@@ -78,7 +78,7 @@
             }
             to {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-20px); /* Di chuyển ngược lại */
             }
         }
     </style>

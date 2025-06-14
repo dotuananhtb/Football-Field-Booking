@@ -26,8 +26,8 @@
                             <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
                                 <!-- Favicon and Touch Icons  -->
-                                <link rel="shortcut icon" href="assets/images/favico.png">
-                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
                                         </head>
 
