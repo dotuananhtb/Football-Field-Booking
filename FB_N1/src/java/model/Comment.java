@@ -15,17 +15,18 @@ public class Comment {
     private int postId;
     private int accountId;
     private String contentCmt;
-    private Date cmtDate;
+    private String cmtDate;
+    private Account account;
 
-    public Comment(int commentId, int postId, int accountId, String contentCmt, Date cmtDate) {
+    public Comment() {
+    }
+
+    public Comment(int commentId, int postId, int accountId, String contentCmt, String cmtDate) {
         this.commentId = commentId;
         this.postId = postId;
         this.accountId = accountId;
         this.contentCmt = contentCmt;
         this.cmtDate = cmtDate;
-    }
-
-    public Comment() {
     }
 
     public int getCommentId() {
@@ -60,12 +61,20 @@ public class Comment {
         this.contentCmt = contentCmt;
     }
 
-    public Date getCmtDate() {
+    public String getCmtDate() {
         return cmtDate;
     }
 
-    public void setCmtDate(Date cmtDate) {
+    public void setCmtDate(String cmtDate) {
         this.cmtDate = cmtDate;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

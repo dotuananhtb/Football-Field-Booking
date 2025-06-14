@@ -60,6 +60,7 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("last_name"),
                         rs.getString("address"),
                         rs.getString("gender"),
+                        rs.getString("dob"),
                         rs.getString("phone"),
                         rs.getString("avatar")
                 );
