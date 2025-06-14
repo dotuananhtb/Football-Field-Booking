@@ -51,7 +51,7 @@ public class BookingService extends DBContext {
             bookingDetailsDAO.setConnection(conn);
             saleDAO.setConnection(conn);
 
-            // 4. Thực hiện logic như trước
+            // 4. Thực hiện logic 
             int slotCount = detailsList.size();
             Integer saleId = saleDAO.getSaleIdBySlotCount(slotCount);
             BigDecimal totalAmount = bookingDAO.calculateTotalBooking(detailsList);

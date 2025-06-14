@@ -40,7 +40,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="my-booking.html">
+                            <a href="/FB_N1/UI/lichsuDatSan.jsp">
                                 <i class="icon-Layer-2"></i>
                                 <span>Lịch sử đặt sân</span>
                             </a>
