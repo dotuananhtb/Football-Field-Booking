@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import model.Account;
+import util.ToastUtil;
 
 @WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
 public class AuthFilter implements Filter {
@@ -55,6 +56,18 @@ public class AuthFilter implements Filter {
 
             session.setAttribute("redirectAfterLogin", redirectPath);
             res.sendRedirect(contextPath + "/login");
+            return;
+        }
+// ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn
+        if (path.startsWith("/admin") && acc != null && acc.getUserProfile().getRoleId() != 1 && acc.getUserProfile().getRoleId() != 2) {
+            ToastUtil.setErrorToast(req, "Bạn không có quyền truy cập vào trang này");
+
+            String referer = req.getHeader("Referer");
+            if (referer != null) {
+                res.sendRedirect(referer); // Trả người dùng về trang trước đó
+            } else {
+                res.sendRedirect(contextPath + "/home"); // Trang mặc định nếu không có referer
+            }
             return;
         }
 

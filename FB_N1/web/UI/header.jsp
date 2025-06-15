@@ -18,7 +18,8 @@
 <header class="main-header flex">
     <!-- Header Lower -->
     <div id="header">
-
+        <jsp:include page="toast.jsp" />
+        <jsp:include page="sweetalert-include.jsp" />
         <div class="header-lower">
             <div class="tf-container full">
                 <div class="row">
