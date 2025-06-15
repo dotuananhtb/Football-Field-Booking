@@ -84,7 +84,7 @@
                                                                             </p>
                                                                         </div>
                                                                         <div class="flex-five action-wrap" style="gap: 12px; align-items: center;">
-                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" title="Cập nhật" style="background: #f6f6f6; border-radius: 8px; padding: 6px 10px; display: inline-flex; align-items: center;"><i class="icon-Vector-21"></i></a>
+                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" title="Cập nhật" style="background: #f6f6f6; border-radius: 8px; padding: 6px 10px; display: inline-flex; align-items: center; color: blue">cập nhật</a>
                                                                             <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline; margin:0;">
                                                                                 <input type="hidden" name="postId" value="${post.postId}" />
                                                                                 <button type="submit" class="btn btn-danger" style="padding:6px 10px; border-radius:8px; margin-left:0; display:inline-flex; align-items:center;" onclick="return confirm('Bạn chắc chắn muốn xóa bài viết này?')"><i class="icon-Vector-18"></i></button>
