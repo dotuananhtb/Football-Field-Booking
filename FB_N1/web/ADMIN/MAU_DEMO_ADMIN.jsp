@@ -1,9 +1,8 @@
 <%-- 
-    Document   : admin
-    Created on : Jun 15, 2025, 1:31:26 PM
-    Author     : VAN NGUYEN
+    Document   : MAU_DEMO_ADMIN
+    Created on : Jun 15, 2025, 4:06:05 PM
+    Author     : Đỗ Tuấn Anh
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
 
-        <!-- Them_1 sau "App favicon" -->
+        <!-- Them_1 sau <!-- App favicon --> 
         <!-- App favicon -->
         <%@include file="head_only.jsp" %>
         <!-- End_Them_1 sau "App favicon" -->
@@ -30,6 +29,8 @@
             <jsp:include page="topbar.jsp"/>
             <!-- ========== Topbar End ========== -->
             <!-- End_Them_2 sau "Topbar End" -->
+
+
 
             <!-- Them_3 sau "Topbar Left Sidebar Start" -->
             <!-- ========== Left Sidebar Start ========== -->
@@ -416,5 +417,8 @@
 
         <!-- Theme Settings -->
         <%@include file="themesetting.jsp" %>
+        <!-- xoa den tan truoc the </body> -->
+
     </body>
 </html> 
+

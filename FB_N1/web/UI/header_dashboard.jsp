@@ -23,7 +23,9 @@
     </div>
 
     <!-- /preload -->
+    <jsp:include page="toast.jsp" />
 
+    <jsp:include page="sweetalert-include.jsp" />
     <div id="wrapper">
 
         <div id="pagee" class="clearfix">
