@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "ManagerPostServlet", urlPatterns = {"/managerPost"})
+@WebServlet(name = "ManagerPostServlet", urlPatterns = {"/admin/managerPost"})
 public class ManagerPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
