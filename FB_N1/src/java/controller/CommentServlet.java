@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import util.ToastUtil;
 
 @WebServlet(name = "CommentServlet", urlPatterns = {"/comment"})
 public class CommentServlet extends HttpServlet {
@@ -40,6 +41,7 @@ public class CommentServlet extends HttpServlet {
                 CommentDAO commentDAO = new CommentDAO();
                 commentDAO.addComment(comment);
             }
+            ToastUtil.setSuccessToast(request, "Bạn đã bình luận thành công!");
             response.sendRedirect(request.getContextPath() + "/blogdetails?postId=" + postIdStr);
         } catch (Exception e) {
             e.printStackTrace();
