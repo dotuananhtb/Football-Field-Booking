@@ -26,7 +26,7 @@ public class CreatePostServlet extends HttpServlet {
         String currentDate = java.time.LocalDate.now().toString();
         request.setAttribute("fieldTypes", fieldTypes);
         request.setAttribute("currentDate", currentDate);
-        request.getRequestDispatcher("UI/createPost.jsp").forward(request, response);
+        request.getRequestDispatcher("UI/addPost.jsp").forward(request, response);
     }
 
     @Override
