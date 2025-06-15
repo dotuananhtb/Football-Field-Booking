@@ -14,7 +14,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Vitour - Travel & Tour Booking HTML Template</title>
+    <title>FootballStar - Booking to Football Field</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,7 @@
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
 </head>
 
