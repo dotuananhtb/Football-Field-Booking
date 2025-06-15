@@ -18,7 +18,7 @@
 %>
 <script>
     const notyf = new Notyf({
-        duration: 3000,
+        duration: 4000,
         dismissible: true,
         position: {x: 'right', y: 'top'}
     });
