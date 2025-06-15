@@ -9,6 +9,7 @@ package model;
  * @author Đỗ Tuấn Anh
  */
 import java.util.Date;
+import java.sql.Timestamp;
 
 public class Comment {
     private int commentId;
@@ -17,16 +18,20 @@ public class Comment {
     private String contentCmt;
     private String cmtDate;
     private Account account;
+    private Timestamp createdAt;
+    private boolean isDeleted;
 
     public Comment() {
     }
 
-    public Comment(int commentId, int postId, int accountId, String contentCmt, String cmtDate) {
+    public Comment(int commentId, int postId, int accountId, String contentCmt, String cmtDate, Timestamp createdAt, boolean isDeleted) {
         this.commentId = commentId;
         this.postId = postId;
         this.accountId = accountId;
         this.contentCmt = contentCmt;
         this.cmtDate = cmtDate;
+        this.createdAt = createdAt;
+        this.isDeleted = isDeleted;
     }
 
     public int getCommentId() {
@@ -75,6 +80,22 @@ public class Comment {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

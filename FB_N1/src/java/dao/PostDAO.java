@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 import model.Post;
 import model.Account;
 import util.DBContext;
@@ -212,5 +214,108 @@ public class PostDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<Post> getPostsByAccountId(int accountId) {
+        List<Post> list = new ArrayList<>();
+        String sql = "SELECT * FROM Post WHERE account_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setPostId(rs.getInt("post_id"));
+                post.setAccountId(rs.getInt("account_id"));
+                post.setTitle(rs.getString("title"));
+                post.setContentPost(rs.getString("content_post"));
+                post.setPostDate(rs.getString("post_date"));
+                post.setStatusPost(rs.getString("status_post"));
+                list.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public void softDeletePost(int postId) {
+        String sql = "UPDATE Post SET status_post = 'deactive' WHERE post_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, postId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createPost(Post post) {
+        String sql = "INSERT INTO Post (account_id, title, content_post, post_date, status_post) VALUES (?, ?, ?, GETDATE(), ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, post.getAccountId());
+            st.setString(2, post.getTitle());
+            st.setString(3, post.getContentPost());
+            st.setString(4, post.getStatusPost());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePost(Post post) {
+        String sql = "UPDATE Post SET title = ?, content_post = ?, status_post = ? WHERE post_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, post.getTitle());
+            st.setString(2, post.getContentPost());
+            st.setString(3, post.getStatusPost());
+            st.setInt(4, post.getPostId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Post> getPostsByAccountIdPaging(int accountId, int page, int pageSize) {
+        List<Post> list = new ArrayList<>();
+        String sql = "SELECT * FROM Post WHERE account_id = ? AND status_post = 'active' " +
+                     "ORDER BY post_date DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            st.setInt(2, (page - 1) * pageSize);
+            st.setInt(3, pageSize);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setPostId(rs.getInt("post_id"));
+                post.setAccountId(rs.getInt("account_id"));
+                post.setTitle(rs.getString("title"));
+                post.setContentPost(rs.getString("content_post"));
+                post.setPostDate(rs.getString("post_date"));
+                post.setStatusPost(rs.getString("status_post"));
+                list.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countPostsByAccountId(int accountId) {
+        String sql = "SELECT COUNT(*) FROM Post WHERE account_id = ? AND status_post = 'active'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 } 

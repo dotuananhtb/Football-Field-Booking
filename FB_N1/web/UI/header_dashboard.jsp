@@ -54,9 +54,9 @@
                         </li>
 
                         <li>
-                            <a href="my-listing.html">
+                            <a href="/FB_N1/managerPostUser">
                                 <i class="icon-Group-81"></i>
-                                <span>My Listing</span>
+                                <span>Bài viết</span>
                             </a>
                         </li>
                         <li>

@@ -105,8 +105,8 @@
                                                 <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
                                                     <ul>
                                                         <li><a href="/FB_N1/userProfile"> <i class="icon-user"></i> Trang cá nhân</a></li>
-
-                                                        <c:if test="${sessionScope.roleId == 3}">
+                                                        <li><a href="/FB_N1/managerPostUser"> <i class="icon-user"></i> Bài Viết</a></li>
+                                                            <c:if test="${sessionScope.roleId == 3}">
                                                             <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
                                                             </c:if>
                                                         <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
