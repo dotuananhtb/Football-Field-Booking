@@ -31,7 +31,9 @@
                                         </head>
 
                                         <body class="body header-fixed">
+                                           
                                             <jsp:include page="toast.jsp" />
+                                            
                                             <jsp:include page="sweetalert-include.jsp" />
                                             <jsp:include page="header_dashboard.jsp" />
                                             <!-- End Main Header -->
