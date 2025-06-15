@@ -58,16 +58,12 @@ public class AuthFilter implements Filter {
             res.sendRedirect(contextPath + "/login");
             return;
         }
-// ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn
+        // ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn
         if (path.startsWith("/admin") && acc != null && acc.getUserProfile().getRoleId() != 1 && acc.getUserProfile().getRoleId() != 2) {
             ToastUtil.setErrorToast(req, "Bạn không có quyền truy cập vào trang này");
 
-            String referer = req.getHeader("Referer");
-            if (referer != null) {
-                res.sendRedirect(referer); // Trả người dùng về trang trước đó
-            } else {
-                res.sendRedirect(contextPath + "/home"); // Trang mặc định nếu không có referer
-            }
+            // Mặc định luôn redirect về /home
+            res.sendRedirect(contextPath + "/home");
             return;
         }
 
