@@ -46,24 +46,7 @@
                                                     <li><a href="home3.html">Dụng Cụ Thể Thao</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
-                                            <li class="dropdown2">
-                                                <a href="#">Danh Sách Sân</a>
-                                                <ul>
-                                                    <li><a href="archieve-tour.html">Hà Nội</a>
-
-                                                    </li>
-                                                    <li><a href="tour-package-v2.html">TP.Hồ Chí Minh</a>
-
-                                                    </li>
-                                                    <li><a href="tour-package-v4.html">Đà Nẵng</a>
-
-                                                    </li>
-                                                    <li><a href="tour-single.html">Hải Phòng</a>
-
-                                                    </li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
-
+                                            <li><a href="/FB_N1/DanhSachSan">Danh sách sân</a></li>
                                             <li class="dropdown2 "><a href="#">Diễn Đàn</a>
                                                 <ul>
                                                     <li><a href="blog.html">Diễn Đàn Tìm Đối Thủ</a></li>
