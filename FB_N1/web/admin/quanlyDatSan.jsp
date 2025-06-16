@@ -25,6 +25,8 @@
         <!-- App favicon -->
         <%@include file="head_only.jsp" %>
         <!-- End_Them_1 sau "App favicon" -->
+
+
     </head>
     <style>
         body {
@@ -214,7 +216,9 @@
                                         <div style="text-align: center; margin-top: 20px;">
                                             <button id="bookNowBtn">Đặt sân</button>
                                         </div>
-                                        <script src="assets/js/calendarBooking.js"></script> 
+                                        <!--                                        <script src="assets/js/calendarBooking.js"></script>-->
+
+
                                         <!-- comment -->
                                     </div> <!-- end card body-->
                                 </div> <!-- end card -->
@@ -306,12 +310,16 @@
         <script src="assets/vendor/fullcalendar/main.min.js"></script>
 
         <!-- Calendar App Demo js -->
-        <script src="assets/js/calendarBooking.js"></script>
+        <script src="assets/js/calendar-logic.js"></script>
+        <script src="assets/js/calendar-ui.js"></script>
 
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
 
     </body>
+
+
+
 </html>
 
