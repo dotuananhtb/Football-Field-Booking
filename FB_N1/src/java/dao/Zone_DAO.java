@@ -33,6 +33,7 @@ public class Zone_DAO extends DBContext {
         }
          return listZ;
     }
+    
     public static void main(String[] args) {
         
         Zone_DAO zD = new Zone_DAO();
@@ -41,6 +42,5 @@ public class Zone_DAO extends DBContext {
             System.out.println(zone);
         }
     }
-    
-    
+   
 }
