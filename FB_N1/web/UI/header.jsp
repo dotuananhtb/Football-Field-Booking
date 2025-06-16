@@ -108,7 +108,7 @@
                                                         <li><a href="/FB_N1/userProfile"><i class="icon-user"></i> Trang cá nhân</a></li>
                                                         <li><a href="/FB_N1/managerPostUser"><i class="icon-user"></i> Bài Viết</a></li>
 
-                                                        <li><a href="/FB_N1/UI/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
+                                                        <li><a href="/FB_N1/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
 
                                                         <li>
                                                             <a href="${pageContext.request.contextPath}/logout" class="me-3">
