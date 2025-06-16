@@ -67,9 +67,9 @@ public class DanhSachSan extends HttpServlet {
         List<Zone> listZ = zDAO.getAllZone();
         String indexPage = request.getParameter("index");
         String sortBy = request.getParameter("sortBy");
-        
+
         int index = 1;
-        if (sortBy == null) {
+        if (sortBy == null || sortBy.isEmpty()) {
             sortBy = "";
         }
         if (indexPage != null && !indexPage.isEmpty()) {
@@ -81,8 +81,12 @@ public class DanhSachSan extends HttpServlet {
         if (count % 6 != 0) {
             endPage++;
         }
-         
+
         List<Field> listP = dao.pagingField(index, sortBy);
+        for (Field f : listP) {
+            f.setSlots(dao.getFieldSlotsWithDetails(f.getFieldId()));
+        }
+
         int showing = listP.size();
 
         request.setAttribute("listF", listP);

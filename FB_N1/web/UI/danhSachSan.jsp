@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -133,6 +134,258 @@
                                                     background-color: #ef4444 !important;
                                                     color: white !important;
                                                     border-color: #dc2626 !important;
+                                                }
+                                                .slot-btn {
+                                                    margin: 4px;
+                                                    padding: 6px 12px;
+                                                    border: 1px solid #28a745;
+                                                    border-radius: 6px;
+                                                    background-color: #f0fff0;
+                                                    cursor: pointer;
+                                                    color: #83827F ;
+                                                }
+
+                                                .slot-btn.active {
+                                                    background-color: #FCD34D; /* vàng nhẹ */
+                                                    font-weight: bold;
+                                                    border-color: #f59e0b;
+                                                }
+                                                .time-slots {
+                                                    margin-bottom: 20px;
+                                                }
+
+                                                .slots-header {
+                                                    display: flex;
+                                                    justify-content: space-between;
+                                                    align-items: center;
+                                                    margin-bottom: 12px;
+                                                    padding: 8px 0;
+                                                    border-bottom: 1px solid #e9ecef;
+                                                }
+
+                                                .slots-title {
+                                                    font-size: 16px;
+                                                    font-weight: 600;
+                                                    color: #333;
+                                                }
+
+                                                .toggle-btn {
+                                                    background: none;
+                                                    border: none;
+                                                    color: #00d084;
+                                                    font-size: 14px;
+                                                    font-weight: 500;
+                                                    cursor: pointer;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    gap: 4px;
+                                                    padding: 4px 8px;
+                                                    border-radius: 4px;
+                                                    transition: background-color 0.2s ease;
+                                                }
+
+                                                .toggle-btn:hover {
+                                                    background-color: #f0fff8;
+                                                }
+
+                                                .toggle-icon {
+                                                    transition: transform 0.3s ease;
+                                                }
+
+                                                .toggle-icon.rotated {
+                                                    transform: rotate(180deg);
+                                                }
+                                                .slots-container {
+                                                    position: relative;
+                                                    overflow: hidden;
+                                                    transition: max-height 0.4s ease, opacity 0.3s ease;
+                                                }
+
+                                                .slots-container.collapsed {
+                                                    max-height: 100px; /* Giảm chiều cao để hiển thị rõ hiệu ứng thu gọn */
+                                                }
+
+                                                .slots-container.expanded {
+                                                    max-height: 1000px;
+                                                }
+
+
+                                                .slots-grid {
+                                                    display: grid;
+                                                    grid-template-columns: 1fr 1fr;
+                                                    gap: 8px;
+                                                    padding-bottom: 10px;
+                                                }
+
+                                                .show-more-indicator {
+                                                    display: none;
+                                                    text-align: center;
+                                                    padding: 12px 8px 8px 8px;
+                                                    background: linear-gradient(transparent 0%, rgba(248,249,250,0.8) 30%, rgba(248,249,250,0.95) 70%, #f8f9fa 100%);
+                                                    margin-top: -30px;
+                                                    position: relative;
+                                                    z-index: 2;
+                                                    border-radius: 0 0 8px 8px;
+                                                }
+
+                                                .show-more-indicator.visible {
+                                                    display: block;
+                                                }
+
+                                                .show-more-text {
+                                                    font-size: 12px;
+                                                    color: #666;
+                                                    font-style: italic;
+                                                    font-weight: 500;
+                                                }
+
+                                                .slot-btn {
+                                                    background: #f8f9fa;
+                                                    border: 2px solid #e9ecef;
+                                                    border-radius: 8px;
+                                                    padding: 10px 12px;
+                                                    font-size: 13px;
+                                                    font-weight: 500;
+                                                    color: #495057;
+                                                    cursor: pointer;
+                                                    transition: all 0.2s ease;
+                                                    text-align: center;
+                                                    position: relative;
+                                                    min-height: 44px; /* Đảm bảo chiều cao tối thiểu */
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                }
+
+                                                .slot-btn:hover {
+                                                    border-color: #00d084;
+                                                    background: #f0fff8;
+                                                    color: #00d084;
+                                                    transform: translateY(-1px);
+                                                    box-shadow: 0 2px 4px rgba(0, 208, 132, 0.1);
+                                                }
+
+                                                .slot-btn.selected {
+                                                    background: #00d084;
+                                                    border-color: #00d084;
+                                                    color: white;
+                                                    box-shadow: 0 2px 8px rgba(0, 208, 132, 0.3);
+                                                }
+
+                                                .slot-btn.unavailable {
+                                                    background: #f8f9fa;
+                                                    border-color: #dee2e6;
+                                                    color: #adb5bd;
+                                                    cursor: not-allowed;
+                                                    opacity: 0.6;
+                                                }
+
+                                                .slot-btn.unavailable:hover {
+                                                    transform: none;
+                                                    border-color: #dee2e6;
+                                                    background: #f8f9fa;
+                                                    color: #adb5bd;
+                                                    box-shadow: none;
+                                                }
+
+                                                .price-section {
+                                                    display: flex;
+                                                    justify-content: space-between;
+                                                    align-items: center;
+                                                    margin-top: 20px;
+                                                    padding-top: 20px;
+                                                    border-top: 1px solid #e9ecef;
+                                                }
+
+                                                .price-info {
+                                                    flex: 1;
+                                                }
+
+                                                .price-label {
+                                                    font-size: 14px;
+                                                    color: #666;
+                                                    margin-bottom: 4px;
+                                                }
+
+                                                .price-range {
+                                                    display: flex;
+                                                    align-items: center;
+                                                    gap: 8px;
+                                                }
+
+                                                .price-from {
+                                                    font-size: 18px;
+                                                    font-weight: 700;
+                                                    color: #00d084;
+                                                    transition: all 0.3s ease;
+                                                }
+
+                                                .price-to {
+                                                    font-size: 16px;
+                                                    color: #666;
+                                                    transition: opacity 0.3s ease;
+                                                }
+
+                                                /* Thêm animation khi thu gọn/mở rộng */
+                                                @keyframes fadeIn {
+                                                    from {
+                                                        opacity: 0;
+                                                    }
+                                                    to {
+                                                        opacity: 1;
+                                                    }
+                                                }
+
+                                                @keyframes fadeOut {
+                                                    from {
+                                                        opacity: 1;
+                                                    }
+                                                    to {
+                                                        opacity: 0;
+                                                    }
+                                                }
+
+                                                .slots-container.expanding {
+                                                    animation: fadeIn 0.3s ease;
+                                                }
+
+                                                .slots-container.collapsing {
+                                                    animation: fadeOut 0.3s ease;
+                                                }
+
+                                                /* Responsive */
+                                                @media (max-width: 768px) {
+                                                    .slots-grid {
+                                                        grid-template-columns: 1fr 1fr;
+                                                        gap: 6px;
+                                                    }
+
+                                                    .slot-btn {
+                                                        padding: 8px 10px;
+                                                        font-size: 12px;
+                                                        min-height: 40px;
+                                                    }
+
+                                                    .show-more-indicator {
+                                                        margin-top: -25px;
+                                                        padding: 10px 8px 6px 8px;
+                                                    }
+                                                }
+
+                                                @media (max-width: 480px) {
+                                                    .slots-grid {
+                                                        grid-template-columns: 1fr;
+                                                    }
+
+                                                    .price-section {
+                                                        flex-direction: column;
+                                                        gap: 15px;
+                                                        align-items: stretch;
+                                                    }
+
+                                                    .slots-container.collapsed {
+                                                        max-height: 120px; /* Tăng chiều cao cho mobile */
+                                                    }
                                                 }
                                             </style>
                                             </head>
@@ -479,64 +732,64 @@
                                                                                                                                                                         </fieldset>
                                                                                                                                                                         </div>
                                                                                                                                                                         </div>
-                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                                            <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                                            <div class="group-check-box-wrap">
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check">10+</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check1" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check1">12+</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check2" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check2">15+</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check3" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check3">Adults</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                            </div>
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                                            <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                                            <div class="group-check-box-wrap">
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check4-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check4-bar">Accepts Credit Cards</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check5-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check5-bar">Car Parking</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check6-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check6-bar">Free Coupons</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check7-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check7-bar">Laundry Service</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check8-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check8-bar">Outdoor Seating</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check9-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check9-bar">Reservations</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check10-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check10-bar">Restaurant</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                    <input id="check11-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                        <label for="check11-bar">Smoking Allowed</label>
-                                                                                                                                                                                </div>
-                                                                                                                                                                            </div>
-                                                                                                                                                                        </div>
+                                                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check">10+</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check1" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check1">12+</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check2" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check2">15+</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check3" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check3">Adults</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>-->
+                                                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check4-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check4-bar">Accepts Credit Cards</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check5-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check5-bar">Car Parking</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check6-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check6-bar">Free Coupons</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check7-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check7-bar">Laundry Service</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check8-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check8-bar">Outdoor Seating</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check9-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check9-bar">Reservations</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check10-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check10-bar">Restaurant</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                                                                        <input id="check11-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                                                                        <label for="check11-bar">Smoking Allowed</label>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>-->
                                                                                                                                                                         </form>
                                                                                                                                                                         </div>
                                                                                                                                                                         <div class="col-lg-8 listing-list-car-wrap">
@@ -554,13 +807,15 @@
                                                                                                                                                                                                         <div class="nice-select" tabindex="0">
                                                                                                                                                                                                         <i class="icon-Vector6"></i>
                                                                                                                                                                                                         <span class="current">
-                                                                                                                                                                                                        <c:choose>
+                                                                                                                                                                                                        <c:choose>                                                                                                                                                                                                        <c:when test="${sortBy == 'name'}">Name</c:when>
                                                                                                                                                                                                         <c:when test="${sortBy == 'new'}">New</c:when>
                                                                                                                                                                                                         <c:when test="${sortBy == 'recent'}">Recently Added</c:when>
                                                                                                                                                                                                         <c:otherwise>Sort by</c:otherwise>
                                                                                                                                                                                                         </c:choose>
                                                                                                                                                                                                         </span>
-                                                                                                                                                                                                        <ul class="list">
+                                                                                                                                                                                                        <ul class="list">                                                                                                                                                                                                        <li class="option ${sortBy == 'name' ? 'selected focus' : ''}">
+                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Name</a>
+                                                                                                                                                                                                        </li>
                                                                                                                                                                                                         <li class="option ${sortBy == 'new' ? 'selected focus' : ''}">
                                                                                                                                                                                                         <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">New</a>
                                                                                                                                                                                                         </li>
@@ -608,20 +863,55 @@
                                                                                                                                                                                             <div class="icon-box flex-three">
                                                                                                                                                                                                 <div class="icons flex-three">
                                                                                                                                                                                                     <i class="icon-time-left"></i>
-                                                                                                                                                                                                    <span>5 days</span>
+                                                                                                                                                                                                    <span>Số ca: ${o.totalSlots}</span>
                                                                                                                                                                                                 </div>
                                                                                                                                                                                                 <div class="icons flex-three">
                                                                                                                                                                                                     <i class="icon-user"></i>
                                                                                                                                                                                                     <span>${o.typeOfField.fieldTypeName}</span>
                                                                                                                                                                                                 </div>
                                                                                                                                                                                             </div>
-                                                                                                                                                                                            <div class="flex-two">
+                                                                                                                                                                                            <div class="time-slots">
+                                                                                                                                                                                                <div class="slots-header">
+                                                                                                                                                                                                    <div class="slots-title">Khung giờ có sẵn</div>
+                                                                                                                                                                                                    <button type="button" class="toggle-btn" onclick="toggleSlots()">
+                                                                                                                                                                                                        <span id="toggleText">Thu gọn</span>
+                                                                                                                                                                                                        <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
+                                                                                                                                                                                                        </svg>
+                                                                                                                                                                                                    </button>
+                                                                                                                                                                                                </div>
+
+                                                                                                                                                                                                <div class="slots-container expanded" id="slotsContainer">
+                                                                                                                                                                                                    <div class="slots-grid"> 
+                                                                                                                                                                                                        <c:forEach items="${o.slots}" var="s" varStatus="loop">
+                                                                                                                                                                                                        <button type="button" class="slot-btn "
+                                                                                                                                                                                                        data-price="${s.slotFieldPrice}"
+                                                                                                                                                                                                        onclick="selectSlot(this)">
+                                                                                                                                                                                                        ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
+                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                        </c:forEach>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="show-more-indicator" id="showMoreIndicator">
+                                                                                                                                                                                                    <div class="show-more-text">... và nhiều khung giờ khác</div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            <div class="price-section">
                                                                                                                                                                                                 <div class="price-box flex-three">
-                                                                                                                                                                                                    <p>From <span class="price-sale">$169.00</span></p>
-                                                                                                                                                                                                    <span class="price">$199.00</span>
+                                                                                                                                                                                                    <div class="price-info">
+                                                                                                                                                                                                        <div class="price-label" id="priceLabel">Giá từ:</div>
+                                                                                                                                                                                                        <div class="price-range">
+                                                                                                                                                                                                        <span class="price-from" id="priceDisplay">
+                                                                                                                                                                                                        <fmt:formatNumber value="${o.minPrice}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                        <span class="price-to" id="originalPrice">
+                                                                                                                                                                                                        <fmt:formatNumber value="${o.maxPrice}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
                                                                                                                                                                                                 </div>
                                                                                                                                                                                                 <div class="book-btn flex-three">
-                                                                                                                                                                                                    <button type="submit">Đặt sân</button>
+                                                                                                                                                                                                    <button type="button" onclick="bookField()">Đặt sân</button>
                                                                                                                                                                                                 </div>
                                                                                                                                                                                             </div>
                                                                                                                                                                                         </div>
@@ -724,6 +1014,223 @@
                                                                                                                                                                         </div>
 
                                                                                                                                                                         <!-- Javascript -->
+                                                                                                                                                                        <script>
+                                                                                                                                                                            let selectedSlotPrices = new Map(); // Lưu giá đã chọn cho mỗi sân
+                                                                                                                                                                            let expandedStates = new Map(); // Lưu trạng thái mở/đóng của mỗi sân
+
+                                                                                                                                                                            function selectSlot(button) {
+                                                                                                                                                                                // Tìm container sân chứa button này
+                                                                                                                                                                                const courtContainer = button.closest('.time-slots');
+                                                                                                                                                                                const courtId = getCourtId(courtContainer);
+
+                                                                                                                                                                                // Check if the button is already selected
+                                                                                                                                                                                if (button.classList.contains('selected')) {
+                                                                                                                                                                                    // If already selected, deselect it
+                                                                                                                                                                                    button.classList.remove('selected');
+                                                                                                                                                                                    selectedSlotPrices.set(courtId, 0);
+                                                                                                                                                                                    resetPriceDisplay(courtContainer);
+                                                                                                                                                                                    return;
+                                                                                                                                                                                }
+
+                                                                                                                                                                                // Remove selected class from all buttons in this court
+                                                                                                                                                                                courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
+                                                                                                                                                                                    btn.classList.remove('selected');
+                                                                                                                                                                                });
+
+                                                                                                                                                                                // Add selected class to clicked button
+                                                                                                                                                                                button.classList.add('selected');
+
+                                                                                                                                                                                // Get price from button
+                                                                                                                                                                                const price = parseInt(button.getAttribute('data-price'));
+                                                                                                                                                                                selectedSlotPrices.set(courtId, price);
+
+                                                                                                                                                                                // Update price display for this court
+                                                                                                                                                                                updatePriceDisplay(courtContainer, price);
+                                                                                                                                                                            }
+
+                                                                                                                                                                            function toggleSlots(event) {
+                                                                                                                                                                                const button = event.target.closest('.toggle-btn');
+                                                                                                                                                                                if (!button)
+                                                                                                                                                                                    return;
+
+                                                                                                                                                                                const courtContainer = button.closest('.time-slots');
+                                                                                                                                                                                const courtId = getCourtId(courtContainer);
+
+                                                                                                                                                                                const container = courtContainer.querySelector('.slots-container, #slotsContainer');
+                                                                                                                                                                                const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
+                                                                                                                                                                                const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
+                                                                                                                                                                                const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
+
+                                                                                                                                                                                const isExpanded = expandedStates.get(courtId) === true;
+
+                                                                                                                                                                                if (isExpanded) {
+                                                                                                                                                                                    // Collapse
+                                                                                                                                                                                    container?.classList.remove('expanded');
+                                                                                                                                                                                    container?.classList.add('collapsed');
+                                                                                                                                                                                    toggleText && (toggleText.textContent = 'Xem thêm');
+                                                                                                                                                                                    toggleIcon?.classList.add('rotated');
+                                                                                                                                                                                    showMoreIndicator?.classList.add('visible');
+                                                                                                                                                                                    expandedStates.set(courtId, false);
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    // Expand
+                                                                                                                                                                                    container?.classList.remove('collapsed');
+                                                                                                                                                                                    container?.classList.add('expanded');
+                                                                                                                                                                                    toggleText && (toggleText.textContent = 'Thu gọn');
+                                                                                                                                                                                    toggleIcon?.classList.remove('rotated');
+                                                                                                                                                                                    showMoreIndicator?.classList.remove('visible');
+                                                                                                                                                                                    expandedStates.set(courtId, true);
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+
+
+                                                                                                                                                                            function updatePriceDisplay(courtContainer, price) {
+                                                                                                                                                                                // Tìm price section của sân này (có thể ở ngoài time-slots)
+                                                                                                                                                                                let priceSection = courtContainer.parentElement.querySelector('.price-section');
+                                                                                                                                                                                if (!priceSection) {
+                                                                                                                                                                                    priceSection = courtContainer.querySelector('.price-section');
+                                                                                                                                                                                }
+
+                                                                                                                                                                                if (priceSection) {
+                                                                                                                                                                                    const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
+                                                                                                                                                                                    const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
+                                                                                                                                                                                    const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
+
+                                                                                                                                                                                    if (priceLabel)
+                                                                                                                                                                                        priceLabel.textContent = 'Giá đã chọn:';
+                                                                                                                                                                                    if (priceDisplay)
+                                                                                                                                                                                        priceDisplay.textContent = formatPrice(price) + ' ₫';
+                                                                                                                                                                                    if (originalPrice)
+                                                                                                                                                                                        originalPrice.style.display = 'none';
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+
+                                                                                                                                                                            function resetPriceDisplay(courtContainer) {
+                                                                                                                                                                                let priceSection = courtContainer.parentElement.querySelector('.price-section');
+                                                                                                                                                                                if (!priceSection) {
+                                                                                                                                                                                    priceSection = courtContainer.querySelector('.price-section');
+                                                                                                                                                                                }
+
+                                                                                                                                                                                if (priceSection) {
+                                                                                                                                                                                    const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
+                                                                                                                                                                                    const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
+                                                                                                                                                                                    const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
+
+                                                                                                                                                                                    if (priceLabel)
+                                                                                                                                                                                        priceLabel.textContent = 'Giá từ:';
+                                                                                                                                                                                    // Không thay đổi priceDisplay vì nó chứa giá gốc từ server
+                                                                                                                                                                                    if (originalPrice)
+                                                                                                                                                                                        originalPrice.style.display = 'inline';
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+
+                                                                                                                                                                            function formatPrice(price) {
+                                                                                                                                                                                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                                                                                                                            }
+
+// Tạo ID duy nhất cho mỗi sân
+                                                                                                                                                                            function getCourtId(courtContainer) {
+                                                                                                                                                                                if (!courtContainer.dataset.courtId) {
+                                                                                                                                                                                    // Tạo ID duy nhất dựa trên vị trí trong DOM
+                                                                                                                                                                                    const allCourts = document.querySelectorAll('.time-slots');
+                                                                                                                                                                                    const index = Array.from(allCourts).indexOf(courtContainer);
+                                                                                                                                                                                    courtContainer.dataset.courtId = 'court_' + index;
+                                                                                                                                                                                }
+                                                                                                                                                                                return courtContainer.dataset.courtId;
+                                                                                                                                                                            }
+
+// Simulate some unavailable slots
+                                                                                                                                                                            function markUnavailableSlots() {
+                                                                                                                                                                                document.querySelectorAll('.time-slots').forEach((courtContainer, courtIndex) => {
+                                                                                                                                                                                    // Có thể config slot không khả dụng cho từng sân
+                                                                                                                                                                                    const unavailableSlots = getUnavailableSlotsForCourt(courtIndex);
+                                                                                                                                                                                    const slots = courtContainer.querySelectorAll('.slot-btn');
+
+                                                                                                                                                                                    unavailableSlots.forEach(index => {
+                                                                                                                                                                                        if (slots[index]) {
+                                                                                                                                                                                            slots[index].classList.add('unavailable');
+                                                                                                                                                                                            slots[index].onclick = null;
+                                                                                                                                                                                        }
+                                                                                                                                                                                    });
+                                                                                                                                                                                });
+                                                                                                                                                                            }
+
+// Config slot không khả dụng cho từng sân
+                                                                                                                                                                            function getUnavailableSlotsForCourt(courtIndex) {
+                                                                                                                                                                                const config = {
+                                                                                                                                                                                    0: [1, 4], // Sân đầu tiên
+                                                                                                                                                                                    1: [2, 5], // Sân thứ hai
+                                                                                                                                                                                    2: [0, 3], // Sân thứ ba
+                                                                                                                                                                                    // Thêm config cho các sân khác...
+                                                                                                                                                                                };
+                                                                                                                                                                                return config[courtIndex] || [];
+                                                                                                                                                                            }
+
+// Initialize
+                                                                                                                                                                            document.addEventListener('DOMContentLoaded', function () {
+                                                                                                                                                                                markUnavailableSlots();
+
+                                                                                                                                                                                document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                    const courtId = getCourtId(courtContainer);
+
+                                                                                                                                                                                    // ✅ Gán trạng thái ban đầu là "collapsed"
+                                                                                                                                                                                    expandedStates.set(courtId, false);
+
+                                                                                                                                                                                    // ✅ Cập nhật UI về trạng thái thu gọn đúng cách
+                                                                                                                                                                                    const container = courtContainer.querySelector('.slots-container, #slotsContainer');
+                                                                                                                                                                                    const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
+                                                                                                                                                                                    const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
+                                                                                                                                                                                    const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
+
+                                                                                                                                                                                    container?.classList.add('collapsed');
+                                                                                                                                                                                    container?.classList.remove('expanded');
+                                                                                                                                                                                    toggleText && (toggleText.textContent = 'Xem thêm');
+                                                                                                                                                                                    toggleIcon?.classList.add('rotated');
+                                                                                                                                                                                    showMoreIndicator?.classList.add('visible');
+                                                                                                                                                                                });
+
+                                                                                                                                                                                // ✅ Gắn sự kiện click sau khi đã xử lý trạng thái ban đầu
+                                                                                                                                                                                document.querySelectorAll('.toggle-btn').forEach(btn => {
+                                                                                                                                                                                    btn.addEventListener('click', toggleSlots);
+                                                                                                                                                                                });
+                                                                                                                                                                            });
+
+// Utility functions
+                                                                                                                                                                            function getAllSelectedSlots() {
+                                                                                                                                                                                const result = {};
+                                                                                                                                                                                document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                    const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                    const selectedButton = courtContainer.querySelector('.slot-btn.selected');
+                                                                                                                                                                                    const price = selectedSlotPrices.get(courtId) || 0;
+
+                                                                                                                                                                                    if (selectedButton && price > 0) {
+                                                                                                                                                                                        result[courtId] = {
+                                                                                                                                                                                            time: selectedButton.textContent.trim(),
+                                                                                                                                                                                            price: price
+                                                                                                                                                                                        };
+                                                                                                                                                                                    }
+                                                                                                                                                                                });
+                                                                                                                                                                                return result;
+                                                                                                                                                                            }
+
+                                                                                                                                                                            function getTotalPrice() {
+                                                                                                                                                                                let total = 0;
+                                                                                                                                                                                selectedSlotPrices.forEach(price => {
+                                                                                                                                                                                    total += price;
+                                                                                                                                                                                });
+                                                                                                                                                                                return total;
+                                                                                                                                                                            }
+
+                                                                                                                                                                            function resetAllSelections() {
+                                                                                                                                                                                document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                    const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                    courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
+                                                                                                                                                                                        btn.classList.remove('selected');
+                                                                                                                                                                                    });
+                                                                                                                                                                                    selectedSlotPrices.set(courtId, 0);
+                                                                                                                                                                                    resetPriceDisplay(courtContainer);
+                                                                                                                                                                                });
+                                                                                                                                                                            }
+                                                                                                                                                                        </script>
                                                                                                                                                                         <!-- Flatpickr JS -->
                                                                                                                                                                         <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
                                                                                                                                                                         <!-- Flatpickr Vietnamese locale -->
