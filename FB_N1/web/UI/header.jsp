@@ -80,28 +80,19 @@
 
 
 
-                                            <c:if test="${sessionScope.roleID == 1}">
-                                                <li><a href="#" >Doanh Thu</a></li>
-                                                </c:if>
 
-
-
-
+                                            <c:if test="${sessionScope.account.userProfile.roleId == 1}">
+                                                <a href="/FB_N1/admin/dat-san"
+                                                   style="position: fixed; top: 70px; right: 20px;
+                                                   background-color: #4da528; color: white;
+                                                   padding: 10px 16px; border-radius: 8px;
+                                                   text-decoration: none; font-weight: 500;
+                                                   box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                                    🏟️ Quản lý sân
+                                                </a>
+                                            </c:if>
                                             <c:if test="${sessionScope.account != null}">
-                                                <li class="dropdown2 "><a href="#">Quản Lý</a>
-                                                    <ul>
-                                                        <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
-                                                            <c:if test ="${sessionScope.roleID == 1}">
-                                                                <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Sân </a></li>
-                                                                <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Trang Chủ </a></li>
-                                                                </c:if>
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Quản Lý Cửa Hàng </a></li>
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của khách </a></li>
-                                                            </c:if>
-                                                        <div class="dropdown2-btn"></div>
-                                                    </ul>
 
-                                                </li>
                                                 <li class="dropdown2"
                                                     style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
 
@@ -116,9 +107,9 @@
                                                     <ul>
                                                         <li><a href="/FB_N1/userProfile"><i class="icon-user"></i> Trang cá nhân</a></li>
                                                         <li><a href="/FB_N1/managerPostUser"><i class="icon-user"></i> Bài Viết</a></li>
-                                                          
-                                                            <li><a href="/FB_N1/UI/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
-                                                          
+
+                                                        <li><a href="/FB_N1/UI/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
+
                                                         <li>
                                                             <a href="${pageContext.request.contextPath}/logout" class="me-3">
                                                                 <i class="icon-turn-off-1"></i> Đăng Xuất
