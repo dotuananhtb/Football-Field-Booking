@@ -102,22 +102,34 @@
                                                     </ul>
 
                                                 </li>
+                                                <li class="dropdown2"
+                                                    style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
 
-                                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
+                                                    <a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+                                                       background-color: #4da528; border-radius: 20px; text-decoration: none;
+                                                       color: white; font-weight: 500;">
+                                                        <img src="${sessionScope.userProfile.avatar}"
+                                                             style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+                                                        ${sessionScope.account.userProfile.firstName}
+                                                    </a>
+
                                                     <ul>
-                                                        <li><a href="/FB_N1/userProfile"> <i class="icon-user"></i> Trang cá nhân</a></li>
-                                                        <li><a href="/FB_N1/managerPostUser"> <i class="icon-user"></i> Bài Viết</a></li>
-                                                            <c:if test="${sessionScope.roleId == 3}">
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
-                                                            </c:if>
-                                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
-                                                                <i class="icon-turn-off-1"></i>    Đăng Xuất
+                                                        <li><a href="/FB_N1/userProfile"><i class="icon-user"></i> Trang cá nhân</a></li>
+                                                        <li><a href="/FB_N1/managerPostUser"><i class="icon-user"></i> Bài Viết</a></li>
+                                                          
+                                                            <li><a href="/FB_N1/UI/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
+                                                          
+                                                        <li>
+                                                            <a href="${pageContext.request.contextPath}/logout" class="me-3">
+                                                                <i class="icon-turn-off-1"></i> Đăng Xuất
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
 
-                                                            </a></li>
-                                                    </ul></li>
 
                                             </c:if>
-                                            <li><button style ="border-radius: 20px; " >Đặt Sân </button></li>
+
                                         </ul>
 
                                     </div>
