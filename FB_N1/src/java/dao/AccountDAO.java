@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mailverify.SendMail;
 import model.Account;
+import model.Role;
 import model.UserProfile;
 import util.DBContext;
 
@@ -490,6 +491,25 @@ public class AccountDAO extends DBContext {
             ex.getStackTrace();
         }
         return roleID;
+    }
+
+    public Role getRoleByAccountId(int accountId) {
+        String sql = "SELECT  r.role_id\n"
+                + "      ,[role_name]\n"
+                + "      ,[description]\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Role] r join UserProfile u on r.role_id = u.role_id join Account a on u.account_id = a.account_id\n"
+                + "  where a.account_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Role(rs.getInt(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getStatusIDbyAccount(String username, String password) {

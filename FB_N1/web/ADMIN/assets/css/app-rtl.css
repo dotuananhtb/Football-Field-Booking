@@ -8,7 +8,7 @@ File: Main Css File
 */
 @import url("https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap");
 :root {
-  --ct-logo-lg-height: 20px;
+  --ct-logo-lg-height: 50px;
   --ct-logo-sm-height: 20px;
   --ct-leftbar-width: 260px;
   --ct-leftbar-width-md: 160px;

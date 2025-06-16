@@ -78,13 +78,48 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String zoneId = request.getParameter("zID");
+        String cateId = request.getParameter("cid");
         SliderDAO sDao = new SliderDAO();
-
+        FieldDAO fDao = new FieldDAO();
+        Zone_DAO zDao = new Zone_DAO();
+        EventDAO eDao = new EventDAO();
+        TypeOfFieldDAO tDao = new TypeOfFieldDAO();
+        PostDAO postDao = new PostDAO();
+        
+        CateProduct_DAO cDao = new CateProduct_DAO();
+        ProductDAO pDao = new ProductDAO();
         List<Slider> listS = sDao.getAllSlider();
-
+        List<Zone> listZ = zDao.getAllZone();
+        Event listE = eDao.getAllEventByEventId(2);
+        List<TypeOfField> listT = tDao.getAllFieldTypes();
+        Vector<CateProduct> listC = cDao.getAllCategory2();
+        Vector<Post> listPost = postDao.get3LastestPost();
+        
+        List<Field> listF1;
+        if (zoneId != null) {
+            listF1 = fDao.getAllFieldsByZoneID(zoneId);
+        } else {
+            listF1 = fDao.getAllFields();
+        }
+        Vector<Product> listP;
+        if (cateId != null) {
+            listP = pDao.getAllProductsByCateID(cateId);
+        } else {
+            listP = pDao.getAllProducts("SELECT*\n"
+                    + "  FROM [FootballFieldBooking].[dbo].[Product]");
+        }
+        
+        request.setAttribute("listPost", listPost);
+        request.setAttribute("listT", listT);
+        request.setAttribute("event", listE);
+        request.setAttribute("listP", listP);
+        request.setAttribute("listC", listC);
+        request.setAttribute("field", listF1);
+        request.setAttribute("zone", listZ);
         request.setAttribute("listS", listS);
         request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
-
+        
     }
 
     /**
