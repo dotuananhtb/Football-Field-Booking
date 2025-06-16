@@ -60,26 +60,7 @@ public class PostDAO extends DBContext {
         }
         return listPost;
     }
-     public Vector<Post> get3LastestPost() {
-        String sql = "SELECT TOP 3 *\n"
-                + "FROM Post\n"
-                + "WHERE status_post = 'active'\n"
-                + "ORDER BY post_date DESC";
-        Vector<Post> listPost = new Vector<>();
-        try {
-            PreparedStatement ptm = connection.prepareStatement(sql);
-            ResultSet rs = ptm.executeQuery();
-            while (rs.next()) {
-                Post p = new Post(rs.getInt(1), rs.getInt(2),
-                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)
-                );
-                listPost.add(p);
-            }
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listPost;
-    }
+
     public Vector<Post> getAllPosts(int page, int pageSize) {
         Vector<Post> list = new Vector<>();
         String query = "SELECT p.*, a.username FROM Post p " +
