@@ -36,9 +36,9 @@
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         <!-- Leftbar User -->
         <div class="leftbar-user">
-            <a href="pages-profile.html">
-                <img src="assets/images/users/avatar-1.jpg" alt="user-image" height="42" class="rounded-circle shadow-sm">
-                <span class="leftbar-user-name mt-2">Michael Berndt</span>
+            <a href="/FB_N1/userProfile">
+                <img src="${sessionScope.userProfile.avatar}" alt="user-image" height="42" class="rounded-circle shadow-sm">
+                <span class="leftbar-user-name mt-2">${sessionScope.account.userProfile.firstName}</span>
             </a>
         </div>
 
@@ -54,12 +54,7 @@
                 </a>
             </li>
 
-            <li class="side-nav-item">
-                <a href="apps-calendar.html" class="side-nav-link">
-                    <i class="ri-calendar-event-fill"></i>
-                    <span> Calendar </span>
-                </a>
-            </li>
+
 
             <li class="side-nav-item">
                 <a href="apps-chat.html" class="side-nav-link">
@@ -86,8 +81,13 @@
                 </div>
             </li>
 
-            <li class="side-nav-title">Components</li>
-
+            <li class="side-nav-title">Quản lí đặt sân</li>
+            <li class="side-nav-item">
+                <a href="/FB_N1/admin/dat-san" class="side-nav-link">
+                    <i class="ri-calendar-event-fill"></i>
+                    <span> Lịch đặt của các sân </span>
+                </a>
+            </li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="ri-briefcase-fill"></i>
