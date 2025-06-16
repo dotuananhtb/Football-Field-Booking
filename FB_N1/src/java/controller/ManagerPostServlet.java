@@ -33,6 +33,6 @@ public class ManagerPostServlet extends HttpServlet {
         request.setAttribute("colDate", "Ngày đăng");
         request.setAttribute("colStatus", "Trạng thái");
         request.setAttribute("colAction", "Hành động");
-        request.getRequestDispatcher("/ADMIN/ManagerPost.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/ManagerPost.jsp").forward(request, response);
     }
 } 
