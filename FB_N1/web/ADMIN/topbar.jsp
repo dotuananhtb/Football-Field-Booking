@@ -313,7 +313,19 @@
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
                         <h5 class="my-0"> ${sessionScope.account.userProfile.firstName}</h5>
-                        <h6 class="my-0 fw-normal">Founder</h6>
+                        <h6 class="my-0 fw-normal">
+                            <c:choose>
+                                <c:when test="${sessionScope.account.userProfile.roleId == 1}">
+                                    Chủ sân
+                                </c:when>
+                                <c:when test="${sessionScope.account.userProfile.roleId == 2}">
+                                    Nhân viên
+                                </c:when>
+                                <c:otherwise>
+                                    Vai trò không xác định
+                                </c:otherwise>
+                            </c:choose>
+                        </h6>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
