@@ -54,6 +54,41 @@ public class FieldDAO extends DBContext {
         return list;
     }
 
+    public List<Field> getAllFieldsByZoneID(String zoneID) {
+        List<Field> list = new ArrayList<>();
+        String sql = "SELECT f.*,z.Address, t.field_type_name\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Field] f join Zone z on f.zone_id = z.zone_id join TypeOfField t on t.field_type_id = f.field_type_id\n"
+                + "  where z.zone_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ) {
+                    ps.setString(1, zoneID);
+                    ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Field f = new Field();
+                f.setFieldId(rs.getInt("field_id"));
+                f.setFieldName(rs.getString("field_name"));
+                f.setImage(rs.getString("image"));
+                f.setStatus(rs.getString("status"));
+                f.setDescription(rs.getString("description"));
+
+                Zone z = new Zone();
+                z.setZoneId(rs.getInt("zone_id"));
+                z.setAddress(rs.getString("Address"));
+                f.setZone(z);
+
+                TypeOfField t = new TypeOfField();
+                t.setFieldTypeId(rs.getInt("field_type_id"));
+                t.setFieldTypeName(rs.getString("field_type_name"));
+                f.setTypeOfField(t);
+
+                list.add(f);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public Field getFieldByFieldID(int fieldId) {
         Field field = null;
         String sql = "SELECT f.*, z.zone_id, z.Address, t.field_type_id, t.field_type_name "
@@ -62,7 +97,7 @@ public class FieldDAO extends DBContext {
                 + "JOIN TypeOfField t ON f.field_type_id = t.field_type_id "
                 + "WHERE f.field_id = ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, fieldId);
             ResultSet rs = ps.executeQuery();

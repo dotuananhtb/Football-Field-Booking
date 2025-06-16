@@ -4,26 +4,27 @@
     Author     : VAN NGUYEN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="leftside-menu">
 
                 <!-- Brand Logo Light -->
-                <a href="index.html" class="logo logo-light">
-                    <span class="logo-lg">
-                        <img src="assets/images/logo.png" alt="logo">
+                <a href="/FB_N1/home" class="logo logo-light">
+                    <span class="logo-lg" >
+                        <img src="assets/images/logo_dark__2_-removebg-preview.png" alt="logo" >
                     </span>
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="small logo">
+                        <img src="assets/images/logoKoChu.png" alt="small logo">
                     </span>
                 </a>
 
                 <!-- Brand Logo Dark -->
-                <a href="index.html" class="logo logo-dark">
+                <a href="/FB_N1/home" class="logo logo-dark">
                     <span class="logo-lg">
-                        <img src="assets/images/logo-dark.png" alt="dark logo">
+                        <img src="assets/images/logo_light-removebg-preview.png" alt="dark logo">
                     </span>
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="small logo">
+                        <img src="assets/images/logoKoChu.png" alt="small logo">
                     </span>
                 </a>
                 <!-- Full Sidebar Menu Close Button -->
@@ -45,29 +46,49 @@
                     <ul class="side-nav">
 
                         <li class="side-nav-title">Main</li>
-
+                        <c:if test="${sessionScope.role.getRoleId() == 1}">
                         <li class="side-nav-item">
-                            <a href="index.html" class="side-nav-link">
-                                <i class="ri-dashboard-2-fill"></i>
-                                <span> Dashboard </span>
+                            <a href="manage-profit.jsp" class="side-nav-link ">
+                                <i class="ri-dashboard-2-fill "></i>
+                                <span> Doanh Thu </span>
                             </a>
                         </li>
-
+                        </c:if>
                         <li class="side-nav-item">
-                            <a href="apps-calendar.html" class="side-nav-link">
-                                <i class="ri-calendar-event-fill"></i>
-                                <span> Calendar </span>
+                            <a href="manage-store.jsp" class="side-nav-link">
+                                <i class="ri-store-2-fill"></i>
+                                <span> Quản lý cửa hàng </span>
                             </a>
                         </li>
-
+                        <c:if test="${sessionScope.role.getRoleId() == 1}">
                         <li class="side-nav-item">
-                            <a href="apps-chat.html" class="side-nav-link">
+                            <a href="manage-user.jsp" class="side-nav-link">
+                                <i class="ri-user-follow-fill"></i>
+                                <span> Quản lý người dùng </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="manage-post.jsp" class="side-nav-link">
                                 <i class="ri-message-3-fill"></i>
-                                <span> Chat </span>
+                                <span> Quản lý bài đăng </span>
                             </a>
                         </li>
-
                         <li class="side-nav-item">
+                            <a href="manage-homePage.jsp" class="side-nav-link">
+                                <i class="ri-home-office-fill"></i>
+                                <span> Quản lý trang chủ </span>
+                            </a>
+                        </li>
+                        </c:if>
+                         <li class="side-nav-item">
+                            <a href="booking-history.jsp" class="side-nav-link">
+                                <i class="ri-calendar-2-line"></i>
+                                <span> Lịch sử đặt sân </span>
+                            </a>
+                        </li>
+                        
+                        
+      <!--        <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
                                 <i class="ri-mail-fill"></i>
                                 <span> Email </span>

@@ -35,6 +35,25 @@ public class CateProduct_DAO extends DBContext {
         return listCategories;
     }
 
+    public Vector<CateProduct> getAllCategory2() {
+        Vector<CateProduct> listCategories = new Vector<>();
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Cate_Product]";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                CateProduct c = new CateProduct(
+                        rs.getInt(1),
+                        rs.getString(2));
+                listCategories.add(c);
+            }
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        return listCategories;
+    }
+
     public int insertCategories(CateProduct c) {
         String sql = "INSERT INTO [dbo].[Cate_Product]\n"
                 + "           ([product_cate_id]\n"

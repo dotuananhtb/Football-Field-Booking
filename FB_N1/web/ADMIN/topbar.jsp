@@ -260,58 +260,7 @@
                             </div>
                         </li>
 
-                        <li class="dropdown d-none d-sm-inline-block">
-                            <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="ri-apps-2-line fs-22"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg p-0">
-
-                                <div class="p-2">
-                                    <div class="row g-0">
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/github.png" alt="Github">
-                                                <span>GitHub</span>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/bitbucket.png" alt="bitbucket">
-                                                <span>Bitbucket</span>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/dropbox.png" alt="dropbox">
-                                                <span>Dropbox</span>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="row g-0">
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/slack.png" alt="slack">
-                                                <span>Slack</span>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/dribbble.png" alt="dribbble">
-                                                <span>Dribbble</span>
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a class="dropdown-icon-item" href="#">
-                                                <img src="assets/images/brands/behance.png" alt="Behance">
-                                                <span>Behance</span>
-                                            </a>
-                                        </div>
-                                    </div> <!-- end row-->
-                                </div>
-
-                            </div>
-                        </li>
+                        
 
                         <li class="d-none d-sm-inline-block">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
@@ -335,47 +284,38 @@
                         <li class="dropdown">
                             <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <span class="account-user-avatar">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="user-image" width="32" class="rounded-circle">
+                                    <img src="${sessionScope.userProfile.avatar}" alt="user-image" width="32" class="rounded-circle">
                                 </span>
                                 <span class="d-lg-flex flex-column gap-1 d-none">
-                                    <h5 class="my-0">Michael Berndt</h5>
-                                    <h6 class="my-0 fw-normal">Founder</h6>
+                                    <h5 class="my-0">${sessionScope.account.username}</h5>
+                                    <h6 class="my-0 fw-normal">${sessionScope.role.description}</h6>
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                                 <!-- item-->
                                 <div class=" dropdown-header noti-title">
-                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                                    <h6 class="text-overflow m-0">Xin chào !</h6>
                                 </div>
 
                                 <!-- item-->
-                                <a href="pages-profile.html" class="dropdown-item">
+                                <a href="/FB_N1/userProfile" class="dropdown-item">
                                     <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
-                                    <span>My Account</span>
+                                    <span>Trang cá nhân</span>
                                 </a>
 
                                 <!-- item-->
-                                <a href="pages-profile.html" class="dropdown-item">
+                                <a href="/FB_N1/changePassword" class="dropdown-item">
                                     <i class="ri-settings-4-line fs-18 align-middle me-1"></i>
-                                    <span>Settings</span>
+                                    <span>Đổi mật khẩu</span>
                                 </a>
 
                                 <!-- item-->
-                                <a href="pages-faq.html" class="dropdown-item">
-                                    <i class="ri-customer-service-2-line fs-18 align-middle me-1"></i>
-                                    <span>Support</span>
-                                </a>
+                   
 
                                 <!-- item-->
-                                <a href="auth-lock-screen.html" class="dropdown-item">
-                                    <i class="ri-lock-password-line fs-18 align-middle me-1"></i>
-                                    <span>Lock Screen</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="auth-logout-2.html" class="dropdown-item">
+                                <a href="${pageContext.request.contextPath}/logout" class="dropdown-item">
                                     <i class="ri-logout-box-line fs-18 align-middle me-1"></i>
-                                    <span>Logout</span>
+                                    <span>Đăng Xuất</span>
                                 </a>
                             </div>
                         </li>

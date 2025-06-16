@@ -21,7 +21,7 @@
             <c:set value="${requestScope.ct}" var="ct"></c:set>
             <div class="footer-logo">
                 <div class="logo-footer">
-                    <img src="./assets/images/logo2.png" alt="">
+                    <a href ="/FB_N1/home" ><img src="./assets/images/logo_dark__2_-removebg-preview.png"  alt="logo"></a>
                 </div>
                 <p class="des-footer">${ct.getDescription()}
                 </p>
@@ -96,7 +96,7 @@
 
                 <ul class="footer-menu">
                     <li>
-                        <a href="about-us.html">Trang chủ</a>
+                        <a href="/FB_N1/home">Trang chủ</a>
                     </li>
                     <li>
                         <a href="gallery.html">Dành cho đối tác</a>

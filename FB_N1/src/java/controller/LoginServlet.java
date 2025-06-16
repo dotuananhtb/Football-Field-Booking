@@ -5,6 +5,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.RoleDAO;
 import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import model.Account;
+import model.Role;
 import model.UserProfile;
 import org.w3c.dom.ls.LSOutput;
 
@@ -58,18 +60,19 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
-
         AccountDAO dao = new AccountDAO();
         boolean isSuccess = dao.checkLogin(username, password);
-        int roleID = dao.getRoleIDbyAccount(username, password);
+        
         int statusID = dao.getStatusIDbyAccount(username, password);
+        
+        
 
         if (isSuccess && statusID == 1) {
             Account acc = dao.getAccountByUsername(username);
-
+            Role role = dao.getRoleByAccountId(acc.getAccountId());
+            session.setAttribute("role", role);
             session.setAttribute("account", acc);
             session.setAttribute("userProfile", acc.getUserProfile());
-            session.setAttribute("roleID", roleID);
             session.setAttribute("statusID", statusID);
 
             // Xử lý ghi nhớ
