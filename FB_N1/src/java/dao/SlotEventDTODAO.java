@@ -33,7 +33,7 @@ public class SlotEventDTODAO extends DBContext {
         BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
 
         List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
-        String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName(); // chỉ gọi 1 lần
+        String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName(); 
 
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
