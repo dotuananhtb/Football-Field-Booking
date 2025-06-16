@@ -112,7 +112,12 @@
             </li>
 
 
-
+            <li class="d-none d-sm-inline-block">
+                <a class="nav-link"  href="/FB_N1/home">
+                    <i class="ri-home-3-line fs-22"></i>
+                </a>
+            </li>
+            
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="ri-notification-3-line fs-22"></i>
@@ -293,11 +298,11 @@
                 </a>
             </li>
 
-            <li class="d-none d-sm-inline-block">
-                <div class="nav-link" id="light-dark-mode">
-                    <i class="ri-moon-line fs-22"></i>
-                </div>
-            </li>
+            <!--            <li class="d-none d-sm-inline-block">
+                            <div class="nav-link" id="light-dark-mode">
+                                <i class="ri-moon-line fs-22"></i>
+                            </div>
+                        </li>-->
 
 
             <li class="d-none d-md-inline-block">
@@ -331,13 +336,13 @@
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
                     <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
+                        <h6 class="text-overflow m-0">Xin chào !</h6>
                     </div>
 
                     <!-- item-->
-                    <a href="pages-profile.html" class="dropdown-item">
+                    <a href="/FB_N1/userProfile" class="dropdown-item">
                         <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
-                        <span>My Account</span>
+                        <span>Tài khoản của tôi</span>
                     </a>
 
                     <!-- item-->
@@ -359,9 +364,9 @@
                     </a>
 
                     <!-- item-->
-                    <a href="auth-logout-2.html" class="dropdown-item">
+                    <a href="/FB_N1/logout" class="dropdown-item">
                         <i class="ri-logout-box-line fs-18 align-middle me-1"></i>
-                        <span>Logout</span>
+                        <span>Đăng xuất</span>
                     </a>
                 </div>
             </li>

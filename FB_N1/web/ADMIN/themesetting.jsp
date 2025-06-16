@@ -18,7 +18,7 @@
                     <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
                 </div>
 
-                <h5 class="my-3 fs-16 fw-bold">Color Scheme</h5>
+<!--                <h5 class="my-3 fs-16 fw-bold">Color Scheme</h5>
 
                 <div class="d-flex flex-column gap-2">
                     <div class="form-check form-switch">
@@ -30,7 +30,7 @@
                         <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-dark" value="dark">
                         <label class="form-check-label" for="layout-color-dark">Dark</label>
                     </div>
-                </div>
+                </div>-->
 
                 <div>
                     <h5 class="my-3 fs-16 fw-bold">Menu Color</h5>

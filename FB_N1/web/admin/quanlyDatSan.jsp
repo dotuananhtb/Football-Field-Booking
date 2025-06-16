@@ -267,12 +267,12 @@
 
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <button type="button" class="btn btn-danger" id="btn-cancel-slot">Huỷ Ca</button>
+                                                            <button type="button" class="btn btn-secondary" id="btn-cancel-slot">Huỷ Ca</button>
                                                         </div>
                                                         <div class="col-6 text-end">
                                                             <button type="button" class="btn btn-warning me-1" id="btn-pending-slot">Đang xử lí</button>
 
-                                                            <button type="button" class="btn btn-success" id="btn-confirm-slot">Xác nhận</button>
+                                                            <button type="button" class="btn btn-danger" id="btn-confirm-slot">Xác nhận</button>
                                                         </div>
                                                     </div>
                                                 </div>

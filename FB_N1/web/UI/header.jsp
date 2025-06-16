@@ -82,14 +82,15 @@
 
 
                                             <c:if test="${sessionScope.account.userProfile.roleId == 1}">
-                                                <a href="/FB_N1/admin/dat-san"
-                                                   style="position: fixed; top: 70px; right: 20px;
+                                                <li><a href="/FB_N1/admin/dat-san"
+                                                       style="position: fixed; top: 70px; right: 20px;
                                                    background-color: #4da528; color: white;
                                                    padding: 10px 16px; border-radius: 8px;
                                                    text-decoration: none; font-weight: 500;
                                                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                                                    🏟️ Quản lý sân
-                                                </a>
+                                                        ️ Bảng điều khiển của Quản trị viên
+                                                    </a></li>
+                                                
                                             </c:if>
                                             <c:if test="${sessionScope.account != null}">
 
