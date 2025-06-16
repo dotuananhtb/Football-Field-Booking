@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -14,7 +15,7 @@
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
             <meta charset="utf-8">
-                <title>Hồ sơ người dùng - FootballStar</title>
+                <title>Quản lý bài viết - FootballStar</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -32,46 +33,88 @@
                                                 <jsp:include page="header_dashboard.jsp" />
                                                 <!-- End Main Header -->
                                                 <main id="main">
-                                                    <h2>Quản lý bài viết của tôi</h2>
-                                                    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                                                        <a href="${pageContext.request.contextPath}/createPost" class="btn btn-success">Tạo bài viết</a>
-                                                    </div>
-                                                    <c:if test="${empty userPosts}">
-                                                        <p>Bạn chưa có bài viết nào.</p>
-                                                    </c:if>
-                                                    <c:forEach var="post" items="${userPosts}">
-                                                        <div class="post-item" style="border:1px solid #ccc; padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-                                                            <div>
-                                                                <h4><a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color:#4DA528;text-decoration:underline;">${post.title}</a></h4>
-                                                                <div>${post.postDate}</div>
-                                                                <div>${post.contentPost}</div>
-                                                            </div>
-                                                            <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
-                                                                <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" class="btn btn-primary">Cập nhật</a>
-                                                                <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="postId" value="${post.postId}" />
-                                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa bài viết này?')">Xoá</button>
-                                                                </form>
+                                                   <section class="profile-dashboard">
+                                                        <div class="inner-header mb-40">
+                                                            <h3 class="title">Quản lý bài viết của bạn</h3>
+                                                            <p class="des">Dưới đây là danh sách các bài viết bạn đã đăng</p>
+                                                        </div>  
+                                                        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết</a>
+                                                        </div>
+                                                        <div class="my-booking-wrap ">
+                                                            <ul class="booking-table-title flex-three">
+                                                                <li><p>Tiêu đề</p></li>
+                                                                <li><p>Ghi chú/Nội dung</p></li>
+                                                                <li><p>Ngày đăng</p></li>
+                                                                <li><p>Trạng thái</p></li>
+                                                                <li><p>Hành động</p></li>
+                                                            </ul>
+                                                            <c:forEach var="post" items="${userPosts}">
+                                                                <ul class="booking-table-content mb-60">
+                                                                    <li class="flex-three">
+                                                                        <div class="booking-list flex-three">
+                                                                            <p class="date-gues">
+                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color:#4DA528;text-decoration:underline;font-weight:600;">
+                                                                                    ${post.title}
+                                                                                </a>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="booking-list-table">
+                                                                            <p class="date-gues">
+                                                                                <c:choose>
+                                                                                    <c:when test="${fn:length(post.contentPost) > 20}">
+                                                                                        ${fn:substring(post.contentPost, 0, 20)}... 
+                                                                                        <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color:#4DA528; font-weight:600; text-decoration:underline;">Xem thêm</a>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                        ${post.contentPost}
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="booking-list-table">
+                                                                            <p class="date-gues">${post.postDate}</p>
+                                                                        </div>
+                                                                        <div class="booking-list-table">
+                                                                            <p class="status">
+                                                                                <c:choose>
+                                                                                    <c:when test="${post.statusPost eq 'active'}">Đang hiển thị</c:when>
+                                                                                    <c:otherwise>Đã ẩn</c:otherwise>
+                                                                                </c:choose>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="flex-five action-wrap" style="gap: 12px; align-items: center;">
+                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" title="Cập nhật" style="background: #f6f6f6; border-radius: 8px; padding: 6px 10px; display: inline-flex; align-items: center; color: blue">cập nhật</a>
+                                                                            <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline; margin:0;">
+                                                                                <input type="hidden" name="postId" value="${post.postId}" />
+                                                                                <button type="submit" class="btn btn-danger" style="padding:6px 10px; border-radius:8px; margin-left:0; display:inline-flex; align-items:center;" onclick="return confirm('Bạn chắc chắn muốn xóa bài viết này?')"><i class="icon-Vector-18"></i></button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </c:forEach>
+                                                            <c:if test="${empty userPosts}">
+                                                                <p>Bạn chưa có bài viết nào.</p>
+                                                            </c:if>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <ul class="tf-pagination flex-five">
+                                                                        <c:if test="${currentPage > 1}">
+                                                                            <li><a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}"><i class="icon-29"></i></a></li>
+                                                                        </c:if>
+                                                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                                                            <li class="pages-item ${i == currentPage ? 'active' : ''}" aria-current="${i == currentPage ? 'page' : ''}">
+                                                                                <a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}">${i}</a>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                        <c:if test="${currentPage < totalPages}">
+                                                                            <li><a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}"><i class="icon--1"></i></a></li>
+                                                                        </c:if>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </c:forEach>
-
-                                                    <!-- Phân trang -->
-                                                    <div style="margin-top: 24px;">
-                                                        <ul class="tf-pagination flex-five mt-20">
-                                                            <li>
-                                                                <a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=1"><i class="icon-29"></i></a>
-                                                            </li>
-                                                            <c:forEach begin="1" end="${totalPages}" var="i">
-                                                                <li class="pages-item${currentPage == i ? ' active' : ''}" aria-current="${currentPage == i ? 'page' : ''}">
-                                                                    <a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}">${i}</a>
-                                                                </li>
-                                                            </c:forEach>
-                                                            <li>
-                                                                <a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${totalPages}"><i class="icon--1"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    </section>
                                                 </main>
 
 

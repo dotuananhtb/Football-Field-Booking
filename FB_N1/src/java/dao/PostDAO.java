@@ -11,7 +11,7 @@ import model.Account;
 import util.DBContext;
 
 public class PostDAO extends DBContext {
-
+    
     public Post searchPostByTitle(String title) {
         String sql = "SELECT post_id, account_id, title, content_post, post_date, img, status_post\n"
                 + "FROM [FootballFieldBooking].[dbo].[Post] p\n"
@@ -22,12 +22,13 @@ public class PostDAO extends DBContext {
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return new Post(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6)
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    
+                    rs.getString(6)
                 );
             }
         } catch (SQLException e) {
@@ -45,33 +46,12 @@ public class PostDAO extends DBContext {
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Post p = new Post(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6)
-                );
-                listPost.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listPost;
-    }
-
-    public Vector<Post> get3LastestPost() {
-        String sql = "SELECT TOP 3 *\n"
-                + "FROM Post\n"
-                + "WHERE status_post = 'active'\n"
-                + "ORDER BY post_date DESC";
-        Vector<Post> listPost = new Vector<>();
-        try {
-            PreparedStatement ptm = connection.prepareStatement(sql);
-            ResultSet rs = ptm.executeQuery();
-            while (rs.next()) {
-                Post p = new Post(rs.getInt(1), rs.getInt(2),
-                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getString(4), 
+                    rs.getString(5), 
+                    rs.getString(6) 
                 );
                 listPost.add(p);
             }
@@ -83,10 +63,10 @@ public class PostDAO extends DBContext {
 
     public Vector<Post> getAllPosts(int page, int pageSize) {
         Vector<Post> list = new Vector<>();
-        String query = "SELECT p.*, a.username FROM Post p "
-                + "JOIN Account a ON p.account_id = a.account_id "
-                + "ORDER BY p.post_date DESC "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String query = "SELECT p.*, a.username FROM Post p " +
+                       "JOIN Account a ON p.account_id = a.account_id " +
+                       "ORDER BY p.post_date DESC " +
+                       "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setInt(1, (page - 1) * pageSize);
@@ -127,11 +107,11 @@ public class PostDAO extends DBContext {
                 post.setContentPost(rs.getString("content_post"));
                 post.setPostDate(rs.getString("post_date"));
                 post.setStatusPost(rs.getString("status_post"));
-
+                
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
-
+                
                 return post;
             }
         } catch (SQLException e) {
@@ -156,18 +136,19 @@ public class PostDAO extends DBContext {
 
     public Vector<Post> searchPostsByTitle(String title, int page, int pageSize) {
         Vector<Post> list = new Vector<>();
-        String query = "SELECT p.*, a.username FROM Post p "
-                + "JOIN Account a ON p.account_id = a.account_id "
-                + "WHERE p.title LIKE ? "
-                + "ORDER BY p.post_date DESC "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String query = "SELECT p.*, a.username FROM Post p " +
+                       "JOIN Account a ON p.account_id = a.account_id " +
+                       "WHERE p.title LIKE ? " +
+                       "ORDER BY p.post_date DESC " +
+                       "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
-
+          
+            
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setString(1, "%" + title + "%");
             ptm.setInt(2, (page - 1) * pageSize);
             ptm.setInt(3, pageSize);
-
+            
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Post post = new Post();
@@ -182,9 +163,9 @@ public class PostDAO extends DBContext {
                 post.setAccount(account);
                 list.add(post);
             }
-
+            
         } catch (SQLException e) {
-
+            
             e.printStackTrace();
         }
         return list;
@@ -200,7 +181,7 @@ public class PostDAO extends DBContext {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
-
+            
             e.printStackTrace();
         }
         return 0;
@@ -208,9 +189,9 @@ public class PostDAO extends DBContext {
 
     public Vector<Post> getRecentPosts(int limit) {
         Vector<Post> list = new Vector<>();
-        String query = "SELECT TOP (?) p.*, a.username FROM Post p "
-                + "JOIN Account a ON p.account_id = a.account_id "
-                + "ORDER BY p.post_date DESC";
+        String query = "SELECT TOP (?) p.*, a.username FROM Post p " +
+                      "JOIN Account a ON p.account_id = a.account_id " +
+                      "ORDER BY p.post_date DESC";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setInt(1, limit);
@@ -229,7 +210,7 @@ public class PostDAO extends DBContext {
                 list.add(post);
             }
         } catch (SQLException e) {
-
+           
             e.printStackTrace();
         }
         return list;
@@ -299,8 +280,8 @@ public class PostDAO extends DBContext {
 
     public List<Post> getPostsByAccountIdPaging(int accountId, int page, int pageSize) {
         List<Post> list = new ArrayList<>();
-        String sql = "SELECT * FROM Post WHERE account_id = ? AND status_post = 'active' "
-                + "ORDER BY post_date DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM Post WHERE account_id = ? AND status_post = 'active' " +
+                     "ORDER BY post_date DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, accountId);
@@ -338,11 +319,28 @@ public class PostDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        PostDAO pDao = new PostDAO();
-        Vector<Post> listP = pDao.get3LastestPost();
-        
-            System.out.println(listP);
-        
+    public List<Post> getAllPosts() {
+        List<Post> list = new ArrayList<>();
+        String sql = "SELECT p.*, a.username FROM Post p JOIN Account a ON p.account_id = a.account_id ORDER BY p.post_date DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setPostId(rs.getInt("post_id"));
+                post.setAccountId(rs.getInt("account_id"));
+                post.setTitle(rs.getString("title"));
+                post.setContentPost(rs.getString("content_post"));
+                post.setPostDate(rs.getString("post_date"));
+                post.setStatusPost(rs.getString("status_post"));
+                Account account = new Account();
+                account.setUsername(rs.getString("username"));
+                post.setAccount(account);
+                list.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
-}
+} 

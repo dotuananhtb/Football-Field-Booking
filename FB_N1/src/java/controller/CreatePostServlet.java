@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import util.ToastUtil;
 
 @WebServlet(name = "CreatePostServlet", urlPatterns = {"/createPost"})
 public class CreatePostServlet extends HttpServlet {
@@ -26,7 +27,7 @@ public class CreatePostServlet extends HttpServlet {
         String currentDate = java.time.LocalDate.now().toString();
         request.setAttribute("fieldTypes", fieldTypes);
         request.setAttribute("currentDate", currentDate);
-        request.getRequestDispatcher("UI/createPost.jsp").forward(request, response);
+        request.getRequestDispatcher("UI/addPost.jsp").forward(request, response);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class CreatePostServlet extends HttpServlet {
         post.setContentPost(content);
         post.setStatusPost("active");
         postDAO.createPost(post);
+        ToastUtil.setSuccessToast(request, "Tạo bài viết thành công!");
         response.sendRedirect("managerPostUser");
     }
 } 

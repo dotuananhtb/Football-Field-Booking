@@ -14,7 +14,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Vitour - Travel & Tour Booking HTML Template</title>
+    <title>FootballStar - Booking to Football Field</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,7 @@
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
 </head>
 
@@ -90,17 +90,29 @@
                                 <div class="comment-single">
                                     <h3 class="title mb-32">Bình luận</h3>
                                     <c:forEach var="comment" items="${comments}">
-                                        <div class="comment-item" style="margin-bottom: 24px;">
+                                        <div class="comment-item" style="margin-bottom: 24px; border: 1px solid #e5e5e5; padding: 15px; border-radius: 8px;">
                                             <strong style="font-size: 18px;">${comment.account.username}</strong>
                                             <div style="color: #888; font-size: 13px; text-transform: uppercase; margin-bottom: 4px;">
                                                 ${comment.cmtDate}
                                             </div>
-                                            <div style="font-size: 16px;">${comment.contentCmt}</div>
-                                            <c:if test="${sessionScope.account != null && (sessionScope.account.accountId == comment.accountId || sessionScope.account.roleId == 1 || sessionScope.account.roleId == 2 || sessionScope.account.accountId == post.account.accountId)}">
-                                                <form action="${pageContext.request.contextPath}/deleteComment" method="post" style="display:inline;">
-                                                    <input type="hidden" name="commentId" value="${comment.commentId}" />
-                                                    <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')" style="color:red;background:none;border:none;cursor:pointer;">Xóa</button>
-                                                </form>
+                                            <div style="font-size: 16px;" id="comment-content-${comment.commentId}">${comment.contentCmt}</div>
+                                            <c:if test="${sessionScope.account != null && sessionScope.account.accountId == comment.accountId}">
+                                                <div style="margin-top: 10px;">
+                                                    <button onclick="showEditForm(${comment.commentId}, '${comment.contentCmt}')" style="color: #4DA528; background: none; border: none; cursor: pointer; margin-right: 10px;">Chỉnh sửa</button>
+                                                    <form action="${pageContext.request.contextPath}/deleteComment" method="post" style="display:inline;">
+                                                        <input type="hidden" name="commentId" value="${comment.commentId}" />
+                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')" style="color:red;background:none;border:none;cursor:pointer;">Xóa</button>
+                                                    </form>
+                                                </div>
+                                                <div id="edit-form-${comment.commentId}" style="display: none; margin-top: 10px;">
+                                                    <form action="${pageContext.request.contextPath}/updateComment" method="post">
+                                                        <input type="hidden" name="commentId" value="${comment.commentId}" />
+                                                        <input type="hidden" name="postId" value="${post.postId}" />
+                                                        <textarea name="content" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">${comment.contentCmt}</textarea>
+                                                        <button type="submit" style="background: #4DA528; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Cập nhật</button>
+                                                        <button type="button" onclick="hideEditForm(${comment.commentId})" style="background: #666; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-left: 10px;">Hủy</button>
+                                                    </form>
+                                                </div>
                                             </c:if>
                                         </div>
                                     </c:forEach>
@@ -199,6 +211,18 @@
     <script src="app/js/jquery.fancybox.js"></script>
     <script src="app/js/shortcodes.js"></script>
     <script src="app/js/main.js"></script>
+
+    <script>
+    function showEditForm(commentId, content) {
+        document.getElementById('comment-content-' + commentId).style.display = 'none';
+        document.getElementById('edit-form-' + commentId).style.display = 'block';
+    }
+
+    function hideEditForm(commentId) {
+        document.getElementById('comment-content-' + commentId).style.display = 'block';
+        document.getElementById('edit-form-' + commentId).style.display = 'none';
+    }
+    </script>
 
 </body>
 

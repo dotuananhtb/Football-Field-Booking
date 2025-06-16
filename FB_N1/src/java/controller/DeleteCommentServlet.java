@@ -11,6 +11,7 @@ import model.Account;
 import model.Comment;
 
 import java.io.IOException;
+import util.ToastUtil;
 
 @WebServlet(name = "DeleteCommentServlet", urlPatterns = {"/deleteComment"})
 public class DeleteCommentServlet extends HttpServlet {
@@ -43,6 +44,7 @@ public class DeleteCommentServlet extends HttpServlet {
             // Chỉ cho phép xóa nếu là chủ comment hoặc là staff/admin
             if (comment.getAccountId() == userId || roleId == 1 || roleId == 2) {
                 commentDAO.deleteComment(commentId);
+                ToastUtil.setSuccessToast(request, "xoá thành công!");
                 // Chuyển hướng hoặc thông báo thành công
                 response.sendRedirect("blogdetails?postId=" + comment.getPostId());
             } else {

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import util.ToastUtil;
 
 @WebServlet(name = "UpdatePostServlet", urlPatterns = {"/updatePost"})
 public class UpdatePostServlet extends HttpServlet {
@@ -64,7 +65,7 @@ public class UpdatePostServlet extends HttpServlet {
         post.setStatusPost("active");
         PostDAO postDAO = new PostDAO();
         postDAO.updatePost(post);
-
+ToastUtil.setSuccessToast(request, "cập nhật bài viết thành công!");
         response.sendRedirect("managerPostUser");
     }
 } 
