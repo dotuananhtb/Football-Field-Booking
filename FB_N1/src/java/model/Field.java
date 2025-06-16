@@ -24,11 +24,7 @@ public class Field {
     private TypeOfField typeOfField;
     private List<SlotsOfField> slots; // các ca tương ứng sân này
 
-    //price
-    private BigDecimal minPrice;
-    private BigDecimal maxPrice;
-    private int totalSlots;
-    // Getters & Setters
+
     public Field() {
     }
 
@@ -115,42 +111,8 @@ public class Field {
         this.slots = slots;
     }
 
-    public BigDecimal getMinPrice() {
-        return minPrice;
-    }
 
-    public void setMinPrice(BigDecimal minPrice) {
-        this.minPrice = minPrice;
-    }
-
-    public BigDecimal getMaxPrice() {
-        return maxPrice;
-    }
-
-    public void setMaxPrice(BigDecimal maxPrice) {
-        this.maxPrice = maxPrice;
-    }
-
-    public int getTotalSlots() {
-        return totalSlots;
-    }
-
-    public void setTotalSlots(int totalSlots) {
-        this.totalSlots = totalSlots;
-    }
-    
-        // Utility methods
-    public String getPriceRange() {
-        if (minPrice != null && maxPrice != null) {
-            if (minPrice.equals(maxPrice)) {
-                return minPrice.toString();
-            } else {
-                return minPrice + " - " + maxPrice;
-            }
-        }
-        return "N/A";
-    }
-    
+   
     public boolean isActive() {
         return "Hoạt động".equals(this.status);
     }

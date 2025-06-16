@@ -280,11 +280,6 @@ public class FieldDAO extends DBContext {
                 type.setFieldTypeName(rs.getString("field_type_name"));
                 f.setTypeOfField(type);
 
-                // Set price range
-                f.setMinPrice(rs.getBigDecimal("min_price"));
-                f.setMaxPrice(rs.getBigDecimal("max_price"));
-                f.setTotalSlots(rs.getInt("total_slots"));
-
                 list.add(f);
             }
         } catch (Exception e) {
@@ -333,9 +328,6 @@ public class FieldDAO extends DBContext {
                 t.setFieldTypeName(rs.getString("field_type_name"));
                 f.setTypeOfField(t);
                 
-                f.setMinPrice(rs.getBigDecimal("min_price"));
-                f.setMaxPrice(rs.getBigDecimal("max_price"));
-                f.setTotalSlots(rs.getInt("total_slots"));
                 f.setSlots(getFieldSlotsWithDetails(f.getFieldId()));
 
                 list.add(f);

@@ -419,10 +419,10 @@
                                                                 <div class="tf-container">
                                                                     <div class="row">
                                                                         <div class="col-lg-12 center z-index1">
-                                                                            <h1 class="title">Tour Package v2</h1>
+                                                                            <h1 class="title">Danh Sách Sân</h1>
                                                                             <ul class="breadcumb-list flex-five">
-                                                                                <li><a href="index.html">Home</a></li>
-                                                                                <li><span>Tour Package</span></li>
+                                                                                <li><a href="index.html">Trang chủ</a></li>
+                                                                                <li><span>Danh sách sân</span></li>
                                                                             </ul>
                                                                             <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
                                                                         </div>
@@ -522,7 +522,7 @@
                                                                                     <div class="wd-search-form">
                                                                                         <div class="input-group-grid">
                                                                                             <fieldset class="group-select relative ">
-                                                                                                <label>Filter By Price</label>
+                                                                                                <label>tìm kiếm bằng giá</label>
                                                                                                 <div class="widget widget-price ">
                                                                                                     <div id="slider-range"></div>
                                                                                                     <div class="slider-labels">
@@ -531,7 +531,7 @@
                                                                                                                 <input type="hidden" name="max-value" value="">
                                                                                                                     </div>
                                                                                                                     <div class="caption flex-three">
-                                                                                                                        <p class="price-range">Price: </p>
+                                                                                                                        <p class="price-range">Giá: </p>
                                                                                                                         <div class="number-range">
                                                                                                                             <span id="slider-range-value1"></span>
                                                                                                                             <span id="slider-range-value2"></span>
@@ -645,7 +645,7 @@
                                                                                                                                 <div class="col-lg-4">
                                                                                                                                     <form action="/" class="sider-bar-tour-package" >
                                                                                                                                         <div class="widget-filter mb-40">
-                                                                                                                                            <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                            <h6 class="title-tour">Lọc </h6>
                                                                                                                                             <div class="group-select-wrap">
                                                                                                                                                 <fieldset class="group-select relative mb-22">
                                                                                                                                                     <i class="icon-Vector-8"></i>
@@ -704,7 +704,7 @@
                                                                                                                                                 <fieldset class="group-select relative mb-22">
                                                                                                                                                     <i class="icon-Group-111"></i>
                                                                                                                                                     <div class="search-bar-group relative">
-                                                                                                                                                        <label>Date</label>
+                                                                                                                                                        <label>Ngày</label>
                                                                                                                                                         <div class="nice-select" tabindex="0">
                                                                                                                                                             <span class="current">Date From</span>
 
@@ -712,7 +712,7 @@
                                                                                                                                                     </div>
                                                                                                                                                 </fieldset>
                                                                                                                                                 <fieldset class="group-select relative mb-40">
-                                                                                                                                                    <h6 class="title-tour">Filter By Price</h6>
+                                                                                                                                                    <h6 class="title-tour">Tìm kiếm theo giá</h6>
                                                                                                                                                     <div class="widget widget-price ">
                                                                                                                                                         <div id="slider-range2"></div>
                                                                                                                                                         <div class="slider-labels">
@@ -721,7 +721,7 @@
                                                                                                                                                                     <input type="hidden" name="max-value2" value="">
                                                                                                                                                                         </div>
                                                                                                                                                                         <div class="caption flex-three">
-                                                                                                                                                                            <p class="price-range">Price: </p>
+                                                                                                                                                                            <p class="price-range">Giá: </p>
                                                                                                                                                                             <div class="number-range">
                                                                                                                                                                                 <span id="slider-range-value01"></span>
                                                                                                                                                                                 <span id="slider-range-value02"></span>
@@ -808,19 +808,19 @@
                                                                                                                                                                                                         <i class="icon-Vector6"></i>
                                                                                                                                                                                                         <span class="current">
                                                                                                                                                                                                         <c:choose>                                                                                                                                                                                                        <c:when test="${sortBy == 'name'}">Name</c:when>
-                                                                                                                                                                                                        <c:when test="${sortBy == 'new'}">New</c:when>
-                                                                                                                                                                                                        <c:when test="${sortBy == 'recent'}">Recently Added</c:when>
+                                                                                                                                                                                                        <c:when test="${sortBy == 'new'}">Sân mới</c:when>
+                                                                                                                                                                                                        <c:when test="${sortBy == 'recent'}">Mới cập nhật</c:when>
                                                                                                                                                                                                         <c:otherwise>Sort by</c:otherwise>
                                                                                                                                                                                                         </c:choose>
                                                                                                                                                                                                         </span>
                                                                                                                                                                                                         <ul class="list">                                                                                                                                                                                                        <li class="option ${sortBy == 'name' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Name</a>
+                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Theo Tên Sân</a>
                                                                                                                                                                                                         </li>
                                                                                                                                                                                                         <li class="option ${sortBy == 'new' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">New</a>
+                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">Sân mới</a>
                                                                                                                                                                                                         </li>
                                                                                                                                                                                                         <li class="option ${sortBy == 'recent' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=recent">Recently Added</a>
+                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=recent">Mới cập nhật</a>
                                                                                                                                                                                                         </li>
                                                                                                                                                                                                         </ul>
                                                                                                                                                                                                         </div>
@@ -863,7 +863,7 @@
                                                                                                                                                                                             <div class="icon-box flex-three">
                                                                                                                                                                                                 <div class="icons flex-three">
                                                                                                                                                                                                     <i class="icon-time-left"></i>
-                                                                                                                                                                                                    <span>Số ca: ${o.totalSlots}</span>
+                                                                                                                                                                                                    <span>Số ca: ${totalSlotMap[o.fieldId]}</span>
                                                                                                                                                                                                 </div>
                                                                                                                                                                                                 <div class="icons flex-three">
                                                                                                                                                                                                     <i class="icon-user"></i>
@@ -901,11 +901,12 @@
                                                                                                                                                                                                     <div class="price-info">
                                                                                                                                                                                                         <div class="price-label" id="priceLabel">Giá từ:</div>
                                                                                                                                                                                                         <div class="price-range">
+                                                                                                                                                                                                        <c:set var="prices" value="${priceMap[o.fieldId]}" />
                                                                                                                                                                                                         <span class="price-from" id="priceDisplay">
-                                                                                                                                                                                                        <fmt:formatNumber value="${o.minPrice}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                                                        <fmt:formatNumber value="${prices[0]}" type="number" groupingUsed="true"/> ₫
                                                                                                                                                                                                         </span>
                                                                                                                                                                                                         <span class="price-to" id="originalPrice">
-                                                                                                                                                                                                        <fmt:formatNumber value="${o.maxPrice}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                                                        <fmt:formatNumber value="${prices[1]}" type="number" groupingUsed="true"/> ₫
                                                                                                                                                                                                         </span>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                     </div>
