@@ -355,10 +355,10 @@
             <li class="side-nav-title">Custom</li>
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Pages </span>
-                    <span class="menu-arrow"></span>
+                    <span> Quản lí bài viết </span>
+                    
                 </a>
                 <div class="collapse" id="sidebarPages">
                     <ul class="side-nav-second-level">
