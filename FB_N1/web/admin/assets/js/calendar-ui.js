@@ -23,16 +23,17 @@ function initCalendar() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         views: {
-            dayGridMonth: { buttonText: 'Tháng' },
-            timeGridWeek: { buttonText: 'Tuần' },
-            timeGridDay: { buttonText: 'Ngày' },
-            listWeek: { buttonText: 'Danh sách' }
+            dayGridMonth: {buttonText: 'Tháng'},
+            timeGridWeek: {buttonText: 'Tuần'},
+            timeGridDay: {buttonText: 'Ngày'},
+            listWeek: {buttonText: 'Danh sách'}
         },
         locale: 'vi',
         height: 'auto',
         eventDidMount: function (info) {
             const titleEl = info.el.querySelector('.fc-event-title');
-            if (titleEl) titleEl.style.display = 'none';
+            if (titleEl)
+                titleEl.style.display = 'none';
         },
         events: fetchSlotEvents,
         eventClick: handleEventClick
@@ -70,7 +71,7 @@ function renderSelectedTable() {
 
     $("#selectedSlotsTable").toggle(selectedSlots.length > 0);
     $("#totalPrice").toggle(selectedSlots.length > 0)
-        .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+            .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
     $("#bookNowBtn").toggle(selectedSlots.length > 0);
 }
 
@@ -79,11 +80,11 @@ function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-            props.slot_date === removedSlot.slot_date &&
-            event.startStr === removedSlot.start &&
-            event.endStr === removedSlot.end
-        ) {
+                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                props.slot_date === removedSlot.slot_date &&
+                event.startStr === removedSlot.start &&
+                event.endStr === removedSlot.end
+                ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
@@ -101,6 +102,8 @@ function openStatusModal(event) {
 
     $('#btn-confirm-slot, #modal-confirm-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
     $('#btn-cancel-slot, #modal-cancel-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
+    $('#btn-pending-slot, #modal-pending-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
+
 }
 
 // 🔹 5. Gán sự kiện UI
@@ -115,12 +118,19 @@ function bindUIEvents() {
     $('#modal-confirm-btn, #btn-confirm-slot').on('click', function () {
         const slotId = $(this).data('slotId');
         const slotDate = $(this).data('slotDate');
-        updateSlotStatus(slotId, slotDate, 'Confirmed');
+        updateSlotStatus(slotId, slotDate, 1);
     });
-
+    $('#modal-pending-btn, #btn-pending-slot').on('click', function () {
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        updateSlotStatus(slotId, slotDate, 2);
+    });
     $('#modal-cancel-btn, #btn-cancel-slot').on('click', function () {
         const slotId = $(this).data('slotId');
         const slotDate = $(this).data('slotDate');
-        updateSlotStatus(slotId, slotDate, 'Cancelled');
+        updateSlotStatus(slotId, slotDate, 3);
     });
+
+
+
 }

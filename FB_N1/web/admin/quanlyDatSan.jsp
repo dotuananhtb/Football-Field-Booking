@@ -255,26 +255,32 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="mb-3">
-                                                                <label class="control-label form-label">Trạng thái hiện tại</label>
-                                                                <input class="form-control" type="text" id="event-status" disabled />
+                                                                <label class="control-label form-label">Trạng thái</label>
+                                                                <select class="form-select" id="event-status"disabled>
+                                                                    <option value="1">Đã đặt</option>
+                                                                    <option value="2">Đang chờ xử lí</option>
+                                                                    <option value="3">Huỷ</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <button type="button" class="btn btn-danger" id="btn-cancel-slot">Huỷ</button>
+                                                            <button type="button" class="btn btn-danger" id="btn-cancel-slot">Huỷ Ca</button>
                                                         </div>
                                                         <div class="col-6 text-end">
-                                                            <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Đóng</button>
+                                                            <button type="button" class="btn btn-warning me-1" id="btn-pending-slot">Đang xử lí</button>
+
                                                             <button type="button" class="btn btn-success" id="btn-confirm-slot">Xác nhận</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </form>
-                                        </div> <!-- end modal-content-->
-                                    </div> <!-- end modal dialog-->
+                                        </div> <!-- end modal-content -->
+                                    </div> <!-- end modal-dialog -->
                                 </div>
+
 
 
                                 <!-- end modal-->

@@ -1,3 +1,4 @@
+//calendar-ui.js
 // 🔹 1. AJAX lấy ca từ server
 function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     const fieldId = $('#fieldSelect').val();
@@ -36,9 +37,9 @@ function toggleSlotSelection(info) {
 
     const existsIndex = selectedSlots.findIndex(s =>
         String(s.slot_field_id) === String(slot.slot_field_id) &&
-        s.slot_date === slot.slot_date &&
-        s.start === info.event.startStr &&
-        s.end === info.event.endStr
+                s.slot_date === slot.slot_date &&
+                s.start === info.event.startStr &&
+                s.end === info.event.endStr
     );
 
     if (existsIndex > -1) {
@@ -65,16 +66,16 @@ function handleBookingSubmit() {
     }
 
     const bookingDetailsList = selectedSlots.map(slot => ({
-        bookingDetailsId: null,
-        bookingId: null,
-        slotFieldId: slot.slot_field_id,
-        slotFieldPrice: slot.price,
-        extraMinutes: 0,
-        extraFee: 0,
-        slotDate: slot.slot_date,
-        note: null,
-        statusCheckingId: 1
-    }));
+            bookingDetailsId: null,
+            bookingId: null,
+            slotFieldId: slot.slot_field_id,
+            slotFieldPrice: slot.price,
+            extraMinutes: 0,
+            extraFee: 0,
+            slotDate: slot.slot_date,
+            note: null,
+            statusCheckingId: 1
+        }));
 
     $.ajax({
         url: '/FB_N1/admin/dat-san',
@@ -104,14 +105,22 @@ function handleBookingSubmit() {
 }
 
 // 🔹 5. Cập nhật trạng thái ca (Admin)
-function updateSlotStatus(slotId, slotDate, status) {
+// 🔹 5. Cập nhật trạng thái ca (Admin)
+function updateSlotStatus(slotId, slotDate, statusId) {
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ slotFieldId: slotId, slotDate, status }),
-        success: function () {
-            const msg = status === 'Confirmed' ? "✅ Đã xác nhận ca!" : "🚫 Đã huỷ ca!";
+        data: JSON.stringify({
+            slotFieldId: slotId,
+            slotDate: slotDate,
+            status: statusId  // số nguyên
+        }),
+        success: function (res) {
+            const msg =
+                    statusId === 1 ? "✅ Đã xác nhận ca!"
+                    : statusId === 2 ? "⌛ Đang chờ xử lý!"
+                    : "🚫 Đã huỷ ca!";
             showToast("success", msg);
             $('#event-modal').modal('hide');
             calendar.refetchEvents();
@@ -121,3 +130,4 @@ function updateSlotStatus(slotId, slotDate, status) {
         }
     });
 }
+
