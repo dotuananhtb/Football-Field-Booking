@@ -12,36 +12,39 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import util.ToastUtil;
 
-@WebServlet(name = "CommentServlet", urlPatterns = {"/comment"})
-public class CommentServlet extends HttpServlet {
+@WebServlet(name = "UpdateCommentServlet", urlPatterns = {"/updateComment"})
+public class UpdateCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String postIdStr = request.getParameter("postId");
+            String commentIdStr = request.getParameter("commentId");
             String content = request.getParameter("content");
+            String postIdStr = request.getParameter("postId");
             HttpSession session = request.getSession(false);
             Account acc = (Account) session.getAttribute("account");
 
             if (acc == null) {
-                // Chưa đăng nhập, chuyển hướng về trang login
-                response.sendRedirect( "/FB_N1/login");
+                response.sendRedirect("/FB_N1/login");
                 return;
             }
 
-            if (postIdStr != null && content != null) {
+            if (commentIdStr != null && content != null && postIdStr != null) {
+                int commentId = Integer.parseInt(commentIdStr);
                 int postId = Integer.parseInt(postIdStr);
 
-                Comment comment = new Comment();
-                
-                comment.setPostId(postId);
-                comment.setAccountId(acc.getAccountId());
-                comment.setContentCmt(content);
-
                 CommentDAO commentDAO = new CommentDAO();
-                commentDAO.addComment(comment);
+                Comment comment = commentDAO.getCommentById(commentId);
+
+                // Kiểm tra xem người dùng có quyền chỉnh sửa comment này không
+                if (comment != null && comment.getAccountId() == acc.getAccountId()) {
+                    comment.setContentCmt(content);
+                    commentDAO.updateComment(comment);
+                    ToastUtil.setSuccessToast(request, "Cập nhật bình luận thành công!");
+                } else {
+                    ToastUtil.setErrorToast(request, "Bạn không có quyền chỉnh sửa bình luận này!");
+                }
             }
-            ToastUtil.setSuccessToast(request, "Bạn đã bình luận thành công!");
             response.sendRedirect(request.getContextPath() + "/blogdetails?postId=" + postIdStr);
         } catch (Exception e) {
             e.printStackTrace();

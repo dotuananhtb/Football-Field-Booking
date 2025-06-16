@@ -74,10 +74,21 @@ public class CommentDAO extends DBContext {
         }
     }
 
+    public boolean updateComment(Comment comment) {
+        String sql = "UPDATE Comment SET content_cmt = ? WHERE comment_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, comment.getContentCmt());
+            st.setInt(2, comment.getCommentId());
+            return st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Comment getCommentById(int commentId) {
-        String sql = "SELECT c.*, a.username FROM Comment c " +
-                    "JOIN Account a ON c.account_id = a.account_id " +
-                    "WHERE c.comment_id = ?";
+        String sql = "SELECT * FROM Comment WHERE comment_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, commentId);
@@ -89,12 +100,6 @@ public class CommentDAO extends DBContext {
                 comment.setAccountId(rs.getInt("account_id"));
                 comment.setContentCmt(rs.getString("content_cmt"));
                 comment.setCmtDate(rs.getString("cmt_date"));
-                
-                Account account = new Account();
-                account.setAccountId(rs.getInt("account_id"));
-                account.setUsername(rs.getString("username"));
-                comment.setAccount(account);
-                
                 return comment;
             }
         } catch (SQLException e) {

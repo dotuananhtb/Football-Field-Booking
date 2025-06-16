@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import util.ToastUtil;
 
 @WebServlet(name = "DeletePostServlet", urlPatterns = {"/deletePost"})
 public class DeletePostServlet extends HttpServlet {
@@ -19,6 +20,7 @@ public class DeletePostServlet extends HttpServlet {
             PostDAO postDAO = new PostDAO();
             postDAO.softDeletePost(postId);
         }
+        ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
         response.sendRedirect("managerPostUser");
     }
 } 

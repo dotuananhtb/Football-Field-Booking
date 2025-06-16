@@ -72,7 +72,7 @@
                                
                                 <div class="blog-posts">
                                     <c:forEach items="${posts}" var="post">
-                                        <article class="side-blog mb-56px">
+                                        <article class="side-blog mb-56px" style="border: 1px solid #e5e5e5; padding: 20px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                             <div class="blog-image">
                                                 
                                                 <a class="post-thumbnail" href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">
