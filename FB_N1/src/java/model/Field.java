@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Field {
     private TypeOfField typeOfField;
     private List<SlotsOfField> slots; // các ca tương ứng sân này
 
-    // Getters & Setters
+
     public Field() {
     }
 
@@ -108,6 +109,12 @@ public class Field {
 
     public void setSlots(List<SlotsOfField> slots) {
         this.slots = slots;
+    }
+
+
+   
+    public boolean isActive() {
+        return "Hoạt động".equals(this.status);
     }
 
     @Override
