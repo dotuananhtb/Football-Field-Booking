@@ -185,10 +185,10 @@
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
-    <!-- Datatable Demo Aapp js -->
+    
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
-    <!-- App js -->
+    
     <script src="assets/js/app.min.js"></script>
 
 </body>
