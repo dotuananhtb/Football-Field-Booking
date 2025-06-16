@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="navbar-custom">
     <div class="topbar container-fluid">
         <div class="d-flex align-items-center gap-lg-2 gap-1">
@@ -307,10 +309,10 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
-                        <img src="assets/images/users/avatar-1.jpg" alt="user-image" width="32" class="rounded-circle">
+                        <img src="${sessionScope.userProfile.avatar}" alt="user-image" width="32" class="rounded-circle">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
-                        <h5 class="my-0">Michael Berndt</h5>
+                        <h5 class="my-0"> ${sessionScope.account.userProfile.firstName}</h5>
                         <h6 class="my-0 fw-normal">Founder</h6>
                     </span>
                 </a>
