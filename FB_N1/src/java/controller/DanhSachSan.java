@@ -13,8 +13,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Field;
+import model.SlotsOfField;
 import model.Zone;
 
 /**
@@ -67,9 +71,9 @@ public class DanhSachSan extends HttpServlet {
         List<Zone> listZ = zDAO.getAllZone();
         String indexPage = request.getParameter("index");
         String sortBy = request.getParameter("sortBy");
-        
+
         int index = 1;
-        if (sortBy == null) {
+        if (sortBy == null || sortBy.isEmpty()) {
             sortBy = "";
         }
         if (indexPage != null && !indexPage.isEmpty()) {
@@ -81,8 +85,36 @@ public class DanhSachSan extends HttpServlet {
         if (count % 6 != 0) {
             endPage++;
         }
-         
+
         List<Field> listP = dao.pagingField(index, sortBy);
+        for (Field f : listP) {
+            f.setSlots(dao.getFieldSlotsWithDetails(f.getFieldId()));
+        }
+
+        Map<Integer, BigDecimal[]> priceMap = new HashMap<>();
+        Map<Integer, Integer> totalSlotMap = new HashMap<>();
+
+        for (Field f : listP) {
+            List<SlotsOfField> slots = dao.getFieldSlotsWithDetails(f.getFieldId());
+            f.setSlots(slots);
+
+            // Tính giá min/max
+            BigDecimal min = null, max = null;
+            for (SlotsOfField s : slots) {
+                BigDecimal p = s.getSlotFieldPrice();
+                if (min == null || p.compareTo(min) < 0) {
+                    min = p;
+                }
+                if (max == null || p.compareTo(max) > 0) {
+                    max = p;
+                }
+            }
+            priceMap.put(f.getFieldId(), new BigDecimal[]{min, max});
+
+            // Tính tổng slot
+            totalSlotMap.put(f.getFieldId(), slots.size());
+        }
+
         int showing = listP.size();
 
         request.setAttribute("listF", listP);
@@ -92,6 +124,8 @@ public class DanhSachSan extends HttpServlet {
         request.setAttribute("sortBy", sortBy);
         request.setAttribute("total", count);
         request.setAttribute("showing", showing);
+        request.setAttribute("priceMap", priceMap);
+        request.setAttribute("totalSlotMap", totalSlotMap);
         request.getRequestDispatcher("UI/danhSachSan.jsp").forward(request, response);
     }
 
