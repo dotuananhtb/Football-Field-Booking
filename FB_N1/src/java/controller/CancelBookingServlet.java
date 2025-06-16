@@ -52,7 +52,7 @@ public class CancelBookingServlet extends HttpServlet {
         boolean success = bookingService.updateStatus(bookingDetailsId, 2);
 
         if (success) {
-            ToastUtil.setSuccessToast(request, "Hủy ca thành công!");
+            ToastUtil.setSuccessToast(request, "Yêu cầu huỷ thành công, vui lòng đợi Nhân viên xử lí!");
         } else {
             ToastUtil.setErrorToast(request, "Hủy ca thất bại! Vui lòng thử lại sau.");
         }
