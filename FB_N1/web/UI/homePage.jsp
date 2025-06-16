@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="utf-8">
-            <title>FootballStar - Booking to Football Field</title>
+            <title>Trang chủ - FootballStar</title>
             <base href="${pageContext.request.contextPath}/UI/">
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -78,8 +78,7 @@
                                                                                             <div class="row">
 
                                                                                                 <div class="col-lg-8">
-                                                                                                    <span
-                                                                                                        class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Football Star</span>
+                                                                                                    <span class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Football Star</span>
                                                                                                     <h1 class="title-slide text-white mb-32 fadeInDown wow"> ${o.content1_big}
                                                                                                         <span class="animationtext clip text-main">
                                                                                                             <span class="cd-words-wrapper">

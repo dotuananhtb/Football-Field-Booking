@@ -18,7 +18,8 @@
 <header class="main-header flex">
     <!-- Header Lower -->
     <div id="header">
-
+        <jsp:include page="toast.jsp" />
+        <jsp:include page="sweetalert-include.jsp" />
         <div class="header-lower">
             <div class="tf-container full">
                 <div class="row">
@@ -79,33 +80,53 @@
 
 
 
-                                           
 
 
 
+                                            <c:if test="${sessionScope.account.userProfile.roleId == 1}">
+                                                <li><a href="/FB_N1/admin/dat-san"
+                                                       style="position: fixed; top: 70px; right: 20px;
+                                                   background-color: #4da528; color: white;
+                                                   padding: 10px 16px; border-radius: 8px;
+                                                   text-decoration: none; font-weight: 500;
+                                                   box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                                        ️ Bảng điều khiển của Quản trị viên
+                                                    </a></li>
+                                                
+                                            </c:if>
                                             <c:if test="${sessionScope.account != null}">
-                                                <c:if test="${sessionScope.role.getRoleId() == 1 || sessionScope.role.getRoleId() == 2 }">
-                                                    <li ><a href="${pageContext.request.contextPath}/admin">Quản Lý</a>
-                                                  
 
+
+                                                <li class="dropdown2"
+                                                    style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+
+                                                    <a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+                                                       background-color: #4da528; border-radius: 20px; text-decoration: none;
+                                                       color: white; font-weight: 500;">
+                                                        <img src="${sessionScope.userProfile.avatar}"
+                                                             style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+                                                        ${sessionScope.account.userProfile.firstName}
+                                                    </a>
+
+                                                    <ul>
+                                                        <li><a href="/FB_N1/userProfile"><i class="icon-user"></i> Trang cá nhân</a></li>
+                                                        <li><a href="/FB_N1/managerPostUser"><i class="icon-user"></i> Bài Viết</a></li>
+
+                                                        <li><a href="/FB_N1/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
+
+                                                        <li>
+                                                            <a href="${pageContext.request.contextPath}/logout" class="me-3">
+                                                                <i class="icon-turn-off-1"></i> Đăng Xuất
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                                 </c:if>
 
-                                                <li class="dropdown2"><a href="#"> <img src="${sessionScope.userProfile.avatar}" style="width: 30px; height: 30px; border-radius: 50%;"> ${sessionScope.account.username}</a>
-                                                    <ul>
-                                                        <li><a href="/FB_N1/userProfile"> <i class="icon-user"></i> Trang cá nhân</a></li>
-                                                        <li><a href="/FB_N1/managerPostUser"> <i class="icon-user"></i> Bài Viết</a></li>
-                                                            <c:if test="${sessionScope.role.getRoleId() == 3}">
-                                                            <li><a href="/FB_N1/UI/userProfile.jsp"> <i class="icon-content"></i> Lịch sử đặt sân của tôi </a></li>
-                                                            </c:if>
-                                                        <li> <a href="${pageContext.request.contextPath}/logout"  class="me-3">
-                                                                <i class="icon-turn-off-1"></i>    Đăng Xuất
 
-                                                            </a></li>
-                                                    </ul></li>
 
                                             </c:if>
-                                            <li><button style ="border-radius: 20px; " >Đặt Sân </button></li>
+
                                         </ul>
 
                                     </div>
