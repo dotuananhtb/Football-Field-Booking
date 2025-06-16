@@ -94,6 +94,72 @@ public class SlotEventDTODAO extends DBContext {
         return list;
     }
 
+    public List<Map<String, Object>> getAllSlotsForRange2(int fieldId, String startDate, String endDate) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        FieldDAO fieldDAO = new FieldDAO();
+        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+        BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+
+        List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
+        String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName();
+
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+
+        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            String slotDate = date.format(dateFormat);
+
+            for (SlotsOfField slot : slots) {
+                int slotFieldId = slot.getSlotFieldId();
+                String startTime = slot.getSlotInfo().getStartTime();
+                String endTime = slot.getSlotInfo().getEndTime();
+                BigDecimal price = slot.getSlotFieldPrice();
+                LocalTime slotStartTime = LocalTime.parse(startTime);
+                LocalDateTime slotStartDateTime = LocalDateTime.of(date, slotStartTime);
+
+                BookingDetails detail = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
+
+                int status;
+                String className;
+
+                if (slotStartDateTime.isBefore(now)) {
+                    status = -1;//quá tg
+                    className = "bg-secondary";
+                } else if (detail == null || detail.getStatusCheckingId() == 3) {
+                    status = 0;//có thể đặt
+                    className = "bg-success";
+                } else if (detail.getStatusCheckingId() == 2) {
+                    status = 2;//chờ xử lí
+                    className = "bg-warning";
+                } else {
+                    status = 1;//đã đặt
+                    className = "bg-danger";
+                }
+
+                String title = fieldName + " ca " + startTime + " - " + endTime;
+
+                Map<String, Object> extendedProps = new HashMap<>();
+                extendedProps.put("slot_field_id", slotFieldId);
+                extendedProps.put("slot_date", slotDate);
+                extendedProps.put("price", price);
+                extendedProps.put("status", status);
+
+                Map<String, Object> event = new HashMap<>();
+                event.put("title", title);
+                event.put("start", slotDate + "T" + startTime);
+                event.put("end", slotDate + "T" + endTime);
+                event.put("className", className); // 👈 dùng className thay vì color
+                event.put("extendedProps", extendedProps);
+
+                list.add(event);
+            }
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         // Khởi tạo DAO
         SlotEventDTODAO dao = new SlotEventDTODAO();

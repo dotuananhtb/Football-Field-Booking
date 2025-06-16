@@ -1,6 +1,6 @@
 <%-- 
     Document   : toast
-    Created on : Jun 14, 2025, 10:46:54 PM
+    Created on : Jun 16, 2025, 2:12:31 PM
     Author     : Đỗ Tuấn Anh
 --%>
 
@@ -10,7 +10,7 @@
 <!-- Notyf CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-<script src="./app/js/toast.js"></script> <%-- đường dẫn toast.js --%>
+<script src="assets/js/toast.js"></script> <%-- đường dẫn toast.js --%>
 
 
 <%
@@ -19,7 +19,7 @@
     if (type != null && message != null) {
 %>
 <script>
-       showToast("<%= type %>", "<%= message %>");
+    showToast("<%= type%>", "<%= message%>");
 </script>
 <%
         session.removeAttribute("toastType");

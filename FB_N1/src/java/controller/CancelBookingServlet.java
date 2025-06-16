@@ -41,16 +41,23 @@ public class CancelBookingServlet extends HttpServlet {
         String page = request.getParameter("page");
 
         BookingService bookingService = new BookingService();
-        boolean success = bookingService.cancelBooking(bookingDetailsId);
 
-        // Set thông báo tùy vào kết quả
+        // Kiểm tra có được phép hủy không
+        if (!bookingService.isCancelable(bookingDetailsId)) {
+            ToastUtil.setErrorToast(request, "Ca này không thể hủy vì sắp diễn ra hoặc đã qua.");
+            response.sendRedirect("chi-tiet-dat-san?bookingId=" + bookingId + "&page=" + page);
+            return;
+        }
+
+        boolean success = bookingService.updateStatus(bookingDetailsId, 2);
+
         if (success) {
             ToastUtil.setSuccessToast(request, "Hủy ca thành công!");
         } else {
             ToastUtil.setErrorToast(request, "Hủy ca thất bại! Vui lòng thử lại sau.");
         }
 
-        // Redirect lại đúng trang chi tiết với tham số bookingId và page
         response.sendRedirect("chi-tiet-dat-san?bookingId=" + bookingId + "&page=" + page);
     }
+
 }
