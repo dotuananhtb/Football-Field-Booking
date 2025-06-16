@@ -12,8 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import model.Account;
+import util.ToastUtil;
 
-@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/admin/*"})
+@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
@@ -26,7 +27,19 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession();
         Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
 
-        if (acc == null) {
+        String uri = req.getRequestURI();  // VD: /FB_N1/login
+        String contextPath = req.getContextPath(); // VD: /FB_N1
+        String path = uri.substring(contextPath.length()); // VD: /login hoặc /register
+
+        // ✅ Nếu đã đăng nhập mà cố vào /login hoặc /register → redirect về /dat-san
+        if (acc != null && (path.equals("/login") || path.equals("/dang-ki"))) {
+            res.sendRedirect(contextPath + "/home");
+            return;
+        }
+
+        // ✅ Nếu chưa đăng nhập và đang vào vùng bảo vệ → chặn
+        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/userProfile") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/admin"))) {
+
             // AJAX request → trả JSON 401
             String requestedWith = req.getHeader("X-Requested-With");
             if ("XMLHttpRequest".equals(requestedWith)) {
@@ -38,36 +51,23 @@ public class AuthFilter implements Filter {
             }
 
             // Với request thường → redirect đến /login kèm lưu đường dẫn gốc
-            String contextPath = req.getContextPath();   // VD: /FootballFieldBooking
-            String requestURI = req.getRequestURI();     // VD: /FootballFieldBooking/dat-san
-            String query = req.getQueryString();         // VD: slot=3&date=2025-06-13
+            String query = req.getQueryString();
+            String redirectPath = path + (query != null ? "?" + query : "");
 
-// Lấy phần URI không bao gồm context path
-            String path = requestURI.substring(contextPath.length()); // VD: /dat-san
-
-// Gắn query string nếu có
-            String redirectPath = path + (query != null ? "?" + query : ""); // VD: /dat-san?slot=3&date=...
-
-// Gán vào session
-            HttpSession newSession = req.getSession(true);
-            newSession.setAttribute("redirectAfterLogin", redirectPath);
-
-// Chuyển hướng đến trang login
+            session.setAttribute("redirectAfterLogin", redirectPath);
             res.sendRedirect(contextPath + "/login");
             return;
         }
+        // ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn
+        if (path.startsWith("/admin") && acc != null && acc.getUserProfile().getRoleId() != 1 && acc.getUserProfile().getRoleId() != 2) {
+            ToastUtil.setErrorToast(req, "Bạn không có quyền truy cập vào trang này");
 
-        // Đã đăng nhập → cho qua
+            // Mặc định luôn redirect về /home
+            res.sendRedirect(contextPath + "/home");
+            return;
+        }
+
+        // ✅ Trường hợp hợp lệ → cho qua
         chain.doFilter(request, response);
-    }
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Không cần xử lý gì thêm khi init
-    }
-
-    @Override
-    public void destroy() {
-        // Không cần xử lý gì thêm khi destroy
     }
 }

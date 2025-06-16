@@ -111,6 +111,26 @@ public class SaleDAO extends DBContext {
         return false;
     }
 
+    public int getSalePercentById(Integer saleId) {
+        if (saleId == null) {
+            return 0;
+        }
+
+        String sql = "SELECT sale_percent FROM Sale WHERE sale_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, saleId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("sale_percent");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0; // Trường hợp không tìm thấy
+    }
+
     public int getDiscountPercent(int slotCount) {
         String sql = "SELECT TOP 1 sale_percent FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
 

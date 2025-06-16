@@ -14,7 +14,7 @@
             <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
             <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
             <meta charset="utf-8">
-                <title>Vitour - Travel & Tour Booking HTML Template</title>
+                <title>Đăng nhập - FootballStar</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,8 +23,8 @@
                             <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
                                 <!-- Favicon and Touch Icons  -->
-                                <link rel="shortcut icon" href="assets/images/favico.png">
-                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                         <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
 
                                             <link rel="stylesheet" href="fonts/line-icons.css" type="text/css">
@@ -101,8 +101,8 @@
                                                                                                         <input type="password" id="password"  name="password" placeholder="Mật Khẩu của bạn">
                                                                                                     </div>
                                                                                                     <a  style="font-family: DM Sans, sans-serif;;
-                                                                                                       font-weight: 400;
-                                                                                                       font-size: 16px;"  href ="javascript:void(0);" onclick="daoTT()" > <span>Hiển thị mật khẩu</span></a>
+                                                                                                        font-weight: 400;
+                                                                                                        font-size: 16px;"  href ="javascript:void(0);" onclick="daoTT()" > <span>Hiển thị mật khẩu</span></a>
 
                                                                                                     <div id="loginError" class="text-danger mb-2" style="font-size: 14px;">
                                                                                                     </div>

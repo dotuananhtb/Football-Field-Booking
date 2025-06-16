@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.UserProfile;
+import util.ToastUtil;
 
 /**
  *
@@ -88,6 +89,7 @@ public class UpdateUser extends HttpServlet {
         UserProfile updatedProfile = userProfileDAO.getProfileByAccountId(accountId);
         Account updatedAccount = accountDAO.getAccountById(accountId);
         
+        ToastUtil.setSuccessToast(request, "Cập nhật thông tin người dùng thành công!");
         
         session.setAttribute("userProfile", updatedProfile);
         session.setAttribute("account", updatedAccount);

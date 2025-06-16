@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.BookingDetailsDTO;
 
 /**
  *
@@ -41,7 +42,8 @@ public class BookingDetailsDAO extends DBContext {
             return false;
         }
     }
-     public void setConnection(Connection conn) {
+
+    public void setConnection(Connection conn) {
         this.connection = conn;
     }
 
@@ -140,6 +142,75 @@ public class BookingDetailsDAO extends DBContext {
         }
 
         return total;
+    }
+
+    public List<BookingDetailsDTO> getBookingDetailsByBookingIdPaging(int bookingId, int accountId, int pageIndex, int pageSize) {
+        List<BookingDetailsDTO> list = new ArrayList<>();
+
+        String sql = "SELECT bd.booking_details_id, f.field_name, f.image, sd.start_time, sd.end_time, "
+                + "bd.slot_date, bd.slot_field_price, bd.extra_fee, bd.extra_minutes, "
+                + "scs.status_name, scs.status_checking_id, bd.note "
+                + "FROM BookingDetails bd "
+                + "JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id "
+                + "JOIN Field f ON sof.field_id = f.field_id "
+                + "JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id "
+                + "JOIN StatusCheckingSlot scs ON bd.status_checking_id = scs.status_checking_id "
+                + "WHERE b.booking_id = ? AND b.account_id = ? "
+                + "ORDER BY bd.booking_details_id "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ps.setInt(2, accountId);
+            ps.setInt(3, (pageIndex - 1) * pageSize);
+            ps.setInt(4, pageSize);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    BookingDetailsDTO dto = new BookingDetailsDTO(
+                            rs.getInt("booking_details_id"),
+                            rs.getString("field_name"),
+                            rs.getString("image"),
+                            rs.getString("start_time"),
+                            rs.getString("end_time"),
+                            rs.getString("slot_date"),
+                            rs.getBigDecimal("slot_field_price"),
+                            rs.getBigDecimal("extra_fee"),
+                            rs.getString("status_name"),
+                            rs.getInt("status_checking_id"),
+                            rs.getString("note"),
+                            rs.getInt("extra_minutes")
+                    );
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int countBookingDetails(int bookingId, int accountId) {
+        String sql = "SELECT COUNT(*) FROM BookingDetails bd "
+                + "JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "WHERE b.booking_id = ? AND b.account_id = ?";
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ps.setInt(2, accountId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 }

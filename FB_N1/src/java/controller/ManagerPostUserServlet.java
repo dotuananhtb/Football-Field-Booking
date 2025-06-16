@@ -1,0 +1,42 @@
+package controller;
+
+import dao.PostDAO;
+import model.Account;
+import model.Post;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet(name = "ManagerPostUserServlet", urlPatterns = {"/managerPostUser"})
+public class ManagerPostUserServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        int userId = account.getAccountId();
+
+        String pageStr = request.getParameter("page");
+        int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+        int pageSize = 4;
+
+        PostDAO postDAO = new PostDAO();
+        List<Post> userPosts = postDAO.getPostsByAccountIdPaging(userId, page, pageSize);
+        int totalPosts = postDAO.countPostsByAccountId(userId);
+        int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
+
+        request.setAttribute("userPosts", userPosts);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.getRequestDispatcher("UI/managerPostUser.jsp").forward(request, response);
+    }
+} 

@@ -15,19 +15,21 @@ public class Post {
     private int accountId;
     private String title;
     private String contentPost;
-    private Date postDate;
+    private String postDate;
     private String statusPost;
+    private Account account;
+    private int commentCount;
 
-    public Post(int postId, int accountId, String title, String contentPost, Date postDate, String statusPost) {
+    public Post() {
+    }
+
+    public Post(int postId, int accountId, String title, String contentPost, String postDate, String statusPost) {
         this.postId = postId;
         this.accountId = accountId;
         this.title = title;
         this.contentPost = contentPost;
         this.postDate = postDate;
         this.statusPost = statusPost;
-    }
-
-    public Post() {
     }
 
     public int getPostId() {
@@ -62,11 +64,11 @@ public class Post {
         this.contentPost = contentPost;
     }
 
-    public Date getPostDate() {
+    public String getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
 
@@ -76,6 +78,22 @@ public class Post {
 
     public void setStatusPost(String statusPost) {
         this.statusPost = statusPost;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     @Override

@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="utf-8">
-            <title>FootballStar - Booking to Football Field</title>
+            <title>Trang chủ - FootballStar</title>
             <base href="${pageContext.request.contextPath}/UI/">
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -21,12 +21,12 @@
                             <link rel="stylesheet" type="text/css" href="app/css/magnific-popup.css">
                                 <link rel="stylesheet" type="text/css" href="app/css/jquery.fancybox.min.css">
                                     <link rel="stylesheet" type="text/css" href="app/css/textanimation.css">
-                                        
-                                        
+
+
                                         <!-- Favicon and Touch Icons  -->
                                         <link rel="shortcut icon" href="assets/images/logoKoChu.png">
                                             <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
-                                                
+
                                                 </head>
 
                                                 <body class="body header-fixed counter-scroll">
@@ -55,14 +55,14 @@
                                                                 <main id="main">
 
 
-                                                                
 
 
-                                                                <!-- Widget Slider -->
-                                                                <section class="slider relative">
-                                                                    <div class="swiper mySwiper">
 
-                                                                        <div class="swiper-wrapper">
+                                                                    <!-- Widget Slider -->
+                                                                    <section class="slider relative">
+                                                                        <div class="swiper mySwiper">
+
+                                                                            <div class="swiper-wrapper">
                                                                             <c:forEach items="${listS}" var="o">
                                                                                 <div class="slider-home1 relative overflow-hidden swiper-slide">
                                                                                     <div class="silider-image">
@@ -78,8 +78,7 @@
                                                                                             <div class="row">
 
                                                                                                 <div class="col-lg-8">
-                                                                                                    <span
-                                                                                                        class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Football Star</span>
+                                                                                                    <span class="sub-title text-main font-yes fs-28-46 fadeInDown wow">Football Star</span>
                                                                                                     <h1 class="title-slide text-white mb-32 fadeInDown wow"> ${o.content1_big}
                                                                                                         <span class="animationtext clip text-main">
                                                                                                             <span class="cd-words-wrapper">
@@ -90,21 +89,21 @@
                                                                                                     </h1>
                                                                                                     <p class="des text-white mb-45 fadeInDown wow">${o.content2_small}
                                                                                                     </p>
-                                                                                                    
+
                                                                                                     <div class="btn-group">
-                                                                                                      
+
                                                                                                         <a href="/FB_N1/UI/home2.jsp" class="btn-main fadeInDown wow">
                                                                                                             <p class="btn-main-text">Tìm hiểu thêm</p>
                                                                                                             <p class="iconer">
                                                                                                                 <i class="icon-arrow-right"></i>
                                                                                                             </p>
                                                                                                         </a>
-                                                                                                 
+
                                                                                                         <a href="#" class="btn-w-wa fadeInDown wow">Về Chúng tôi<i
                                                                                                                 class="icon-Group-13"></i></a>
-                                                                                                                
+
                                                                                                     </div>
-                                           
+
                                                                                                 </div>
 
                                                                                             </div>

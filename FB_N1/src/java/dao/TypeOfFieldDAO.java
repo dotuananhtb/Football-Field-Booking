@@ -14,17 +14,36 @@ import util.DBContext;
  * @author Đỗ Tuấn Anh
  */
 public class TypeOfFieldDAO extends DBContext {
-    public List<TypeOfField> getAllTypes() {
+    public List<TypeOfField> getAllFieldTypes() {
         List<TypeOfField> list = new ArrayList<>();
         String sql = "SELECT * FROM TypeOfField";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                list.add(new TypeOfField(rs.getInt(1), rs.getString(2)));
+                TypeOfField type = new TypeOfField();
+                type.setFieldTypeId(rs.getInt("field_type_id"));
+                type.setFieldTypeName(rs.getString("field_type_name"));
+                list.add(type);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public String getFieldTypeNameById(int id) {
+        String sql = "SELECT field_type_name FROM TypeOfField WHERE field_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("field_type_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

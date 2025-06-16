@@ -16,6 +16,8 @@ public class Account {
     private String email;
     private String createdAt;
     private UserProfile userProfile;
+    private int roleId;
+
     public Account() {
     }
 
@@ -108,6 +110,14 @@ public class Account {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     @Override
