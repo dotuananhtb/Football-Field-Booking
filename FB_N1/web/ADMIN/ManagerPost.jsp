@@ -104,12 +104,13 @@
                                                 </td>
                                                 <td>${post.commentCount}</td>
                                                 <td>
-                                                    <form action="deletePost" method="post" style="display:inline;">
+                                                    <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline;">
                                                         <input type="hidden" name="postId" value="${post.postId}" />
+                                                        <input type="hidden" name="from" value="admin" />
                                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xoá?')">Xoá</button>
                                                     </form>
                                                 </td>
-                                            </tr>
+                                        </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
@@ -185,10 +186,10 @@
     <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
-    
+    <!-- Datatable Demo Aapp js -->
     <script src="assets/js/pages/demo.datatable-init.js"></script>
 
-    
+    <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
 </body>

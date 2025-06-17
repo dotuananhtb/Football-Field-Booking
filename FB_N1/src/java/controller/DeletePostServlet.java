@@ -11,16 +11,24 @@ import util.ToastUtil;
 
 @WebServlet(name = "DeletePostServlet", urlPatterns = {"/deletePost"})
 public class DeletePostServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String postIdStr = request.getParameter("postId");
+        String from = request.getParameter("from");
         if (postIdStr != null) {
             int postId = Integer.parseInt(postIdStr);
             PostDAO postDAO = new PostDAO();
             postDAO.softDeletePost(postId);
         }
-        ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
-        response.sendRedirect("managerPostUser");
+
+        if ("admin".equals(from)) {
+            ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
+            response.sendRedirect("/FB_N1/admin/managerPost");
+        } else {
+            ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
+            response.sendRedirect("managerPostUser");
+        }
     }
-} 
+}
