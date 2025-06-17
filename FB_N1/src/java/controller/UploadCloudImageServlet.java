@@ -61,7 +61,7 @@ public class UploadCloudImageServlet extends HttpServlet {
                         ToastUtil.setErrorToast(request, "Không thể cập nhật avatar.");
                     }
                     break;
-//////-----Các key khác viết ở dưới---------------------////
+//////-----Các case khác viết ở dưới---------------------////
                 case "products":
                     ToastUtil.setWarningToast(request, "Tính năng đang được phát triển.");
 
