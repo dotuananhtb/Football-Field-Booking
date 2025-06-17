@@ -44,7 +44,7 @@ public class StaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("ADMIN/staff.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/staff.jsp").forward(request, response);
     } 
 
     /** 

@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-
+        <base href="${pageContext.request.contextPath}/admin/">
         <title>ADMIN - Quản lí FootballStar</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

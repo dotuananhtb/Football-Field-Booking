@@ -352,16 +352,10 @@
                     </a>
 
                     <!-- item-->
-                    <a href="pages-faq.html" class="dropdown-item">
-                        <i class="ri-customer-service-2-line fs-18 align-middle me-1"></i>
-                        <span>Support</span>
-                    </a>
+                    
 
                     <!-- item-->
-                    <a href="auth-lock-screen.html" class="dropdown-item">
-                        <i class="ri-lock-password-line fs-18 align-middle me-1"></i>
-                        <span>Lock Screen</span>
-                    </a>
+                    
 
                     <!-- item-->
                     <a href="/FB_N1/logout" class="dropdown-item">

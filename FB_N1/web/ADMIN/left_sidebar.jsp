@@ -4,6 +4,7 @@
     Author     : VAN NGUYEN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="leftside-menu">
@@ -35,12 +36,14 @@
     <!-- Sidebar -left -->
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         <!-- Leftbar User -->
+        
         <div class="leftbar-user">
             <a href="/FB_N1/userProfile">
                 <img src="${sessionScope.userProfile.avatar}" alt="user-image" height="42" class="rounded-circle shadow-sm">
                 <span class="leftbar-user-name mt-2">${sessionScope.account.userProfile.firstName}</span>
             </a>
         </div>
+        
 
         <!--- Sidemenu -->
         <ul class="side-nav">
@@ -80,135 +83,62 @@
                     </ul>
                 </div>
             </li>
-
+            
             <li class="side-nav-title">Quản lí đặt sân</li>
+            
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/dat-san" class="side-nav-link">
                     <i class="ri-calendar-event-fill"></i>
                     <span> Lịch đặt của các sân </span>
                 </a>
             </li>
+            
+            <c:if test="${sessionScope.role.roleId == 1}">
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="ri-briefcase-fill"></i>
-                    <span> Base UI </span>
+                    <span> Quản Lý Trang Chủ</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="ui-accordions.html">Accordions</a>
+                            <a href="ui-accordions.html">Chọn chủ đề</a>
                         </li>
                         <li>
-                            <a href="ui-alerts.html">Alerts</a>
+                            <a href="ui-alerts.html">Tạo mới chủ đề</a>
                         </li>
                         <li>
-                            <a href="ui-avatars.html">Avatars</a>
+                            <a href="ui-avatars.html">Sửa chủ đề</a>
                         </li>
-                        <li>
-                            <a href="ui-badges.html">Badges</a>
-                        </li>
-                        <li>
-                            <a href="ui-breadcrumb.html">Breadcrumb</a>
-                        </li>
-                        <li>
-                            <a href="ui-buttons.html">Buttons</a>
-                        </li>
-                        <li>
-                            <a href="ui-cards.html">Cards</a>
-                        </li>
-                        <li>
-                            <a href="ui-carousel.html">Carousel</a>
-                        </li>
-                        <li>
-                            <a href="ui-collapse.html">Collapse</a>
-                        </li>
-                        <li>
-                            <a href="ui-dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li>
-                            <a href="ui-embed-video.html">Embed Video</a>
-                        </li>
-                        <li>
-                            <a href="ui-grid.html">Grid</a>
-                        </li>
-                        <li>
-                            <a href="ui-links.html">Links</a>
-                        </li>
-                        <li>
-                            <a href="ui-list-group.html">List Group</a>
-                        </li>
-                        <li>
-                            <a href="ui-modals.html">Modals</a>
-                        </li>
-                        <li>
-                            <a href="ui-notifications.html">Notifications</a>
-                        </li>
-                        <li>
-                            <a href="ui-offcanvas.html">Offcanvas</a>
-                        </li>
-                        <li>
-                            <a href="ui-placeholders.html">Placeholders</a>
-                        </li>
-                        <li>
-                            <a href="ui-pagination.html">Pagination</a>
-                        </li>
-                        <li>
-                            <a href="ui-popovers.html">Popovers</a>
-                        </li>
-                        <li>
-                            <a href="ui-progress.html">Progress</a>
-                        </li>
-                        <li>
-                            <a href="ui-spinners.html">Spinners</a>
-                        </li>
-                        <li>
-                            <a href="ui-tabs.html">Tabs</a>
-                        </li>
-                        <li>
-                            <a href="ui-tooltips.html">Tooltips</a>
-                        </li>
-                        <li>
-                            <a href="ui-typography.html">Typography</a>
-                        </li>
-                        <li>
-                            <a href="ui-utilities.html">Utilities</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </li>
-
+            
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
-                    <span> Extended UI </span>
+                    <span> Quản lý người dùng </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="extended-dragula.html">Dragula</a>
+                            <a href="extended-dragula.html">Danh sách người dùng</a>
                         </li>
                         <li>
-                            <a href="extended-range-slider.html">Range Slider</a>
+                            <a href="extended-range-slider.html">Danh sách nhân viên</a>
                         </li>
-                        <li>
-                            <a href="extended-ratings.html">Ratings</a>
-                        </li>
-                        <li>
-                            <a href="extended-scrollbar.html">Scrollbar</a>
-                        </li>
-                        <li>
-                            <a href="extended-scrollspy.html">Scrollspy</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </li>
-
+            
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons" class="side-nav-link">
                     <i class="ri-service-fill"></i>
-                    <span> Icons </span>
+                    <span> Quản lý sân </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarIcons">
@@ -222,175 +152,24 @@
                     </ul>
                 </div>
             </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarCharts" aria-expanded="false" aria-controls="sidebarCharts" class="side-nav-link">
-                    <i class="ri-bar-chart-fill"></i>
-                    <span> Apex Charts </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarCharts">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="charts-apex-area.html">Area</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-bar.html">Bar</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-bubble.html">Bubble</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-candlestick.html">Candlestick</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-column.html">Column</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-heatmap.html">Heatmap</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-line.html">Line</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-mixed.html">Mixed</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-timeline.html">Timeline</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-boxplot.html">Boxplot</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-treemap.html">Treemap</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-pie.html">Pie</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-radar.html">Radar</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-radialbar.html">RadialBar</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-scatter.html">Scatter</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-polar-area.html">Polar Area</a>
-                        </li>
-                        <li>
-                            <a href="charts-apex-sparklines.html">Sparklines</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarForms" aria-expanded="false" aria-controls="sidebarForms" class="side-nav-link">
-                    <i class="ri-survey-fill"></i>
-                    <span> Forms </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarForms">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="form-elements.html">Basic Elements</a>
-                        </li>
-                        <li>
-                            <a href="form-advanced.html">Form Advanced</a>
-                        </li>
-                        <li>
-                            <a href="form-validation.html">Validation</a>
-                        </li>
-                        <li>
-                            <a href="form-wizard.html">Wizard</a>
-                        </li>
-                        <li>
-                            <a href="form-fileuploads.html">File Uploads</a>
-                        </li>
-                        <li>
-                            <a href="form-editors.html">Editors</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarTables" aria-expanded="false" aria-controls="sidebarTables" class="side-nav-link">
-                    <i class="ri-table-fill"></i>
-                    <span> Tables </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarTables">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="tables-basic.html">Basic Tables</a>
-                        </li>
-                        <li>
-                            <a href="tables-datatable.html">Data Tables</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarMaps" aria-expanded="false" aria-controls="sidebarMaps" class="side-nav-link">
-                    <i class="ri-treasure-map-fill"></i>
-                    <span> Maps </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarMaps">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="maps-google.html">Google Maps</a>
-                        </li>
-                        <li>
-                            <a href="maps-vector.html">Vector Maps</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+            </c:if>
+            
 
             <li class="side-nav-title">Custom</li>
-
+            
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
                     <span> Quản lí bài viết </span>
                     
-                </a>
-                <div class="collapse" id="sidebarPages">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="pages-invoice.html">Invoice</a>
-                        </li>
-                        <li>
-                            <a href="pages-faq.html">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="pages-pricing.html">Pricing</a>
-                        </li>
-                        <li>
-                            <a href="pages-maintenance.html">Maintenance</a>
-                        </li>
-                        <li>
-                            <a href="pages-starter.html">Starter Page</a>
-                        </li>
-                        <li>
-                            <a href="pages-preloader.html">With Preloader</a>
-                        </li>
-                        <li>
-                            <a href="pages-timeline.html">Timeline</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                </a></li>
+                
+                
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">
                     <i class="ri-shield-user-fill"></i>
-                    <span> Auth Pages </span>
+                    <span> Quản lý cửa hàng </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPagesAuth">

@@ -67,7 +67,7 @@
 
 
 
-                                            <c:if test="${sessionScope.account.userProfile.roleId == 1}">
+                                            <c:if test="${sessionScope.account.userProfile.roleId == 1 || sessionScope.account.userProfile.roleId == 2 }">
                                                 <li><a href="/FB_N1/admin/dat-san"
                                                        style="position: fixed; top: 70px; right: 20px;
                                                    background-color: #4da528; color: white;
