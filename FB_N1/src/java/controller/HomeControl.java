@@ -86,7 +86,7 @@ public class HomeControl extends HttpServlet {
         EventDAO eDao = new EventDAO();
         TypeOfFieldDAO tDao = new TypeOfFieldDAO();
         PostDAO postDao = new PostDAO();
-        
+
         CateProduct_DAO cDao = new CateProduct_DAO();
         ProductDAO pDao = new ProductDAO();
         List<Slider> listS = sDao.getAllSlider();
@@ -95,22 +95,40 @@ public class HomeControl extends HttpServlet {
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = cDao.getAllCategory2();
         Vector<Post> listPost = postDao.get3LastestPost();
-        
+        String pageStr = request.getParameter("page");
+        int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+        int pageSize = 4;
         List<Field> listF1;
         if (zoneId != null) {
             listF1 = fDao.getAllFieldsByZoneID(zoneId);
         } else {
             listF1 = fDao.getAllFields();
         }
-        Vector<Product> listP;
-        if (cateId != null) {
-            listP = pDao.getAllProductsByCateID(cateId);
-        } else {
-            listP = pDao.getAllProducts("SELECT*\n"
-                    + "  FROM [FootballFieldBooking].[dbo].[Product]");
-        }
         
+        
+        // paging product
+        Vector<Product> listP;
+        int totalProduct = 0;
+        int totalPage = 0;
+
+        if (cateId != null) {
+            int cateIDInt = Integer.parseInt(cateId);
+            listP = pDao.pagingProductByCateID(cateIDInt, page, pageSize);
+            totalProduct = pDao.countProductByCateID(cateIDInt);
+            request.setAttribute("cid", cateIDInt); // để dùng lại trong phân trang link
+        } else {
+            listP = pDao.pagingProduct(page, pageSize);
+            totalProduct = pDao.getTotalProduct();
+        }
+        totalPage = (int) Math.ceil((double) totalProduct / pageSize);
+        
+        
+        
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPage", totalPage);
         request.setAttribute("listPost", listPost);
+        
+        // end paging product 
         request.setAttribute("listT", listT);
         request.setAttribute("event", listE);
         request.setAttribute("listP", listP);
@@ -119,7 +137,7 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("zone", listZ);
         request.setAttribute("listS", listS);
         request.getRequestDispatcher("UI/homePage.jsp").forward(request, response);
-        
+
     }
 
     /**

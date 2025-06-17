@@ -90,6 +90,9 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
+    
+    
+    
 
     public Field getFieldByFieldID(int fieldId) {
         Field field = null;
@@ -321,6 +324,66 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
+    
+    
+    public List<Field> getFieldsByPage(int pageIndex, int pageSize) {
+    List<Field> fieldList = new ArrayList<>();
+
+    String sql = "SELECT f.field_id, f.field_name, f.image, f.status, f.description, "
+               + "z.zone_id, z.Address, "
+               + "t.field_type_id, t.field_type_name "
+               + "FROM Field f "
+               + "INNER JOIN Zone z ON f.zone_id = z.zone_id "
+               + "INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id "
+               + "WHERE f.status = N'Hoạt động' "
+               + "ORDER BY f.field_id "
+               + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, (pageIndex - 1) * pageSize);
+        ps.setInt(2, pageSize);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Field field = new Field();
+            field.setFieldId(rs.getInt("field_id"));
+            field.setFieldName(rs.getString("field_name"));
+            field.setImage(rs.getString("image"));
+            field.setStatus(rs.getString("status"));
+            field.setDescription(rs.getString("description"));
+
+            Zone zone = new Zone();
+            zone.setZoneId(rs.getInt("zone_id"));
+            zone.setAddress(rs.getString("Address"));
+            field.setZone(zone);
+
+            TypeOfField fieldType = new TypeOfField();
+            fieldType.setFieldTypeId(rs.getInt("field_type_id"));
+            fieldType.setFieldTypeName(rs.getString("field_type_name"));
+            field.setTypeOfField(fieldType);
+
+            fieldList.add(field);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return fieldList;
+}
+    
+public int countTotalFields() {
+    String sql = "SELECT COUNT(*) FROM Field WHERE status = N'Hoạt động'";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
+
 
     public int countFields(String zoneId, String typeId, String timeRange,
             BigDecimal minPrice, BigDecimal maxPrice) {
