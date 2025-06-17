@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import model.Field;
@@ -61,9 +62,9 @@ public class FieldDAO extends DBContext {
                 + "  FROM [FootballFieldBooking].[dbo].[Field] f join Zone z on f.zone_id = z.zone_id join TypeOfField t on t.field_type_id = f.field_type_id\n"
                 + "  where z.zone_id = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql); ) {
-                    ps.setString(1, zoneID);
-                    ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, zoneID);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Field f = new Field();
                 f.setFieldId(rs.getInt("field_id"));
@@ -205,62 +206,95 @@ public class FieldDAO extends DBContext {
     }
 
     //phân trang sân và sắp xếp
-    public int getTotalFiled() {
-        String sql = "select  count(*) from Field";
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                return rs.getInt(1);
+    // by Binh
+    public List<Field> pagingField(String zoneId, String typeId, String timeRange,
+            BigDecimal minPrice, BigDecimal maxPrice,
+            int pageIndex, int pageSize,
+            String sortBy) {
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    
-    public List<Field> pagingField(int index, String sortBy) {
         List<Field> list = new ArrayList<>();
         String sortClause = "f.field_id"; // mặc định
 
-        
         switch (sortBy) {
             case "new":
-                sortClause = "f.created_at DESC"; 
+                sortClause = "f.created_at DESC";
                 break;
             case "recent":
-                sortClause = "f.updated_at DESC"; 
+                sortClause = "f.updated_at DESC";
                 break;
             case "price_low":
-                sortClause = "min_price ASC"; 
+                sortClause = "min_price ASC";
                 break;
             case "price_high":
-                sortClause = "min_price DESC"; 
+                sortClause = "min_price DESC";
                 break;
             case "name":
-                sortClause = "f.field_name ASC"; 
+                sortClause = "f.field_name ASC";
                 break;
-            default:
-                sortClause = "f.field_id";
         }
 
-        String sql = "SELECT f.field_id, f.field_name, f.image, f.status, f.description, "
-                + "z.zone_id, z.Address, "
-                + "t.field_type_id, t.field_type_name, "
-                + "MIN(sof.slot_field_price) as min_price, "
-                + "MAX(sof.slot_field_price) as max_price, "
-                + "COUNT(sof.slot_field_id) as total_slots "
-                + "FROM Field f "
-                + "INNER JOIN Zone z ON f.zone_id = z.zone_id "
-                + "INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id "
-                + "INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id "
-                + "WHERE f.status = N'Hoạt động' "
-                + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description,f.created_at,f.updated_at, "
-                + "z.zone_id, z.Address, t.field_type_id, t.field_type_name "
-                + "ORDER BY " + sortClause + " "
-                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
+                .append("z.zone_id, z.Address, ")
+                .append("t.field_type_id, t.field_type_name, ")
+                .append("MIN(sof.slot_field_price) as min_price, ")
+                .append("MAX(sof.slot_field_price) as max_price ")
+                .append("FROM Field f ")
+                .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
+                .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
+                .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
+                .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
+                .append("WHERE f.status = N'Hoạt động' ");
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, (index - 1) * 6);
+        if (zoneId != null && !zoneId.isEmpty()) {
+            sql.append("AND z.zone_id = ? ");
+        }
+        if (typeId != null && !typeId.isEmpty()) {
+            sql.append("AND t.field_type_id = ? ");
+        }
+        if (minPrice != null) {
+            sql.append("AND sof.slot_field_price >= ? ");
+        }
+        if (maxPrice != null) {
+            sql.append("AND sof.slot_field_price <= ? ");
+        }
+        if (timeRange != null && !timeRange.isEmpty()) {
+            sql.append("AND (")
+                    .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
+                    .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
+                    .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
+                    .append(") ");
+        }
+
+        sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
+                .append("f.created_at, f.updated_at, z.zone_id, z.Address, t.field_type_id, t.field_type_name ")
+                .append("ORDER BY ").append(sortClause).append(" ")
+                .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+
+            if (zoneId != null && !zoneId.isEmpty()) {
+                ps.setString(i++, zoneId);
+            }
+            if (typeId != null && !typeId.isEmpty()) {
+                ps.setString(i++, typeId);
+            }
+            if (minPrice != null) {
+                ps.setBigDecimal(i++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setBigDecimal(i++, maxPrice);
+            }
+            if (timeRange != null && !timeRange.isEmpty()) {
+                ps.setString(i++, timeRange);
+                ps.setString(i++, timeRange);
+                ps.setString(i++, timeRange);
+            }
+
+            ps.setInt(i++, (pageIndex - 1) * pageSize);
+            ps.setInt(i, pageSize);
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Field f = new Field();
@@ -288,8 +322,152 @@ public class FieldDAO extends DBContext {
         return list;
     }
 
+    public int countFields(String zoneId, String typeId, String timeRange,
+            BigDecimal minPrice, BigDecimal maxPrice) {
 
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(DISTINCT f.field_id) ")
+                .append("FROM Field f ")
+                .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
+                .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
+                .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
+                .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
+                .append("WHERE f.status = N'Hoạt động' ");
 
+        if (zoneId != null && !zoneId.isEmpty()) {
+            sql.append("AND z.zone_id = ? ");
+        }
+        if (typeId != null && !typeId.isEmpty()) {
+            sql.append("AND t.field_type_id = ? ");
+        }
+        if (minPrice != null) {
+            sql.append("AND sof.slot_field_price >= ? ");
+        }
+        if (maxPrice != null) {
+            sql.append("AND sof.slot_field_price <= ? ");
+        }
+        if (timeRange != null && !timeRange.isEmpty()) {
+            sql.append("AND (")
+                    .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
+                    .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
+                    .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
+                    .append(") ");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+
+            if (zoneId != null && !zoneId.isEmpty()) {
+                ps.setString(i++, zoneId);
+            }
+            if (typeId != null && !typeId.isEmpty()) {
+                ps.setString(i++, typeId);
+            }
+            if (minPrice != null) {
+                ps.setBigDecimal(i++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setBigDecimal(i++, maxPrice);
+            }
+            if (timeRange != null && !timeRange.isEmpty()) {
+                ps.setString(i++, timeRange);
+                ps.setString(i++, timeRange);
+                ps.setString(i++, timeRange);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+//    public int getTotalFiled() {
+//        String sql = "select  count(*) from Field";
+//        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+//            while (rs.next()) {
+//                return rs.getInt(1);
+//
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
+//    
+//    public List<Field> pagingField(int index, String sortBy) {
+//        List<Field> list = new ArrayList<>();
+//        String sortClause = "f.field_id"; // mặc định
+//
+//        
+//        switch (sortBy) {
+//            case "new":
+//                sortClause = "f.created_at DESC"; 
+//                break;
+//            case "recent":
+//                sortClause = "f.updated_at DESC"; 
+//                break;
+//            case "price_low":
+//                sortClause = "min_price ASC"; 
+//                break;
+//            case "price_high":
+//                sortClause = "min_price DESC"; 
+//                break;
+//            case "name":
+//                sortClause = "f.field_name ASC"; 
+//                break;
+//            default:
+//                sortClause = "f.field_id";
+//        }
+//
+//        String sql = "SELECT f.field_id, f.field_name, f.image, f.status, f.description, "
+//                + "z.zone_id, z.Address, "
+//                + "t.field_type_id, t.field_type_name, "
+//                + "MIN(sof.slot_field_price) as min_price, "
+//                + "MAX(sof.slot_field_price) as max_price, "
+//                + "COUNT(sof.slot_field_id) as total_slots "
+//                + "FROM Field f "
+//                + "INNER JOIN Zone z ON f.zone_id = z.zone_id "
+//                + "INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id "
+//                + "INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id "
+//                + "WHERE f.status = N'Hoạt động' "
+//                + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description,f.created_at,f.updated_at, "
+//                + "z.zone_id, z.Address, t.field_type_id, t.field_type_name "
+//                + "ORDER BY " + sortClause + " "
+//                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+//
+//        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setInt(1, (index - 1) * 6);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Field f = new Field();
+//                f.setFieldId(rs.getInt("field_id"));
+//                f.setFieldName(rs.getString("field_name"));
+//                f.setImage(rs.getString("image"));
+//                f.setStatus(rs.getString("status"));
+//                f.setDescription(rs.getString("description"));
+//
+//                Zone z = new Zone();
+//                z.setZoneId(rs.getInt("zone_id"));
+//                z.setAddress(rs.getString("Address"));
+//                f.setZone(z);
+//
+//                TypeOfField type = new TypeOfField();
+//                type.setFieldTypeId(rs.getInt("field_type_id"));
+//                type.setFieldTypeName(rs.getString("field_type_name"));
+//                f.setTypeOfField(type);
+//
+//                list.add(f);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
 //lấy danh sách cùng với giá min-max và số lượng slot
     public List<Field> getAllFieldsWithPriceRange() {
         List<Field> list = new ArrayList<>();
@@ -317,28 +495,54 @@ public class FieldDAO extends DBContext {
                 f.setImage(rs.getString("image"));
                 f.setStatus(rs.getString("status"));
                 f.setDescription(rs.getString("description"));
-                
+
                 Zone z = new Zone();
                 z.setZoneId(rs.getInt("zone_id"));
                 z.setAddress(rs.getString("address"));
                 f.setZone(z);
-                
+
                 TypeOfField t = new TypeOfField();
                 t.setFieldTypeId(rs.getInt("field_type_id"));
                 t.setFieldTypeName(rs.getString("field_type_name"));
                 f.setTypeOfField(t);
-                
+
                 f.setSlots(getFieldSlotsWithDetails(f.getFieldId()));
 
                 list.add(f);
-                
+
             }
         } catch (Exception e) {
         }
         return list;
     }
+
+    // lọc slot
+public List<SlotsOfField> getFieldSlotsBySession(int fieldId, String session) {
+    List<SlotsOfField> allSlots = getFieldSlotsWithDetails(fieldId);
+    List<SlotsOfField> filteredSlots = new ArrayList<>();
+
+    for (SlotsOfField slot : allSlots) {
+        String startTime = slot.getSlotInfo().getStartTime(); // VD: "06:00"
+
+        if (session == null || session.isEmpty()) {
+            filteredSlots.add(slot); // không lọc
+        } else if (session.equalsIgnoreCase("morning") &&
+                   startTime.compareTo("06:00") >= 0 && startTime.compareTo("11:59") <= 0) {
+            filteredSlots.add(slot);
+        } else if (session.equalsIgnoreCase("afternoon") &&
+                   startTime.compareTo("12:00") >= 0 && startTime.compareTo("17:59") <= 0) {
+            filteredSlots.add(slot);
+        } else if (session.equalsIgnoreCase("evening") &&
+                   startTime.compareTo("18:00") >= 0 && startTime.compareTo("23:59") <= 0) {
+            filteredSlots.add(slot);
+        }
+    }
+    return filteredSlots;
+}
+
+
     //chi tiết khung giờ và giá
-        public List<SlotsOfField> getFieldSlotsWithDetails(int fieldId) {
+    public List<SlotsOfField> getFieldSlotsWithDetails(int fieldId) {
         List<SlotsOfField> slots = new ArrayList<>();
         String sql = "SELECT sof.slot_field_id, sof.slot_field_price, "
                 + "sod.slot_id, sod.start_time, sod.end_time, "
@@ -357,13 +561,13 @@ public class FieldDAO extends DBContext {
                 SlotsOfField slot = new SlotsOfField();
                 slot.setSlotFieldId(rs.getInt("slot_field_id"));
                 slot.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
-                
+
 //                 Bạn có thể set thêm thông tin slot time vào đây
-                 SlotsOfDay sod = new SlotsOfDay();
-                 sod.setStartTime(rs.getString("start_time"));
-                 sod.setEndTime(rs.getString("end_time"));
-                 slot.setSlotInfo(sod);
-                 
+                SlotsOfDay sod = new SlotsOfDay();
+                sod.setStartTime(rs.getString("start_time"));
+                sod.setEndTime(rs.getString("end_time"));
+                slot.setSlotInfo(sod);
+
                 slots.add(slot);
             }
         } catch (Exception e) {
@@ -372,27 +576,39 @@ public class FieldDAO extends DBContext {
         return slots;
     }
 
-
     ///
     public static void main(String[] args) {
-        FieldDAO dao = new FieldDAO();
-
-        int pageIndex = 1;         // Trang muốn test
-        String sortBy = "recent";     // Kiểu sắp xếp: "new", "recent", hoặc "" (mặc định)
-
-        List<Field> list = dao.pagingField(pageIndex, sortBy);
-
-        if (list.isEmpty()) {
-            System.out.println("⚠️ Không lấy được sân nào từ database.");
-        } else {
-            System.out.println("✅ Số lượng sân lấy được: " + list.size());
-            for (Field f : list) {
-                System.out.println("Field ID: " + f.getFieldId()
-                        + ", Name: " + f.getFieldName()
-                        + ", Type: " + f.getTypeOfField().getFieldTypeName()
-                        + ", Zone: " + f.getZone().getAddress());
-            }
-        }
+//        FieldDAO dao = new FieldDAO();
+//
+//        // ----------- THÔNG TIN TEST ------------ //
+//        String zoneId = "1";                   // Test toàn bộ khu vực: để rỗng
+//        String typeId = "1";                   // Test toàn bộ loại sân: để rỗng
+//        String timeRange = "morning";       // Test lọc theo buổi: "morning", "afternoon", "evening" hoặc ""
+//        BigDecimal minPrice = new BigDecimal("200000");
+//        BigDecimal maxPrice = new BigDecimal("500000");
+//        int pageIndex = 1;                    // Trang đầu tiên
+//        int pageSize = 6;                    // Lấy 10 sân mỗi trang
+//        String sortBy = "recent";             // Sắp xếp theo cập nhật gần nhất
+//
+//        // ----------- GỌI DAO ------------ //
+//        List<Field> list = dao.pagingField(
+//                zoneId, typeId, timeRange,
+//                minPrice, maxPrice,
+//                pageIndex, pageSize,
+//                sortBy
+//        );
+//
+//        // ----------- IN KẾT QUẢ ------------ //
+//        if (list.isEmpty()) {
+//            System.out.println("⚠️ Không lấy được sân nào từ database.");
+//        } else {
+//            System.out.println("✅ Số lượng sân lấy được: " + list.size());
+//            for (Field f : list) {
+//                System.out.println("Field ID: " + f.getFieldId()
+//                        + ", Name: " + f.getFieldName()
+//                        + ", Type: " + f.getTypeOfField().getFieldTypeName()
+//                        + ", Zone: " + f.getZone().getAddress());
+//            }
+//        }
     }
-
 }

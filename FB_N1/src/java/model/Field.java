@@ -111,7 +111,6 @@ public class Field {
         this.slots = slots;
     }
 
-
    
     public boolean isActive() {
         return "Hoạt động".equals(this.status);
