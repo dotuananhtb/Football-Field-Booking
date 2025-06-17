@@ -53,7 +53,7 @@
                                                                 <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
                                                             </div>
 
-                                                            <input type="hidden" name="type" value="avatars"> <!-- value này là cho thư mục riêng cho mỗi object -->
+                                                            <input type="hidden" name="type" value="avatars"> <!-- value này là cho thư mục riêng cho mỗi  object -->
 
                                                                 <button type="submit" class="btn btn-primary">Tải lên</button>
                                                         </form>
