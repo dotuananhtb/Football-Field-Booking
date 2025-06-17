@@ -123,198 +123,7 @@
                                                                 <!-- Widget Slider -->
 
                                                                 <!-- Widget Select Form -->
-                                                                <div class="mt--82 z-index4 relative fadeInUp wow">
-                                                                    <div class="tf-container">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="search-form-widget-slider relative">
-                                                                                    <form action="/" id="search-form-slider">
-                                                                                        <div class="flex wd-search">
-                                                                                            <div class="form-group flex">
-                                                                                                <i class="icon-18"></i>
-                                                                                                <div class="search-bar-group">
-                                                                                                    <label>Destination</label>
-                                                                                                    <div class="nice-select" tabindex="0">
-                                                                                                        <span class="current">Melborn ,Australia</span>
-                                                                                                        <ul class="list">
-                                                                                                            <li data-value class="option selected">Melborn ,Australia
-                                                                                                            </li>
-                                                                                                            <li data-value="hanoi" class="option">HaNoi ,Vietnam</li>
-                                                                                                            <li data-value="tolyo" class="option">Tokyo , Janpan</li>
-                                                                                                            <li data-value="korea" class="option">Seoul , Korea</li>
-                                                                                                        </ul>
-                                                                                                    </div>
-
-                                                                                                </div>
-
-
-                                                                                            </div>
-                                                                                            <div class="form-group flex">
-                                                                                                <i class="icon-hiking-1-1 "></i>
-                                                                                                <div class="search-bar-group">
-                                                                                                    <label>Type</label>
-                                                                                                    <div class="nice-select" tabindex="0">
-                                                                                                        <span class="current">Booking Type</span>
-                                                                                                        <ul class="list">
-                                                                                                            <li data-value class="option selected">Booking Type</li>
-                                                                                                            <li data-value="booking" class="option">Booking Type</li>
-                                                                                                            <li data-value="booking" class="option">Booking Type</li>
-                                                                                                            <li data-value="booking" class="option">Booking Type</li>
-                                                                                                        </ul>
-                                                                                                    </div>
-
-                                                                                                </div>
-
-
-                                                                                            </div>
-                                                                                            <div class="form-group flex">
-                                                                                                <i class=" icon-time-left "></i>
-                                                                                                <div class="search-bar-group">
-                                                                                                    <label>Duration</label>
-                                                                                                    <div class="nice-select" tabindex="0">
-                                                                                                        <span class="current">2-4 days tour</span>
-                                                                                                        <ul class="list">
-                                                                                                            <li data-value class="option selected">2-4 days tour</li>
-                                                                                                            <li data-value="booking" class="option">3-6 days tour</li>
-                                                                                                            <li data-value="booking" class="option">4-8 days tour</li>
-                                                                                                            <li data-value="booking" class="option">5-10 days tour</li>
-                                                                                                        </ul>
-                                                                                                    </div>
-
-                                                                                                </div>
-
-
-                                                                                            </div>
-                                                                                            <div class="form-group flex">
-                                                                                                <i class="icon-user"></i>
-                                                                                                <div class="search-bar-group">
-                                                                                                    <label>Guests</label>
-                                                                                                    <input type="text" value="0">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group flex-two">
-                                                                                                <div class="icon-icon-filter">
-                                                                                                    <i class="icon-14"></i>
-                                                                                                </div>
-                                                                                                <a href="#" class="btn-search"><i class="icon-Vector5"></i>Search</a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="wd-search-form">
-                                                                                            <div class="input-group-grid">
-                                                                                                <fieldset class="group-select relative ">
-                                                                                                    <label>Filter By Price</label>
-                                                                                                    <div class="widget widget-price ">
-                                                                                                        <div id="slider-range"></div>
-                                                                                                        <div class="slider-labels">
-                                                                                                            <div>
-                                                                                                                <input type="hidden" name="min-value" value="">
-                                                                                                                    <input type="hidden" name="max-value" value="">
-                                                                                                                        </div>
-                                                                                                                        <div class="caption flex-three">
-                                                                                                                            <p class="price-range">Price: </p>
-                                                                                                                            <div class="number-range">
-                                                                                                                                <span id="slider-range-value1"></span>
-                                                                                                                                <span id="slider-range-value2"></span>
-                                                                                                                            </div>
-                                                                                                                        </div>
-
-                                                                                                                        </div>
-                                                                                                                        </div><!-- /.widget_price -->
-                                                                                                                        </fieldset>
-                                                                                                                        <fieldset class="group-select relative input-npd ">
-                                                                                                                            <div class="search-bar-group relative">
-                                                                                                                                <label>0</label>
-                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                    <span class="current">English</span>
-                                                                                                                                    <ul class="list">
-                                                                                                                                        <li data-value="" class="option selected focus">Language
-                                                                                                                                        </li>
-                                                                                                                                        <li data-value="language1" class="option">Japan</li>
-                                                                                                                                        <li data-value="language2" class="option">Vietnames</li>
-                                                                                                                                        <li data-value="language3" class="option">Korea</li>
-                                                                                                                                    </ul>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </fieldset>
-                                                                                                                        <fieldset class="group-select relative input-npd ">
-                                                                                                                            <div class="search-bar-group relative">
-                                                                                                                                <label>Any</label>
-                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                    <span class="current">Month</span>
-                                                                                                                                    <ul class="list">
-                                                                                                                                        <li data-value="" class="option selected focus">Month
-                                                                                                                                        </li>
-                                                                                                                                        <li data-value="month1" class="option">1 Month</li>
-                                                                                                                                        <li data-value="month2" class="option">2 Month</li>
-                                                                                                                                        <li data-value="month3" class="option">3 Month</li>
-                                                                                                                                    </ul>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </fieldset>
-                                                                                                                        <fieldset class="group-select relative input-npd">
-                                                                                                                            <div class="search-bar-group relative">
-                                                                                                                                <label>Any</label>
-                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                    <span class="current">Duration</span>
-                                                                                                                                    <ul class="list">
-                                                                                                                                        <li data-value="" class="option selected focus">Duration
-                                                                                                                                        </li>
-                                                                                                                                        <li data-value="duration1" class="option">10-15 day</li>
-                                                                                                                                        <li data-value="duration2" class="option">15-30 day</li>
-                                                                                                                                        <li data-value="duration3" class="option">20-30 day</li>
-                                                                                                                                    </ul>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </fieldset>
-                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check4" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check4">Accepts Credit Cards</label>
-                                                                                                                            </div>
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check5" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check5">Car Parking</label>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check6" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check6">Free Coupons</label>
-                                                                                                                            </div>
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check7" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check7">Laundry Service</label>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check8" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check8">Outdoor Seating</label>
-                                                                                                                            </div>
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check9" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check9">Reservations</label>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check10" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check10">Restaurant</label>
-                                                                                                                            </div>
-                                                                                                                            <div class="checkbox">
-                                                                                                                                <input id="check11" type="checkbox" name="check" value="check">
-                                                                                                                                    <label for="check11">Smoking Allowed</label>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        </div>
-                                                                                                                        </div>
-
-                                                                                                                        </form>
-                                                                                                                        </div>
-                                                                                                                        </div>
-                                                                                                                        </div>
-                                                                                                                        </div>
-                                                                                                                        </div>
+                                                                
                                                                                                                         <!-- Widget Select Form -->
 
                                                                                                                         <!-- Widget Aboutus -->
@@ -337,62 +146,62 @@
                                                                                                                                                                     </div>
                                                                                                                                                                     </div>
                                                                                                                                                                     <div class="row pt-115">
-                                                                                                                                                                    
+
                                                                                                                                                                         <div class="col-lg-6">
                                                                                                                                                                             <div class="travel-video relative">
                                                                                                                                                                                 <img src="${event.image_video}" alt="Image" class="image-video">
-                                                                                                                                                                                    
+
 
                                                                                                                                                                                     <img src="${event.image2}" alt="Image"
                                                                                                                                                                                          class="mask-video tf-anime-rorate">
-                                                                                                                                                                                       
-                                                                                                                                                                                            </div>
 
-                                                                                                                                                                                            </div>
-                                                                                                                                                                    
-                                                                                                                                                                   
-                                                                                                                                                                                            <div class="col-lg-6">
-                                                                                                                                                                                                <div class="inner-content-about">
-                                                                                                                                                                                                    <span class="sub-title-heading text-main mb-15 fadeInUp wow">Football Star</span>
-                                                                                                                                                                                                    <h2 class="title-heading mb-18 fadeInUp wow">${event.title_content}</h2>
-                                                                                                                                                                                                    <p class="des-heading fadeInUp wow">${event.content1}</p>
-                                                                                                                                                                                                    <div class="row mt-27 fadeInUp wow">
-                                                                                                                                                                                                        <div class="col-sm-12">
+                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                        </div>
+
+
+                                                                                                                                                                                        <div class="col-lg-6">
+                                                                                                                                                                                            <div class="inner-content-about">
+                                                                                                                                                                                                <span class="sub-title-heading text-main mb-15 fadeInUp wow">Football Star</span>
+                                                                                                                                                                                                <h2 class="title-heading mb-18 fadeInUp wow">${event.title_content}</h2>
+                                                                                                                                                                                                <p class="des-heading fadeInUp wow">${event.content1}</p>
+                                                                                                                                                                                                <div class="row mt-27 fadeInUp wow">
+                                                                                                                                                                                                    <div class="col-sm-12">
                                                                                                                                                                                                         <div class="icon-box-style3">
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <h6 class="title mb-10">${event.content2}</h6>
-                                                                                                                                                                                                       
+
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        
                                                                                                                                                                                                     </div>
 
-                                                                                                                                                                                                    <div class="flex-three btn-wrap-about mb-30 fadeInUp wow">
-                                                                                                                                                                                                        <a href="#" class="btn-main">
+                                                                                                                                                                                                </div>
+
+                                                                                                                                                                                                <div class="flex-three btn-wrap-about mb-30 fadeInUp wow">
+                                                                                                                                                                                                    <a href="#" class="btn-main">
                                                                                                                                                                                                         <p class="btn-main-text">tìm hiểu thêm</p>
                                                                                                                                                                                                         <p class="iconer">
                                                                                                                                                                                                         <i class="icon-arrow-right"></i>
                                                                                                                                                                                                         </p>
 
-                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                        
-                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                    </a>
 
-                                                                                                                                                                                                    
                                                                                                                                                                                                 </div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                  
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                            </section>
-                                                                                                                                                                                            <!-- Widget Aboutus -->
 
-                                                                                                                                                                                            <!-- Widget Tourpackage -->
-                                                                                                                                                                                            <section class="tour-package pd-main">
-                                                                                                                                                                                                <div class="tf-container w-1456">
-                                                                                                                                                                                                    <div class="row">
 
-                                                                                                                                                                                                        <div class="col-lg-12">
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        </section>
+                                                                                                                                                                                        <!-- Widget Aboutus -->
+
+                                                                                                                                                                                        <!-- Widget Tourpackage -->
+                                                                                                                                                                                        <section class="tour-package pd-main">
+                                                                                                                                                                                            <div class="tf-container w-1456">
+                                                                                                                                                                                                <div class="row">
+
+                                                                                                                                                                                                    <div class="col-lg-12">
                                                                                                                                                                                                         <div class="center m0-auto w-text-heading">
                                                                                                                                                                                                         <span class="sub-title-heading text-main mb-15 fadeInUp wow">Football Star</span>
                                                                                                                                                                                                         <h2 class="title-heading mb-40 fadeInUp wow">${event.getTitle().getTitle1()}</h2>
@@ -488,7 +297,8 @@
                                                                                                                                                                                                         </c:forEach>
 
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        
+
+
                                                                                                                                                                                                         <div class="row wow fadeInUp">
                                                                                                                                                                                                         <div class="col-lg-12 center mt-44">
                                                                                                                                                                                                         <a href="${pageContext.request.contextPath}/home#field" class="btn-main">
@@ -502,19 +312,19 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
 
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        </div>
+
                                                                                                                                                                                                     </div>
-
                                                                                                                                                                                                 </div>
-                                                                                                                                                                                            </section>
-                                                                                                                                                                                            <!-- Widget Tourpackage -->
 
-                                                                                                                                                                                            <!-- Widget activities -->
-                                                                                                                                                                                            <section class="relative tf-widget-activities pd-main overflow-hidden" >
-                                                                                                                                                                                                <img src="./assets/images/page/mask-activiti.png" alt="image" class="mask-top">
-                                                                                                                                                                                                    <img src="./assets/images/page/mask-print-2.png" alt="image" class="mask-bottom">
-                                                                                                                                                                                                        <div class="tf-container">
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </section>
+                                                                                                                                                                                        <!-- Widget Tourpackage -->
+
+                                                                                                                                                                                        <!-- Widget activities -->
+                                                                                                                                                                                        <section class="relative tf-widget-activities pd-main overflow-hidden" >
+                                                                                                                                                                                            <img src="./assets/images/page/mask-activiti.png" alt="image" class="mask-top">
+                                                                                                                                                                                                <img src="./assets/images/page/mask-print-2.png" alt="image" class="mask-bottom">
+                                                                                                                                                                                                    <div class="tf-container">
                                                                                                                                                                                                         <div class="row z-index3 relative">
                                                                                                                                                                                                         <div class="col-lg-12 mb-60">
                                                                                                                                                                                                         <div class="clip-text">${event.title.title2}</div>
@@ -593,12 +403,12 @@
                                                                                                                                                                                                         stroke-linecap="round"
                                                                                                                                                                                                         stroke-linejoin="round" />
                                                                                                                                                                                                         </svg>
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         <div class="flex-two">
                                                                                                                                                                                                         <div class="price-box flex-three">
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <span class="price">${f.productPrice}</span>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         <div class="icon-bookmark">
@@ -611,10 +421,58 @@
                                                                                                                                                                                                         </c:forEach>
 
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        
+                                                                                                                                                                                                        <c:if test="${totalPage > 1}">
+                                                                                                                                                                                                        <c:set var="startPage" value="${currentPage - 2}" />
+                                                                                                                                                                                                        <c:set var="endPage" value="${currentPage + 2}" />
+
+                                                                                                                                                                                                        <c:if test="${startPage < 1}">
+                                                                                                                                                                                                        <c:set var="startPage" value="1" />
+                                                                                                                                                                                                        </c:if>
+                                                                                                                                                                                                        <c:if test="${endPage > totalPage}">
+                                                                                                                                                                                                        <c:set var="endPage" value="${totalPage}" />
+                                                                                                                                                                                                        </c:if>
+
+                                                                                                                                                                                                        <div class="row">
+                                                                                                                                                                                                        <div class="col-md-12">
+                                                                                                                                                                                                        <ul class="tf-pagination flex-five mt-20">
+
+                                                                                                                                                                                                        <!-- Nút Prev -->
+                                                                                                                                                                                                        <c:if test="${currentPage > 1}">
+                                                                                                                                                                                                        <li class="pages-item">
+                                                                                                                                                                                                        <a class="pages-link"
+                                                                                                                                                                                                        href="${pageContext.request.contextPath}/home?page=${currentPage - 1}${cid != null ? '&cid=' + cid : ''}#product">
+                                                                                                                                                                                                        « Prev
+                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                        </c:if>
+
+                                                                                                                                                                                                        <!-- Số trang -->
+                                                                                                                                                                                                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                                                                                                                                                                                                        <li class="pages-item${i == currentPage ? ' active' : ''}">
+                                                                                                                                                                                                        <a class="pages-link"
+                                                                                                                                                                                                        href="${pageContext.request.contextPath}/home?page=${i}${cid != null ? '&cid=' + cid : ''}#product">
+                                                                                                                                                                                                        ${i}
+                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                        </c:forEach>
+
+                                                                                                                                                                                                        <!-- Nút Next -->
+                                                                                                                                                                                                        <c:if test="${currentPage < totalPage}">
+                                                                                                                                                                                                        <li class="pages-item">
+                                                                                                                                                                                                        <a class="pages-link"
+                                                                                                                                                                                                        href="${pageContext.request.contextPath}/home?page=${currentPage + 1}${cid != null ? '&cid=' + cid : ''}#product">
+                                                                                                                                                                                                        Next »
+                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                        </c:if>
+
+                                                                                                                                                                                                        </ul>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </c:if>
                                                                                                                                                                                                         <div class="row wow fadeInUp">
                                                                                                                                                                                                         <div class="col-lg-12 center mt-44">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/home#product" class="btn-main">
+                                                                                                                                                                                                        <a href="/FB_N1/DanhSachSan" class="btn-main">
                                                                                                                                                                                                         <p class="btn-main-text">Xem tất cả</p>
                                                                                                                                                                                                         <p class="iconer">
                                                                                                                                                                                                         <i class="icon-13"></i>
@@ -624,15 +482,15 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </section>
-                                                                                                                                                                                                        <!-- Widget activities -->
 
-                                                                                                                                                                                                        <!-- Widget Offer Package -->
-                                                                                                                                                                                                        <section class="offer-package pd-main bg-1 relative">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                    </section>
+                                                                                                                                                                                                    <!-- Widget activities -->
+
+                                                                                                                                                                                                    <!-- Widget Offer Package -->
+                                                                                                                                                                                                    <section class="offer-package pd-main bg-1 relative">
                                                                                                                                                                                                         <img src="./assets/images/page/feature.jpg" alt="image" class="feature-ofer">
                                                                                                                                                                                                         <div class="tf-container">
                                                                                                                                                                                                         <div class="row align-center z-index3 relative">
@@ -1137,12 +995,12 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
 
-                                                                                                                                                                                                        </section>
+                                                                                                                                                                                                    </section>
 
-                                                                                                                                                                                                        <!-- Widget Offer Package -->
+                                                                                                                                                                                                    <!-- Widget Offer Package -->
 
-                                                                                                                                                                                                        <!-- Widget Counter -->
-                                                                                                                                                                                                        <section class="widget-counter relative">
+                                                                                                                                                                                                    <!-- Widget Counter -->
+                                                                                                                                                                                                    <section class="widget-counter relative">
                                                                                                                                                                                                         <img src="./assets/images/page/couter-top.png" alt="image" class="counter-top">
                                                                                                                                                                                                         <img src="./assets/images/page/counter-bottom.png" alt="image" class="counter-bottom">
                                                                                                                                                                                                         <div class="tf-container">
@@ -1302,7 +1160,7 @@
                                                                                                                                                                                                         <c:forEach items="${listT}" var="f">
                                                                                                                                                                                                         <div class="tf-widget-destination wow fadeInUp animated " data-wow-delay="0.1s">
                                                                                                                                                                                                         <a href="single-destination.html" class="destination-imgae">
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <img src="./assets/images/destination/list.jpg" alt="">
                                                                                                                                                                                                         </a>
                                                                                                                                                                                                         <div class="destination-content">
@@ -1317,26 +1175,26 @@
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </c:forEach>
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </section>
                                                                                                                                                                                                         <!-- Widget destination -->
 
                                                                                                                                                                                                         <!-- Widget Brand logo -->
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <!-- Widget Brand logo -->
 
                                                                                                                                                                                                         <!-- Widget Adventure -->
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <!-- Widget Adventure -->
 
                                                                                                                                                                                                         <!-- Widget Testimonial -->
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <!-- Widget Testimonial -->
 
                                                                                                                                                                                                         <!-- Widget Banner Contact -->
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <!-- Widget Banner Contact -->
 
                                                                                                                                                                                                         <!-- Widget Banner Blog -->
@@ -1356,12 +1214,12 @@
                                                                                                                                                                                                         <div class="tf-widget-blog blog-style">
                                                                                                                                                                                                         <a href="blog-details.html" class="blog-image">
                                                                                                                                                                                                         <img src="./assets/images/blog/bl1.jpg" alt="">
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         </a>
                                                                                                                                                                                                         <div class="blog-content">
                                                                                                                                                                                                         <ul class="meta-list flex-three">
-                                                                                                                                                                                                       
-                                                                                                                                                                                                      
+
+
                                                                                                                                                                                                         </ul>
                                                                                                                                                                                                         <h3 class="entry-title"><a href="blog-details.html">${post.title}</a></h3>
                                                                                                                                                                                                         <p class="des">${post.contentPost}
@@ -1378,7 +1236,7 @@
                                                                                                                                                                                                         </section>
                                                                                                                                                                                                         <!-- Widget Banner Blog -->
 
-                                                                                                                                                                                                                                                                                                                                                                         </section>
+                                                                                                                                                                                                        </section>
 
                                                                                                                                                                                                         </main>
 

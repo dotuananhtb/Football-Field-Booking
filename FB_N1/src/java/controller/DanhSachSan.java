@@ -5,6 +5,7 @@
 package controller;
 
 import dao.FieldDAO;
+import dao.TypeOfFieldDAO;
 import dao.Zone_DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,11 +15,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Field;
 import model.SlotsOfField;
+import model.TypeOfField;
 import model.Zone;
 
 /**
@@ -68,10 +71,19 @@ public class DanhSachSan extends HttpServlet {
             throws ServletException, IOException {
         FieldDAO dao = new FieldDAO();
         Zone_DAO zDAO = new Zone_DAO();
+        TypeOfFieldDAO tDAO = new TypeOfFieldDAO();
+
+        List<TypeOfField> listT = tDAO.getAllFieldTypes();
         List<Zone> listZ = zDAO.getAllZone();
         String indexPage = request.getParameter("index");
         String sortBy = request.getParameter("sortBy");
+        String zoneId = request.getParameter("zoneId");
+        String typeId = request.getParameter("typeId");
+        String time = request.getParameter("time");
+        String minPriceStr = request.getParameter("minPrice");
+        String maxPriceStr = request.getParameter("maxPrice");
 
+        // lấy fieldId phù hợp
         int index = 1;
         if (sortBy == null || sortBy.isEmpty()) {
             sortBy = "";
@@ -79,28 +91,32 @@ public class DanhSachSan extends HttpServlet {
         if (indexPage != null && !indexPage.isEmpty()) {
             index = Integer.parseInt(indexPage);
         }
-        int count = dao.getTotalFiled();
+        BigDecimal minPrice = null, maxPrice = null;
+        if (minPriceStr != null && !minPriceStr.isEmpty()) {
+            minPrice = new BigDecimal(minPriceStr);
+        }
+        if (maxPriceStr != null && !maxPriceStr.isEmpty()) {
+            maxPrice = new BigDecimal(maxPriceStr);
+        }
+        int count = dao.countFields(zoneId, typeId, time, minPrice, maxPrice);
         int endPage = count / 6;
 
         if (count % 6 != 0) {
             endPage++;
         }
 
-        List<Field> listP = dao.pagingField(index, sortBy);
-        for (Field f : listP) {
-            f.setSlots(dao.getFieldSlotsWithDetails(f.getFieldId()));
-        }
+        List<Field> listP = dao.pagingField(zoneId, typeId, time, minPrice, maxPrice, index, 6, sortBy);
 
         Map<Integer, BigDecimal[]> priceMap = new HashMap<>();
         Map<Integer, Integer> totalSlotMap = new HashMap<>();
 
         for (Field f : listP) {
-            List<SlotsOfField> slots = dao.getFieldSlotsWithDetails(f.getFieldId());
-            f.setSlots(slots);
+            List<SlotsOfField> Slots = dao.getFieldSlotsBySession(f.getFieldId(), time);
+            f.setSlots(Slots);
 
             // Tính giá min/max
             BigDecimal min = null, max = null;
-            for (SlotsOfField s : slots) {
+            for (SlotsOfField s : Slots) {
                 BigDecimal p = s.getSlotFieldPrice();
                 if (min == null || p.compareTo(min) < 0) {
                     min = p;
@@ -109,21 +125,30 @@ public class DanhSachSan extends HttpServlet {
                     max = p;
                 }
             }
+            if (min == null) {
+                min = BigDecimal.ZERO;
+            }
+            if (max == null) {
+                max = BigDecimal.ZERO;
+            }
+
             priceMap.put(f.getFieldId(), new BigDecimal[]{min, max});
+            totalSlotMap.put(f.getFieldId(), Slots.size());
 
             // Tính tổng slot
-            totalSlotMap.put(f.getFieldId(), slots.size());
+            totalSlotMap.put(f.getFieldId(), Slots.size());
         }
-
-        int showing = listP.size();
+        request.setAttribute("globalMin", minPrice);
+        request.setAttribute("globalMax", maxPrice);
 
         request.setAttribute("listF", listP);
         request.setAttribute("endP", endPage);
         request.setAttribute("listZ", listZ);
+        request.setAttribute("listT", listT);
         request.setAttribute("page", index);
         request.setAttribute("sortBy", sortBy);
         request.setAttribute("total", count);
-        request.setAttribute("showing", showing);
+        request.setAttribute("showing", listP.size());
         request.setAttribute("priceMap", priceMap);
         request.setAttribute("totalSlotMap", totalSlotMap);
         request.getRequestDispatcher("UI/danhSachSan.jsp").forward(request, response);

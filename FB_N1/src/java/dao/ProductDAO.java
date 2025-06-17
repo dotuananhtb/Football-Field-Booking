@@ -63,6 +63,88 @@ public class ProductDAO extends DBContext {
         return listProduct;
     }
 
+    public Vector<Product> pagingProduct(int page, int pageSize) {
+        Vector<Product> list = new Vector<>();
+        String query = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Product]\n"
+                + "	order by product_id\n"
+                + "	offset ? rows fetch next ? rows only";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setInt(1, (page - 1) * pageSize);
+            ptm.setInt(2, pageSize);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Vector<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
+        Vector<Product> list = new Vector<>();
+        String query = "SELECT * FROM Product WHERE product_cate_id = ?\n"
+                + "ORDER BY product_id \n"
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setInt(1, cateId);
+            ptm.setInt(2, (page - 1) * pageSize);
+            ptm.setInt(3, pageSize);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countProductByCateID(int cateID) {
+        String query = "SELECT COUNT(*) FROM Product WHERE product_cate_id = ?";
+        try(PreparedStatement ptm = connection.prepareStatement(query);) {
+            
+            ptm.setInt(1, cateID);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getTotalProduct() {
+        String query = "SELECT COUNT(*) FROM Product";
+        try (PreparedStatement ptm = connection.prepareStatement(query); ResultSet rs = ptm.executeQuery();) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public Vector<Product> getAllProductsWithCategory() {
         Vector<Product> products = new Vector<>();
         String sql = "SELECT p.product_id, p.product_name, p.product_price, "
