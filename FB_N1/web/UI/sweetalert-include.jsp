@@ -25,7 +25,7 @@
         });
     }
 
-    function showToast(message, type) {
+    function showToast_sweetalert(message, type) {
         Swal.fire({
             toast: true,
             position: 'top-end',

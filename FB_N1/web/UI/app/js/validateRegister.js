@@ -22,29 +22,29 @@ function validateAndSubmit() {
 
     // Kiểm tra ngày sinh
     if (fields.dob === "") {
-        showToast("Vui lòng chọn ngày sinh", "error");
+        showToast11("Vui lòng chọn ngày sinh", "error");
         isValid = false;
     } else {
         const today = new Date();
         const dob = new Date(fields.dob);
         if (dob >= today) {
-            showToast("Ngày sinh phải trước ngày hiện tại", "error");
+            showToast11("Ngày sinh phải trước ngày hiện tại", "error");
             isValid = false;
         }
     }
 
     // Kiểm tra mật khẩu và nhập lại
     if (fields.password === "" || fields.password_confirm === "") {
-        showToast("Vui lòng nhập đầy đủ mật khẩu", "error");
+        showToast11("Vui lòng nhập đầy đủ mật khẩu", "error");
         isValid = false;
     } else if (fields.password !== fields.password_confirm) {
-        showToast("Mật khẩu nhập lại không khớp", "error");
+        showToast11("Mật khẩu nhập lại không khớp", "error");
         isValid = false;
     }
 
     // Kiểm tra checkbox đồng ý điều khoản
     if (!fields.check) {
-        showToast("Bạn phải đồng ý với điều khoản", "error");
+        showToast11("Bạn phải đồng ý với điều khoản", "error");
         isValid = false;
     }
 
@@ -61,20 +61,20 @@ function validateAndSubmit() {
                 .then(res => res.text())
                 .then(msg => {
                     const isSuccess = msg.toLowerCase().includes("thành công");
-                    showToast(msg, isSuccess ? "success" : "error");
+                    showToast11(msg, isSuccess ? "success" : "error");
 
                     if (isSuccess) {
                         setTimeout(() => location.reload(), 1000);
                     }
                 })
                 .catch(err => {
-                    showToast("Lỗi gửi dữ liệu. Vui lòng thử lại.", "error");
+                    showToast11("Lỗi gửi dữ liệu. Vui lòng thử lại.", "error");
                     console.error("Lỗi khi gửi dữ liệu:", err);
                 });
     }
 }
 
-function showToast(message, type = "success") {
+function showToast11(message, type = "success") {
     const toast = document.createElement("div");
     toast.innerText = message;
     toast.style.minWidth = "250px";
