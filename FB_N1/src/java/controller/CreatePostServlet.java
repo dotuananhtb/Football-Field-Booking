@@ -20,6 +20,13 @@ public class CreatePostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         // Lấy danh sách loại sân
         TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
         List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
@@ -27,6 +34,7 @@ public class CreatePostServlet extends HttpServlet {
         String currentDate = java.time.LocalDate.now().toString();
         request.setAttribute("fieldTypes", fieldTypes);
         request.setAttribute("currentDate", currentDate);
+        request.setAttribute("account", account);
         request.getRequestDispatcher("UI/addPost.jsp").forward(request, response);
     }
 
@@ -44,15 +52,24 @@ public class CreatePostServlet extends HttpServlet {
         String bookingDate = request.getParameter("bookingDate");
         String fieldTypeId = request.getParameter("fieldTypeId");
         String userContent = request.getParameter("userContent");
+        
         // Ghép nội dung
-        TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
-        String fieldTypeName = typeDAO.getFieldTypeNameById(Integer.parseInt(fieldTypeId));
-        String content = "Giờ muốn đặt: " + startTime +
-                         ", Ngày muốn đặt: " + bookingDate +
-                         ", Loại sân muốn chơi: " + fieldTypeName;
-        if (userContent != null && !userContent.trim().isEmpty()) {
-            content += "\nGhi chú: " + userContent;
+        String content;
+        if (startTime != null && !startTime.isEmpty() && bookingDate != null && !bookingDate.isEmpty() && fieldTypeId != null && !fieldTypeId.isEmpty()) {
+            // Có thông tin booking
+            TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
+            String fieldTypeName = typeDAO.getFieldTypeNameById(Integer.parseInt(fieldTypeId));
+            content = "Giờ muốn đặt: " + startTime +
+                     ", Ngày muốn đặt: " + bookingDate +
+                     ", Loại sân muốn chơi: " + fieldTypeName;
+            if (userContent != null && !userContent.trim().isEmpty()) {
+                content += ", Ghi chú: " + userContent;
+            }
+        } else {
+            
+            content = userContent != null ? userContent : "";
         }
+        
         PostDAO postDAO = new PostDAO();
         Post post = new Post();
         post.setAccountId(account.getAccountId());

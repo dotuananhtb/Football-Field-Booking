@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>FootballStar - Booking to Football Field</title>
+    <title>BlogDetails-FootballStar</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,8 +24,8 @@
     <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
 </head>
 
@@ -84,7 +85,9 @@
                                         </ul>
                                     </div>
                                     <h2 class="entry-title">${post.title}</h2>
-                                    <p class="des lh-32 mb-37">${post.contentPost}</p>
+                                    <p class="des lh-32 mb-37">
+                                        <c:out value="${fn:replace(post.contentPost, ',', '<br/>')}" escapeXml="false"/>
+                                    </p>
                                 </article>
                                 
                                 <div class="comment-single">

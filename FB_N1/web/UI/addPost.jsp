@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
         <base href="${pageContext.request.contextPath}/UI/">
-    <title>Vitour - Travel & Tour Booking HTML Template</title>
+    <title>FootballStar</title>
 
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="app/css/map.min.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
 </head>
 
@@ -37,34 +37,43 @@
                         <form action="${pageContext.request.contextPath}/createPost" method="post" class="form-add-tour">
                             <div class="widget-dash-board pr-256 mb-75">
                                 <h4 class="title-add-tour mb-30">1. Thông tin bài viết</h4>
-                                <div class="grid-input-2 mb-45">
-                                    <div class="input-wrap">
-                                        <label>Tiêu đề <span style="color:red">*</span></label>
-                                        <input type="text" name="title" required placeholder="Nhập tiêu đề bài viết">
-                                    </div>
-                                    <div class="input-wrap">
-                                        <label>Loại sân muốn chơi <span style="color:red">*</span></label>
-                                        <select name="fieldTypeId" required>
-                                            <c:forEach var="type" items="${fieldTypes}">
-                                                <option value="${type.fieldTypeId}">${type.fieldTypeName}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="grid-input-2 mb-45">
-                                    <div class="input-wrap">
-                                        <label>Giờ muốn đặt <span style="color:red">*</span></label>
-                                        <input type="time" name="startTime" required />
-                                    </div>
-                                    <div class="input-wrap">
-                                        <label>Ngày muốn đặt <span style="color:red">*</span></label>
-                                        <input type="date" name="bookingDate" min="${currentDate}" required />
-                                    </div>
-                                </div>
+                                
+                                <!-- Title field - luôn hiển thị -->
                                 <div class="input-wrap mb-45">
-                                    <label>Ghi chú/Nội dung thêm</label>
-                                    <textarea name="userContent" rows="4" placeholder="Nhập ghi chú hoặc yêu cầu đặc biệt..."></textarea>
+                                    <label>Tiêu đề <span style="color:red">*</span></label>
+                                    <input type="text" name="title" required placeholder="Nhập tiêu đề bài viết">
                                 </div>
+                                
+                                <!-- Content field - luôn hiển thị -->
+                                <div class="input-wrap mb-45">
+                                    <label>Nội dung bài viết</label>
+                                    <textarea name="userContent" rows="6" placeholder="Nhập nội dung bài viết..."></textarea>
+                                </div>
+                                
+                                
+                                <c:if test="${account.userProfile.roleId != 1 && account.userProfile.roleId != 2}">
+                                    <div class="grid-input-2 mb-45">
+                                        <div class="input-wrap">
+                                            <label>Loại sân muốn chơi <span style="color:red">*</span></label>
+                                            <select name="fieldTypeId" required>
+                                                <c:forEach var="type" items="${fieldTypes}">
+                                                    <option value="${type.fieldTypeId}">${type.fieldTypeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid-input-2 mb-45">
+                                        <div class="input-wrap">
+                                            <label>Giờ muốn đặt <span style="color:red">*</span></label>
+                                            <input type="time" name="startTime" required />
+                                        </div>
+                                        <div class="input-wrap">
+                                            <label>Ngày muốn đặt <span style="color:red">*</span></label>
+                                            <input type="date" name="bookingDate" min="${currentDate}" required />
+                                        </div>
+                                    </div>
+                                </c:if>
+                                
                                 <div style="text-align:center;">
                                     <button type="submit" class="button-add">Đăng bài</button>
                                 </div>

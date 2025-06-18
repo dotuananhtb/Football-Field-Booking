@@ -105,7 +105,7 @@
                                                                             </div>
                                                                             <div class="input-wrap">
                                                                                 <label>Số điện thoại</label>
-                                                                                <input type="tel" value="${u.getPhone()}" name="phone" pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số"maxlength="10" required>
+                                                                                <input type="tel" value="${u.getPhone()}" name="phone" pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số"  required>
                                                                             </div>
                                                                             <div class="input-wrap">
                                                                                 <label>Họ</label>

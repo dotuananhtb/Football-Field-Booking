@@ -65,6 +65,7 @@ public class PostDAO extends DBContext {
         Vector<Post> list = new Vector<>();
         String query = "SELECT p.*, a.username FROM Post p " +
                        "JOIN Account a ON p.account_id = a.account_id " +
+                       "WHERE p.status_post = 'active' " +
                        "ORDER BY p.post_date DESC " +
                        "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
@@ -121,7 +122,7 @@ public class PostDAO extends DBContext {
     }
 
     public int getTotalPosts() {
-        String query = "SELECT COUNT(*) FROM Post";
+        String query = "SELECT COUNT(*) FROM Post WHERE status_post = 'active'";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
             ResultSet rs = ptm.executeQuery();
@@ -138,17 +139,15 @@ public class PostDAO extends DBContext {
         Vector<Post> list = new Vector<>();
         String query = "SELECT p.*, a.username FROM Post p " +
                        "JOIN Account a ON p.account_id = a.account_id " +
-                       "WHERE p.title LIKE ? " +
+                       "WHERE p.status_post = 'active' AND (p.title LIKE ? OR p.content_post LIKE ?) " +
                        "ORDER BY p.post_date DESC " +
                        "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
-          
-            
             PreparedStatement ptm = connection.prepareStatement(query);
-            ptm.setString(1, "%" + title + "%");
-            ptm.setInt(2, (page - 1) * pageSize);
-            ptm.setInt(3, pageSize);
-            
+            ptm.setNString(1, "%" + title + "%");
+            ptm.setNString(2, "%" + title + "%");
+            ptm.setInt(3, (page - 1) * pageSize);
+            ptm.setInt(4, pageSize);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Post post = new Post();
@@ -163,25 +162,23 @@ public class PostDAO extends DBContext {
                 post.setAccount(account);
                 list.add(post);
             }
-            
         } catch (SQLException e) {
-            
             e.printStackTrace();
         }
         return list;
     }
 
     public int countPostsByTitle(String title) {
-        String query = "SELECT COUNT(*) FROM Post WHERE title LIKE ?";
+        String query = "SELECT COUNT(*) FROM Post WHERE status_post = 'active' AND (title LIKE ? OR content_post LIKE ?)";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
-            ptm.setString(1, "%" + title + "%");
+            ptm.setNString(1, "%" + title + "%");
+            ptm.setNString(2, "%" + title + "%");
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
-            
             e.printStackTrace();
         }
         return 0;
@@ -191,6 +188,7 @@ public class PostDAO extends DBContext {
         Vector<Post> list = new Vector<>();
         String query = "SELECT TOP (?) p.*, a.username FROM Post p " +
                       "JOIN Account a ON p.account_id = a.account_id " +
+                      "WHERE p.status_post = 'active' " +
                       "ORDER BY p.post_date DESC";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
@@ -210,7 +208,6 @@ public class PostDAO extends DBContext {
                 list.add(post);
             }
         } catch (SQLException e) {
-           
             e.printStackTrace();
         }
         return list;
@@ -318,6 +315,7 @@ public class PostDAO extends DBContext {
         }
         return 0;
     }
+
 public Vector<Post> get3LastestPost() {
         String sql = "SELECT TOP 3 *\n"
                 + "FROM Post\n"
@@ -338,6 +336,7 @@ public Vector<Post> get3LastestPost() {
         }
         return listPost;
     }
+
     public List<Post> getAllPosts() {
         List<Post> list = new ArrayList<>();
         String sql = "SELECT p.*, a.username FROM Post p JOIN Account a ON p.account_id = a.account_id ORDER BY p.post_date DESC";
