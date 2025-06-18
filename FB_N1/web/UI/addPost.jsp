@@ -50,7 +50,7 @@
                                     <textarea name="userContent" rows="6" placeholder="Nhập nội dung bài viết..."></textarea>
                                 </div>
                                 
-                                <!-- Các field booking chỉ hiển thị cho user thường (role_id != 1,2) -->
+                                
                                 <c:if test="${account.userProfile.roleId != 1 && account.userProfile.roleId != 2}">
                                     <div class="grid-input-2 mb-45">
                                         <div class="input-wrap">
