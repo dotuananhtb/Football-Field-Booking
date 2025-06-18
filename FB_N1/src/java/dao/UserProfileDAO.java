@@ -70,7 +70,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-     
+
     public void insertProfile(UserProfile up) {
         String sql = "INSERT INTO tblUserProfile (accountId, roleId, firstName, lastName, address, gender, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -137,6 +137,21 @@ public class UserProfileDAO extends DBContext {
 
     }
 
+    public boolean updateAvatar(String avatarPath, int accountId) {
+        String sql = "UPDATE UserProfile SET avatar = ? WHERE account_id = ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setString(1, avatarPath);  // đường dẫn ảnh avatar (VD: "assets/img/avatars/tenfile.jpg")
+            ptm.setInt(2, accountId);
+
+            int rowsAffected = ptm.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
     public void deleteProfile(int accountId) {
         String sql = "DELETE FROM tblUserProfile WHERE accountId = ?";
         try {
@@ -168,7 +183,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-    
+
 //public Contact getContact() {
 //        String sql = "SELECT * FROM contact_info WHERE id = 1";
 //        try {
@@ -190,30 +205,30 @@ public class UserProfileDAO extends DBContext {
 //        }
 //        return null;
 //    }
-public Contact getContact() {
-    String sql = "SELECT * FROM contact_info WHERE id = 1";
-    try (PreparedStatement pts = connection.prepareStatement(sql)) {
-        ResultSet rs = pts.executeQuery();
-        if (rs.next()) {
-            Contact contact = new Contact();
-            contact.setDescription(rs.getString(5)); // Sửa tên cột đúng với database
-            contact.setEmail(rs.getString(2));
-            contact.setPhone(rs.getString(3));
-            contact.setAddress(rs.getString(4));
-            return contact; // Trả về đối tượng Contact
+    public Contact getContact() {
+        String sql = "SELECT * FROM contact_info WHERE id = 1";
+        try (PreparedStatement pts = connection.prepareStatement(sql)) {
+            ResultSet rs = pts.executeQuery();
+            if (rs.next()) {
+                Contact contact = new Contact();
+                contact.setDescription(rs.getString(5)); // Sửa tên cột đúng với database
+                contact.setEmail(rs.getString(2));
+                contact.setPhone(rs.getString(3));
+                contact.setAddress(rs.getString(4));
+                return contact; // Trả về đối tượng Contact
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // In lỗi nếu có
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace(); // In lỗi nếu có
+        return null; // Trả về null nếu không có dữ liệu
     }
-    return null; // Trả về null nếu không có dữ liệu
-}
+
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
         Vector<UserProfile> us = dao.getAllProfiles();
-        for (UserProfile user : us){
+        for (UserProfile user : us) {
             System.out.println(user);
         }
-
 
     }
 
