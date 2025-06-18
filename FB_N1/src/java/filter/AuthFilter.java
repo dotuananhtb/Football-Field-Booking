@@ -14,7 +14,7 @@ import java.io.IOException;
 import model.Account;
 import util.ToastUtil;
 
-@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
+@WebFilter(urlPatterns = {"/userProfile", "/dat-san","/DanhSachSan", "/chi-tiet-dat-san", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
