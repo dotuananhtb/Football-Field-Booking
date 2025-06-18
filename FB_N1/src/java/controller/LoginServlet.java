@@ -63,10 +63,8 @@ public class LoginServlet extends HttpServlet {
         String remember = request.getParameter("remember");
         AccountDAO dao = new AccountDAO();
         boolean isSuccess = dao.checkLogin(username, password);
-        
+
         int statusID = dao.getStatusIDbyAccount(username, password);
-        
-        
 
         if (isSuccess && statusID == 1) {
             Account acc = dao.getAccountByUsername(username);
@@ -75,7 +73,6 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("account", acc);
             session.setAttribute("userProfile", acc.getUserProfile());
             session.setAttribute("statusID", statusID);
-            
 
             // Xử lý ghi nhớ
             if ("on".equals(remember)) {
@@ -98,9 +95,16 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(rememberCookie);
             }
 
+            // ✅ Redirect về trang trước khi login nếu có(para dung js)
+            String redirectParam = request.getParameter("redirectAfterLogin");
+
+            if (redirectParam != null && !redirectParam.isEmpty()) {
+                // Lưu vào session để redirect sau này
+                session.setAttribute("redirectAfterLogin", redirectParam);
+            }
+
             // ✅ Redirect về trang trước khi login nếu có
             String redirectPath = (String) session.getAttribute("redirectAfterLogin");
-
 
             if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
                 session.removeAttribute("redirectAfterLogin");

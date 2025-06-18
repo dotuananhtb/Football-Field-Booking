@@ -231,7 +231,7 @@
                                                 .show-more-indicator.visible {
                                                     display: block;
                                                 }
-                                                
+
 
                                                 .show-more-text {
                                                     font-size: 12px;
@@ -1123,6 +1123,9 @@
 
 
                                                                                                                                                                                     </script>
+                                                                                                                                                                                    <script>
+                                                                                                                                                                                        const isLoggedIn = <%= session.getAttribute("account") != null%>;
+                                                                                                                                                                                    </script>
 
 
                                                                                                                                                                                     <script>
@@ -1182,6 +1185,12 @@
                                                                                                                                                                                             console.log("📌 Slots đã chọn:", selectedSlots);
                                                                                                                                                                                         }
                                                                                                                                                                                         function bookField() {
+                                                                                                                                                                                            if (!isLoggedIn) {
+                                                                                                                                                                                                const currentURL = window.location.pathname + window.location.search;
+                                                                                                                                                                                                const encodedURL = encodeURIComponent(currentURL);
+                                                                                                                                                                                                window.location.href = `/FB_N1/login?redirectAfterLogin=${encodedURL}`;
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
                                                                                                                                                                                             if (selectedSlots.length === 0) {
                                                                                                                                                                                                 alert("⚠️ Bạn chưa chọn ca nào để đặt.");
                                                                                                                                                                                                 return;
@@ -1382,7 +1391,7 @@
                                                                                                                                                                                                             });
                                                                                                                                                                                                         }
 
-                                                                                                                                                                                                        
+
 
 
                                                                                                                                                                                                         // Initialize
