@@ -21,6 +21,28 @@ public class Account {
     public Account() {
     }
 
+    public Account( int statusId, String username, String password, String email, UserProfile userProfile) {
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userProfile = userProfile;
+    
+    }
+    
+    
+    
+    public Account(int accountId, int statusId, String username, String password, String email, String createdAt, UserProfile userProfile, int roleId) {
+        this.accountId = accountId;
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.userProfile = userProfile;
+        this.roleId = roleId;
+    }
+    
     public Account(int accountId, int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
         this.accountId = accountId;
         this.statusId = statusId;
@@ -122,7 +144,8 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + "accountId=" + accountId + ", statusId=" + statusId + ", username=" + username + ", password=" + password + ", email=" + email + ", createdAt=" + createdAt + '}';
+        return "Account{" + "accountId=" + accountId + ", statusId=" + statusId + ", username=" + username + ", password=" + password + ", email=" + email + ", createdAt=" + createdAt + ", userProfile=" + userProfile +  '}';
     }
+
     
 }

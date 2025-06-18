@@ -94,7 +94,39 @@
             </li>
             
             <c:if test="${sessionScope.role.roleId == 1}">
+            
+            
             <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons" class="side-nav-link">
+                    <i class="ri-service-fill"></i>
+                    <span> Quản lý sân </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarIcons">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="icons-remixicons.html">Remix Icons</a>
+                        </li>
+                        <li>
+                            <a href="icons-bootstrap.html">Bootstrap Icons</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            </c:if>
+            
+
+            <li class="side-nav-title">Chung</li>
+            
+            <li class="side-nav-item">
+                <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
+                    <i class="ri-pages-fill"></i>
+                    <span> Quản lí bài viết </span>
+                    
+                </a></li>
+                
+                <c:if test="${sessionScope.role.roleId == 1}">
+                <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="ri-briefcase-fill"></i>
                     <span> Quản Lý Trang Chủ</span>
@@ -125,46 +157,16 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="extended-dragula.html">Danh sách người dùng</a>
+                            <a href="/FB_N1/admin/manage-user">Danh sách người dùng</a>
                         </li>
                         <li>
-                            <a href="extended-range-slider.html">Danh sách nhân viên</a>
+                            <a href="/FB_N1/admin/manage-staff">Danh sách nhân viên</a>
                         </li>
                         
                     </ul>
                 </div>
             </li>
-            
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons" class="side-nav-link">
-                    <i class="ri-service-fill"></i>
-                    <span> Quản lý sân </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarIcons">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="icons-remixicons.html">Remix Icons</a>
-                        </li>
-                        <li>
-                            <a href="icons-bootstrap.html">Bootstrap Icons</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            </c:if>
-            
-
-            <li class="side-nav-title">Custom</li>
-            
-            <li class="side-nav-item">
-                <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
-                    <i class="ri-pages-fill"></i>
-                    <span> Quản lí bài viết </span>
-                    
-                </a></li>
-                
-                
+                </c:if>
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">

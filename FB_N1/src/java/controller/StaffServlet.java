@@ -5,6 +5,8 @@
 
 package controller;
 
+import dao.AccountDAO;
+import dao.StatusAccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,12 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Account;
+import model.StatusAccount;
+import util.ToastUtil;
 
 /**
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="StaffServlet", urlPatterns={"/staff"})
+@WebServlet(name="StaffServlet", urlPatterns={"/admin/manage-staff"})
 public class StaffServlet extends HttpServlet {
    
     /** 
@@ -41,23 +47,34 @@ public class StaffServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String accountId = request.getParameter("aId");
+        String statusId = request.getParameter("sId");
+        
+        AccountDAO aDao = new AccountDAO();
+        boolean a = aDao.changeStatus(accountId, statusId);
+        if(a){
+            ToastUtil.setSuccessToast(request, "Đổi trạng thái thành công!");
+        }
+          doGet(request, response); 
+    }
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        request.getRequestDispatcher("admin/staff.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        int roleId = 2;
+       StatusAccountDAO sDao = new StatusAccountDAO();
+       AccountDAO aDao = new AccountDAO();
+        
+        List<StatusAccount> listS = sDao.getStatusAccount();
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+        List<Account> listA = aDao.getAccountByRoleId(roleId);
+        request.setAttribute("listUser", listA);
+        request.setAttribute("listStatus", listS);
+        request.getRequestDispatcher("/admin/manage-staff.jsp").forward(request, response);
+
     }
 
     /** 

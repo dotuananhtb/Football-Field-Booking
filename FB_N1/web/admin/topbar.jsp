@@ -117,7 +117,7 @@
                     <i class="ri-home-3-line fs-22"></i>
                 </a>
             </li>
-            
+
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="ri-notification-3-line fs-22"></i>
@@ -314,7 +314,8 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
-                        <img src="${sessionScope.userProfile.avatar}" alt="user-image" width="32" class="rounded-circle">
+                        <img src="${sessionScope.userProfile.avatar}"
+                             style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
                         <h5 class="my-0"> ${sessionScope.account.userProfile.firstName}</h5>
@@ -352,10 +353,10 @@
                     </a>
 
                     <!-- item-->
-                    
+
 
                     <!-- item-->
-                    
+
 
                     <!-- item-->
                     <a href="/FB_N1/logout" class="dropdown-item">

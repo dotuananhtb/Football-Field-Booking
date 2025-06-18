@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.DBContext;
@@ -45,6 +47,7 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
+    
 
     public UserProfile getProfileByAccountId(int accountId) {
         String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
@@ -70,6 +73,57 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
+    public UserProfile getProfileByAccountIdString(String accountId) {
+        String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setString(1, accountId);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return new UserProfile(
+                        rs.getInt("account_id"),
+                        rs.getInt("role_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("address"),
+                        rs.getString("gender"),
+                        rs.getString("dob"),
+                        rs.getString("phone"),
+                        rs.getString("avatar")
+                );
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    public Vector<UserProfile> getProfileByRoleId(int roleId) {
+        String sql = "SELECT * FROM UserProfile WHERE role_id = ?";
+        Vector <UserProfile> list = new Vector<>();
+        try {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, roleId);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                UserProfile u = new UserProfile(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9)
+                );
+                list.add(u);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+     
 
     public void insertProfile(UserProfile up) {
         String sql = "INSERT INTO tblUserProfile (accountId, roleId, firstName, lastName, address, gender, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -225,11 +279,12 @@ public class UserProfileDAO extends DBContext {
 
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        Vector<UserProfile> us = dao.getAllProfiles();
-        for (UserProfile user : us) {
-            System.out.println(user);
+        Vector<UserProfile> list = dao.getProfileByRoleId(3);
+       for(UserProfile u : list){
+           System.out.println(u);
+       }
         }
 
     }
 
-}
+
