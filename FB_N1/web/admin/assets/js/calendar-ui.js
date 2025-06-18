@@ -1,55 +1,22 @@
 // calendar-ui.js
 
-// Biến toàn cục
 let calendar;
 let selectedSlots = [];
 
-// Khởi động
 document.addEventListener('DOMContentLoaded', function () {
     initCalendar();
     calendar.render();
     bindUIEvents();
 });
 
-// 🔹 1. Khởi tạo FullCalendar
-function initCalendar() {
-    const calendarEl = document.getElementById('calendar');
-
-    calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        },
-        views: {
-            dayGridMonth: {buttonText: 'Tháng'},
-            timeGridWeek: {buttonText: 'Tuần'},
-            timeGridDay: {buttonText: 'Ngày'},
-            listWeek: {buttonText: 'Danh sách'}
-        },
-        locale: 'vi',
-        height: 'auto',
-        eventDidMount: function (info) {
-            const titleEl = info.el.querySelector('.fc-event-title');
-            if (titleEl)
-                titleEl.style.display = 'none';
-        },
-        events: fetchSlotEvents,
-        eventClick: handleEventClick
-    });
-}
-
-// 🔹 2. UI xử lý chọn slot
+// 🔹 1. Hiển thị bảng slot đã chọn
 function renderSelectedTable() {
     const tbody = $("#selectedSlotsTable tbody");
     tbody.empty();
     let total = 0;
-
     selectedSlots.forEach((slot, index) => {
         const price = parseFloat(slot.price) || 0;
         total += price;
-
         tbody.append(`
             <tr data-index="${index}">
                 <td>${slot.slot_date}</td>
@@ -71,29 +38,28 @@ function renderSelectedTable() {
 
     $("#selectedSlotsTable").toggle(selectedSlots.length > 0);
     $("#totalPrice").toggle(selectedSlots.length > 0)
-            .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+        .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
     $("#bookNowBtn").toggle(selectedSlots.length > 0);
 }
 
-// 🔹 3. Khôi phục lại màu ca đã huỷ chọn
+// 🔹 2. Khôi phục slot
 function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-                props.slot_date === removedSlot.slot_date &&
-                event.startStr === removedSlot.start &&
-                event.endStr === removedSlot.end
-                ) {
+            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+            props.slot_date === removedSlot.slot_date &&
+            event.startStr === removedSlot.start &&
+            event.endStr === removedSlot.end
+        ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
 }
 
-// 🔹 4. Hiển thị modal Admin
+// 🔹 3. Modal chi tiết slot
 function openStatusModal(event) {
     const slot = event.extendedProps;
-
     $('#event-modal').modal('show');
     $('#event-date').val(slot.slot_date);
     $('#event-time').val(event.title);
@@ -104,9 +70,40 @@ function openStatusModal(event) {
     $('#btn-cancel-slot, #modal-cancel-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
     $('#btn-pending-slot, #modal-pending-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
 
+    $.ajax({
+        url: '/FB_N1/check-slot-info',
+        method: 'GET',
+        data: {
+            slotDate: slot.slot_date,
+            slotFieldId: slot.slot_field_id
+        },
+        success: function (data) {
+            if (data) {
+                $('#btn-show-customer').data('customerInfo', data);
+                $('#event-field-name').val(data.fieldName || '---');
+                $('#event-field-type').val(data.fieldTypeName || '---');
+                $('#event-status').val(data.slotStatus || '---');
+            }
+        },
+        error: function () {
+            $('#btn-show-customer').data('customerInfo', null);
+        }
+    });
 }
 
-// 🔹 5. Gán sự kiện UI
+// 🔹 4. Modal thông tin người đặt
+function showCustomerInfoModal(info) {
+    $('#ci-name').text(info.customerName || '---');
+    $('#ci-phone').text(info.phone || '---');
+    $('#ci-email').text(info.email || '---');
+    $('#ci-note').text(info.note || '---');
+    $('#ci-booking-id').text(info.bookingId || '---');
+    $('#ci-booking-details-id').text(info.bookingDetailsId || '---');
+    $('#ci-booking-date').text(info.bookingDate || '---');
+    $('#customer-info-modal').modal('show');
+}
+
+// 🔹 5. Sự kiện UI
 function bindUIEvents() {
     $('#fieldSelect').on('change', function () {
         calendar.refetchEvents();
@@ -116,21 +113,23 @@ function bindUIEvents() {
     $('#bookNowBtn').on('click', handleBookingSubmit);
 
     $('#modal-confirm-btn, #btn-confirm-slot').on('click', function () {
-        const slotId = $(this).data('slotId');
-        const slotDate = $(this).data('slotDate');
-        updateSlotStatus(slotId, slotDate, 1);
+        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 1);
     });
+
     $('#modal-pending-btn, #btn-pending-slot').on('click', function () {
-        const slotId = $(this).data('slotId');
-        const slotDate = $(this).data('slotDate');
-        updateSlotStatus(slotId, slotDate, 2);
+        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 2);
     });
+
     $('#modal-cancel-btn, #btn-cancel-slot').on('click', function () {
-        const slotId = $(this).data('slotId');
-        const slotDate = $(this).data('slotDate');
-        updateSlotStatus(slotId, slotDate, 3);
+        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 3);
     });
 
-
-
+    $('#btn-show-customer').on('click', function () {
+        const info = $(this).data('customerInfo');
+        if (!info) {
+            showToast("warning", "Không tìm thấy thông tin người đặt.");
+            return;
+        }
+        showCustomerInfoModal(info);
+    });
 }
