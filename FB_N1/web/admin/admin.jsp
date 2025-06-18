@@ -10,44 +10,46 @@
 
     <head>
         <meta charset="utf-8" />
-            <base href="${pageContext.request.contextPath}/ADMIN/">
-        <title>Dashboard | Powerx - Bootstrap 5 Admin & Dashboard Template</title>
+        <base href="${pageContext.request.contextPath}/admin/">
+        <title>ADMIN - Quản lí FootballStar</title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
 
+        <!-- Them_1 sau "App favicon" -->
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- Daterangepicker css -->
-        <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+        <%@include file="head_only.jsp" %>
+        <!-- End_Them_1 sau "App favicon" -->
 
-        <!-- Vector Map css -->
-        <link rel="stylesheet" href="assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css">
-
-        <!-- Theme Config Js -->
-        <script src="assets/js/config.js"></script>
-
-        <!-- App css -->
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
-
-        <!-- Icons css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
         <!-- Begin page -->
         <div class="wrapper">
 
-            
+            <!-- Them_2 sau "Topbar Start" -->
             <!-- ========== Topbar Start ========== -->
             <jsp:include page="topbar.jsp"/>
             <!-- ========== Topbar End ========== -->
+            <!-- End_Them_2 sau "Topbar End" -->
 
+            <!-- Them_3 sau "Topbar Left Sidebar Start" -->
             <!-- ========== Left Sidebar Start ========== -->
             <jsp:include page="left_sidebar.jsp"/>
             <!-- ========== Left Sidebar End ========== -->
-            
+            <!-- End_Them_3 sau "Topbar Left Sidebar Start" -->
+
+
+
+
+
+
+
+            <!-- Noi Dung Chinh Start -->
+
+
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -82,13 +84,13 @@
                                             </a>
                                         </form>
                                     </div>
-                                    <h4 class="page-title">Dashboard</h4>
+                                    <h4 class="page-title">Doanh Thu</h4>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-        
+
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -109,7 +111,7 @@
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
                             </div> <!-- end col -->
-        
+
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -226,7 +228,7 @@
 
                                     <div class="card-body pt-0">
                                         <div id="average-sales" class="apex-charts mb-3"
-                                            data-colors="#6da09c"></div>
+                                             data-colors="#6da09c"></div>
 
                                         <h5 class="mb-1 mt-0 fw-normal">Brooklyn, New York</h5>
                                         <div class="progress-w-percent">
@@ -396,170 +398,27 @@
 
                 </div>
                 <!-- content -->
-
+                <!-- Them_4 sau "Footer Start" -->
                 <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <script>document.write(new Date().getFullYear())</script> © Powerx - Coderthemes.com
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-end footer-links d-none d-md-block">
-                                    <a href="javascript: void(0);">About</a>
-                                    <a href="javascript: void(0);">Support</a>
-                                    <a href="javascript: void(0);">Contact Us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <%@include file="footer.jsp" %>
                 <!-- end Footer -->
-
+                <!-- End_Them_4 sau "Footer end" -->
             </div>
 
             <!-- ============================================================== -->
             <!-- End Page content -->
             <!-- ============================================================== -->
+            <!-- Nho them include footer.jsp ở trên -->
+
+
+
+
+            <!-- Noi Dung Chinh End -->
 
         </div>
         <!-- END wrapper -->
 
         <!-- Theme Settings -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="theme-settings-offcanvas">
-            <div class="d-flex align-items-center bg-primary p-3 offcanvas-header">
-                <h5 class="text-white m-0">Theme Settings</h5>
-                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-
-            <div class="offcanvas-body p-0">
-                <div data-simplebar class="h-100">
-                    <div class="card border-0 mb-0 p-3">
-                        <div class="alert alert-warning" role="alert">
-                            <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
-                        </div>
-
-                        <h5 class="my-3 fs-16 fw-bold">Color Scheme</h5>
-
-                        <div class="d-flex flex-column gap-2">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-light" value="light">
-                                <label class="form-check-label" for="layout-color-light">Light</label>
-                            </div>
-
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-dark" value="dark">
-                                <label class="form-check-label" for="layout-color-dark">Dark</label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h5 class="my-3 fs-16 fw-bold">Menu Color</h5>
-
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-light" value="light">
-                                    <label class="form-check-label" for="leftbar-color-light">Light</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-dark" value="dark">
-                                    <label class="form-check-label" for="leftbar-color-dark">Dark</label>
-                                </div>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-brand" value="brand">
-                                    <label class="form-check-label" for="leftbar-color-brand">Brand</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="sidebar-size">
-                            <h5 class="my-3 fs-16 fw-bold">Sidebar Size</h5>
-
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-default" value="default">
-                                    <label class="form-check-label" for="leftbar-size-default">Default</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-compact" value="compact">
-                                    <label class="form-check-label" for="leftbar-size-compact">Compact</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-small" value="condensed">
-                                    <label class="form-check-label" for="leftbar-size-small">Condensed</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-full" value="full">
-                                    <label class="form-check-label" for="leftbar-size-full">Full Layout</label>
-                                </div>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="data-sidenav-size" id="leftbar-size-fullscreen" value="fullscreen">
-                                    <label class="form-check-label" for="leftbar-size-fullscreen">Fullscreen Layout</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="layout-position">
-                            <h5 class="my-3 fs-16 fw-bold">Layout Position</h5>
-
-                            <div class="btn-group checkbox" role="group">
-                                <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed" value="fixed">
-                                <label class="btn btn-soft-primary w-sm" for="layout-position-fixed">Fixed</label>
-
-                                <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-scrollable" value="scrollable">
-                                <label class="btn btn-soft-primary w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
-                            </div>
-                        </div>
-
-                        <div id="sidebar-user">
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <label class="fs-16 fw-bold m-0" for="sidebaruser-check">Sidebar User Info</label>
-                                <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" name="sidebar-user" id="sidebaruser-check">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="offcanvas-footer border-top p-3 text-center">
-                <div class="row">
-                    <div class="col-6">
-                        <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
-                    </div>
-                    <div class="col-6">
-                        <a href="#" role="button" class="btn btn-primary w-100">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>          
-        
-        <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
-
-        <!-- Daterangepicker js -->
-        <script src="assets/vendor/daterangepicker/moment.min.js"></script>
-        <script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
-        
-        <!-- Apex Charts js -->
-        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-
-        <!-- Vector Map js -->
-        <script src="assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-        <script src="assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
-
-        <!-- Dashboard App js -->
-        <script src="assets/js/pages/demo.dashboard.js"></script>
-
-        <!-- App js -->
-        <script src="assets/js/app.min.js"></script>
-
+        <%@include file="themesetting.jsp" %>
     </body>
 </html> 

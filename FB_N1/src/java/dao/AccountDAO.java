@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mailverify.SendMail;
@@ -16,11 +18,63 @@ import util.DBContext;
 
 public class AccountDAO extends DBContext {
 
+    public List<Account> getAccountByRoleId(int roleId) {
+
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT a.account_id, a.username, a.status_id, a.password, a.email, a.created_at, u.address, u.avatar, u.dob, u.first_name,\n"
+                + "u.gender,u.last_name,u.phone,u.role_id\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account] a join UserProfile u on a.account_id = u.account_id\n"
+                + "  where u.role_id = ?";
+        try (PreparedStatement ptm = connection.prepareStatement(sql);) {
+            ptm.setInt(1, roleId);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+
+                UserProfile u = new UserProfile(
+                        rs.getInt("account_id"),
+                        rs.getInt("role_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("address"),
+                        rs.getString("gender"),
+                        rs.getString("dob"),
+                        rs.getString("phone"),
+                        rs.getString("avatar")
+                );
+
+                Account a = new Account(rs.getInt("account_id"), rs.getInt("status_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("created_at"),
+                        u);
+                list.add(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+
+    }
+
     public boolean updateStatus(int accountId, int newStatusId) {
         String sql = "UPDATE Account SET status_id = ? WHERE account_id = ?";
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, newStatusId);
             ps.setInt(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeStatus(String accountId, String newStatusId) {
+        String sql = "UPDATE Account SET status_id = ? WHERE account_id = ?";
+        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newStatusId);
+            ps.setString(2, accountId);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -55,6 +109,23 @@ public class AccountDAO extends DBContext {
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
                         rs.getString(6), userProfileDAO.getProfileByAccountId(accountId));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public Account getAccountByIdString(String accountId) {
+        UserProfileDAO userProfileDAO = new UserProfileDAO();
+        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getString(6), userProfileDAO.getProfileByAccountIdString(accountId));
 
             }
         } catch (Exception e) {
@@ -168,6 +239,78 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+   public boolean insertAccountWithProfile(Account account) {
+    String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
+    String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try {
+        connection.setAutoCommit(false); // Bắt đầu transaction
+
+        // Insert vào bảng Account
+        PreparedStatement psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+        psAccount.setInt(1, account.getStatusId());
+        psAccount.setString(2, account.getUsername());
+        psAccount.setString(3, account.getPassword());
+        psAccount.setString(4, account.getEmail());
+        psAccount.setString(5, account.getCreatedAt());
+
+        int affectedRows = psAccount.executeUpdate();
+        if (affectedRows == 0) {
+            connection.rollback();
+            return false;
+        }
+
+        ResultSet rs = psAccount.getGeneratedKeys();
+        int accountId;
+        if (rs.next()) {
+            accountId = rs.getInt(1);
+            account.setAccountId(accountId);
+        } else {
+            connection.rollback();
+            return false;
+        }
+
+        // Insert vào bảng UserProfile
+        PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
+        UserProfile profile = account.getUserProfile();
+
+        psProfile.setInt(1, accountId);
+        psProfile.setInt(2, profile.getRoleId());
+        psProfile.setString(3, profile.getFirstName());
+        psProfile.setString(4, profile.getLastName());
+        psProfile.setString(5, profile.getAddress());
+        psProfile.setString(6, profile.getGender());
+        psProfile.setString(7, profile.getDob());
+        psProfile.setString(8, profile.getPhone());
+        psProfile.setString(9, profile.getAvatar());
+
+        int profileResult = psProfile.executeUpdate();
+        if (profileResult == 0) {
+            connection.rollback();
+            return false;
+        }
+
+        connection.commit(); // Nếu cả hai insert thành công
+        return true;
+    } catch (Exception e) {
+        e.printStackTrace();
+        try {
+            connection.rollback();
+        } catch (SQLException rollbackEx) {
+            rollbackEx.printStackTrace();
+        }
+    } finally {
+        try {
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return false;
+}
+
+
+
     public boolean addAccountAndSendVerificationEmail(Account account) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -270,6 +413,43 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean updateAccount(Account account) {
+    String updateAccountSQL = "UPDATE Account SET status_id = ?, username = ?, password = ?, email = ?, created_at = ? WHERE account_id = ?";
+    String updateProfileSQL = "UPDATE UserProfile SET role_id = ?, first_name = ?, last_name = ?, address = ?, gender = ?, dob = ?, phone = ? WHERE account_id = ?";
+    
+    try (Connection conn = connection;
+         PreparedStatement psAccount = conn.prepareStatement(updateAccountSQL);
+         PreparedStatement psProfile = conn.prepareStatement(updateProfileSQL)) {
+
+        // Cập nhật bảng Account
+        psAccount.setInt(1, account.getStatusId());
+        psAccount.setString(2, account.getUsername());
+        psAccount.setString(3, account.getPassword());
+        psAccount.setString(4, account.getEmail());
+        psAccount.setString(5, account.getCreatedAt());
+        psAccount.setInt(6, account.getAccountId());
+        int accountUpdated = psAccount.executeUpdate();
+
+        // Cập nhật bảng UserProfile (bỏ avatar)
+        UserProfile profile = account.getUserProfile();
+        psProfile.setInt(1, profile.getRoleId());
+        psProfile.setString(2, profile.getFirstName());
+        psProfile.setString(3, profile.getLastName());
+        psProfile.setString(4, profile.getAddress());
+        psProfile.setString(5, profile.getGender());
+        psProfile.setString(6, profile.getDob());
+        psProfile.setString(7, profile.getPhone());
+        psProfile.setInt(8, account.getAccountId());
+        int profileUpdated = psProfile.executeUpdate();
+
+        return accountUpdated > 0 && profileUpdated > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
 
     public boolean update_Password(String username, String newPassword) {
         String sql = "UPDATE [Account] SET password = ? WHERE username = ?";
@@ -551,26 +731,9 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        UserProfile profile = new UserProfile();
-        profile.setRoleId(3);
-        profile.setFirstName("Tuan");
-        profile.setLastName("Anh");
-        profile.setAddress("Ha Noi");
-        profile.setGender("Nam");
-        profile.setDob("2000-01-01");
-        profile.setPhone("0123456789");
-        profile.setAvatar("assets/img/avatars/avatar_goc.jpg");
+        boolean a = dao.updateStatus(7, 3);
+        System.out.println(a);
 
-        Account account = new Account();
-        account.setStatusId(3);
-        account.setUsername("binhcute5a");
-        account.setPassword("123456");
-        account.setEmail("pitiy69288@pricegh.com");
-        account.setCreatedAt(createdAt);
-        account.setUserProfile(profile);
-
-        boolean result = dao.addAccountAndSendVerificationEmail(account);
     }
 }

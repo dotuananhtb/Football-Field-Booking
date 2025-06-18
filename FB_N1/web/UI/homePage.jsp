@@ -297,11 +297,10 @@
                                                                                                                                                                                                         </c:forEach>
 
                                                                                                                                                                                                         </div>
-
-
+                                                                                                                                                                                                        
                                                                                                                                                                                                         <div class="row wow fadeInUp">
                                                                                                                                                                                                         <div class="col-lg-12 center mt-44">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/home#field" class="btn-main">
+                                                                                                                                                                                                        <a href="/FB_N1/DanhSachSan" class="btn-main">
                                                                                                                                                                                                         <p class="btn-main-text">Xem tất cả</p>
                                                                                                                                                                                                         <p class="iconer">
                                                                                                                                                                                                         <i class="icon-13"></i>
@@ -1221,10 +1220,10 @@
 
 
                                                                                                                                                                                                         </ul>
-                                                                                                                                                                                                        <h3 class="entry-title"><a href="blog-details.html">${post.title}</a></h3>
+                                                                                                                                                                                                        <h3 class="entry-title"><a href="/FB_N1/blogdetails">${post.title}</a></h3>
                                                                                                                                                                                                         <p class="des">${post.contentPost}
                                                                                                                                                                                                         </p>
-                                                                                                                                                                                                        <a href="blog-details.html" class="btn-read-more">Đọc thêm <i
+                                                                                                                                                                                                        <a href="/FB_N1/blogdetails" class="btn-read-more">Đọc thêm <i
                                                                                                                                                                                                         class="icon-Vector-4"></i></a>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>

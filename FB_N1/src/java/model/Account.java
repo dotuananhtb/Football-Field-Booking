@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
 import java.util.Date;
+
 /**
  *
  * @author Asus
  */
 public class Account {
+
     private int accountId;
     private int statusId;
     private String username;
@@ -16,9 +19,17 @@ public class Account {
     private String email;
     private String createdAt;
     private UserProfile userProfile;
-    private int roleId;
 
     public Account() {
+    }
+
+    public Account(int statusId, String username, String password, String email, UserProfile userProfile) {
+        this.statusId = statusId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userProfile = userProfile;
+
     }
 
     public Account(int accountId, int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
@@ -39,7 +50,6 @@ public class Account {
         this.email = email;
         this.createdAt = createdAt;
     }
-    
 
     public Account(int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
         this.statusId = statusId;
@@ -49,9 +59,6 @@ public class Account {
         this.createdAt = createdAt;
         this.userProfile = userProfile;
     }
-    
-    
-    
 
     public UserProfile getUserProfile() {
         return userProfile;
@@ -60,9 +67,6 @@ public class Account {
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
-    
-
-    
 
     public int getAccountId() {
         return accountId;
@@ -112,17 +116,9 @@ public class Account {
         this.createdAt = createdAt;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
     @Override
     public String toString() {
-        return "Account{" + "accountId=" + accountId + ", statusId=" + statusId + ", username=" + username + ", password=" + password + ", email=" + email + ", createdAt=" + createdAt + '}';
+        return "Account{" + "accountId=" + accountId + ", statusId=" + statusId + ", username=" + username + ", password=" + password + ", email=" + email + ", createdAt=" + createdAt + ", userProfile=" + userProfile + '}';
     }
-    
+
 }

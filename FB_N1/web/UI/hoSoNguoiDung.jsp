@@ -35,6 +35,34 @@
                                                 <main id="main">
                                                     <section class="profile-dashboard">
 
+                                                        <!-- Mẫu cho nhóm upload ảnh_ ae thay đổi giá trị value để tạo ra folder lưu riêng ảnh cho Object mình làm -->                                                        
+                                                        <form action="${pageContext.request.contextPath}/upload-cloud-image" method="post" enctype="multipart/form-data">
+                                                            <div class="form-group mb-3">
+                                                                <label for="avatar">Chọn ảnh đại diện Cloud(Dùng api cloudinary):</label>
+                                                                <input type="file" name="image" id="avatar" accept="image/*" class="form-control" required>
+                                                            </div>
+
+                                                            <input type="hidden" name="type" value="avatars">
+
+                                                                <button type="submit" class="btn btn-primary">Cập nhật avatar</button>
+                                                        </form>
+
+                                                        <form action="${pageContext.request.contextPath}/upload-image" method="post" enctype="multipart/form-data">
+                                                            <div class="mb-3">
+                                                                <label for="image" class="form-label">Chọn ảnh đại diện lưu vào assets/images/upload</label>
+                                                                <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
+                                                            </div>
+
+                                                            <input type="hidden" name="type" value="avatars"> <!-- value này là cho thư mục riêng cho mỗi  object -->
+
+                                                                <button type="submit" class="btn btn-primary">Tải lên</button>
+                                                        </form>
+                                                        <!-- comment: Do Tuan Anh -->
+
+
+
+
+
                                                         <%
                                                             // Lấy ngày hiện tại
                                                             String currentDate = LocalDate.now().toString();
@@ -71,27 +99,27 @@
                                                                             <div class="input-wrap">
                                                                                 <label>Tên Đăng Nhập</label>
                                                                                 <input type="text" value="${a.getUsername()}" name="username" 
-                                                                                       pattern="^[a-zA-Z0-9_.]{6,}$" minlength="6"
+                                                                                       pattern="^[a-zA-Z0-9_.]{6,}$" minlength="6" maxlength="30"
                                                                                        title="Tối thiểu 6 ký tự, chỉ gồm chữ, số, dấu gạch dưới và dấu chấm" required>
                                                                                     <span class="error-message" style="color: red;">${mess}</span>
                                                                             </div>
                                                                             <div class="input-wrap">
                                                                                 <label>Số điện thoại</label>
-                                                                                <input type="tel" value="${u.getPhone()}" name="phone" pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số" required>
+                                                                                <input type="tel" value="${u.getPhone()}" name="phone" pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số"  required>
                                                                             </div>
                                                                             <div class="input-wrap">
                                                                                 <label>Họ</label>
-                                                                                <input type="text" value="${u.getLastName()}" name="lname" pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" required>
+                                                                                <input type="text" value="${u.getLastName()}" name="lname" pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" minlength="1" maxlength="50" required>
                                                                             </div>
                                                                             <div class="input-wrap">
                                                                                 <label>Tên</label>
-                                                                                <input type="text" value="${u.getFirstName()}" name="fname"  pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" required>
+                                                                                <input type="text" value="${u.getFirstName()}" name="fname"  pattern="^[A-Za-zÀ-ỹà-ỹ\s]+$" title="Chỉ chứa chữ cái và khoảng trắng" minlength="1" maxlength="30" required>
                                                                             </div>
 
 
                                                                             <div class="input-wrap">
                                                                                 <label>Địa chỉ Email</label>
-                                                                                <input type="email" value="${a.getEmail()}" readonly>
+                                                                                <input type="email" value="${a.getEmail()}"minlength="5" maxlength="200" readonly>
                                                                             </div>
                                                                             <div class="input-wrap">
 
@@ -131,27 +159,8 @@
 
 
 
-                                                        </form><script>
-                                                            // JavaScript để đảm bảo validation ngày sinh
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                const dobInput = document.querySelector('input[name="dob"]');
-                                                                const today = new Date().toISOString().split('T')[0];
+                                                        </form>
 
-                                                                // Set max date động
-                                                                dobInput.setAttribute('max', today);
-
-                                                                // Validation bổ sung
-                                                                dobInput.addEventListener('change', function () {
-                                                                    const selectedDate = new Date(this.value);
-                                                                    const currentDate = new Date();
-
-                                                                    if (selectedDate > currentDate) {
-                                                                        alert('Ngày sinh không được vượt quá ngày hiện tại!');
-                                                                        this.value = '';
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
                                                         <script src="app/js/validateRegister.js"></script>
                                                     </section>
 

@@ -24,7 +24,6 @@
 
     <!-- /preload -->
     <jsp:include page="toast.jsp" />
-
     <jsp:include page="sweetalert-include.jsp" />
     <div id="wrapper">
 

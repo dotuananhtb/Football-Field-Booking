@@ -73,6 +73,22 @@ public class UpdateUser extends HttpServlet {
                 return;
             }
         }
+
+        // Kiểm tra ngày sinh không được lớn hơn ngày hiện tại
+            if (dob != null && !dob.isEmpty()) {
+                try {
+                    java.time.LocalDate dobDate = java.time.LocalDate.parse(dob);
+                    if (dobDate.isAfter(java.time.LocalDate.now())) {
+                        ToastUtil.setErrorToast(request, "Ngày sinh không được lớn hơn ngày hiện tại!");
+                        request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+                        return;
+                    }
+                } catch (java.time.format.DateTimeParseException e) {
+                    ToastUtil.setErrorToast(request, "Định dạng ngày sinh không hợp lệ!");
+                    request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
+                    return;
+                }
+            }
         
         // Cập nhật thông tin profile
         UserProfileDAO userProfileDAO = new UserProfileDAO();
@@ -89,14 +105,14 @@ public class UpdateUser extends HttpServlet {
         UserProfile updatedProfile = userProfileDAO.getProfileByAccountId(accountId);
         Account updatedAccount = accountDAO.getAccountById(accountId);
         
-        ToastUtil.setSuccessToast(request, "Cập nhật thông tin người dùng thành công!");
+        
         
         session.setAttribute("userProfile", updatedProfile);
         session.setAttribute("account", updatedAccount);
         session.setAttribute("username", username);
         session.removeAttribute("mess"); 
         
-        
+        ToastUtil.setSuccessToast(request, "Cập nhật thông tin người dùng thành công!");
         request.getRequestDispatcher("UI/hoSoNguoiDung.jsp").forward(request, response);
         
     } catch (Exception e) {

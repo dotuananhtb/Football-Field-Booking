@@ -26,6 +26,7 @@ import model.Account;
 import model.Role;
 import model.UserProfile;
 import org.w3c.dom.ls.LSOutput;
+import util.ToastUtil;
 
 /**
  *
@@ -74,6 +75,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("account", acc);
             session.setAttribute("userProfile", acc.getUserProfile());
             session.setAttribute("statusID", statusID);
+            
 
             // Xử lý ghi nhớ
             if ("on".equals(remember)) {
