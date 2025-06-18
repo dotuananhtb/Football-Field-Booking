@@ -7,6 +7,7 @@
 <%@page import="model.Field"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.FieldDAO"%>
+<%@ page import="model.Account" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +128,10 @@
             font-size: 18px;
         }
     </style>
+
+
     <body>
+
         <!-- Begin page -->
         <div class="wrapper">
             <!-- Them_2 sau "Topbar Start" -->
@@ -144,6 +148,13 @@
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
+
+            <% Account acc = (Account) session.getAttribute("account");%>
+            <script>
+                const currentUsername = '<%= acc != null ? acc.getUsername() : "unknown"%>';
+                const currentFullName = '<%= acc != null ? acc.getUserProfile().getFirstName() + " " + acc.getUserProfile().getLastName() : "unknown"%>';
+            </script>
+
 
             <div class="content-page">
                 <div class="content">
@@ -206,6 +217,7 @@
                                                     <th>Ngày</th>
                                                     <th>Khung giờ</th>
                                                     <th>Giá</th>
+                                                    <th>Ghi chú(SDT khách)</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                             </thead>

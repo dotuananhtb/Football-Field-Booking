@@ -11,16 +11,17 @@ function initCalendar() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         views: {
-            dayGridMonth: { buttonText: 'Tháng' },
-            timeGridWeek: { buttonText: 'Tuần' },
-            timeGridDay: { buttonText: 'Ngày' },
-            listWeek: { buttonText: 'Danh sách' }
+            dayGridMonth: {buttonText: 'Tháng'},
+            timeGridWeek: {buttonText: 'Tuần'},
+            timeGridDay: {buttonText: 'Ngày'},
+            listWeek: {buttonText: 'Danh sách'}
         },
         locale: 'vi',
         height: 'auto',
         eventDidMount: function (info) {
             const titleEl = info.el.querySelector('.fc-event-title');
-            if (titleEl) titleEl.style.display = 'none';
+            if (titleEl)
+                titleEl.style.display = 'none';
         },
         events: fetchSlotEvents,
         eventClick: handleEventClick
@@ -30,7 +31,8 @@ function initCalendar() {
 // 🔹 2. Lấy ca từ server
 function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     const fieldId = $('#fieldSelect').val();
-    if (!fieldId) return successCallback([]);
+    if (!fieldId)
+        return successCallback([]);
 
     $.ajax({
         url: '/FB_N1/checking-slots2',
@@ -62,9 +64,9 @@ function toggleSlotSelection(info) {
     const slot = info.event.extendedProps;
     const existsIndex = selectedSlots.findIndex(s =>
         String(s.slot_field_id) === String(slot.slot_field_id) &&
-        s.slot_date === slot.slot_date &&
-        s.start === info.event.startStr &&
-        s.end === info.event.endStr
+                s.slot_date === slot.slot_date &&
+                s.start === info.event.startStr &&
+                s.end === info.event.endStr
     );
 
     if (existsIndex > -1) {
@@ -84,23 +86,36 @@ function toggleSlotSelection(info) {
 }
 
 // 🔹 5. Gửi yêu cầu đặt sân
+// 🔹 5. Gửi yêu cầu đặt sân
 function handleBookingSubmit() {
     if (selectedSlots.length === 0) {
         showToast("error", "⚠️ Bạn chưa chọn ca nào để đặt.");
         return;
     }
 
+    // Cập nhật note từ các input vào selectedSlots
+    $("#selectedSlotsTable tbody tr").each(function () {
+        const noteInput = $(this).find(".slot-note-input");
+        const i = noteInput.data("index");
+        const noteVal = noteInput.val();
+        if (i !== undefined && selectedSlots[i]) {
+            selectedSlots[i].note = noteVal;
+        }
+    });
+
     const bookingDetailsList = selectedSlots.map(slot => ({
-        bookingDetailsId: null,
-        bookingId: null,
-        slotFieldId: slot.slot_field_id,
-        slotFieldPrice: slot.price,
-        extraMinutes: 0,
-        extraFee: 0,
-        slotDate: slot.slot_date,
-        note: null,
-        statusCheckingId: 1
-    }));
+            bookingDetailsId: null,
+            bookingId: null,
+            slotFieldId: slot.slot_field_id,
+            slotFieldPrice: slot.price,
+            extraMinutes: 0,
+            extraFee: 0,
+            slotDate: slot.slot_date,
+            note: `NV ${currentUsername} đặt sân offline cho khách: ${slot.note || ""}`, // <-- Gắn username
+            statusCheckingId: 1
+        }));
+
+    // 👉 In ra console để kiểm tra JSON trước khi gửi
 
     $.ajax({
         url: '/FB_N1/admin/dat-san',
@@ -129,6 +144,7 @@ function handleBookingSubmit() {
     });
 }
 
+
 // 🔹 6. Cập nhật trạng thái ca (Admin)
 function updateSlotStatus(slotId, slotDate, statusId) {
     $.ajax({
@@ -142,9 +158,9 @@ function updateSlotStatus(slotId, slotDate, statusId) {
         }),
         success: function () {
             const msg =
-                statusId === 1 ? "✅ Đã xác nhận ca!" :
-                statusId === 2 ? "⌛ Đang chờ xử lý!" :
-                "🚫 Đã huỷ ca!";
+                    statusId === 1 ? "✅ Đã xác nhận ca!" :
+                    statusId === 2 ? "⌛ Đang chờ xử lý!" :
+                    "🚫 Đã huỷ ca!";
             showToast("success", msg);
             $('#event-modal').modal('hide');
             calendar.refetchEvents();

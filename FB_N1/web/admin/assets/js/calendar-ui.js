@@ -14,15 +14,23 @@ function renderSelectedTable() {
     const tbody = $("#selectedSlotsTable tbody");
     tbody.empty();
     let total = 0;
+
     selectedSlots.forEach((slot, index) => {
         const price = parseFloat(slot.price) || 0;
         total += price;
+
         tbody.append(`
             <tr data-index="${index}">
                 <td>${slot.slot_date}</td>
                 <td>${slot.title}</td>
                 <td>${price.toLocaleString('vi-VN')}₫</td>
-                <td><button class="remove-slot-btn btn btn-sm btn-danger">Xoá</button></td>
+                <td>
+                    <input type="text" class="form-control slot-note-input" data-index="${index}" 
+                        placeholder="Nhập ghi chú..." value="${slot.note || ''}">
+                </td>
+                <td>
+                    <button class="remove-slot-btn btn btn-sm btn-danger">Xoá</button>
+                </td>
             </tr>
         `);
     });
@@ -38,7 +46,7 @@ function renderSelectedTable() {
 
     $("#selectedSlotsTable").toggle(selectedSlots.length > 0);
     $("#totalPrice").toggle(selectedSlots.length > 0)
-        .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+            .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
     $("#bookNowBtn").toggle(selectedSlots.length > 0);
 }
 
@@ -47,11 +55,11 @@ function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-            props.slot_date === removedSlot.slot_date &&
-            event.startStr === removedSlot.start &&
-            event.endStr === removedSlot.end
-        ) {
+                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                props.slot_date === removedSlot.slot_date &&
+                event.startStr === removedSlot.start &&
+                event.endStr === removedSlot.end
+                ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
