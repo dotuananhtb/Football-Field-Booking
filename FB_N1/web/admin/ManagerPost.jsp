@@ -75,7 +75,7 @@
 
                                     </p>
 
-                                    <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+                                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -89,9 +89,8 @@
                                             </tr>
                                         </thead>
 
-
-                                        <tbody>
-                                            <c:forEach var="post" items="${posts}">
+                                        <c:forEach var="post" items="${posts}">
+                                            <tbody>
                                                 <tr>
                                                     <td>${post.postId}</td>
                                                     <td>${post.title}</td>
@@ -110,9 +109,10 @@
                                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xoá?')">Xoá</button>
                                                         </form>
                                                     </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
+                                                </tr> 
+                                            </tbody>
+                                        </c:forEach>
+
                                     </table>
 
                                 </div> <!-- end card -->
@@ -191,8 +191,8 @@
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
         <script>$(document).ready(function () {
-                                                                    if (!$.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
-                                                                        $("#scroll-horizontal-datatable").DataTable({
+                                                                    if (!$.fn.DataTable.isDataTable('#basic-datatable')) {
+                                                                        $("#basic-datatable").DataTable({
                                                                             scrollX: true,
                                                                             language: {
                                                                                 processing: "Đang xử lý...",
