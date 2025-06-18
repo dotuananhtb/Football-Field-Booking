@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -84,7 +85,9 @@
                                         </ul>
                                     </div>
                                     <h2 class="entry-title">${post.title}</h2>
-                                    <p class="des lh-32 mb-37">${post.contentPost}</p>
+                                    <p class="des lh-32 mb-37">
+                                        <c:out value="${fn:replace(post.contentPost, ',', '<br/>')}" escapeXml="false"/>
+                                    </p>
                                 </article>
                                 
                                 <div class="comment-single">

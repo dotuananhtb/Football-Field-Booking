@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 
@@ -176,7 +177,9 @@
                                                 <span><i class="icon-24"></i> ${post.postDate}</span>
                                             </div>
                                             <h3 class="blog-card-title">${post.title}</h3>
-                                            <p class="blog-card-desc">${post.contentPost}</p>
+                                            <p class="blog-card-desc">
+                                                <c:out value="${fn:replace(fn:replace(post.contentPost, ',', '<br/>'), 'Ghi chú:', '<br/>Ghi chú:')}" escapeXml="false"/>
+                                            </p>
                                             <div class="blog-card-actions">
                                                 <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link">Xem thêm</a>
                                                 <button type="button" class="button-link toggle" onclick="toggleComment('${post.postId}')" id="toggle-btn-${post.postId}">Hiện bình luận</button>

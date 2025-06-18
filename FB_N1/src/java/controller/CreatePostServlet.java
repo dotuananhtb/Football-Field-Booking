@@ -63,10 +63,10 @@ public class CreatePostServlet extends HttpServlet {
                      ", Ngày muốn đặt: " + bookingDate +
                      ", Loại sân muốn chơi: " + fieldTypeName;
             if (userContent != null && !userContent.trim().isEmpty()) {
-                content += "\nGhi chú: " + userContent;
+                content += ", Ghi chú: " + userContent;
             }
         } else {
-            // Chỉ có title và content
+            
             content = userContent != null ? userContent : "";
         }
         
