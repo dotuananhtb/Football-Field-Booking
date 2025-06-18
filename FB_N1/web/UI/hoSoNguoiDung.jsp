@@ -34,6 +34,34 @@
                                                 <!-- End Main Header -->
                                                 <main id="main">
                                                     <section class="profile-dashboard">
+                                                        
+                                                        <!-- Mẫu cho nhóm upload ảnh_ ae thay đổi giá trị value để tạo ra folder lưu riêng ảnh cho Object mình làm -->                                                        
+                                                        <form action="${pageContext.request.contextPath}/upload-cloud-image" method="post" enctype="multipart/form-data">
+                                                            <div class="form-group mb-3">
+                                                                <label for="avatar">Chọn ảnh đại diện Cloud(Dùng api cloudinary):</label>
+                                                                <input type="file" name="image" id="avatar" accept="image/*" class="form-control" required>
+                                                            </div>
+
+                                                            <input type="hidden" name="type" value="avatars">
+
+                                                                <button type="submit" class="btn btn-primary">Cập nhật avatar</button>
+                                                        </form>
+
+                                                        <form action="${pageContext.request.contextPath}/upload-image" method="post" enctype="multipart/form-data">
+                                                            <div class="mb-3">
+                                                                <label for="image" class="form-label">Chọn ảnh đại diện lưu vào assets/images/upload</label>
+                                                                <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
+                                                            </div>
+
+                                                            <input type="hidden" name="type" value="avatars"> <!-- value này là cho thư mục riêng cho mỗi  object -->
+
+                                                                <button type="submit" class="btn btn-primary">Tải lên</button>
+                                                        </form>
+                                                            <!-- comment: Do Tuan Anh -->
+
+
+
+
 
                                                         <%
                                                             // Lấy ngày hiện tại
@@ -131,27 +159,8 @@
 
 
 
-                                                        </form><script>
-                                                            // JavaScript để đảm bảo validation ngày sinh
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                const dobInput = document.querySelector('input[name="dob"]');
-                                                                const today = new Date().toISOString().split('T')[0];
+                                                        </form>
 
-                                                                // Set max date động
-                                                                dobInput.setAttribute('max', today);
-
-                                                                // Validation bổ sung
-                                                                dobInput.addEventListener('change', function () {
-                                                                    const selectedDate = new Date(this.value);
-                                                                    const currentDate = new Date();
-
-                                                                    if (selectedDate > currentDate) {
-                                                                        alert('Ngày sinh không được vượt quá ngày hiện tại!');
-                                                                        this.value = '';
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
                                                         <script src="app/js/validateRegister.js"></script>
                                                     </section>
 
