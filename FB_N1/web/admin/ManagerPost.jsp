@@ -75,7 +75,7 @@
                                     
                                 </p>
 
-                                <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
+                                <table id="scroll-horizontal-datatable" class="table table-striped dt-responsive nowrap w-100">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
