@@ -75,7 +75,7 @@
 
                                     </p>
 
-                                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
+                                    <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -89,8 +89,8 @@
                                             </tr>
                                         </thead>
 
-                                        <c:forEach var="post" items="${posts}">
-                                            <tbody>
+                                        <tbody>
+                                            <c:forEach var="post" items="${posts}">
                                                 <tr>
                                                     <td>${post.postId}</td>
                                                     <td>${post.title}</td>
@@ -109,43 +109,16 @@
                                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xoá?')">Xoá</button>
                                                         </form>
                                                     </td>
-                                                </tr> 
-                                            </tbody>
-                                        </c:forEach>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+
 
                                     </table>
 
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div> <!-- end row-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                     </div> <!-- container -->
@@ -187,37 +160,12 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
         <!-- Datatable Demo Aapp js -->
+        <script src="assets/js/jsBang.js"></script>
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
-        <script>$(document).ready(function () {
-                                                                    if (!$.fn.DataTable.isDataTable('#basic-datatable')) {
-                                                                        $("#basic-datatable").DataTable({
-                                                                            scrollX: true,
-                                                                            language: {
-                                                                                processing: "Đang xử lý...",
-                                                                                search: "Tìm kiếm:",
-                                                                                lengthMenu: "Hiển thị _MENU_ dòng mỗi trang",
-                                                                                info: "Hiển thị _START_ đến _END_ trong tổng _TOTAL_ dòng",
-                                                                                infoEmpty: "Không có dữ liệu để hiển thị",
-                                                                                infoFiltered: "(lọc từ tổng _MAX_ dòng)",
-                                                                                loadingRecords: "Đang tải dữ liệu...",
-                                                                                zeroRecords: "Không tìm thấy kết quả phù hợp",
-                                                                                emptyTable: "Không có dữ liệu trong bảng",
-                                                                                paginate: {
-                                                                                    first: "Đầu",
-                                                                                    previous: "<i class='ri-arrow-left-s-line'></i>",
-                                                                                    next: "<i class='ri-arrow-right-s-line'></i>",
-                                                                                    last: "Cuối"
-                                                                                }
-                                                                            },
-                                                                            drawCallback: function () {
-                                                                                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                });
-        </script>
-    </body>
+   
+    
+</body>
 
 </html>
