@@ -88,7 +88,7 @@
                                                         </li>
                                                         <li>
                                                             <i class="icon-25"></i>
-                                                            <span class="date"> Bình luận:${post.commentCount}</span>
+                                                            <span class="date"> Bình luận:${commentCounts[post.postId]}</span>
                                                         </li>
                                                         <li>
                                                             <i class="icon-24"></i>
@@ -102,6 +102,7 @@
                                                 <p class="description">${post.contentPost}</p>
                                                 <div class="button-main ">
                                                     <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link">Xem thêm<i class="icon-Arrow-11"></i></a>
+                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link" style="margin-left: 10px; color: #000;">Bình luận</a>
                                                 </div>
                                             </div>
                                         </article>

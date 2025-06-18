@@ -121,7 +121,7 @@
                                                         <c:if test="${post.statusPost eq 'active'}">Hiện</c:if>
                                                         <c:if test="${post.statusPost eq 'deactive'}">Ẩn</c:if>
                                                         </td>
-                                                        <td>${post.commentCount}</td>
+                                                        <td>${commentCounts[post.postId]}</td>
                                                     <td>
                                                         <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline;">
                                                             <input type="hidden" name="postId" value="${post.postId}" />

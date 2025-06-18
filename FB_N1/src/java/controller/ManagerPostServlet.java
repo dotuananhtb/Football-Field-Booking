@@ -5,6 +5,8 @@ import dao.CommentDAO;
 import model.Post;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,11 +21,13 @@ public class ManagerPostServlet extends HttpServlet {
         PostDAO postDAO = new PostDAO();
         CommentDAO commentDAO = new CommentDAO();
         List<Post> posts = postDAO.getAllPosts();
+        Map<Integer, Integer> commentCounts = new HashMap<>();
         for (Post post : posts) {
             int count = commentDAO.countCommentsByPostId(post.getPostId());
-            post.setCommentCount(count);
+            commentCounts.put(post.getPostId(), count);
         }
         request.setAttribute("posts", posts);
+        request.setAttribute("commentCounts", commentCounts);
         request.getRequestDispatcher("/admin/ManagerPost.jsp").forward(request, response);
     }
 } 

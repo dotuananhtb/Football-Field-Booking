@@ -3,6 +3,8 @@ package controller;
 import dao.*;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,29 +34,27 @@ public class BlogServlet extends HttpServlet {
             Vector<Post> posts;
             int totalPosts;
             if (search != null && !search.trim().isEmpty()) {
-
                 posts = postDAO.searchPostsByTitle(search, page, pageSize);
                 totalPosts = postDAO.countPostsByTitle(search);
-
                 request.setAttribute("search", search);
             } else {
                 posts = postDAO.getAllPosts(page, pageSize);
                 totalPosts = postDAO.getTotalPosts();
             }
-            // Set commentCount cho từng post
+            // Tạo Map lưu số comment cho từng post
+            Map<Integer, Integer> commentCounts = new HashMap<>();
             for (Post post : posts) {
                 int count = commentDAO.countCommentsByPostId(post.getPostId());
-                post.setCommentCount(count);
+                commentCounts.put(post.getPostId(), count);
             }
             int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
-
             // Lấy 3 bài viết mới nhất 
             Vector<Post> recentPosts = postDAO.getRecentPosts(3);
-            request.setAttribute("recentPosts", recentPosts);
-
             request.setAttribute("posts", posts);
-            request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("commentCounts", commentCounts);
+            request.setAttribute("recentPosts", recentPosts);
             request.getRequestDispatcher("UI/blog.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
