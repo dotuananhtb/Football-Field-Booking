@@ -279,6 +279,17 @@
                                                     cursor: not-allowed;
                                                     opacity: 0.6;
                                                 }
+                                                .slot-btn.booked {
+                                                    background-color: #dc3545 !important; /* đỏ */
+                                                    color: white;
+                                                    cursor: not-allowed;
+                                                }
+
+                                                .slot-btn.expired {
+                                                    background-color: #6c757d !important; /* xám */
+                                                    color: white;
+                                                    cursor: not-allowed;
+                                                }
 
                                                 .slot-btn.unavailable:hover {
                                                     transform: none;
@@ -897,22 +908,29 @@
                                                                                                                                                                                                         <span>${o.typeOfField.fieldTypeName}</span>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
+                                                                                                                                                                                                        <div class="field-block" data-field-id="${o.fieldId}">
+                                                                                                                                                                                                        <input type="date" class="slotDatePicker" data-field-id="${o.fieldId}" />
+
                                                                                                                                                                                                         <div class="time-slots">
                                                                                                                                                                                                         <div class="slots-header">
                                                                                                                                                                                                         <div class="slots-title">Khung giờ có sẵn</div>
-                                                                                                                                                                                                        <button type="button" class="toggle-btn" onclick="toggleSlots()">
-                                                                                                                                                                                                        <span id="toggleText">Thu gọn</span>
-                                                                                                                                                                                                        <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
-                                                                                                                                                                                                        </svg>
+                                                                                                                                                                                                        <button type="button" class="toggle-btn">
+                                                                                                                                                                                                        <span>Thu gọn</span>
+                                                                                                                                                                                                        <svg width="16" height="16"><path d="M7 14l5-5 5 5z"/></svg>
                                                                                                                                                                                                         </button>
                                                                                                                                                                                                         </div>
 
-                                                                                                                                                                                                        <div class="slots-container expanded" id="slotsContainer">
-                                                                                                                                                                                                        <div class="slots-grid"> 
-                                                                                                                                                                                                        <c:forEach items="${o.slots}" var="s" varStatus="loop">
-                                                                                                                                                                                                        <button type="button" class="slot-btn "
+                                                                                                                                                                                                        <div class="slots-container" data-field-id="${o.fieldId}">
+                                                                                                                                                                                                        <div class="slots-grid">
+                                                                                                                                                                                                        <c:forEach items="${o.slots}" var="s">
+                                                                                                                                                                                                        <button
+                                                                                                                                                                                                        type="button"
+                                                                                                                                                                                                        class="slot-btn"
+                                                                                                                                                                                                        data-field-id="${o.fieldId}"
                                                                                                                                                                                                         data-price="${s.slotFieldPrice}"
+                                                                                                                                                                                                        data-start="${s.slotInfo.startTime}"
+                                                                                                                                                                                                        data-end="${s.slotInfo.endTime}"
+                                                                                                                                                                                                        data-slot-id="${s.slotFieldId}"
                                                                                                                                                                                                         onclick="selectSlot(this)">
                                                                                                                                                                                                         ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
                                                                                                                                                                                                         </button>
@@ -923,7 +941,11 @@
                                                                                                                                                                                                         <div class="show-more-text">... và nhiều khung giờ khác</div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        <div class="price-section">
+                                                                                                                                                                                                        </div>
+
+
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                    <div class="price-section">
                                                                                                                                                                                                         <div class="price-box flex-three">
                                                                                                                                                                                                         <div class="price-info">
                                                                                                                                                                                                         <div class="price-label" id="priceLabel">Giá từ:</div>
@@ -941,33 +963,33 @@
                                                                                                                                                                                                         <div class="book-btn flex-three">
                                                                                                                                                                                                         <button type="button" onclick="bookField()">Đặt sân</button>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        </div>
                                                                                                                                                                                                     </div>
                                                                                                                                                                                                 </div>
-                                                                                                                                                                                            </c:forEach>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                        <div class="row">
-                                                                                                                                                                                            <div class="col-md-12 ">
-                                                                                                                                                                                                <ul class="tf-pagination flex-three">
-                                                                                                                                                                                                    <li>
-                                                                                                                                                                                                        <c:if test="${page > 1}">
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </c:forEach>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <div class="row">
+                                                                                                                                                                                        <div class="col-md-12 ">
+                                                                                                                                                                                            <ul class="tf-pagination flex-three">
+                                                                                                                                                                                                <li>
+                                                                                                                                                                                                    <c:if test="${page > 1}">
                                                                                                                                                                                                         <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page - 1}&sortBy=${sortBy}"><i class="icon-29"></i></a>
                                                                                                                                                                                                         </c:if>
-                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                    <c:forEach begin="1" end="${endP}" var="p">
-                                                                                                                                                                                                        <li>
-                                                                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                    </c:forEach>
+                                                                                                                                                                                                </li>
+                                                                                                                                                                                                <c:forEach begin="1" end="${endP}" var="p">
                                                                                                                                                                                                     <li>
-                                                                                                                                                                                                        <c:if test="${page * 6 < total}">
+                                                                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
+                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                </c:forEach>
+                                                                                                                                                                                                <li>
+                                                                                                                                                                                                    <c:if test="${page * 6 < total}">
                                                                                                                                                                                                         <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page + 1}&sortBy=${sortBy}"><i class=" icon--1"></i></a>
                                                                                                                                                                                                         </c:if>
-                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                </ul>
+                                                                                                                                                                                                </li>
+                                                                                                                                                                                            </ul>
 
-                                                                                                                                                                                            </div>
                                                                                                                                                                                         </div>
+                                                                                                                                                                                    </div>
 
                                                                                                                                                                                     </div>
                                                                                                                                                                                     </div>
@@ -1041,12 +1063,7 @@
                                                                                                                                                                                         </div>
                                                                                                                                                                                     </div>
 
-                                                                                                                                                                                    <!-- Javascript -->
-                                                                                                                                                                                    <script>
-                                                                                                                                                                                        var minPriceFromDB = ${globalMin};
-                                                                                                                                                                                        var maxPriceFromDB = ${globalMax};
-                                                                                                                                                                                        
-                                                                                                                                                                                    </script>
+
 
                                                                                                                                                                                     <script>
                                                                                                                                                                                         document.querySelectorAll(".nice-select .option").forEach(function (option) {
@@ -1063,75 +1080,183 @@
                                                                                                                                                                                         //tiền
 
                                                                                                                                                                                     </script>
+                                                                                                                                                                                    <script>
+                                                                                                                                                                                        document.querySelectorAll(".slotDatePicker").forEach(input => {
+                                                                                                                                                                                            input.addEventListener("change", function () {
+                                                                                                                                                                                                const selectedDate = this.value;
+                                                                                                                                                                                                const fieldId = this.getAttribute("data-field-id");
+                                                                                                                                                                                                const fieldBlock = this.closest(".field-block");
+
+                                                                                                                                                                                                if (!selectedDate || !fieldId || !fieldBlock) {
+                                                                                                                                                                                                    console.log("❌ Thiếu selectedDate, fieldId hoặc fieldBlock");
+                                                                                                                                                                                                    return;
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                console.log("📅 Đã chọn ngày:", selectedDate, "⛳ FieldId:", fieldId);
+
+                                                                                                                                                                                                // Gán ngày cho các nút trong sân đó
+                                                                                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
+                                                                                                                                                                                                    btn.setAttribute("data-slot-date", selectedDate);
+                                                                                                                                                                                                });
+
+                                                                                                                                                                                                // Gọi API riêng cho sân này
+                                                                                                                                                                                                $.ajax({
+                                                                                                                                                                                                    url: '/FB_N1/checking-slots',
+                                                                                                                                                                                                    method: 'GET',
+                                                                                                                                                                                                    data: {
+                                                                                                                                                                                                        fieldId: fieldId,
+                                                                                                                                                                                                        start: selectedDate,
+                                                                                                                                                                                                        end: selectedDate
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    dataType: 'json',
+                                                                                                                                                                                                    success: function (bookedSlots) {
+                                                                                                                                                                                                        console.log("✅ API trả về:", bookedSlots);
+                                                                                                                                                                                                        updateSlotUI(bookedSlots, selectedDate, fieldBlock); // chỉ update slot của block này
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    error: function (xhr, status, error) {
+                                                                                                                                                                                                        console.error("❌ Lỗi API:", error);
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                });
+                                                                                                                                                                                            });
+                                                                                                                                                                                        });
+
+
+                                                                                                                                                                                    </script>
 
 
                                                                                                                                                                                     <script>
                                                                                                                                                                                         let selectedSlotPrices = new Map(); // Lưu giá đã chọn cho mỗi sân
                                                                                                                                                                                         let expandedStates = new Map(); // Lưu trạng thái mở/đóng của mỗi sân
+                                                                                                                                                                                        let selectedSlots = [];
+
 
                                                                                                                                                                                         function selectSlot(button) {
-                                                                                                                                                                                            // Tìm container sân chứa button này
                                                                                                                                                                                             const courtContainer = button.closest('.time-slots');
                                                                                                                                                                                             const courtId = getCourtId(courtContainer);
 
-                                                                                                                                                                                            // Check if the button is already selected
+                                                                                                                                                                                            // Nếu đã chọn trước đó thì bỏ chọn
                                                                                                                                                                                             if (button.classList.contains('selected')) {
-                                                                                                                                                                                                // If already selected, deselect it
                                                                                                                                                                                                 button.classList.remove('selected');
                                                                                                                                                                                                 selectedSlotPrices.set(courtId, 0);
                                                                                                                                                                                                 resetPriceDisplay(courtContainer);
+
+                                                                                                                                                                                                // Xoá khỏi selectedSlots
+                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
                                                                                                                                                                                                 return;
                                                                                                                                                                                             }
 
-                                                                                                                                                                                            // Remove selected class from all buttons in this court
+                                                                                                                                                                                            // Bỏ chọn tất cả các slot trong sân này
                                                                                                                                                                                             courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
                                                                                                                                                                                                 btn.classList.remove('selected');
                                                                                                                                                                                             });
 
-                                                                                                                                                                                            // Add selected class to clicked button
+                                                                                                                                                                                            // Đánh dấu nút được chọn
                                                                                                                                                                                             button.classList.add('selected');
 
-                                                                                                                                                                                            // Get price from button
+                                                                                                                                                                                            // Lấy dữ liệu
+                                                                                                                                                                                            const slotFieldId = button.getAttribute('data-slot-id');
+                                                                                                                                                                                            const slotDate = button.getAttribute('data-slot-date');
+                                                                                                                                                                                            const start = button.getAttribute('data-start');
+                                                                                                                                                                                            const end = button.getAttribute('data-end');
                                                                                                                                                                                             const price = parseInt(button.getAttribute('data-price'));
-                                                                                                                                                                                            selectedSlotPrices.set(courtId, price);
 
-                                                                                                                                                                                            // Update price display for this court
+                                                                                                                                                                                            // Lưu giá
+                                                                                                                                                                                            selectedSlotPrices.set(courtId, price);
                                                                                                                                                                                             updatePriceDisplay(courtContainer, price);
+
+                                                                                                                                                                                            // Cập nhật slot đã chọn
+                                                                                                                                                                                            // Loại bỏ slot cũ cùng courtId
+                                                                                                                                                                                            selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+
+                                                                                                                                                                                            // Thêm slot mới
+                                                                                                                                                                                            selectedSlots.push({
+                                                                                                                                                                                                courtId: courtId,
+                                                                                                                                                                                                slot_field_id: slotFieldId,
+                                                                                                                                                                                                slot_date: slotDate,
+                                                                                                                                                                                                start: start,
+                                                                                                                                                                                                end: end,
+                                                                                                                                                                                                price: price
+                                                                                                                                                                                            });
+
+                                                                                                                                                                                            console.log("📌 Slots đã chọn:", selectedSlots);
                                                                                                                                                                                         }
+                                                                                                                                                                                        function bookField() {
+                                                                                                                                                                                            if (selectedSlots.length === 0) {
+                                                                                                                                                                                                alert("⚠️ Bạn chưa chọn ca nào để đặt.");
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
+
+                                                                                                                                                                                            const bookingDetailsList = selectedSlots.map(slot => ({
+                                                                                                                                                                                                    bookingDetailsId: null,
+                                                                                                                                                                                                    bookingId: null,
+                                                                                                                                                                                                    slotFieldId: slot.slot_field_id,
+                                                                                                                                                                                                    slotFieldPrice: slot.price,
+                                                                                                                                                                                                    extraMinutes: 0,
+                                                                                                                                                                                                    extraFee: 0,
+                                                                                                                                                                                                    slotDate: slot.slot_date,
+                                                                                                                                                                                                    note: null,
+                                                                                                                                                                                                    statusCheckingId: 1
+                                                                                                                                                                                                }));
+
+                                                                                                                                                                                            $.ajax({
+                                                                                                                                                                                                url: '/FB_N1/dat-san',
+                                                                                                                                                                                                method: 'POST',
+                                                                                                                                                                                                contentType: 'application/json',
+                                                                                                                                                                                                data: JSON.stringify(bookingDetailsList),
+                                                                                                                                                                                                success: function (response) {
+                                                                                                                                                                                                    if (response && response.success) {
+                                                                                                                                                                                                        alert("✅ Đặt sân thành công!");
+                                                                                                                                                                                                        selectedSlots = [];
+                                                                                                                                                                                                        selectedSlotPrices.clear();
+                                                                                                                                                                                                        $('.slot-btn.selected').removeClass('selected');
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        alert("❌ Lỗi: " + (response.message || "Không rõ nguyên nhân"));
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                },
+                                                                                                                                                                                                error: function (xhr) {
+                                                                                                                                                                                                    if (xhr.status === 401 || xhr.status === 302) {
+                                                                                                                                                                                                        alert("⚠️ Bạn cần đăng nhập để đặt sân.");
+                                                                                                                                                                                                        window.location.href = "/FB_N1/login";
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
+                                                                                                                                                                                            });
+                                                                                                                                                                                        }
+
+
 
                                                                                                                                                                                         function toggleSlots(event) {
-                                                                                                                                                                                            const button = event.target.closest('.toggle-btn');
-                                                                                                                                                                                            if (!button)
+                                                                                                                                                                                            const button = event.currentTarget; // ✅ chính là nút được click
+                                                                                                                                                                                            const fieldBlock = button.closest(".field-block");
+
+                                                                                                                                                                                            if (!fieldBlock)
                                                                                                                                                                                                 return;
 
-                                                                                                                                                                                            const courtContainer = button.closest('.time-slots');
-                                                                                                                                                                                            const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                            const fieldId = fieldBlock.getAttribute("data-field-id");
+                                                                                                                                                                                            const container = fieldBlock.querySelector(".slots-container");
+                                                                                                                                                                                            const toggleText = button.querySelector("span");
+                                                                                                                                                                                            const toggleIcon = button.querySelector("svg");
 
-                                                                                                                                                                                            const container = courtContainer.querySelector('.slots-container, #slotsContainer');
-                                                                                                                                                                                            const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
-                                                                                                                                                                                            const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
-                                                                                                                                                                                            const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
-
-                                                                                                                                                                                            const isExpanded = expandedStates.get(courtId) === true;
+                                                                                                                                                                                            const isExpanded = expandedStates.get(fieldId) === true;
 
                                                                                                                                                                                             if (isExpanded) {
-                                                                                                                                                                                                // Collapse
-                                                                                                                                                                                                container?.classList.remove('expanded');
-                                                                                                                                                                                                container?.classList.add('collapsed');
-                                                                                                                                                                                                toggleText && (toggleText.textContent = 'Xem thêm');
-                                                                                                                                                                                                toggleIcon?.classList.add('rotated');
-                                                                                                                                                                                                showMoreIndicator?.classList.add('visible');
-                                                                                                                                                                                                expandedStates.set(courtId, false);
+                                                                                                                                                                                                container?.classList.remove("expanded");
+                                                                                                                                                                                                container?.classList.add("collapsed");
+                                                                                                                                                                                                toggleText.textContent = "Xem thêm";
+                                                                                                                                                                                                toggleIcon.classList.add("rotated");
+                                                                                                                                                                                                expandedStates.set(fieldId, false);
                                                                                                                                                                                             } else {
-                                                                                                                                                                                                // Expand
-                                                                                                                                                                                                container?.classList.remove('collapsed');
-                                                                                                                                                                                                container?.classList.add('expanded');
-                                                                                                                                                                                                toggleText && (toggleText.textContent = 'Thu gọn');
-                                                                                                                                                                                                toggleIcon?.classList.remove('rotated');
-                                                                                                                                                                                                showMoreIndicator?.classList.remove('visible');
-                                                                                                                                                                                                expandedStates.set(courtId, true);
+                                                                                                                                                                                                container?.classList.remove("collapsed");
+                                                                                                                                                                                                container?.classList.add("expanded");
+                                                                                                                                                                                                toggleText.textContent = "Thu gọn";
+                                                                                                                                                                                                toggleIcon.classList.remove("rotated");
+                                                                                                                                                                                                expandedStates.set(fieldId, true);
                                                                                                                                                                                             }
                                                                                                                                                                                         }
+
+
+
 
 
                                                                                                                                                                                         function updatePriceDisplay(courtContainer, price) {
@@ -1200,201 +1325,234 @@
                                                                                                                                                                                         }
 
                                                                                                                                                                                         // Simulate some unavailable slots
-                                                                                                                                                                                        function markUnavailableSlots() {
-                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach((courtContainer, courtIndex) => {
-                                                                                                                                                                                                // Có thể config slot không khả dụng cho từng sân
-                                                                                                                                                                                                const unavailableSlots = getUnavailableSlotsForCourt(courtIndex);
-                                                                                                                                                                                                const slots = courtContainer.querySelectorAll('.slot-btn');
+                                                                                                                                                                                        function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
+                                                                                                                                                                                            if (!fieldBlock) {
+                                                                                                                                                                                                console.error("❌ fieldBlock is undefined");
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
 
-                                                                                                                                                                                                unavailableSlots.forEach(index => {
-                                                                                                                                                                                                    if (slots[index]) {
-                                                                                                                                                                                                        slots[index].classList.add('unavailable');
-                                                                                                                                                                                                        slots[index].onclick = null;
+                                                                                                                                                                                            const btns = fieldBlock.querySelectorAll('.slot-btn');
+
+                                                                                                                                                                                            btns.forEach(btn => {
+                                                                                                                                                                                                const start = btn.getAttribute('data-start'); // vd: "12:00"
+                                                                                                                                                                                                const end = btn.getAttribute('data-end');
+                                                                                                                                                                                                const slotId = btn.getAttribute('data-slot-id');
+
+                                                                                                                                                                                                const matchedSlot = bookedSlots.find(slot => {
+                                                                                                                                                                                                    const slotFieldId = slot.extendedProps?.slot_field_id;
+                                                                                                                                                                                                    return String(slotFieldId) === String(slotId);
+                                                                                                                                                                                                });
+
+                                                                                                                                                                                                if (matchedSlot) {
+                                                                                                                                                                                                    const status = matchedSlot.extendedProps?.status;
+
+                                                                                                                                                                                                    if (status === "Booked") {
+                                                                                                                                                                                                        btn.classList.add('booked');
+                                                                                                                                                                                                        btn.disabled = true;
+                                                                                                                                                                                                    } else if (status === "Đã qua") {
+                                                                                                                                                                                                        btn.classList.add('expired');
+                                                                                                                                                                                                        btn.disabled = true;
+                                                                                                                                                                                                    } else if (status === "Pending") {
+                                                                                                                                                                                                        // Có thể xử lý riêng nếu cần
+                                                                                                                                                                                                        btn.classList.add('pending');
+                                                                                                                                                                                                        btn.disabled = true;
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        btn.classList.remove('booked', 'expired');
+                                                                                                                                                                                                        btn.disabled = false;
                                                                                                                                                                                                     }
-                                                                                                                                                                                                });
-                                                                                                                                                                                            });
-                                                                                                                                                                                        }
 
-                                                                                                                                                                                        // Config slot không khả dụng cho từng sân
-                                                                                                                                                                                        function getUnavailableSlotsForCourt(courtIndex) {
-                                                                                                                                                                                            const config = {
-                                                                                                                                                                                                0: [1, 4], // Sân đầu tiên
-                                                                                                                                                                                                1: [2, 5], // Sân thứ hai
-                                                                                                                                                                                                2: [0, 3], // Sân thứ ba
-                                                                                                                                                                                                // Thêm config cho các sân khác...
-                                                                                                                                                                                            };
-                                                                                                                                                                                            return config[courtIndex] || [];
-                                                                                                                                                                                        }
+                                                                                                                                                                                                    console.log("🔒 Slot đã bị đặt:", {slotId, start, end, status});
+                                                                                                                                                                                                } else {
+                                                                                                                                                                                                    // Không match thì vẫn là slot trống, nhưng kiểm tra thêm ngày có đã qua chưa
+                                                                                                                                                                                                    const slotDateTime = new Date(`${selectedDate}T${start}`);
+                                                                                                                                                                                                                    const now = new Date();
 
-                                                                                                                                                                                        // Initialize
-                                                                                                                                                                                        document.addEventListener('DOMContentLoaded', function () {
-                                                                                                                                                                                            markUnavailableSlots();
+                                                                                                                                                                                                                    if (slotDateTime < now) {
+                                                                                                                                                                                                                        btn.classList.add('expired');
+                                                                                                                                                                                                                        btn.disabled = true;
+                                                                                                                                                                                                                        console.log("⏰ Slot đã qua thời gian:", {slotId, start, end});
+                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                        btn.classList.remove('booked', 'expired');
+                                                                                                                                                                                                                        btn.disabled = false;
+                                                                                                                                                                                                                        console.log("✅ Slot còn trống:", {slotId, start, end});
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                }
 
-                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        }
 
-                                                                                                                                                                                                // ✅ Gán trạng thái ban đầu là "collapsed"
-                                                                                                                                                                                                expandedStates.set(courtId, false);
+                                                                                                                                                                                                        
 
-                                                                                                                                                                                                // ✅ Cập nhật UI về trạng thái thu gọn đúng cách
-                                                                                                                                                                                                const container = courtContainer.querySelector('.slots-container, #slotsContainer');
-                                                                                                                                                                                                const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
-                                                                                                                                                                                                const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
-                                                                                                                                                                                                const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
 
-                                                                                                                                                                                                container?.classList.add('collapsed');
-                                                                                                                                                                                                container?.classList.remove('expanded');
-                                                                                                                                                                                                toggleText && (toggleText.textContent = 'Xem thêm');
-                                                                                                                                                                                                toggleIcon?.classList.add('rotated');
-                                                                                                                                                                                                showMoreIndicator?.classList.add('visible');
-                                                                                                                                                                                            });
+                                                                                                                                                                                                        // Initialize
+                                                                                                                                                                                                        document.addEventListener('DOMContentLoaded', function () {
 
-                                                                                                                                                                                            // ✅ Gắn sự kiện click sau khi đã xử lý trạng thái ban đầu
-                                                                                                                                                                                            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                                                                                                                                                                                                btn.addEventListener('click', toggleSlots);
-                                                                                                                                                                                            });
-                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Utility functions
-                                                                                                                                                                                        function getAllSelectedSlots() {
-                                                                                                                                                                                            const result = {};
-                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
-                                                                                                                                                                                                const selectedButton = courtContainer.querySelector('.slot-btn.selected');
-                                                                                                                                                                                                const price = selectedSlotPrices.get(courtId) || 0;
+                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
 
-                                                                                                                                                                                                if (selectedButton && price > 0) {
-                                                                                                                                                                                                    result[courtId] = {
-                                                                                                                                                                                                        time: selectedButton.textContent.trim(),
-                                                                                                                                                                                                        price: price
-                                                                                                                                                                                                    };
-                                                                                                                                                                                                }
-                                                                                                                                                                                            });
-                                                                                                                                                                                            return result;
-                                                                                                                                                                                        }
+                                                                                                                                                                                                                // ✅ Gán trạng thái ban đầu là "collapsed"
+                                                                                                                                                                                                                expandedStates.set(courtId, false);
 
-                                                                                                                                                                                        function getTotalPrice() {
-                                                                                                                                                                                            let total = 0;
-                                                                                                                                                                                            selectedSlotPrices.forEach(price => {
-                                                                                                                                                                                                total += price;
-                                                                                                                                                                                            });
-                                                                                                                                                                                            return total;
-                                                                                                                                                                                        }
+                                                                                                                                                                                                                // ✅ Cập nhật UI về trạng thái thu gọn đúng cách
+                                                                                                                                                                                                                const container = courtContainer.querySelector('.slots-container, #slotsContainer');
+                                                                                                                                                                                                                const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
+                                                                                                                                                                                                                const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
+                                                                                                                                                                                                                const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
 
-                                                                                                                                                                                        function resetAllSelections() {
-                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
-                                                                                                                                                                                                courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
-                                                                                                                                                                                                    btn.classList.remove('selected');
-                                                                                                                                                                                                });
-                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
-                                                                                                                                                                                                resetPriceDisplay(courtContainer);
-                                                                                                                                                                                            });
-                                                                                                                                                                                        }
+                                                                                                                                                                                                                container?.classList.add('collapsed');
+                                                                                                                                                                                                                container?.classList.remove('expanded');
+                                                                                                                                                                                                                toggleText && (toggleText.textContent = 'Xem thêm');
+                                                                                                                                                                                                                toggleIcon?.classList.add('rotated');
+                                                                                                                                                                                                                showMoreIndicator?.classList.add('visible');
+                                                                                                                                                                                                            });
+
+                                                                                                                                                                                                            // ✅ Gắn sự kiện click sau khi đã xử lý trạng thái ban đầu
+                                                                                                                                                                                                            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                                                                                                                                                                                                                btn.addEventListener('click', toggleSlots);
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        });
+
+                                                                                                                                                                                                        // Utility functions
+                                                                                                                                                                                                        function getAllSelectedSlots() {
+                                                                                                                                                                                                            const result = {};
+                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                                                const selectedButton = courtContainer.querySelector('.slot-btn.selected');
+                                                                                                                                                                                                                const price = selectedSlotPrices.get(courtId) || 0;
+
+                                                                                                                                                                                                                if (selectedButton && price > 0) {
+                                                                                                                                                                                                                    result[courtId] = {
+                                                                                                                                                                                                                        time: selectedButton.textContent.trim(),
+                                                                                                                                                                                                                        price: price
+                                                                                                                                                                                                                    };
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                            return result;
+                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                        function getTotalPrice() {
+                                                                                                                                                                                                            let total = 0;
+                                                                                                                                                                                                            selectedSlotPrices.forEach(price => {
+                                                                                                                                                                                                                total += price;
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                            return total;
+                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                        function resetAllSelections() {
+                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                                                courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
+                                                                                                                                                                                                                    btn.classList.remove('selected');
+                                                                                                                                                                                                                });
+                                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
+                                                                                                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        }
                                                                                                                                                                                     </script>
                                                                                                                                                                                     <!-- Flatpickr JS -->
                                                                                                                                                                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
                                                                                                                                                                                     <!-- Flatpickr Vietnamese locale -->
                                                                                                                                                                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
                                                                                                                                                                                     <script>
-                                                                                                                                                                                        // Initialize Flatpickr for date picker
-                                                                                                                                                                                        const datePicker = flatpickr("#bookingDateAdvanced", {
-                                                                                                                                                                                            locale: "vn",
-                                                                                                                                                                                            dateFormat: "d/m/Y",
-                                                                                                                                                                                            minDate: "today",
-                                                                                                                                                                                            defaultDate: new Date(),
-                                                                                                                                                                                            enableTime: false,
-                                                                                                                                                                                            clickOpens: true,
-                                                                                                                                                                                            allowInput: false,
-                                                                                                                                                                                            onChange: function (selectedDates, dateStr, instance) {
-                                                                                                                                                                                                console.log("Ngày được chọn:", dateStr);
-                                                                                                                                                                                            }
-                                                                                                                                                                                        });
+                                                                                                                                                                                                        // Initialize Flatpickr for date picker
+                                                                                                                                                                                                        const datePicker = flatpickr("#bookingDateAdvanced", {
+                                                                                                                                                                                                            locale: "vn",
+                                                                                                                                                                                                            dateFormat: "d/m/Y",
+                                                                                                                                                                                                            minDate: "today",
+                                                                                                                                                                                                            defaultDate: new Date(),
+                                                                                                                                                                                                            enableTime: false,
+                                                                                                                                                                                                            clickOpens: true,
+                                                                                                                                                                                                            allowInput: false,
+                                                                                                                                                                                                            onChange: function (selectedDates, dateStr, instance) {
+                                                                                                                                                                                                                console.log("Ngày được chọn:", dateStr);
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Custom nice-select functionality
-                                                                                                                                                                                        document.querySelectorAll('.nice-select').forEach(select => {
-                                                                                                                                                                                            select.addEventListener('click', function (e) {
-                                                                                                                                                                                                e.stopPropagation();
+                                                                                                                                                                                                        // Custom nice-select functionality
+                                                                                                                                                                                                        document.querySelectorAll('.nice-select').forEach(select => {
+                                                                                                                                                                                                            select.addEventListener('click', function (e) {
+                                                                                                                                                                                                                e.stopPropagation();
 
-                                                                                                                                                                                                // Close all other selects
-                                                                                                                                                                                                document.querySelectorAll('.nice-select').forEach(otherSelect => {
-                                                                                                                                                                                                    if (otherSelect !== this) {
-                                                                                                                                                                                                        otherSelect.classList.remove('open');
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                });
+                                                                                                                                                                                                                // Close all other selects
+                                                                                                                                                                                                                document.querySelectorAll('.nice-select').forEach(otherSelect => {
+                                                                                                                                                                                                                    if (otherSelect !== this) {
+                                                                                                                                                                                                                        otherSelect.classList.remove('open');
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                });
 
-                                                                                                                                                                                                // Toggle current select
-                                                                                                                                                                                                this.classList.toggle('open');
-                                                                                                                                                                                            });
+                                                                                                                                                                                                                // Toggle current select
+                                                                                                                                                                                                                this.classList.toggle('open');
+                                                                                                                                                                                                            });
 
-                                                                                                                                                                                            // Handle option selection
-                                                                                                                                                                                            select.querySelectorAll('.option').forEach(option => {
-                                                                                                                                                                                                option.addEventListener('click', function (e) {
-                                                                                                                                                                                                    e.stopPropagation();
+                                                                                                                                                                                                            // Handle option selection
+                                                                                                                                                                                                            select.querySelectorAll('.option').forEach(option => {
+                                                                                                                                                                                                                option.addEventListener('click', function (e) {
+                                                                                                                                                                                                                    e.stopPropagation();
 
-                                                                                                                                                                                                    const selectElement = this.closest('.nice-select');
-                                                                                                                                                                                                    const currentSpan = selectElement.querySelector('.current');
-                                                                                                                                                                                                    const hiddenInput = selectElement.parentElement.querySelector('input[type="hidden"]');
+                                                                                                                                                                                                                    const selectElement = this.closest('.nice-select');
+                                                                                                                                                                                                                    const currentSpan = selectElement.querySelector('.current');
+                                                                                                                                                                                                                    const hiddenInput = selectElement.parentElement.querySelector('input[type="hidden"]');
 
-                                                                                                                                                                                                    // Remove selected class from all options
-                                                                                                                                                                                                    selectElement.querySelectorAll('.option').forEach(opt => {
-                                                                                                                                                                                                        opt.classList.remove('selected');
-                                                                                                                                                                                                    });
+                                                                                                                                                                                                                    // Remove selected class from all options
+                                                                                                                                                                                                                    selectElement.querySelectorAll('.option').forEach(opt => {
+                                                                                                                                                                                                                        opt.classList.remove('selected');
+                                                                                                                                                                                                                    });
 
-                                                                                                                                                                                                    // Add selected class to clicked option
-                                                                                                                                                                                                    this.classList.add('selected');
+                                                                                                                                                                                                                    // Add selected class to clicked option
+                                                                                                                                                                                                                    this.classList.add('selected');
 
-                                                                                                                                                                                                    // Update current text and hidden input value
-                                                                                                                                                                                                    currentSpan.textContent = this.textContent;
-                                                                                                                                                                                                    if (hiddenInput) {
-                                                                                                                                                                                                        hiddenInput.value = this.getAttribute('data-value');
-                                                                                                                                                                                                    }
+                                                                                                                                                                                                                    // Update current text and hidden input value
+                                                                                                                                                                                                                    currentSpan.textContent = this.textContent;
+                                                                                                                                                                                                                    if (hiddenInput) {
+                                                                                                                                                                                                                        hiddenInput.value = this.getAttribute('data-value');
+                                                                                                                                                                                                                    }
 
-                                                                                                                                                                                                    // Close dropdown
-                                                                                                                                                                                                    selectElement.classList.remove('open');
-                                                                                                                                                                                                });
-                                                                                                                                                                                            });
-                                                                                                                                                                                        });
+                                                                                                                                                                                                                    // Close dropdown
+                                                                                                                                                                                                                    selectElement.classList.remove('open');
+                                                                                                                                                                                                                });
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Close dropdowns when clicking outside
-                                                                                                                                                                                        document.addEventListener('click', function () {
-                                                                                                                                                                                            document.querySelectorAll('.nice-select').forEach(select => {
-                                                                                                                                                                                                select.classList.remove('open');
-                                                                                                                                                                                            });
-                                                                                                                                                                                        });
+                                                                                                                                                                                                        // Close dropdowns when clicking outside
+                                                                                                                                                                                                        document.addEventListener('click', function () {
+                                                                                                                                                                                                            document.querySelectorAll('.nice-select').forEach(select => {
+                                                                                                                                                                                                                select.classList.remove('open');
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Handle search button click
-                                                                                                                                                                                        document.querySelector('.btn-search').addEventListener('click', function (e) {
-                                                                                                                                                                                            e.preventDefault();
+                                                                                                                                                                                                        // Handle search button click
+                                                                                                                                                                                                        document.querySelector('.btn-search').addEventListener('click', function (e) {
+                                                                                                                                                                                                            e.preventDefault();
 
-                                                                                                                                                                                            // Validate required fields
-                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
-                                                                                                                                                                                            if (!bookingDate) {
-                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
+                                                                                                                                                                                                            // Validate required fields
+                                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
+                                                                                                                                                                                                            if (!bookingDate) {
+                                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
+                                                                                                                                                                                                                return;
+                                                                                                                                                                                                            }
 
-                                                                                                                                                                                            // Submit form to servlet
-                                                                                                                                                                                            document.getElementById('search-form-slider').submit();
-                                                                                                                                                                                        });
+                                                                                                                                                                                                            // Submit form to servlet
+                                                                                                                                                                                                            document.getElementById('search-form-slider').submit();
+                                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Handle form submission
-                                                                                                                                                                                        document.getElementById('search-form-slider').addEventListener('submit', function (e) {
-                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
-                                                                                                                                                                                            if (!bookingDate) {
-                                                                                                                                                                                                e.preventDefault();
-                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
-                                                                                                                                                                                                return false;
-                                                                                                                                                                                            }
-                                                                                                                                                                                        });
+                                                                                                                                                                                                        // Handle form submission
+                                                                                                                                                                                                        document.getElementById('search-form-slider').addEventListener('submit', function (e) {
+                                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
+                                                                                                                                                                                                            if (!bookingDate) {
+                                                                                                                                                                                                                e.preventDefault();
+                                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
+                                                                                                                                                                                                                return false;
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                        });
 
-                                                                                                                                                                                        // Ensure date picker is clickable
-                                                                                                                                                                                        document.getElementById('bookingDateAdvanced').addEventListener('click', function () {
-                                                                                                                                                                                            if (this._flatpickr) {
-                                                                                                                                                                                                this._flatpickr.open();
-                                                                                                                                                                                            }
-                                                                                                                                                                                        }
-                                                                                                                                                                                        );
+                                                                                                                                                                                                        // Ensure date picker is clickable
+                                                                                                                                                                                                        document.getElementById('bookingDateAdvanced').addEventListener('click', function () {
+                                                                                                                                                                                                            if (this._flatpickr) {
+                                                                                                                                                                                                                this._flatpickr.open();
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        );
                                                                                                                                                                                     </script>
                                                                                                                                                                                     <!--sắp xếp-->
 

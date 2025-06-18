@@ -33,40 +33,38 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-  if ($("#slider-range2").length > 0) {
-    $('.noUi-handle2').on('click', function () {
-      $(this).width(50);
-    });
-
-    var rangeSlider = document.getElementById('slider-range2');
-    var moneyFormat = wNumb({
-      decimals: 0,
-      thousand: ',',
-      prefix: ''
-    });
-
-    // 💥 Sử dụng min/max động
-    noUiSlider.create(rangeSlider, {
-      start: [minPriceFromDB, maxPriceFromDB],
-      step: 10000,
-      range: {
-        'min': minPriceFromDB,
-        'max': maxPriceFromDB
-      },
-      format: moneyFormat,
-      connect: true
-    });
-
-    // Cập nhật giá trị hiển thị và hidden inputs
-    rangeSlider.noUiSlider.on('update', function (values, handle) {
-      document.getElementById('slider-range-value01').innerHTML = values[0];
-      document.getElementById('slider-range-value02').innerHTML = values[1];
-
-      document.getElementById('minPriceInput').value = moneyFormat.from(values[0]);
-      document.getElementById('maxPriceInput').value = moneyFormat.from(values[1]);
-    });
-  }
+  if($("#slider-range2").length > 0){
+  $('.noUi-handle2').on('click', function () {
+    $(this).width(50);
+  });
+  var rangeSlider = document.getElementById('slider-range2');
+  var moneyFormat = wNumb({
+    decimals: 0,
+    thousand: ',',
+    prefix: ''
+  });
+  noUiSlider.create(rangeSlider, {
+    start: [0, 50000],
+    step: 1,
+    range: {
+      'min': [0],
+      'max': [50000]
+    },
+    format: moneyFormat,
+    connect: true
+  });
+  // Set visual min and max values and also update value hidden form inputs
+  rangeSlider.noUiSlider.on('update', function (values, handle) {
+    document.getElementById('slider-range-value01').innerHTML = values[0];
+    document.getElementById('slider-range-value02').innerHTML = values[1];
+    document.getElementsByName('min-value2').value = moneyFormat.from(
+      values[0]);
+    document.getElementsByName('max-value2').value = moneyFormat.from(
+      values[1]);
+  });
+}
 });
+
 
 
 
