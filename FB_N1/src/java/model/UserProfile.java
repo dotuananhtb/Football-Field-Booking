@@ -22,9 +22,10 @@ public class UserProfile {
 
     public UserProfile() {
     }
+    
+    
 
-    public UserProfile(int accountId, int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
-        this.accountId = accountId;
+    public UserProfile( int roleId, String firstName, String lastName, String address, String gender, String phone, String avatar) {
         this.roleId = roleId;
         this.firstName = firstName;
         this.lastName = lastName;
