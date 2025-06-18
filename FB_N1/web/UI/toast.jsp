@@ -10,7 +10,8 @@
 <!-- Notyf CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-<script src="./app/js/toast.js"></script> <%-- đường dẫn toast.js --%>
+<%-- <script src="./app/js/toast.js"></script>đường dẫn toast.js --%>
+<script src="${pageContext.request.contextPath}/UI/app/js/toast.js"></script>
 
 
 <%
@@ -18,8 +19,15 @@
     String message = (String) session.getAttribute("toastMessage");
     if (type != null && message != null) {
 %>
+<!-- Đợi DOM & toast.js load xong mới gọi -->
 <script>
-       showToast("<%= type %>", "<%= message %>");
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof showToast === 'function') {
+            showToast("<%= type%>", "<%= message%>");
+        } else {
+            console.error("⚠️ showToast chưa được định nghĩa!");
+        }
+    });
 </script>
 <%
         session.removeAttribute("toastType");

@@ -1,5 +1,34 @@
-//calendar-ui.js
-// 🔹 1. AJAX lấy ca từ server
+// calendar-logic.js
+
+// 🔹 1. Khởi tạo FullCalendar
+function initCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        views: {
+            dayGridMonth: {buttonText: 'Tháng'},
+            timeGridWeek: {buttonText: 'Tuần'},
+            timeGridDay: {buttonText: 'Ngày'},
+            listWeek: {buttonText: 'Danh sách'}
+        },
+        locale: 'vi',
+        height: 'auto',
+        eventDidMount: function (info) {
+            const titleEl = info.el.querySelector('.fc-event-title');
+            if (titleEl)
+                titleEl.style.display = 'none';
+        },
+        events: fetchSlotEvents,
+        eventClick: handleEventClick
+    });
+}
+
+// 🔹 2. Lấy ca từ server
 function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     const fieldId = $('#fieldSelect').val();
     if (!fieldId)
@@ -19,10 +48,9 @@ function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     });
 }
 
-// 🔹 2. Xử lý khi click event trên lịch
+// 🔹 3. Xử lý khi click slot
 function handleEventClick(info) {
     const slot = info.event.extendedProps;
-
     if (slot.status === 0) {
         toggleSlotSelection(info);
         renderSelectedTable();
@@ -31,10 +59,9 @@ function handleEventClick(info) {
     }
 }
 
-// 🔹 3. Toggle chọn/bỏ ca
+// 🔹 4. Chọn/bỏ chọn slot
 function toggleSlotSelection(info) {
     const slot = info.event.extendedProps;
-
     const existsIndex = selectedSlots.findIndex(s =>
         String(s.slot_field_id) === String(slot.slot_field_id) &&
                 s.slot_date === slot.slot_date &&
@@ -58,12 +85,23 @@ function toggleSlotSelection(info) {
     }
 }
 
-// 🔹 4. Gửi yêu cầu đặt sân
+// 🔹 5. Gửi yêu cầu đặt sân
+// 🔹 5. Gửi yêu cầu đặt sân
 function handleBookingSubmit() {
     if (selectedSlots.length === 0) {
         showToast("error", "⚠️ Bạn chưa chọn ca nào để đặt.");
         return;
     }
+
+    // Cập nhật note từ các input vào selectedSlots
+    $("#selectedSlotsTable tbody tr").each(function () {
+        const noteInput = $(this).find(".slot-note-input");
+        const i = noteInput.data("index");
+        const noteVal = noteInput.val();
+        if (i !== undefined && selectedSlots[i]) {
+            selectedSlots[i].note = noteVal;
+        }
+    });
 
     const bookingDetailsList = selectedSlots.map(slot => ({
             bookingDetailsId: null,
@@ -73,9 +111,11 @@ function handleBookingSubmit() {
             extraMinutes: 0,
             extraFee: 0,
             slotDate: slot.slot_date,
-            note: null,
+            note: `NV ${currentUsername} đặt sân offline cho khách: ${slot.note || ""}`, // <-- Gắn username
             statusCheckingId: 1
         }));
+
+    // 👉 In ra console để kiểm tra JSON trước khi gửi
 
     $.ajax({
         url: '/FB_N1/admin/dat-san',
@@ -104,8 +144,8 @@ function handleBookingSubmit() {
     });
 }
 
-// 🔹 5. Cập nhật trạng thái ca (Admin)
-// 🔹 5. Cập nhật trạng thái ca (Admin)
+
+// 🔹 6. Cập nhật trạng thái ca (Admin)
 function updateSlotStatus(slotId, slotDate, statusId) {
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',
@@ -114,13 +154,13 @@ function updateSlotStatus(slotId, slotDate, statusId) {
         data: JSON.stringify({
             slotFieldId: slotId,
             slotDate: slotDate,
-            status: statusId  // số nguyên
+            status: statusId
         }),
-        success: function (res) {
+        success: function () {
             const msg =
-                    statusId === 1 ? "✅ Đã xác nhận ca!"
-                    : statusId === 2 ? "⌛ Đang chờ xử lý!"
-                    : "🚫 Đã huỷ ca!";
+                    statusId === 1 ? "✅ Đã xác nhận ca!" :
+                    statusId === 2 ? "⌛ Đang chờ xử lý!" :
+                    "🚫 Đã huỷ ca!";
             showToast("success", msg);
             $('#event-modal').modal('hide');
             calendar.refetchEvents();
@@ -130,4 +170,3 @@ function updateSlotStatus(slotId, slotDate, statusId) {
         }
     });
 }
-

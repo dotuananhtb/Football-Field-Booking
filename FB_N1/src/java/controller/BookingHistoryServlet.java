@@ -15,7 +15,7 @@ import java.util.*;
 @WebServlet(name = "BookingHistoryServlet", urlPatterns = {"/lich-su-dat-san"})
 public class BookingHistoryServlet extends HttpServlet {
 
-    private static final int PAGE_SIZE = 4;
+    private static final int PAGE_SIZE = 5;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -51,7 +51,7 @@ public class BookingHistoryServlet extends HttpServlet {
             int salePercent = saleDAO.getSalePercentById(booking.getSaleId());
             saleMap.put(booking.getBookingId(), salePercent);
         }
-
+        request.setAttribute("itemsPerPage", PAGE_SIZE);
         request.setAttribute("bookingList", bookings);
         request.setAttribute("saleMap", saleMap);
         request.setAttribute("currentPage", page);

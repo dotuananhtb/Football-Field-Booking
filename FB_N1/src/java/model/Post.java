@@ -18,7 +18,6 @@ public class Post {
     private String postDate;
     private String statusPost;
     private Account account;
-    private int commentCount;
 
     public Post() {
     }
@@ -86,14 +85,6 @@ public class Post {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
     }
 
     @Override

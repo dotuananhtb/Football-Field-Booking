@@ -20,14 +20,14 @@ public class DeleteCommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        
+
         // Kiểm tra đăng nhập
         if (account == null) {
             response.sendRedirect("login");
             return;
         }
 
-        int roleId = account.getRoleId();
+        int roleId = account.getUserProfile().getRoleId();
         int userId = account.getAccountId();
 
         try {
@@ -57,4 +57,4 @@ public class DeleteCommentServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Có lỗi xảy ra khi xóa bình luận!");
         }
     }
-} 
+}
