@@ -36,14 +36,14 @@
     <!-- Sidebar -left -->
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         <!-- Leftbar User -->
-        
+
         <div class="leftbar-user">
             <a href="/FB_N1/userProfile">
                 <img src="${sessionScope.userProfile.avatar}" alt="user-image" height="42" class="rounded-circle shadow-sm">
                 <span class="leftbar-user-name mt-2">${sessionScope.account.userProfile.firstName}</span>
             </a>
         </div>
-        
+
 
         <!--- Sidemenu -->
         <ul class="side-nav">
@@ -83,9 +83,9 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="side-nav-title">Quản lí đặt sân</li>
-            
+
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/dat-san" class="side-nav-link">
                     <i class="ri-calendar-event-fill"></i>
@@ -119,22 +119,22 @@
                     </ul>
                 </div>
             </li>
-          
-            
+
+
 
             <li class="side-nav-title">Chung</li>
-            
+
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
                     <span> Quản lí bài viết </span>
 
-                    
+
                 </a>
             </li>
-                
-                <c:if test="${sessionScope.role.roleId == 1}">
-                <li class="side-nav-item">
+
+
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="ri-briefcase-fill"></i>
                     <span> Quản Lý Trang Chủ</span>
@@ -152,11 +152,11 @@
                         <li>
                             <a href="ui-avatars.html">Sửa chủ đề</a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </li>
-            
+
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
@@ -166,16 +166,16 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="/FB_N1/admin/manage-user">Danh sách người dùng</a>
+                            <a href="/FB_N1/admin/quan-li-tai-khoan">Danh sách người dùng</a>
                         </li>
                         <li>
                             <a href="/FB_N1/admin/manage-staff">Danh sách nhân viên</a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </li>
-                </c:if>
+
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">

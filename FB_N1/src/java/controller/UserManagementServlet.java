@@ -23,7 +23,7 @@ import util.ToastUtil;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name = "UserManagementServlet", urlPatterns = {"/admin/manage-user"})
+@WebServlet(name = "UserManagementServlet", urlPatterns = {"/admin/quan-li-tai-khoan"})
 public class UserManagementServlet extends HttpServlet {
 
     /**

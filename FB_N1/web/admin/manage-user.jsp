@@ -143,7 +143,7 @@
                                                                     Bị khóa</button></c:if>
                                                                 <div class="dropdown-menu">
                                                                 <c:forEach items="${listStatus}" var="status">
-                                                                    <form action="${pageContext.request.contextPath}/admin/manage-user" method="post" style="margin: 0;">
+                                                                    <form action="${pageContext.request.contextPath}/admin/quan-li-tai-khoan" method="post" style="margin: 0;">
                                                                         <input type="hidden" name="sId" value="${status.statusId}" />
                                                                         <input type="hidden" name="aId" value="${user.accountId}" />
                                                                         <button type="submit" class="dropdown-item" style="border: none; background: none; padding: 8px 16px; width: 100%; text-align: left;">
