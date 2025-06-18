@@ -13,7 +13,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Vitour - Travel & Tour Booking HTML Template</title>
+    <title>Blog-FootballStar</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,8 +22,105 @@
     <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+
+    <style>
+    .blog-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        padding: 28px 24px;
+        margin-bottom: 32px;
+        border: 1px solid #e5e5e5;
+    }
+    .blog-card-header {
+        display: flex;
+        gap: 18px;
+        font-size: 15px;
+        color: #888;
+        margin-bottom: 10px;
+    }
+    .blog-card-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 10px 0 8px 0;
+        color: #222;
+    }
+    .blog-card-desc {
+        color: #444;
+        margin-bottom: 18px;
+    }
+    .blog-card-actions {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+    .blog-card-actions .button-link {
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-weight: 600;
+        border: none;
+        background: #4DA528;
+        color: #fff;
+        cursor: pointer;
+        transition: none;
+        display: flex;
+        align-items: center;
+    }
+    .blog-card-actions .button-link.toggle {
+        background: #fff;
+        color: #222;
+        border: 1px solid #4DA528;
+        transition: none;
+    }
+    .blog-card-actions .button-link:hover,
+    .blog-card-actions .button-link.toggle:hover {
+        background: inherit;
+        color: inherit;
+    }
+    .blog-card-comments {
+        border-top: 1px solid #eee;
+        margin-top: 18px;
+        padding-top: 12px;
+    }
+    .blog-comment {
+        background: #f6f8fa;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+        color: #222;
+    }
+    .blog-comment-form {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+    }
+    .blog-comment-form input[type='text'] {
+        flex: 1;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+    .send-btn {
+        display: flex;
+        align-items: center;
+        background: #4DA528;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0 18px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        height: 40px;
+    }
+    .send-btn:hover {
+        background: #FF970D;
+    }
+    </style>
 
 </head>
 
@@ -72,38 +169,36 @@
                                
                                 <div class="blog-posts">
                                     <c:forEach items="${posts}" var="post">
-                                        <article class="side-blog mb-56px" style="border: 1px solid #e5e5e5; padding: 20px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                            <div class="blog-image">
-                                                
-                                                <a class="post-thumbnail" href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">
-                                                    
-                                                </a>
+                                        <article class="blog-card">
+                                            <div class="blog-card-header">
+                                                <span><i class="icon-user"></i> ${post.account.username}</span>
+                                                <span><i class="icon-25"></i> ${commentCounts[post.postId]} bình luận</span>
+                                                <span><i class="icon-24"></i> ${post.postDate}</span>
                                             </div>
-                                            <div class="blog-content">
-                                                <div class="top-detail-info">
-                                                    <ul class="flex-three">
-                                                        <li>
-                                                            <i class="icon-user"></i>
-                                                            <a href="#">${post.account.username}</a>
-                                                        </li>
-                                                        <li>
-                                                            <i class="icon-25"></i>
-                                                            <span class="date"> Bình luận:${commentCounts[post.postId]}</span>
-                                                        </li>
-                                                        <li>
-                                                            <i class="icon-24"></i>
-                                                            <span class="date">${post.postDate}</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <h3 class="entry-title">
-                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">${post.title}</a>
-                                                </h3>
-                                                <p class="description">${post.contentPost}</p>
-                                                <div class="button-main ">
-                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link">Xem thêm<i class="icon-Arrow-11"></i></a>
-                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link" style="margin-left: 10px; color: #000;">Bình luận</a>
-                                                </div>
+                                            <h3 class="blog-card-title">${post.title}</h3>
+                                            <p class="blog-card-desc">${post.contentPost}</p>
+                                            <div class="blog-card-actions">
+                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="button-link">Xem thêm</a>
+                                                <button type="button" class="button-link toggle" onclick="toggleComment('${post.postId}')" id="toggle-btn-${post.postId}">Hiện bình luận</button>
+                                            </div>
+                                            <div id="comment-section-${post.postId}" class="blog-card-comments" style="display:none;">
+                                                <c:forEach var="cmt" items="${commentsMap[post.postId]}">
+                                                    <div class="blog-comment">
+                                                        <b>${cmt.account.username}</b>
+                                                        <div>${cmt.contentCmt}</div>
+                                                    </div>
+                                                </c:forEach>
+                                                <form action="${pageContext.request.contextPath}/comment" method="post" class="blog-comment-form">
+                                                    <input type="hidden" name="postId" value="${post.postId}" />
+                                                    <input type="text" name="content" placeholder="Nhập bình luận của bạn..." required />
+                                                    <button type="submit" class="send-btn">
+                                                        <span>Gửi</span>
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" style="margin-left:6px;">
+                                                            <line x1="4" y1="12" x2="20" y2="12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                                                            <polyline points="14,6 20,12 14,18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </article>
                                     </c:forEach>
@@ -247,6 +342,20 @@
     <script src="app/js/jquery.fancybox.js"></script>
     <script src="app/js/shortcodes.js"></script>
     <script src="app/js/main.js"></script>
+
+    <script>
+    function toggleComment(postId) {
+        var el = document.getElementById('comment-section-' + postId);
+        var btn = document.getElementById('toggle-btn-' + postId);
+        if (el.style.display === 'none') {
+            el.style.display = 'block';
+            btn.innerText = 'Ẩn bình luận';
+        } else {
+            el.style.display = 'none';
+            btn.innerText = 'Hiện bình luận';
+        }
+    }
+    </script>
 
 </body>
 

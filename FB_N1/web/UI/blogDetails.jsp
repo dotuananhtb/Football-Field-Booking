@@ -14,7 +14,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>FootballStar - Booking to Football Field</title>
+    <title>BlogDetails-FootballStar</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,8 +23,8 @@
     <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="assets/images/favico.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
 
 </head>
 

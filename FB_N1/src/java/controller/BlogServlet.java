@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
+import model.Comment;
 
 @WebServlet(name = "BlogServlet", urlPatterns = {"/blog"})
 public class BlogServlet extends HttpServlet {
@@ -43,9 +45,11 @@ public class BlogServlet extends HttpServlet {
             }
             // Tạo Map lưu số comment cho từng post
             Map<Integer, Integer> commentCounts = new HashMap<>();
+            Map<Integer, List<Comment>> commentsMap = new HashMap<>();
             for (Post post : posts) {
                 int count = commentDAO.countCommentsByPostId(post.getPostId());
                 commentCounts.put(post.getPostId(), count);
+                commentsMap.put(post.getPostId(), commentDAO.getCommentsByPostId(post.getPostId()));
             }
             int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
             // Lấy 3 bài viết mới nhất 
@@ -55,6 +59,7 @@ public class BlogServlet extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("commentCounts", commentCounts);
             request.setAttribute("recentPosts", recentPosts);
+            request.setAttribute("commentsMap", commentsMap);
             request.getRequestDispatcher("UI/blog.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
