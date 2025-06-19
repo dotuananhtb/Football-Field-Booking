@@ -233,7 +233,7 @@
 
 
                                                                                                                                                                                     </div>
-                                                                                                                                                                                    <img src="./assets/images/travel-list/1.jpg"
+                                                                                                                                                                                    <img src="${f.image}"
                                                                                                                                                                                          alt="Image Listing">
 
                                                                                                                                                                                 </a>
@@ -1165,15 +1165,15 @@
                                                                                                                                                                 <div class="grid-three-destination">
                                                                                                                                                                     <c:forEach items="${listT}" var="f">
                                                                                                                                                                         <div class="tf-widget-destination wow fadeInUp animated " data-wow-delay="0.1s">
-                                                                                                                                                                            <a href="single-destination.html" class="destination-imgae">
+                                                                                                                                                                            <a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}" class="destination-imgae">
 
                                                                                                                                                                                 <img src="./assets/images/destination/list.jpg" alt="">
                                                                                                                                                                             </a>
                                                                                                                                                                             <div class="destination-content">
                                                                                                                                                                                 <span class="nation">${f.fieldTypeName}</span>
                                                                                                                                                                                 <div class="flex-two btn-destination">
-                                                                                                                                                                                    <h6 class="title"><a href="single-destination.html">Xem tất cả</a></h6>
-                                                                                                                                                                                    <a href="single-destination.html" class="flex-five btn-view">
+                                                                                                                                                                                    <h6 class="title"><a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}">Xem tất cả</a></h6>
+                                                                                                                                                                                    <a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}" class="flex-five btn-view">
                                                                                                                                                                                         <i class="icon-Vector-32"></i>
                                                                                                                                                                                     </a>
                                                                                                                                                                                 </div>

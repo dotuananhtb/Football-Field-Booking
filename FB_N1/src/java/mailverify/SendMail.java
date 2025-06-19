@@ -223,11 +223,11 @@ public class SendMail {
     public static void main(String[] args) {
         SendMail sendMail = new SendMail();
 
-        String emailNguoiNhan = "xekeh64169@ofular.com"; // 👉 Địa chỉ email cần test
+        String emailNguoiNhan = "huubinh0601@gmail.com"; // 👉 Địa chỉ email cần test
         String tenNguoiDung = "Nguyễn Văn A";         // 👉 Tên người nhận
         String linkXacThuc = "http://localhost:8080/XacThucTaiKhoan?token=abc123xyz"; // 👉 Link xác minh (có thể sinh động bằng UUID/token thật)
 
-        boolean result = sendMail.guiMailFULLHD(emailNguoiNhan, linkXacThuc, tenNguoiDung);
+        boolean result = sendMail.guiMailDatSanThanhCong(emailNguoiNhan, tenNguoiDung, "453435", BigDecimal.ONE);
 
         if (result) {
             System.out.println("✅ Gửi email xác minh thành công.");
