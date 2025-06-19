@@ -231,7 +231,7 @@
                                                 .show-more-indicator.visible {
                                                     display: block;
                                                 }
-                                                
+
 
                                                 .show-more-text {
                                                     font-size: 12px;
@@ -1413,7 +1413,7 @@
                                                                                                                                                                                                             });
                                                                                                                                                                                                         }
 
-                                                                                                                                                                                                        
+
 
 
                                                                                                                                                                                                         // Initialize
