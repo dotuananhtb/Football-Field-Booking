@@ -241,7 +241,7 @@ public class AccountDAO extends DBContext {
 
    public boolean insertAccountWithProfile(Account account) {
     String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
-    String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, avatar) VALUES (?, ?, ?)";
 
     try {
         connection.setAutoCommit(false); // Bắt đầu transaction
@@ -260,6 +260,7 @@ public class AccountDAO extends DBContext {
             return false;
         }
 
+        // Lấy account_id vừa tạo
         ResultSet rs = psAccount.getGeneratedKeys();
         int accountId;
         if (rs.next()) {
@@ -271,34 +272,34 @@ public class AccountDAO extends DBContext {
         }
 
         // Insert vào bảng UserProfile
-        PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
         UserProfile profile = account.getUserProfile();
+        if (profile == null) {
+            connection.rollback();
+            return false; // hoặc bạn có thể tạo UserProfile mặc định
+        }
 
+        PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
         psProfile.setInt(1, accountId);
         psProfile.setInt(2, profile.getRoleId());
-        psProfile.setString(3, profile.getFirstName());
-        psProfile.setString(4, profile.getLastName());
-        psProfile.setString(5, profile.getAddress());
-        psProfile.setString(6, profile.getGender());
-        psProfile.setString(7, profile.getDob());
-        psProfile.setString(8, profile.getPhone());
-        psProfile.setString(9, profile.getAvatar());
+        psProfile.setString(3, profile.getAvatar());
 
-        int profileResult = psProfile.executeUpdate();
-        if (profileResult == 0) {
+        int profileRows = psProfile.executeUpdate();
+        if (profileRows == 0) {
             connection.rollback();
             return false;
         }
 
-        connection.commit(); // Nếu cả hai insert thành công
+        connection.commit(); // Nếu mọi thứ thành công
         return true;
-    } catch (Exception e) {
-        e.printStackTrace();
+
+    } catch (SQLException e) {
         try {
             connection.rollback();
-        } catch (SQLException rollbackEx) {
-            rollbackEx.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+        e.printStackTrace();
+        return false;
     } finally {
         try {
             connection.setAutoCommit(true);
@@ -306,8 +307,8 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    return false;
 }
+
 
 
 
@@ -731,9 +732,28 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
+            
+         UserProfile profile = new UserProfile();
+            profile.setRoleId(2); // ví dụ: 2 = khách hàng
+            profile.setAvatar("default-avatar.png");
 
-        boolean a = dao.updateStatus(7, 3);
-        System.out.println(a);
+            // Tạo đối tượng Account
+            Account account = new Account();
+            account.setStatusId(1); // ví dụ: 1 = active
+            account.setUsername("testuser");
+            account.setPassword("123456");
+            account.setEmail("test@example.com");
+            account.setCreatedAt("2025-06-19"); // hoặc LocalDate.now().toString()
+            account.setUserProfile(profile);
+
+            // Thử insert
+            boolean success = dao.insertAccountWithProfile(account);
+
+            if (success) {
+                System.out.println("✅ Insert thành công! Account ID: " + account.getAccountId());
+            } else {
+                System.out.println("❌ Insert thất bại.");
+            }
 
     }
 }

@@ -6,7 +6,9 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.RoleDAO;
 import dao.StatusAccountDAO;
+import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Account;
+import model.Role;
 import model.StatusAccount;
 import util.ToastUtil;
 
@@ -52,12 +55,22 @@ public class StaffServlet extends HttpServlet {
             throws ServletException, IOException {
           String accountId = request.getParameter("aId");
         String statusId = request.getParameter("sId");
+        String roleId = request.getParameter("rId");
         
         AccountDAO aDao = new AccountDAO();
+        UserProfileDAO uDao = new UserProfileDAO();
+        
+        
         boolean a = aDao.changeStatus(accountId, statusId);
         if(a){
             ToastUtil.setSuccessToast(request, "Đổi trạng thái thành công!");
         }
+        boolean b = uDao.changeRole(accountId, roleId);
+         if(b){
+            ToastUtil.setSuccessToast(request, "Đổi vai trò thành công!");
+        }
+        
+        
           doGet(request, response); 
     }
     
@@ -68,10 +81,12 @@ public class StaffServlet extends HttpServlet {
         int roleId = 2;
        StatusAccountDAO sDao = new StatusAccountDAO();
        AccountDAO aDao = new AccountDAO();
-        
+        RoleDAO rDao = new RoleDAO();
         List<StatusAccount> listS = sDao.getStatusAccount();
-
         List<Account> listA = aDao.getAccountByRoleId(roleId);
+        List<Role> listR = rDao.getAllRoles();
+        
+        request.setAttribute("listRole", listR);
         request.setAttribute("listUser", listA);
         request.setAttribute("listStatus", listS);
         request.getRequestDispatcher("/admin/manage-staff.jsp").forward(request, response);
