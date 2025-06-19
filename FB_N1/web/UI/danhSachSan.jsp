@@ -746,7 +746,7 @@
                                                                                                                                                     </div>
                                                                                                                                                 </fieldset>
 
-                                                                                                                                                <fieldset class="group-select relative mb-40">
+<!--                                                                                                                                                <fieldset class="group-select relative mb-40">
                                                                                                                                                     <h6 class="title-tour">Tìm kiếm theo giá</h6>
                                                                                                                                                     <div class="widget widget-price ">
                                                                                                                                                         <div id="slider-range2"></div>
@@ -767,8 +767,8 @@
 
                                                                                                                                                                                     </div>
                                                                                                                                                                                     </div>
-                                                                                                                                                                                    </div><!-- /.widget_price -->
-                                                                                                                                                                                    </fieldset>
+                                                                                                                                                                                    </div> /.widget_price 
+                                                                                                                                                                                    </fieldset>-->
                                                                                                                                                                                     </div>
                                                                                                                                                                                     </div>
                                                                                                                                                                                     <!--                                                                                                                                                                        <div class="widget-filter mb-40">
