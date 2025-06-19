@@ -915,13 +915,15 @@
                                                                                                                                                                                                         <div class="time-slots">
                                                                                                                                                                                                         <div class="slots-header">
                                                                                                                                                                                                         <div class="slots-title">Khung giờ có sẵn</div>
-                                                                                                                                                                                                        <button type="button" class="toggle-btn">
-                                                                                                                                                                                                        <span>Thu gọn</span>
-                                                                                                                                                                                                        <svg width="16" height="16"><path d="M7 14l5-5 5 5z"/></svg>
+                                                                                                                                                                                                        <button type="button" class="toggle-btn" onclick="toggleSlots()">
+                                                                                                                                                                                                        <span id="toggleText">Thu gọn</span>
+                                                                                                                                                                                                        <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
+                                                                                                                                                                                                        </svg>
                                                                                                                                                                                                         </button>
                                                                                                                                                                                                         </div>
 
-                                                                                                                                                                                                        <div class="slots-container" data-field-id="${o.fieldId}">
+                                                                                                                                                                                                        <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
                                                                                                                                                                                                         <div class="slots-grid">
                                                                                                                                                                                                         <c:forEach items="${o.slots}" var="s">
                                                                                                                                                                                                         <button
@@ -945,8 +947,8 @@
                                                                                                                                                                                                         </div>
 
 
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="price-section">
+
+                                                                                                                                                                                                        <div class="price-section">
                                                                                                                                                                                                         <div class="price-box flex-three">
                                                                                                                                                                                                         <div class="price-info">
                                                                                                                                                                                                         <div class="price-label" id="priceLabel">Giá từ:</div>
@@ -964,33 +966,33 @@
                                                                                                                                                                                                         <div class="book-btn flex-three">
                                                                                                                                                                                                         <button type="button" onclick="bookField()">Đặt sân</button>
                                                                                                                                                                                                         </div>
+                                                                                                                                                                                                        </div>
                                                                                                                                                                                                     </div>
                                                                                                                                                                                                 </div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </c:forEach>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="row">
-                                                                                                                                                                                        <div class="col-md-12 ">
-                                                                                                                                                                                            <ul class="tf-pagination flex-three">
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <c:if test="${page > 1}">
+                                                                                                                                                                                            </c:forEach>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="row">
+                                                                                                                                                                                            <div class="col-md-12 ">
+                                                                                                                                                                                                <ul class="tf-pagination flex-three">
+                                                                                                                                                                                                    <li>
+                                                                                                                                                                                                        <c:if test="${page > 1}">
                                                                                                                                                                                                         <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page - 1}&sortBy=${sortBy}"><i class="icon-29"></i></a>
                                                                                                                                                                                                         </c:if>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <c:forEach begin="1" end="${endP}" var="p">
-                                                                                                                                                                                                    <li>
-                                                                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
                                                                                                                                                                                                     </li>
-                                                                                                                                                                                                </c:forEach>
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <c:if test="${page * 6 < total}">
+                                                                                                                                                                                                    <c:forEach begin="1" end="${endP}" var="p">
+                                                                                                                                                                                                        <li>
+                                                                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
+                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                    </c:forEach>
+                                                                                                                                                                                                    <li>
+                                                                                                                                                                                                        <c:if test="${page * 6 < total}">
                                                                                                                                                                                                         <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page + 1}&sortBy=${sortBy}"><i class=" icon--1"></i></a>
                                                                                                                                                                                                         </c:if>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                            </ul>
+                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                </ul>
 
+                                                                                                                                                                                            </div>
                                                                                                                                                                                         </div>
-                                                                                                                                                                                    </div>
 
                                                                                                                                                                                     </div>
                                                                                                                                                                                     </div>
@@ -1135,55 +1137,65 @@
 
 
                                                                                                                                                                                         function selectSlot(button) {
-                                                                                                                                                                                            const courtContainer = button.closest('.time-slots');
-                                                                                                                                                                                            const courtId = getCourtId(courtContainer);
-
-                                                                                                                                                                                            // Nếu đã chọn trước đó thì bỏ chọn
-                                                                                                                                                                                            if (button.classList.contains('selected')) {
-                                                                                                                                                                                                button.classList.remove('selected');
-                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
-                                                                                                                                                                                                resetPriceDisplay(courtContainer);
-
-                                                                                                                                                                                                // Xoá khỏi selectedSlots
-                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                                                                                            if (button.disabled || button.classList.contains('booked') || button.classList.contains('expired')) {
+                                                                                                                                                                                                console.warn("⛔ Slot không hợp lệ.");
                                                                                                                                                                                                 return;
                                                                                                                                                                                             }
 
-                                                                                                                                                                                            // Bỏ chọn tất cả các slot trong sân này
-                                                                                                                                                                                            courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
-                                                                                                                                                                                                btn.classList.remove('selected');
-                                                                                                                                                                                            });
+                                                                                                                                                                                            const courtContainer = button.closest('.time-slots');
+                                                                                                                                                                                            const courtId = getCourtId(courtContainer);
+                                                                                                                                                                                            const selectedDate = courtContainer.closest('.field-block')?.querySelector('.slotDatePicker')?.value;
 
-                                                                                                                                                                                            // Đánh dấu nút được chọn
-                                                                                                                                                                                            button.classList.add('selected');
-
-                                                                                                                                                                                            // Lấy dữ liệu
-                                                                                                                                                                                            const slotFieldId = button.getAttribute('data-slot-id');
                                                                                                                                                                                             const slotDate = button.getAttribute('data-slot-date');
                                                                                                                                                                                             const start = button.getAttribute('data-start');
                                                                                                                                                                                             const end = button.getAttribute('data-end');
+                                                                                                                                                                                            const slotFieldId = button.getAttribute('data-slot-id');
                                                                                                                                                                                             const price = parseInt(button.getAttribute('data-price'));
 
-                                                                                                                                                                                            // Lưu giá
+                                                                                                                                                                                            // Ngăn người dùng chọn ca không thuộc ngày đang xem
+                                                                                                                                                                                            if (slotDate !== selectedDate) {
+                                                                                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
+
+                                                                                                                                                                                            // Không cho chọn nếu ngày nhỏ hơn ngày hiện tại
+                                                                                                                                                                                            const now = new Date().toISOString().split('T')[0];
+                                                                                                                                                                                            if (slotDate < now) {
+                                                                                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
+
+                                                                                                                                                                                            //  Toggle chọn/bỏ chọn
+                                                                                                                                                                                            if (button.classList.contains('selected')) {
+                                                                                                                                                                                                button.classList.remove('selected');
+                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
+                                                                                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                                                                                return;
+                                                                                                                                                                                            }
+
+                                                                                                                                                                                            // Bỏ chọn slot khác của cùng sân
+                                                                                                                                                                                            courtContainer.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('selected'));
+
+                                                                                                                                                                                            // Chọn slot mới
+                                                                                                                                                                                            button.classList.add('selected');
                                                                                                                                                                                             selectedSlotPrices.set(courtId, price);
                                                                                                                                                                                             updatePriceDisplay(courtContainer, price);
 
-                                                                                                                                                                                            // Cập nhật slot đã chọn
-                                                                                                                                                                                            // Loại bỏ slot cũ cùng courtId
                                                                                                                                                                                             selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
-
-                                                                                                                                                                                            // Thêm slot mới
                                                                                                                                                                                             selectedSlots.push({
-                                                                                                                                                                                                courtId: courtId,
+                                                                                                                                                                                                courtId,
                                                                                                                                                                                                 slot_field_id: slotFieldId,
                                                                                                                                                                                                 slot_date: slotDate,
-                                                                                                                                                                                                start: start,
-                                                                                                                                                                                                end: end,
-                                                                                                                                                                                                price: price
+                                                                                                                                                                                                start,
+                                                                                                                                                                                                end,
+                                                                                                                                                                                                price
                                                                                                                                                                                             });
 
                                                                                                                                                                                             console.log("📌 Slots đã chọn:", selectedSlots);
                                                                                                                                                                                         }
+                                                                                                                                                                                        
+
                                                                                                                                                                                         function bookField() {
                                                                                                                                                                                             if (!isLoggedIn) {
                                                                                                                                                                                                 const currentURL = window.location.pathname + window.location.search;
