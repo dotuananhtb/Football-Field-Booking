@@ -21,6 +21,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.UserProfile;
+import util.ToastUtil;
 
 @WebServlet("/googleRegister")
 public class GoogleRegisterServlet extends HttpServlet {
@@ -73,16 +74,19 @@ public class GoogleRegisterServlet extends HttpServlet {
                     if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
                         request.getSession().removeAttribute("redirectAfterLogin");
                         String finalRedirect = request.getContextPath() + redirectPath;
+                        ToastUtil.setSuccessToast(request, "Đăng nhập bằng Google thành công!");
                         response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
 
                     } else {
+                        ToastUtil.setSuccessToast(request, "Đăng nhập bằng Google thành công!");
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
                     return;
 
                 } else if (statusId == 3) {
                     // Chuyển đến trang khóa tài khoản
-                    request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
+                    ToastUtil.setErrorToast(request, "Tài khoản liên kết với email này đang bị khoá !");
+                    request.getRequestDispatcher("/login").forward(request, response);
                 }
             } else {
                 // Email chưa tồn tại, gọi addGoogleAccount
@@ -102,9 +106,11 @@ public class GoogleRegisterServlet extends HttpServlet {
                     if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
                         request.getSession().removeAttribute("redirectAfterLogin");
                         String finalRedirect = request.getContextPath() + redirectPath;
+                        ToastUtil.setSuccessToast(request, "Đăng kí bằng Google thành công!");
                         response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
 
                     } else {
+                        ToastUtil.setSuccessToast(request, "Đăng kí bằng Google thành công!");
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
                     return;

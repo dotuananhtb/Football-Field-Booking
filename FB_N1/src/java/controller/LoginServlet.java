@@ -111,10 +111,10 @@ public class LoginServlet extends HttpServlet {
             }
 
         } else if (isSuccess && statusID == 2) {
-            ToastUtil.setSuccessToast(request, "Email của bạn chưa được xác minh!");
+            ToastUtil.setErrorToast(request, "Email của bạn chưa được xác minh!");
             request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
         } else if (isSuccess && statusID == 3) {
-            ToastUtil.setSuccessToast(request, "Tài khoản của bạn đã bị khoá");
+            ToastUtil.setErrorToast(request, "Tài khoản của bạn đã bị khoá");
             request.getRequestDispatcher("UI/login.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
