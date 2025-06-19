@@ -169,7 +169,7 @@
                             <a href="/FB_N1/admin/quan-li-tai-khoan">Danh sách người dùng</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/manage-staff">Danh sách nhân viên</a>
+                            <a href="/FB_N1/admin/quan-li-nhan-vien">Danh sách nhân viên</a>
                         </li>
 
                     </ul>

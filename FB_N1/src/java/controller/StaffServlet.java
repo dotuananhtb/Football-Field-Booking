@@ -23,7 +23,7 @@ import util.ToastUtil;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="StaffServlet", urlPatterns={"/admin/manage-staff"})
+@WebServlet(name="StaffServlet", urlPatterns={"/admin/quan-li-nhan-vien"})
 public class StaffServlet extends HttpServlet {
    
     /** 
@@ -47,9 +47,10 @@ public class StaffServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accountId = request.getParameter("aId");
+          String accountId = request.getParameter("aId");
         String statusId = request.getParameter("sId");
         
         AccountDAO aDao = new AccountDAO();
@@ -74,6 +75,7 @@ public class StaffServlet extends HttpServlet {
         request.setAttribute("listUser", listA);
         request.setAttribute("listStatus", listS);
         request.getRequestDispatcher("/admin/manage-staff.jsp").forward(request, response);
+
 
     }
 

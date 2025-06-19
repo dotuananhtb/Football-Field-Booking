@@ -100,9 +100,9 @@ public class HomeControl extends HttpServlet {
         int pageSize = 4;
         List<Field> listF1;
         if (zoneId != null) {
-            listF1 = fDao.getAllFieldsByZoneID(zoneId);
+            listF1 = fDao.get6FieldByZoneId(zoneId);
         } else {
-            listF1 = fDao.getAllFields();
+            listF1 = fDao.get6Field();
         }
         
         

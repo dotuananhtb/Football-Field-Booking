@@ -113,7 +113,7 @@
                                                 <th>Email</th>
                                                 <th>Số điện thoại</th>
                                                 <th>Trạng thái</th>                                                
-                                                <th></th>
+                                                
                                             </tr>
                                         </thead>
 
@@ -154,11 +154,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <input type="hidden" name="accId" value="${user.accountId}">
-                                                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg-2">Cập nhật</button>
-                                                        
-                                                    </td>
+                                                   
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -168,86 +164,7 @@
                             </div><!-- end col-->
                         </div>
                         
-                          <div class="modal fade" id="bs-example-modal-lg-2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">Cập Nhật Thông Tin Người Dùng</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row g-4">
-                                            <div class="col-12">
-                                                <div class="mb-4">
-
-
-
-                                                    <form action="${pageContext.request.contextPath}/admin/updateUserAdmin" method="post">
-                                                        
-                                                        <div class="row g-2">
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputEmai6" class="form-label">Tên Đăng Nhập</label>
-                                                                <input type="text" name="username" class="form-control" id="inputEmail6" value="${acc.username}">
-                                                            </div>
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputPassword5" class="form-label">Mật Khẩu</label>
-                                                                <input type="password" name ="password" class="form-control" id="inputPassword5" placeholder="Mật Khẩu">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-2">
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputEmail4" class="form-label">Họ</label>
-                                                                <input type="text" name ="firstname" class="form-control" id="inputEmail4" value="${acc.userProfile.firstName}">
-                                                            </div>
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputPassword4" class="form-label">Tên</label>
-                                                                <input type="text" name ="lastname" class="form-control" id="inputPassword4" value="${acc.userProfile.lastName}">
-                                                            </div>
-                                                            
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="inputAddress" class="form-label">Địa Chỉ</label>
-                                                            <input type="text" name ="address" class="form-control" id="inputAddress" value="${acc.userProfile.address}">
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="inputEmail5" class="form-label">Email</label>
-                                                            <input type="email" name ="email" class="form-control" id="inputEmail5" value="${acc.email}">
-                                                        </div>
-
-                                                        <div class="row g-2">
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputCity" class="form-label">Số Điện Thoại</label>
-                                                                <input type="number" name ="phone" class="form-control" value="${acc.userProfile.phone}" id="inputCity">
-                                                            </div>
-                                                            <div class="mb-3 col-md-4">
-                                                                <label for="inputState"  class="form-label">Giới Tính</label>
-                                                                <select id="inputState" name ="gender" value="${acc.userProfile.gender}" class="form-select">
-                                                                    <option>Giới Tính </option>
-                                                                    <option value="Nam">Nam</option>
-                                                                    <option value="Nữ">Nữ</option>
-                                                                    <option value="Khác">Khác</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3 col-md-2">
-                                                                <label for="example-date" class="form-label">Ngày Sinh</label>
-                                                                <input class="form-control" name ="dob" value="${acc.userProfile.dob}" id="example-date" type="date" name="date">
-                                                            </div>
-                                                        </div>
-
-
-
-                                                        <button type="submit" class="btn btn-primary">Cập Nhật </button>
-                                                    </form>
-
-                                                </div> <!-- end card-->
-                                            </div> <!-- end col -->
-                                        </div>
-                                    </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div>
+                          
                         
                         
 

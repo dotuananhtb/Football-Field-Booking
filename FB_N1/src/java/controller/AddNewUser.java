@@ -105,6 +105,7 @@ public class AddNewUser extends HttpServlet {
         } catch (Exception e) {
             response.getWriter().write("Lỗi hệ thống: " + e.getMessage());
         }
+                doGet(request, response);
         
     }
     @Override
