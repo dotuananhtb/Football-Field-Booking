@@ -63,10 +63,8 @@ public class LoginServlet extends HttpServlet {
         String remember = request.getParameter("remember");
         AccountDAO dao = new AccountDAO();
         boolean isSuccess = dao.checkLogin(username, password);
-        
+
         int statusID = dao.getStatusIDbyAccount(username, password);
-        
-        
 
         if (isSuccess && statusID == 1) {
             Account acc = dao.getAccountByUsername(username);
@@ -75,7 +73,6 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("account", acc);
             session.setAttribute("userProfile", acc.getUserProfile());
             session.setAttribute("statusID", statusID);
-            
 
             // Xử lý ghi nhớ
             if ("on".equals(remember)) {
@@ -100,21 +97,25 @@ public class LoginServlet extends HttpServlet {
 
             // ✅ Redirect về trang trước khi login nếu có
             String redirectPath = (String) session.getAttribute("redirectAfterLogin");
-            
 
             if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
                 session.removeAttribute("redirectAfterLogin");
                 String finalRedirect = request.getContextPath() + redirectPath;
+
+                ToastUtil.setSuccessToast(request, "Đăng nhập thành công!");
                 response.sendRedirect(response.encodeRedirectURL(finalRedirect)); // ✅ dùng encodeRedirectURL
 
             } else {
+                ToastUtil.setSuccessToast(request, "Đăng nhập thành công!");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
 
         } else if (isSuccess && statusID == 2) {
+            ToastUtil.setSuccessToast(request, "Email của bạn chưa được xác minh!");
             request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
         } else if (isSuccess && statusID == 3) {
-            request.getRequestDispatcher("UI/Account_Lock.jsp").forward(request, response);
+            ToastUtil.setSuccessToast(request, "Tài khoản của bạn đã bị khoá");
+            request.getRequestDispatcher("UI/login.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
             request.getRequestDispatcher("UI/login.jsp").forward(request, response);
