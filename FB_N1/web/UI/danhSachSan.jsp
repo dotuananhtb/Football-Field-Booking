@@ -433,7 +433,7 @@
                                                                         <div class="col-lg-12 center z-index1">
                                                                             <h1 class="title">Danh Sách Sân</h1>
                                                                             <ul class="breadcumb-list flex-five">
-                                                                                <li><a href="index.html">Trang chủ</a></li>
+                                                                                <li><a href="/FB_N1/home">Trang chủ</a></li>
                                                                                 <li><span>Danh sách sân</span></li>
                                                                             </ul>
                                                                             <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
@@ -1090,19 +1090,38 @@
                                                                                                                                                                                                 const fieldId = this.getAttribute("data-field-id");
                                                                                                                                                                                                 const fieldBlock = this.closest(".field-block");
 
-                                                                                                                                                                                                if (!selectedDate || !fieldId || !fieldBlock) {
-                                                                                                                                                                                                    console.log("❌ Thiếu selectedDate, fieldId hoặc fieldBlock");
+                                                                                                                                                                                                if (!fieldId || !fieldBlock) {
+                                                                                                                                                                                                    console.log("❌ Thiếu fieldId hoặc fieldBlock");
+                                                                                                                                                                                                    return;
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                const courtId = fieldId;
+
+                                                                                                                                                                                                // ✅ Luôn reset UI khi date thay đổi (dù rỗng)
+                                                                                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
+                                                                                                                                                                                                    btn.classList.remove('booked', 'expired', 'pending', 'selected');
+                                                                                                                                                                                                    btn.disabled = true;
+                                                                                                                                                                                                    btn.removeAttribute('data-slot-date');
+                                                                                                                                                                                                });
+
+                                                                                                                                                                                                // ✅ Xoá slot chọn cũ
+                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                                                                                                selectedSlotPrices.delete(courtId);
+
+                                                                                                                                                                                                // ❌ Nếu chưa có ngày thì không gọi API
+                                                                                                                                                                                                if (!selectedDate) {
+                                                                                                                                                                                                    console.log("📛 Input bị xoá ngày — đã reset slot UI, không gọi API");
                                                                                                                                                                                                     return;
                                                                                                                                                                                                 }
 
                                                                                                                                                                                                 console.log("📅 Đã chọn ngày:", selectedDate, "⛳ FieldId:", fieldId);
 
-                                                                                                                                                                                                // Gán ngày cho các nút trong sân đó
+                                                                                                                                                                                                // Gán ngày vào slot để kiểm tra
                                                                                                                                                                                                 fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
                                                                                                                                                                                                     btn.setAttribute("data-slot-date", selectedDate);
                                                                                                                                                                                                 });
 
-                                                                                                                                                                                                // Gọi API riêng cho sân này
+                                                                                                                                                                                                // Gọi API
                                                                                                                                                                                                 $.ajax({
                                                                                                                                                                                                     url: '/FB_N1/checking-slots',
                                                                                                                                                                                                     method: 'GET',
@@ -1114,7 +1133,7 @@
                                                                                                                                                                                                     dataType: 'json',
                                                                                                                                                                                                     success: function (bookedSlots) {
                                                                                                                                                                                                         console.log("✅ API trả về:", bookedSlots);
-                                                                                                                                                                                                        updateSlotUI(bookedSlots, selectedDate, fieldBlock); // chỉ update slot của block này
+                                                                                                                                                                                                        updateSlotUI(bookedSlots, selectedDate, fieldBlock);
                                                                                                                                                                                                     },
                                                                                                                                                                                                     error: function (xhr, status, error) {
                                                                                                                                                                                                         console.error("❌ Lỗi API:", error);
@@ -1194,7 +1213,7 @@
 
                                                                                                                                                                                             console.log("📌 Slots đã chọn:", selectedSlots);
                                                                                                                                                                                         }
-                                                                                                                                                                                        
+
 
                                                                                                                                                                                         function bookField() {
                                                                                                                                                                                             if (!isLoggedIn) {
