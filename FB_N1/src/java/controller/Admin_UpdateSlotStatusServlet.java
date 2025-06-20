@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import dao.BookingDAO;
 import dao.BookingDetailsDAO;
+import dao.SlotsOfFieldDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,8 +15,11 @@ import service.BookingService;
 import websocket.AppWebSocket;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import model.SlotsOfField;
 
 @WebServlet("/admin/update-slot-status")
 public class Admin_UpdateSlotStatusServlet extends HttpServlet {
@@ -59,18 +63,28 @@ public class Admin_UpdateSlotStatusServlet extends HttpServlet {
                 int accid = bookingDetailsDAO.getAccountIdByBookingDetailId(bd.getBookingDetailsId());
                 String accountId = String.valueOf(accid);
 
+                // Lấy thông tin ca sân
+                SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
+                slotDAO.setConnection(bookingService.getConnection()); // nếu dùng transaction
+                SlotsOfField slot = slotDAO.getSlotOfFieldById(bd.getSlotFieldId());
+
+                String timeRange = slot.getSlotInfo().getStartTime() + " - " + slot.getSlotInfo().getEndTime();
+                String fieldName = slot.getField().getFieldName();
+                String dateStr = new SimpleDateFormat("dd/MM/yyyy").format(bd.getSlotDate()); 
+
                 String msg = switch (newStatusId) {
                     case 1 ->
-                        "✅ Ca sân của bạn đã được *xác nhận*.";
+                        "✅ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được xác nhận.";
                     case 2 ->
-                        "⌛ Ca sân của bạn đã chuyển về trạng thái *chờ xử lý*.";
+                        "⌛ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã chuyển về trạng thái chờ xử lý.";
                     case 3 ->
-                        "❌ Ca sân của bạn đã bị *huỷ* bởi quản lý.";
+                        "❌ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã bị huỷ bởi quản lý.";
                     default ->
-                        "⚠️ Ca sân của bạn đã được cập nhật.";
+                        "⚠️ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã được cập nhật.";
                 };
 
                 AppWebSocket.sendToAccount(accountId, "userMessage", msg);
+
             }
 
             response.getWriter().write(gson.toJson(result));

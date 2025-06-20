@@ -115,5 +115,53 @@ public class SlotsOfFieldDAO extends DBContext {
         }
         return null;
     }
+    public SlotsOfField getSlotOfFieldById(int slotFieldId) {
+        String sql = """
+        SELECT 
+            sf.slot_field_id, 
+            sf.slot_field_price,
+            sf.field_id,
+            f.field_name,
+            sd.slot_id, 
+            sd.start_time, 
+            sd.end_time, 
+            sd.field_type_id
+        FROM SlotsOfField sf
+        JOIN SlotsOfDay sd ON sf.slot_id = sd.slot_id
+        JOIN Field f ON sf.field_id = f.field_id
+        WHERE sf.slot_field_id = ?
+    """;
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Gán thông tin SlotsOfDay
+                    SlotsOfDay slot = new SlotsOfDay();
+                    slot.setSlotId(rs.getInt("slot_id"));
+                    slot.setStartTime(rs.getString("start_time"));
+                    slot.setEndTime(rs.getString("end_time"));
+                    slot.setFieldTypeId(rs.getInt("field_type_id"));
+
+                    // Gán thông tin Field
+                    Field field = new Field();
+                    field.setFieldId(rs.getInt("field_id"));
+                    field.setFieldName(rs.getString("field_name"));
+
+                    // Gán vào SlotsOfField
+                    SlotsOfField sof = new SlotsOfField();
+                    sof.setSlotFieldId(rs.getInt("slot_field_id"));
+                    sof.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
+                    sof.setSlotInfo(slot);
+                    sof.setField(field);
+
+                    return sof;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
