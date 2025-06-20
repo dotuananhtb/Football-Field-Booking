@@ -10,6 +10,8 @@
 <!-- Notyf CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <%-- <script src="./app/js/toast.js"></script>đường dẫn toast.js --%>
 <script src="${pageContext.request.contextPath}/UI/app/js/toast.js"></script>
 

@@ -30,5 +30,4 @@
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
-<script src="./assets/js/toast.js"></script>
 <jsp:include page="/UI/toast.jsp" />

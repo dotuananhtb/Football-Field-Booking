@@ -1,22 +1,38 @@
-// toast.js
-
 (function () {
     function initToast() {
         if (typeof Notyf === 'undefined') {
-            console.error("❌ Notyf chưa được load!");
+            console.error('❌ Notyf chưa được load!');
             return;
         }
-
-        // Nếu showToast đã tồn tại thì không tạo lại
         if (typeof window.showToast === 'function') {
-            console.warn("⚠️ showToast đã được khởi tạo trước đó. Bỏ qua.");
+            console.warn('⚠️ showToast đã được khởi tạo trước đó. Bỏ qua.');
             return;
         }
 
         const notyf = new Notyf({
             duration: 4000,
             dismissible: true,
-            position: {x: 'right', y: 'top'}
+            position: {x: 'right', y: 'top'},
+            types: [
+                {
+                    type: 'warning',
+                    background: '#ffa000', // màu cam cảnh báo
+                    icon: {
+                        className: 'material-icons',
+                        tagName: 'i',
+                        text: 'warning' // icon mặc định Notyf đề xuất
+                    }
+                },
+                {
+                    type: 'info',
+                    background: '#2196f3', // xanh dương
+                    icon: {
+                        className: 'material-icons',
+                        tagName: 'i',
+                        text: 'info' // icon đề xuất cho "info"
+                    }
+                }
+            ]
         });
 
         window.showToast = function (type, message) {
@@ -31,23 +47,19 @@
                     notyf.error(message);
                     break;
                 case 'warning':
-                    notyf.open({type: 'warning', message});
-                    break;
                 case 'info':
-                    notyf.open({type: 'info', message});
+                    notyf.open({type, message});
                     break;
                 default:
-                    notyf.open({type, message});
+                    console.warn(`❗ Unknown toast type: ${type}`);
+                    notyf.open({type: 'info', message: `[${type}] ${message}`});
             }
         };
 
-        console.log("✅ showToast đã được khởi tạo");
+        console.log('✅ showToast đã được khởi tạo');
     }
 
-    // Đảm bảo Notyf được load xong trước khi khởi tạo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initToast);
-    } else {
-        initToast();
-    }
+    document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', initToast)
+            : initToast();
 })();
