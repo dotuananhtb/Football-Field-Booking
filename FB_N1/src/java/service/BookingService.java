@@ -25,15 +25,19 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import mailverify.SendMail;
 import model.Account;
 import util.DBContext;
+import websocket.AppWebSocket;
 
 public class BookingService extends DBContext {
 
     private BookingDAO bookingDAO = new BookingDAO();
     private BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+    private SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
 
 //     1. Tạo đơn đặt sân
     public boolean createBooking(Account account, List<BookingDetails> detailsList) {
@@ -82,6 +86,18 @@ public class BookingService extends DBContext {
 
             conn.commit();
 
+            /// Sync real time ///
+            Set<String> affectedFieldIds = new HashSet<>();
+            for (BookingDetails detail : detailsList) {
+                String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(detail.getSlotFieldId());
+                if (fieldId != null) {
+                    affectedFieldIds.add(fieldId);
+                }
+            }
+            AppWebSocket.broadcastCalendarUpdates(affectedFieldIds); // Gửi socket cập nhật lịch cho tất cả các sân bị ảnh hưởng
+            /// Sync real time ///
+            
+            
             String finalBookingId = Integer.toString(bookingId);
             new Thread(() -> {
                 try {

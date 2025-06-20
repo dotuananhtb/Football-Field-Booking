@@ -1,12 +1,46 @@
-// calendar-ui.js
-
 let calendar;
 let selectedSlots = [];
+let socket = null;
+
+// 🔹 0. Kết nối WebSocket theo fieldId
+function connectWebSocket(fieldId) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close(); // Đóng kết nối cũ
+    }
+
+    const url = `ws://${location.host}/FB_N1/ws/app?accountId=${accountId}&roleId=${roleId}&fieldId=${fieldId}`;
+    socket = new WebSocket(url);
+
+    socket.onopen = () => {
+        console.log("✅ WebSocket connected");
+    };
+
+    socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.type === "refreshCalendar") {
+            calendar.refetchEvents();
+        }
+    };
+
+    socket.onclose = () => {
+        console.warn("⚠️ WebSocket disconnected");
+    };
+
+    socket.onerror = (e) => {
+        console.error("❌ WebSocket error", e);
+    };
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     initCalendar();
     calendar.render();
     bindUIEvents();
+
+    // 👉 Kết nối socket ban đầu theo sân đang chọn
+    const fieldId = $('#fieldSelect').val();
+    if (fieldId) {
+        connectWebSocket(fieldId);
+    }
 });
 
 // 🔹 1. Hiển thị bảng slot đã chọn
@@ -46,7 +80,7 @@ function renderSelectedTable() {
 
     $("#selectedSlotsTable").toggle(selectedSlots.length > 0);
     $("#totalPrice").toggle(selectedSlots.length > 0)
-            .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+        .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
     $("#bookNowBtn").toggle(selectedSlots.length > 0);
 }
 
@@ -55,11 +89,11 @@ function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-                props.slot_date === removedSlot.slot_date &&
-                event.startStr === removedSlot.start &&
-                event.endStr === removedSlot.end
-                ) {
+            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+            props.slot_date === removedSlot.slot_date &&
+            event.startStr === removedSlot.start &&
+            event.endStr === removedSlot.end
+        ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
@@ -114,6 +148,8 @@ function showCustomerInfoModal(info) {
 // 🔹 5. Sự kiện UI
 function bindUIEvents() {
     $('#fieldSelect').on('change', function () {
+        const newFieldId = $(this).val();
+        connectWebSocket(newFieldId); // 🔥 Reconnect socket khi đổi sân
         calendar.refetchEvents();
         renderSelectedTable();
     });

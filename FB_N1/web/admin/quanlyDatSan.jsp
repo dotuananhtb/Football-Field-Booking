@@ -4,6 +4,7 @@
     Author     : Đỗ Tuấn Anh
 --%>
 
+<%@page import="model.UserProfile"%>
 <%@page import="model.Field"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.FieldDAO"%>
@@ -29,6 +30,17 @@
 
 
     </head>
+    <%
+        Account account = (Account) session.getAttribute("account");
+        UserProfile userProfile = (account != null) ? account.getUserProfile() : null;
+    %>
+
+    <script>
+        window.accountId = <%= (account != null) ? account.getAccountId() : -1%>;
+        window.roleId = <%= (userProfile != null) ? userProfile.getRoleId() : -1%>;
+    </script>
+
+
     <style>
         body {
             font-family: Arial, sans-serif;

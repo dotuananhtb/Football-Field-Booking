@@ -16,6 +16,10 @@ import util.DBContext;
 
 public class SlotsOfFieldDAO extends DBContext {
 
+    public void setConnection(Connection conn) {
+        this.connection = conn;
+    }
+
     public List<SlotEventDTO> getAllSlotsOfField(int fieldId) {
         List<SlotEventDTO> list = new ArrayList<>();
         String sql = """
@@ -95,6 +99,21 @@ public class SlotsOfFieldDAO extends DBContext {
             e.printStackTrace();
         }
         return null; // hoặc BigDecimal.ZERO nếu bạn muốn tránh null
+    }
+
+    public String getFieldIdBySlotFieldId(int slotFieldId) {
+        String sql = "SELECT field_id FROM SlotsOfField WHERE slot_field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("field_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
