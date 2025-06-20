@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import model.Account;
 import service.BookingService;
 import util.ToastUtil;
+import websocket.AppWebSocket;
 
 /**
  *
@@ -52,6 +53,7 @@ public class CancelBookingServlet extends HttpServlet {
         boolean success = bookingService.updateStatus(bookingDetailsId, 2);
 
         if (success) {
+            AppWebSocket.broadcastToRole("1", "cancelRequest", "Khách hàng " + account.getUsername() + " yêu cầu huỷ ca #" + bookingDetailsId);
             ToastUtil.setSuccessToast(request, "Yêu cầu huỷ thành công, vui lòng đợi Nhân viên xử lí!");
         } else {
             ToastUtil.setErrorToast(request, "Hủy ca thất bại! Vui lòng thử lại sau.");

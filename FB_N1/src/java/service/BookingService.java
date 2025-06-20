@@ -95,6 +95,9 @@ public class BookingService extends DBContext {
                 }
             }
             AppWebSocket.broadcastCalendarUpdates(affectedFieldIds); // Gửi socket cập nhật lịch cho tất cả các sân bị ảnh hưởng
+            
+            AppWebSocket.broadcastToRole("1", "newBooking", "Khách hàng " + account.getUsername() + " vừa đặt sân.");
+
             /// Sync real time ///
             
             

@@ -4,6 +4,8 @@
     Author     : Đỗ Tuấn Anh
 --%>
 
+<%@page import="model.UserProfile"%>
+<%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,10 +23,22 @@
         <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
         </svg>
     </div>
+    <%
+        Account account = (Account) session.getAttribute("account");
+        UserProfile userProfile = (account != null) ? account.getUserProfile() : null;
+    %>
 
+    <script>
+        window.accountId = <%= (account != null) ? account.getAccountId() : -1%>;
+        window.roleId = <%= (userProfile != null) ? userProfile.getRoleId() : -1%>;
+    </script>
     <!-- /preload -->
     <jsp:include page="toast.jsp" />
     <jsp:include page="sweetalert-include.jsp" />
+    <script src="${pageContext.request.contextPath}/UI/app/js/userNoti-socket.js"></script>
+    <script>
+        connectUserNotiSocket(accountId, roleId);
+    </script>
     <div id="wrapper">
 
         <div id="pagee" class="clearfix">

@@ -47,6 +47,26 @@ public class BookingDetailsDAO extends DBContext {
         this.connection = conn;
     }
 
+    public Integer getAccountIdByBookingDetailId(int bookingDetailsId) {
+        String sql = "SELECT b.account_id "
+                + "FROM BookingDetails bd "
+                + "JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "WHERE bd.booking_details_id = ?";
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, bookingDetailsId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("account_id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Không tìm thấy
+    }
+
     public boolean updateStatus(int bookingDetailsId, int newStatus) {
         String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_details_id = ?";
 

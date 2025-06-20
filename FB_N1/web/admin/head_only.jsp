@@ -4,6 +4,8 @@
     Author     : Đỗ Tuấn Anh
 --%>
 
+<%@page import="model.UserProfile"%>
+<%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- App favicon -->
 <link rel="shortcut icon" href="assets/images/logo-sm.png">
@@ -31,3 +33,19 @@
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 <jsp:include page="/UI/toast.jsp" />
+
+
+<%
+    Account account = (Account) session.getAttribute("account");
+    UserProfile userProfile = (account != null) ? account.getUserProfile() : null;
+%>
+
+<script>
+    window.accountId = <%= (account != null) ? account.getAccountId() : -1%>;
+    window.roleId = <%= (userProfile != null) ? userProfile.getRoleId() : -1%>;
+</script>
+
+<script src="assets/js/admin-notify.js"></script>
+<script>
+    connectAdminSocket(accountId, roleId);
+</script>

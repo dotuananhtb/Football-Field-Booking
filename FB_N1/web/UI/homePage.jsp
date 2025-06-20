@@ -1322,7 +1322,6 @@
                                                                                                                                                         <script src="app/js/countto.js"></script>
                                                                                                                                                         <script src="app/js/jquery.fancybox.js"></script>
                                                                                                                                                         <script src="app/js/jquery.magnific-popup.min.js"></script>
-                                                                                                                                                        <script src="app/js/price-ranger.js"></script>
                                                                                                                                                         <script src="app/js/textanimation.js"></script>
                                                                                                                                                         <script src="app/js/wow.min.js"></script>
                                                                                                                                                         <script src="app/js/shortcodes.js"></script>

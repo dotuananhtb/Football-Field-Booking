@@ -746,859 +746,858 @@
                                                                                                                                                     </div>
                                                                                                                                                 </fieldset>
 
-<!--                                                                                                                                                <fieldset class="group-select relative mb-40">
-                                                                                                                                                    <h6 class="title-tour">Tìm kiếm theo giá</h6>
-                                                                                                                                                    <div class="widget widget-price ">
-                                                                                                                                                        <div id="slider-range2"></div>
-                                                                                                                                                        <div class="slider-labels">
-                                                                                                                                                            <div>
-                                                                                                                                                                <input type="hidden" name="min-value2" value="">
-                                                                                                                                                                    <input type="hidden" name="max-value2" value="">
-                                                                                                                                                                        </div>
-                                                                                                                                                                        <div class="caption flex-three">
-                                                                                                                                                                            <p class="price-range">Giá: </p>
-                                                                                                                                                                            <div class="number-range">
-                                                                                                                                                                                <span id="slider-range-value01">${param.minPrice}</span>
-                                                                                                                                                                                <span id="slider-range-value02">${param.maxPrice}</span>
-
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <input type="hidden" name="minPrice" id="minPriceInput" value="${param.minPrice}">
-                                                                                                                                                                                <input type="hidden" name="maxPrice" id="maxPriceInput" value="${param.maxPrice}">
-
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    </div> /.widget_price 
-                                                                                                                                                                                    </fieldset>-->
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                                                                <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                                                                <div class="group-check-box-wrap">
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check">10+</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check1" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check1">12+</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check2" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check2">15+</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check3" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check3">Adults</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                </div>-->
-                                                                                                                                                                                    <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                                                                <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                                                                <div class="group-check-box-wrap">
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check4-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check4-bar">Accepts Credit Cards</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check5-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check5-bar">Car Parking</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check6-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check6-bar">Free Coupons</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check7-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check7-bar">Laundry Service</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check8-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check8-bar">Outdoor Seating</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check9-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check9-bar">Reservations</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check10-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check10-bar">Restaurant</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <div class="checkbox">
-                                                                                                                                                                                                <input id="check11-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                                                                <label for="check11-bar">Smoking Allowed</label>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                </div>-->
-                                                                                                                                                                                    </form>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="col-lg-8 listing-list-car-wrap">
-                                                                                                                                                                                        <form  action="${pageContext.request.contextPath}/DanhSachSan" class="tf-my-listing mb-37">
-                                                                                                                                                                                            <input type="hidden" name="sortBy" id="sortByInput" value="${sortBy}">
-                                                                                                                                                                                                <div class="row align-center">
-                                                                                                                                                                                                    <div class="col-sm-5">
-                                                                                                                                                                                                        <p class="showing">Showing <span class="text-main">${showing}</span> of ${total} Results
-                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="col-sm-7 group-bar-wrap flex-six">
-                                                                                                                                                                                                        <div class="listing-all-wrap">
-                                                                                                                                                                                                        <div class="flex-three">
-                                                                                                                                                                                                        <div class="group-select-recently">
-                                                                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                                                                        <i class="icon-Vector6"></i>
-                                                                                                                                                                                                        <span class="current">
-                                                                                                                                                                                                        <c:choose>                                                                                                                                                                                                        <c:when test="${sortBy == 'name'}">Name</c:when>
-                                                                                                                                                                                                        <c:when test="${sortBy == 'new'}">Sân mới</c:when>
-                                                                                                                                                                                                        <c:when test="${sortBy == 'recent'}">Mới cập nhật</c:when>
-                                                                                                                                                                                                        <c:otherwise>Sắp xếp</c:otherwise>
-                                                                                                                                                                                                        </c:choose>
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        <ul class="list">                                                                                                                                                                                                        <li class="option ${sortBy == 'name' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Theo Tên Sân</a>
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        <li class="option ${sortBy == 'new' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">Sân mới</a>
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        <li class="option ${sortBy == 'recent' ? 'selected focus' : ''}">
-                                                                                                                                                                                                        <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=recent">Mới cập nhật</a>
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                        </ul>
+                                                                                                                                                <!--                                                                                                                                                <fieldset class="group-select relative mb-40">
+                                                                                                                                                                                                        <h6 class="title-tour">Tìm kiếm theo giá</h6>
+                                                                                                                                                                                                        <div class="widget widget-price ">
+                                                                                                                                                                                                        <div id="slider-range2"></div>
+                                                                                                                                                                                                        <div class="slider-labels">
+                                                                                                                                                                                                        <div>
+                                                                                                                                                                                                        <input type="hidden" name="min-value2" value="">
+                                                                                                                                                                                                        <input type="hidden" name="max-value2" value="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="caption flex-three">
+                                                                                                                                                                                                        <p class="price-range">Giá: </p>
+                                                                                                                                                                                                        <div class="number-range">
+                                                                                                                                                                                                        <span id="slider-range-value01">${param.minPrice}</span>
+                                                                                                                                                                                                        <span id="slider-range-value02">${param.maxPrice}</span>
+                                                                                                                                                
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <input type="hidden" name="minPrice" id="minPriceInput" value="${param.minPrice}">
+                                                                                                                                                                                                        <input type="hidden" name="maxPrice" id="maxPriceInput" value="${param.maxPrice}">
+                                                                                                                                                
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
-                                                                                                                                                                                                        <div class="toolbar-list">
-                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                        <a class="btn-display-listing-grid active">
-                                                                                                                                                                                                        <i class="icon-list"></i>
-                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                        <a class="btn-display-listing-list">
-                                                                                                                                                                                                        <i class="icon-Group-1000001297"></i>
-                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                        </form>
-                                                                                                                                                                                        <div class="listing-list-car-grid mb-60">
-                                                                                                                                                                                            <c:forEach items="${listF}" var="o">
-                                                                                                                                                                                                <div class="tour-listing box-sd">
-                                                                                                                                                                                                    <a href="tour-single.html" class="tour-listing-image">
-                                                                                                                                                                                                        <div class="badge-top flex-two">
-                                                                                                                                                                                                        <span class="feature
-                                                                                                                                                                                                        <c:choose>
-                                                                                                                                                                                                        <c:when test="${o.status == 'Bảo trì'}">maintenance</c:when>
-                                                                                                                                                                                                        <c:when test="${o.status == 'Hỏng'}">broken</c:when>
-                                                                                                                                                                                                        <c:otherwise></c:otherwise>
-                                                                                                                                                                                                        </c:choose>">${o.status}</span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <img src="${o.image}" alt="Image Listing">
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                    <div class="tour-listing-content">
-                                                                                                                                                                                                        <span class="map"><i class="icon-Vector4"></i>${o.zone.address}</span>
-                                                                                                                                                                                                        <h3 class="title-tour-list"><a href="tour-single.html">${o.fieldName}</a>
-                                                                                                                                                                                                        </h3>
-                                                                                                                                                                                                        <div class="icon-box flex-three">
-                                                                                                                                                                                                        <div class="icons flex-three">
-                                                                                                                                                                                                        <i class="icon-time-left"></i>
-                                                                                                                                                                                                        <span>Số ca: ${totalSlotMap[o.fieldId]}</span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="icons flex-three">
-                                                                                                                                                                                                        <i class="icon-user"></i>
-                                                                                                                                                                                                        <span>${o.typeOfField.fieldTypeName}</span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="field-block" data-field-id="${o.fieldId}">
-                                                                                                                                                                                                        <input type="date" class="slotDatePicker" data-field-id="${o.fieldId}" />
-
-                                                                                                                                                                                                        <div class="time-slots">
-                                                                                                                                                                                                        <div class="slots-header">
-                                                                                                                                                                                                        <div class="slots-title">Khung giờ có sẵn</div>
-                                                                                                                                                                                                        <button type="button" class="toggle-btn" onclick="toggleSlots()">
-                                                                                                                                                                                                        <span id="toggleText">Thu gọn</span>
-                                                                                                                                                                                                        <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
-                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                        </button>
-                                                                                                                                                                                                        </div>
-
-                                                                                                                                                                                                        <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
-                                                                                                                                                                                                        <div class="slots-grid">
-                                                                                                                                                                                                        <c:forEach items="${o.slots}" var="s">
-                                                                                                                                                                                                        <button
-                                                                                                                                                                                                        type="button"
-                                                                                                                                                                                                        class="slot-btn"
-                                                                                                                                                                                                        data-field-id="${o.fieldId}"
-                                                                                                                                                                                                        data-price="${s.slotFieldPrice}"
-                                                                                                                                                                                                        data-start="${s.slotInfo.startTime}"
-                                                                                                                                                                                                        data-end="${s.slotInfo.endTime}"
-                                                                                                                                                                                                        data-slot-id="${s.slotFieldId}"
-                                                                                                                                                                                                        onclick="selectSlot(this)">
-                                                                                                                                                                                                        ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
-                                                                                                                                                                                                        </button>
-                                                                                                                                                                                                        </c:forEach>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="show-more-indicator" id="showMoreIndicator">
-                                                                                                                                                                                                        <div class="show-more-text">... và nhiều khung giờ khác</div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-
-
-
-                                                                                                                                                                                                        <div class="price-section">
-                                                                                                                                                                                                        <div class="price-box flex-three">
-                                                                                                                                                                                                        <div class="price-info">
-                                                                                                                                                                                                        <div class="price-label" id="priceLabel">Giá từ:</div>
-                                                                                                                                                                                                        <div class="price-range">
-                                                                                                                                                                                                        <c:set var="prices" value="${priceMap[o.fieldId]}" />
-                                                                                                                                                                                                        <span class="price-from" id="priceDisplay" data-original-min="${prices[0]}">
-                                                                                                                                                                                                        <fmt:formatNumber value="${prices[0]}" type="number" groupingUsed="true"/> ₫
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        <span class="price-to" id="originalPrice" data-original-max="${prices[1]}">
-                                                                                                                                                                                                        - <fmt:formatNumber value="${prices[1]}" type="number" groupingUsed="true"/> ₫
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="book-btn flex-three">
-                                                                                                                                                                                                        <button type="button" onclick="bookField()">Đặt sân</button>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                            </c:forEach>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                        <div class="row">
-                                                                                                                                                                                            <div class="col-md-12 ">
-                                                                                                                                                                                                <ul class="tf-pagination flex-three">
-                                                                                                                                                                                                    <li>
-                                                                                                                                                                                                        <c:if test="${page > 1}">
-                                                                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page - 1}&sortBy=${sortBy}"><i class="icon-29"></i></a>
-                                                                                                                                                                                                        </c:if>
-                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                    <c:forEach begin="1" end="${endP}" var="p">
-                                                                                                                                                                                                        <li>
-                                                                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
-                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                    </c:forEach>
-                                                                                                                                                                                                    <li>
-                                                                                                                                                                                                        <c:if test="${page * 6 < total}">
-                                                                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page + 1}&sortBy=${sortBy}"><i class=" icon--1"></i></a>
-                                                                                                                                                                                                        </c:if>
-                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                </ul>
-
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </div>
-
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    </div>
-
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    </section>
-                                                                                                                                                                                    <!-- Widget archieve tour -->
-
-                                                                                                                                                                                    </main>
-
-                                                                                                                                                                                    <jsp:include page="footer.jsp" />
-
-
-                                                                                                                                                                                    <!-- Bottom -->
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <!-- /#page -->
-                                                                                                                                                                                    </div>
-
-                                                                                                                                                                                    <!-- Modal Popup Bid -->
-
-                                                                                                                                                                                    <a id="scroll-top" class="button-go"></a>
-
-                                                                                                                                                                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
-                                                                                                                                                                                        <div class="offcanvas-header">
-                                                                                                                                                                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                        <div class="offcanvas-body">
-                                                                                                                                                                                            <div class="logo-canvas">
-                                                                                                                                                                                                <img src="./assets/images/logo.png" alt="image">
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                            <p class="des">The world’s first and largest digital market
-                                                                                                                                                                                                for crypto collectibles and non-fungible
-                                                                                                                                                                                            </p>
-                                                                                                                                                                                            <ul class="canvas-info">
-                                                                                                                                                                                                <li class="flex-three">
-                                                                                                                                                                                                    <i class="icon-noun-mail-5780740-1"></i>
-                                                                                                                                                                                                    <p>Info@webmail.com</p>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li class="flex-three">
-                                                                                                                                                                                                    <i class="icon-Group-9"></i>
-                                                                                                                                                                                                    <p>684 555-0102 490</p>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li class="flex-three">
-                                                                                                                                                                                                    <i class="icon-Layer-19"></i>
-                                                                                                                                                                                                    <p>6391 Elgin St. Celina, NYC 10299</p>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                            </ul>
-                                                                                                                                                                                            <ul class="social flex-three">
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <a href="#">
-                                                                                                                                                                                                        <i class="icon-icon-2"></i>
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <a href="#">
-                                                                                                                                                                                                        <i class="icon-x"></i>
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <a href="#">
-                                                                                                                                                                                                        <i class="icon-8"></i>
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li>
-                                                                                                                                                                                                    <a href="#">
-                                                                                                                                                                                                        <i class="icon-6"></i>
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                            </ul>
-
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    </div>
-
-
-
-                                                                                                                                                                                    <script>
-                                                                                                                                                                                        document.querySelectorAll(".nice-select .option").forEach(function (option) {
-                                                                                                                                                                                            option.addEventListener("click", function () {
-                                                                                                                                                                                                const value = this.getAttribute("data-value");
-                                                                                                                                                                                                const hiddenInput = this.closest("fieldset").querySelector("input[type='hidden']");
-                                                                                                                                                                                                if (hiddenInput) {
-                                                                                                                                                                                                    hiddenInput.value = value;
-                                                                                                                                                                                                    this.closest("form").submit();
-                                                                                                                                                                                                }
-                                                                                                                                                                                            });
-                                                                                                                                                                                        });
-
-                                                                                                                                                                                        //tiền
-
-                                                                                                                                                                                    </script>
-                                                                                                                                                                                    <script>
-                                                                                                                                                                                        document.querySelectorAll(".slotDatePicker").forEach(input => {
-                                                                                                                                                                                            input.addEventListener("change", function () {
-                                                                                                                                                                                                const selectedDate = this.value;
-                                                                                                                                                                                                const fieldId = this.getAttribute("data-field-id");
-                                                                                                                                                                                                const fieldBlock = this.closest(".field-block");
-
-                                                                                                                                                                                                if (!fieldId || !fieldBlock) {
-                                                                                                                                                                                                    console.log("❌ Thiếu fieldId hoặc fieldBlock");
-                                                                                                                                                                                                    return;
-                                                                                                                                                                                                }
-
-                                                                                                                                                                                                const courtId = fieldId;
-
-                                                                                                                                                                                                // ✅ Luôn reset UI khi date thay đổi (dù rỗng)
-                                                                                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
-                                                                                                                                                                                                    btn.classList.remove('booked', 'expired', 'pending', 'selected');
-                                                                                                                                                                                                    btn.disabled = true;
-                                                                                                                                                                                                    btn.removeAttribute('data-slot-date');
-                                                                                                                                                                                                });
-
-                                                                                                                                                                                                // ✅ Xoá slot chọn cũ
-                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
-                                                                                                                                                                                                selectedSlotPrices.delete(courtId);
-
-                                                                                                                                                                                                // ❌ Nếu chưa có ngày thì không gọi API
-                                                                                                                                                                                                if (!selectedDate) {
-                                                                                                                                                                                                    console.log("📛 Input bị xoá ngày — đã reset slot UI, không gọi API");
-                                                                                                                                                                                                    return;
-                                                                                                                                                                                                }
-
-                                                                                                                                                                                                console.log("📅 Đã chọn ngày:", selectedDate, "⛳ FieldId:", fieldId);
-
-                                                                                                                                                                                                // Gán ngày vào slot để kiểm tra
-                                                                                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
-                                                                                                                                                                                                    btn.setAttribute("data-slot-date", selectedDate);
-                                                                                                                                                                                                });
-
-                                                                                                                                                                                                // Gọi API
-                                                                                                                                                                                                $.ajax({
-                                                                                                                                                                                                    url: '/FB_N1/checking-slots',
-                                                                                                                                                                                                    method: 'GET',
-                                                                                                                                                                                                    data: {
-                                                                                                                                                                                                        fieldId: fieldId,
-                                                                                                                                                                                                        start: selectedDate,
-                                                                                                                                                                                                        end: selectedDate
-                                                                                                                                                                                                    },
-                                                                                                                                                                                                    dataType: 'json',
-                                                                                                                                                                                                    success: function (bookedSlots) {
-                                                                                                                                                                                                        console.log("✅ API trả về:", bookedSlots);
-                                                                                                                                                                                                        updateSlotUI(bookedSlots, selectedDate, fieldBlock);
-                                                                                                                                                                                                    },
-                                                                                                                                                                                                    error: function (xhr, status, error) {
-                                                                                                                                                                                                        console.error("❌ Lỗi API:", error);
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                });
-                                                                                                                                                                                            });
-                                                                                                                                                                                        });
-
-
-                                                                                                                                                                                    </script>
-
-
-                                                                                                                                                                                    <script>
-                                                                                                                                                                                        let selectedSlotPrices = new Map(); // Lưu giá đã chọn cho mỗi sân
-                                                                                                                                                                                        let expandedStates = new Map(); // Lưu trạng thái mở/đóng của mỗi sân
-                                                                                                                                                                                        let selectedSlots = [];
-
-
-                                                                                                                                                                                        function selectSlot(button) {
-                                                                                                                                                                                            if (button.disabled || button.classList.contains('booked') || button.classList.contains('expired')) {
-                                                                                                                                                                                                console.warn("⛔ Slot không hợp lệ.");
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            const courtContainer = button.closest('.time-slots');
-                                                                                                                                                                                            const courtId = getCourtId(courtContainer);
-                                                                                                                                                                                            const selectedDate = courtContainer.closest('.field-block')?.querySelector('.slotDatePicker')?.value;
-
-                                                                                                                                                                                            const slotDate = button.getAttribute('data-slot-date');
-                                                                                                                                                                                            const start = button.getAttribute('data-start');
-                                                                                                                                                                                            const end = button.getAttribute('data-end');
-                                                                                                                                                                                            const slotFieldId = button.getAttribute('data-slot-id');
-                                                                                                                                                                                            const price = parseInt(button.getAttribute('data-price'));
-
-                                                                                                                                                                                            // Ngăn người dùng chọn ca không thuộc ngày đang xem
-                                                                                                                                                                                            if (slotDate !== selectedDate) {
-                                                                                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            // Không cho chọn nếu ngày nhỏ hơn ngày hiện tại
-                                                                                                                                                                                            const now = new Date().toISOString().split('T')[0];
-                                                                                                                                                                                            if (slotDate < now) {
-                                                                                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            //  Toggle chọn/bỏ chọn
-                                                                                                                                                                                            if (button.classList.contains('selected')) {
-                                                                                                                                                                                                button.classList.remove('selected');
-                                                                                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
-                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
-                                                                                                                                                                                                resetPriceDisplay(courtContainer);
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            // Bỏ chọn slot khác của cùng sân
-                                                                                                                                                                                            courtContainer.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('selected'));
-
-                                                                                                                                                                                            // Chọn slot mới
-                                                                                                                                                                                            button.classList.add('selected');
-                                                                                                                                                                                            selectedSlotPrices.set(courtId, price);
-                                                                                                                                                                                            updatePriceDisplay(courtContainer, price);
-
-                                                                                                                                                                                            selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
-                                                                                                                                                                                            selectedSlots.push({
-                                                                                                                                                                                                courtId,
-                                                                                                                                                                                                slot_field_id: slotFieldId,
-                                                                                                                                                                                                slot_date: slotDate,
-                                                                                                                                                                                                start,
-                                                                                                                                                                                                end,
-                                                                                                                                                                                                price
-                                                                                                                                                                                            });
-
-                                                                                                                                                                                            console.log("📌 Slots đã chọn:", selectedSlots);
-                                                                                                                                                                                        }
-
-
-                                                                                                                                                                                        function bookField() {
-                                                                                                                                                                                            if (selectedSlots.length === 0) {
-                                                                                                                                                                                                alert("⚠️ Bạn chưa chọn ca nào để đặt.");
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            const bookingDetailsList = selectedSlots.map(slot => ({
-                                                                                                                                                                                                    bookingDetailsId: null,
-                                                                                                                                                                                                    bookingId: null,
-                                                                                                                                                                                                    slotFieldId: slot.slot_field_id,
-                                                                                                                                                                                                    slotFieldPrice: slot.price,
-                                                                                                                                                                                                    extraMinutes: 0,
-                                                                                                                                                                                                    extraFee: 0,
-                                                                                                                                                                                                    slotDate: slot.slot_date,
-                                                                                                                                                                                                    note: null,
-                                                                                                                                                                                                    statusCheckingId: 1
-                                                                                                                                                                                                }));
-
-                                                                                                                                                                                            $.ajax({
-                                                                                                                                                                                                url: '/FB_N1/dat-san',
-                                                                                                                                                                                                method: 'POST',
-                                                                                                                                                                                                contentType: 'application/json',
-                                                                                                                                                                                                data: JSON.stringify(bookingDetailsList),
-                                                                                                                                                                                                success: function (response) {
-                                                                                                                                                                                                    if (response && response.success) {
-                                                                                                                                                                                                        alert("✅ Đặt sân thành công!");
-                                                                                                                                                                                                        selectedSlots = [];
-                                                                                                                                                                                                        selectedSlotPrices.clear();
-                                                                                                                                                                                                        $('.slot-btn.selected').removeClass('selected');
-                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                        alert("❌ Lỗi: " + (response.message || "Không rõ nguyên nhân"));
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                },
-                                                                                                                                                                                                error: function (xhr) {
-                                                                                                                                                                                                    if (xhr.status === 401 || xhr.status === 302) {
-                                                                                                                                                                                                        alert("⚠️ Bạn cần đăng nhập để đặt sân.");
-                                                                                                                                                                                                        window.location.href = "/FB_N1/login";
-                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                        alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                }
-                                                                                                                                                                                            });
-                                                                                                                                                                                        }
-
-
-
-                                                                                                                                                                                        function toggleSlots(event) {
-                                                                                                                                                                                            const button = event.currentTarget; // ✅ chính là nút được click
-                                                                                                                                                                                            const fieldBlock = button.closest(".field-block");
-
-                                                                                                                                                                                            if (!fieldBlock)
-                                                                                                                                                                                                return;
-
-                                                                                                                                                                                            const fieldId = fieldBlock.getAttribute("data-field-id");
-                                                                                                                                                                                            const container = fieldBlock.querySelector(".slots-container");
-                                                                                                                                                                                            const toggleText = button.querySelector("span");
-                                                                                                                                                                                            const toggleIcon = button.querySelector("svg");
-
-                                                                                                                                                                                            const isExpanded = expandedStates.get(fieldId) === true;
-
-                                                                                                                                                                                            if (isExpanded) {
-                                                                                                                                                                                                container?.classList.remove("expanded");
-                                                                                                                                                                                                container?.classList.add("collapsed");
-                                                                                                                                                                                                toggleText.textContent = "Xem thêm";
-                                                                                                                                                                                                toggleIcon.classList.add("rotated");
-                                                                                                                                                                                                expandedStates.set(fieldId, false);
-                                                                                                                                                                                            } else {
-                                                                                                                                                                                                container?.classList.remove("collapsed");
-                                                                                                                                                                                                container?.classList.add("expanded");
-                                                                                                                                                                                                toggleText.textContent = "Thu gọn";
-                                                                                                                                                                                                toggleIcon.classList.remove("rotated");
-                                                                                                                                                                                                expandedStates.set(fieldId, true);
-                                                                                                                                                                                            }
-                                                                                                                                                                                        }
-
-
-
-
-
-                                                                                                                                                                                        function updatePriceDisplay(courtContainer, price) {
-                                                                                                                                                                                            // Tìm price section của sân này (có thể ở ngoài time-slots)
-                                                                                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
-                                                                                                                                                                                            if (!priceSection) {
-                                                                                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            if (priceSection) {
-                                                                                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
-                                                                                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
-                                                                                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
-
-                                                                                                                                                                                                if (priceLabel)
-                                                                                                                                                                                                    priceLabel.textContent = 'Giá đã chọn:';
-                                                                                                                                                                                                if (priceDisplay)
-                                                                                                                                                                                                    priceDisplay.textContent = formatPrice(price) + ' ₫';
-                                                                                                                                                                                                if (originalPrice)
-                                                                                                                                                                                                    originalPrice.style.display = 'none';
-                                                                                                                                                                                            }
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                        function resetPriceDisplay(courtContainer) {
-                                                                                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
-                                                                                                                                                                                            if (!priceSection) {
-                                                                                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            if (priceSection) {
-                                                                                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
-                                                                                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
-                                                                                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
-
-                                                                                                                                                                                                if (priceDisplay) {
-                                                                                                                                                                                                    const originalMin = priceDisplay.getAttribute('data-original-min');
-                                                                                                                                                                                                    if (originalMin) {
-                                                                                                                                                                                                        priceDisplay.textContent = formatPrice(parseInt(originalMin)) + ' ₫';
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                }
-
-                                                                                                                                                                                                if (originalPrice) {
-                                                                                                                                                                                                    const originalMax = originalPrice.getAttribute('data-original-max');
-                                                                                                                                                                                                    if (originalMax) {
-                                                                                                                                                                                                        originalPrice.textContent = '- ' + formatPrice(parseInt(originalMax)) + ' ₫';
-                                                                                                                                                                                                        originalPrice.style.display = 'inline';
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                }
-                                                                                                                                                                                            }
-                                                                                                                                                                                        }
-
-
-                                                                                                                                                                                        function formatPrice(price) {
-                                                                                                                                                                                            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                        // Tạo ID duy nhất cho mỗi sân
-                                                                                                                                                                                        function getCourtId(courtContainer) {
-                                                                                                                                                                                            if (!courtContainer.dataset.courtId) {
-                                                                                                                                                                                                // Tạo ID duy nhất dựa trên vị trí trong DOM
-                                                                                                                                                                                                const allCourts = document.querySelectorAll('.time-slots');
-                                                                                                                                                                                                const index = Array.from(allCourts).indexOf(courtContainer);
-                                                                                                                                                                                                courtContainer.dataset.courtId = 'court_' + index;
-                                                                                                                                                                                            }
-                                                                                                                                                                                            return courtContainer.dataset.courtId;
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                        // Simulate some unavailable slots
-                                                                                                                                                                                        function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
-                                                                                                                                                                                            if (!fieldBlock) {
-                                                                                                                                                                                                console.error("❌ fieldBlock is undefined");
-                                                                                                                                                                                                return;
-                                                                                                                                                                                            }
-
-                                                                                                                                                                                            const btns = fieldBlock.querySelectorAll('.slot-btn');
-
-                                                                                                                                                                                            btns.forEach(btn => {
-                                                                                                                                                                                                const start = btn.getAttribute('data-start'); // vd: "12:00"
-                                                                                                                                                                                                const end = btn.getAttribute('data-end');
-                                                                                                                                                                                                const slotId = btn.getAttribute('data-slot-id');
-
-                                                                                                                                                                                                const matchedSlot = bookedSlots.find(slot => {
-                                                                                                                                                                                                    const slotFieldId = slot.extendedProps?.slot_field_id;
-                                                                                                                                                                                                    return String(slotFieldId) === String(slotId);
-                                                                                                                                                                                                });
-
-                                                                                                                                                                                                if (matchedSlot) {
-                                                                                                                                                                                                    const status = matchedSlot.extendedProps?.status;
-
-                                                                                                                                                                                                    if (status === "Booked") {
-                                                                                                                                                                                                        btn.classList.add('booked');
-                                                                                                                                                                                                        btn.disabled = true;
-                                                                                                                                                                                                    } else if (status === "Đã qua") {
-                                                                                                                                                                                                        btn.classList.add('expired');
-                                                                                                                                                                                                        btn.disabled = true;
-                                                                                                                                                                                                    } else if (status === "Pending") {
-                                                                                                                                                                                                        // Có thể xử lý riêng nếu cần
-                                                                                                                                                                                                        btn.classList.add('pending');
-                                                                                                                                                                                                        btn.disabled = true;
-                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                        btn.classList.remove('booked', 'expired');
-                                                                                                                                                                                                        btn.disabled = false;
-                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                    console.log("🔒 Slot đã bị đặt:", {slotId, start, end, status});
-                                                                                                                                                                                                } else {
-                                                                                                                                                                                                    // Không match thì vẫn là slot trống, nhưng kiểm tra thêm ngày có đã qua chưa
-                                                                                                                                                                                                    const slotDateTime = new Date(`${selectedDate}T${start}`);
-                                                                                                                                                                                                                    const now = new Date();
-
-                                                                                                                                                                                                                    if (slotDateTime < now) {
-                                                                                                                                                                                                                        btn.classList.add('expired');
-                                                                                                                                                                                                                        btn.disabled = true;
-                                                                                                                                                                                                                        console.log("⏰ Slot đã qua thời gian:", {slotId, start, end});
-                                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                                        btn.classList.remove('booked', 'expired');
-                                                                                                                                                                                                                        btn.disabled = false;
-                                                                                                                                                                                                                        console.log("✅ Slot còn trống:", {slotId, start, end});
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                }
-
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                        }
-
-
-
-
-                                                                                                                                                                                                        // Initialize
-                                                                                                                                                                                                        document.addEventListener('DOMContentLoaded', function () {
-
-
-                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
-
-                                                                                                                                                                                                                // ✅ Gán trạng thái ban đầu là "collapsed"
-                                                                                                                                                                                                                expandedStates.set(courtId, false);
-
-                                                                                                                                                                                                                // ✅ Cập nhật UI về trạng thái thu gọn đúng cách
-                                                                                                                                                                                                                const container = courtContainer.querySelector('.slots-container, #slotsContainer');
-                                                                                                                                                                                                                const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
-                                                                                                                                                                                                                const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
-                                                                                                                                                                                                                const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
-
-                                                                                                                                                                                                                container?.classList.add('collapsed');
-                                                                                                                                                                                                                container?.classList.remove('expanded');
-                                                                                                                                                                                                                toggleText && (toggleText.textContent = 'Xem thêm');
-                                                                                                                                                                                                                toggleIcon?.classList.add('rotated');
-                                                                                                                                                                                                                showMoreIndicator?.classList.add('visible');
-                                                                                                                                                                                                            });
-
-                                                                                                                                                                                                            // ✅ Gắn sự kiện click sau khi đã xử lý trạng thái ban đầu
-                                                                                                                                                                                                            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                                                                                                                                                                                                                btn.addEventListener('click', toggleSlots);
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Utility functions
-                                                                                                                                                                                                        function getAllSelectedSlots() {
-                                                                                                                                                                                                            const result = {};
-                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
-                                                                                                                                                                                                                const selectedButton = courtContainer.querySelector('.slot-btn.selected');
-                                                                                                                                                                                                                const price = selectedSlotPrices.get(courtId) || 0;
-
-                                                                                                                                                                                                                if (selectedButton && price > 0) {
-                                                                                                                                                                                                                    result[courtId] = {
-                                                                                                                                                                                                                        time: selectedButton.textContent.trim(),
-                                                                                                                                                                                                                        price: price
-                                                                                                                                                                                                                    };
-                                                                                                                                                                                                                }
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                            return result;
-                                                                                                                                                                                                        }
-
-                                                                                                                                                                                                        function getTotalPrice() {
-                                                                                                                                                                                                            let total = 0;
-                                                                                                                                                                                                            selectedSlotPrices.forEach(price => {
-                                                                                                                                                                                                                total += price;
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                            return total;
-                                                                                                                                                                                                        }
-
-                                                                                                                                                                                                        function resetAllSelections() {
-                                                                                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
-                                                                                                                                                                                                                const courtId = getCourtId(courtContainer);
-                                                                                                                                                                                                                courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
-                                                                                                                                                                                                                    btn.classList.remove('selected');
-                                                                                                                                                                                                                });
-                                                                                                                                                                                                                selectedSlotPrices.set(courtId, 0);
-                                                                                                                                                                                                                resetPriceDisplay(courtContainer);
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                        }
-                                                                                                                                                                                    </script>
-                                                                                                                                                                                    <!-- Flatpickr JS -->
-                                                                                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
-                                                                                                                                                                                    <!-- Flatpickr Vietnamese locale -->
-                                                                                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
-                                                                                                                                                                                    <script>
-                                                                                                                                                                                                        // Initialize Flatpickr for date picker
-                                                                                                                                                                                                        const datePicker = flatpickr("#bookingDateAdvanced", {
-                                                                                                                                                                                                            locale: "vn",
-                                                                                                                                                                                                            dateFormat: "d/m/Y",
-                                                                                                                                                                                                            minDate: "today",
-                                                                                                                                                                                                            defaultDate: new Date(),
-                                                                                                                                                                                                            enableTime: false,
-                                                                                                                                                                                                            clickOpens: true,
-                                                                                                                                                                                                            allowInput: false,
-                                                                                                                                                                                                            onChange: function (selectedDates, dateStr, instance) {
-                                                                                                                                                                                                                console.log("Ngày được chọn:", dateStr);
-                                                                                                                                                                                                            }
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Custom nice-select functionality
-                                                                                                                                                                                                        document.querySelectorAll('.nice-select').forEach(select => {
-                                                                                                                                                                                                            select.addEventListener('click', function (e) {
-                                                                                                                                                                                                                e.stopPropagation();
-
-                                                                                                                                                                                                                // Close all other selects
-                                                                                                                                                                                                                document.querySelectorAll('.nice-select').forEach(otherSelect => {
-                                                                                                                                                                                                                    if (otherSelect !== this) {
-                                                                                                                                                                                                                        otherSelect.classList.remove('open');
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                });
-
-                                                                                                                                                                                                                // Toggle current select
-                                                                                                                                                                                                                this.classList.toggle('open');
-                                                                                                                                                                                                            });
-
-                                                                                                                                                                                                            // Handle option selection
-                                                                                                                                                                                                            select.querySelectorAll('.option').forEach(option => {
-                                                                                                                                                                                                                option.addEventListener('click', function (e) {
-                                                                                                                                                                                                                    e.stopPropagation();
-
-                                                                                                                                                                                                                    const selectElement = this.closest('.nice-select');
-                                                                                                                                                                                                                    const currentSpan = selectElement.querySelector('.current');
-                                                                                                                                                                                                                    const hiddenInput = selectElement.parentElement.querySelector('input[type="hidden"]');
-
-                                                                                                                                                                                                                    // Remove selected class from all options
-                                                                                                                                                                                                                    selectElement.querySelectorAll('.option').forEach(opt => {
-                                                                                                                                                                                                                        opt.classList.remove('selected');
-                                                                                                                                                                                                                    });
-
-                                                                                                                                                                                                                    // Add selected class to clicked option
-                                                                                                                                                                                                                    this.classList.add('selected');
-
-                                                                                                                                                                                                                    // Update current text and hidden input value
-                                                                                                                                                                                                                    currentSpan.textContent = this.textContent;
-                                                                                                                                                                                                                    if (hiddenInput) {
-                                                                                                                                                                                                                        hiddenInput.value = this.getAttribute('data-value');
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    // Close dropdown
-                                                                                                                                                                                                                    selectElement.classList.remove('open');
-                                                                                                                                                                                                                });
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Close dropdowns when clicking outside
-                                                                                                                                                                                                        document.addEventListener('click', function () {
-                                                                                                                                                                                                            document.querySelectorAll('.nice-select').forEach(select => {
-                                                                                                                                                                                                                select.classList.remove('open');
-                                                                                                                                                                                                            });
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Handle search button click
-                                                                                                                                                                                                        document.querySelector('.btn-search').addEventListener('click', function (e) {
-                                                                                                                                                                                                            e.preventDefault();
-
-                                                                                                                                                                                                            // Validate required fields
-                                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
-                                                                                                                                                                                                            if (!bookingDate) {
-                                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
-                                                                                                                                                                                                                return;
-                                                                                                                                                                                                            }
-
-                                                                                                                                                                                                            // Submit form to servlet
-                                                                                                                                                                                                            document.getElementById('search-form-slider').submit();
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Handle form submission
-                                                                                                                                                                                                        document.getElementById('search-form-slider').addEventListener('submit', function (e) {
-                                                                                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
-                                                                                                                                                                                                            if (!bookingDate) {
-                                                                                                                                                                                                                e.preventDefault();
-                                                                                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
-                                                                                                                                                                                                                return false;
-                                                                                                                                                                                                            }
-                                                                                                                                                                                                        });
-
-                                                                                                                                                                                                        // Ensure date picker is clickable
-                                                                                                                                                                                                        document.getElementById('bookingDateAdvanced').addEventListener('click', function () {
-                                                                                                                                                                                                            if (this._flatpickr) {
-                                                                                                                                                                                                                this._flatpickr.open();
-                                                                                                                                                                                                            }
-                                                                                                                                                                                                        }
-                                                                                                                                                                                                        );
-                                                                                                                                                                                    </script>
-                                                                                                                                                                                    <!--sắp xếp-->
-
-                                                                                                                                                                                    <script src="app/js/jquery.min.js"></script>
-                                                                                                                                                                                    <script src="app/js/jquery.nice-select.min.js"></script>
-                                                                                                                                                                                    <script src="app/js/bootstrap.min.js"></script>
-                                                                                                                                                                                    <script src="app/js/swiper-bundle.min.js"></script>
-                                                                                                                                                                                    <script src="app/js/swiper.js"></script>
-                                                                                                                                                                                    <script src="app/js/plugin.js"></script>
-                                                                                                                                                                                    <script src="app/js/jquery.fancybox.js"></script>
-                                                                                                                                                                                    <script src="app/js/price-ranger.js"></script>
-                                                                                                                                                                                    <script src="app/js/shortcodes.js"></script>
-                                                                                                                                                                                    <script src="app/js/main.js"></script>
-
-                                                                                                                                                                                    </body>
-
-                                                                                                                                                                                    </html>
+                                                                                                                                                                                                        </div> /.widget_price 
+                                                                                                                                                                                                        </fieldset>-->
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                    <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                    <div class="group-check-box-wrap">
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check">10+</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check1" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check1">12+</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check2" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check2">15+</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check3" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check3">Adults</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    </div>-->
+                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                    <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                    <div class="group-check-box-wrap">
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check4-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check4-bar">Accepts Credit Cards</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check5-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check5-bar">Car Parking</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check6-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check6-bar">Free Coupons</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check7-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check7-bar">Laundry Service</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check8-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check8-bar">Outdoor Seating</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check9-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check9-bar">Reservations</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check10-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check10-bar">Restaurant</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="checkbox">
+                                                                                                                                                    <input id="check11-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                    <label for="check11-bar">Smoking Allowed</label>
+                                                                                                                                                    </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    </div>-->
+                                                                                                                                    </form>
+                                                                                                                                </div>
+                                                                                                                                <div class="col-lg-8 listing-list-car-wrap">
+                                                                                                                                    <form  action="${pageContext.request.contextPath}/DanhSachSan" class="tf-my-listing mb-37">
+                                                                                                                                        <input type="hidden" name="sortBy" id="sortByInput" value="${sortBy}">
+                                                                                                                                            <div class="row align-center">
+                                                                                                                                                <div class="col-sm-5">
+                                                                                                                                                    <p class="showing">Showing <span class="text-main">${showing}</span> of ${total} Results
+                                                                                                                                                    </p>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="col-sm-7 group-bar-wrap flex-six">
+                                                                                                                                                    <div class="listing-all-wrap">
+                                                                                                                                                        <div class="flex-three">
+                                                                                                                                                            <div class="group-select-recently">
+                                                                                                                                                                <div class="nice-select" tabindex="0">
+                                                                                                                                                                    <i class="icon-Vector6"></i>
+                                                                                                                                                                    <span class="current">
+                                                                                                                                                                        <c:choose>                                                                                                                                                                                                        <c:when test="${sortBy == 'name'}">Name</c:when>
+                                                                                                                                                                            <c:when test="${sortBy == 'new'}">Sân mới</c:when>
+                                                                                                                                                                            <c:when test="${sortBy == 'recent'}">Mới cập nhật</c:when>
+                                                                                                                                                                            <c:otherwise>Sắp xếp</c:otherwise>
+                                                                                                                                                                        </c:choose>
+                                                                                                                                                                    </span>
+                                                                                                                                                                    <ul class="list">                                                                                                                                                                                                        <li class="option ${sortBy == 'name' ? 'selected focus' : ''}">
+                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Theo Tên Sân</a>
+                                                                                                                                                                        </li>
+                                                                                                                                                                        <li class="option ${sortBy == 'new' ? 'selected focus' : ''}">
+                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">Sân mới</a>
+                                                                                                                                                                        </li>
+                                                                                                                                                                        <li class="option ${sortBy == 'recent' ? 'selected focus' : ''}">
+                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=recent">Mới cập nhật</a>
+                                                                                                                                                                        </li>
+                                                                                                                                                                    </ul>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="toolbar-list">
+                                                                                                                                                                <div class="form-group">
+                                                                                                                                                                    <a class="btn-display-listing-grid active">
+                                                                                                                                                                        <i class="icon-list"></i>
+                                                                                                                                                                    </a>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div class="form-group">
+                                                                                                                                                                    <a class="btn-display-listing-list">
+                                                                                                                                                                        <i class="icon-Group-1000001297"></i>
+                                                                                                                                                                    </a>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                    </form>
+                                                                                                                                    <div class="listing-list-car-grid mb-60">
+                                                                                                                                        <c:forEach items="${listF}" var="o">
+                                                                                                                                            <div class="tour-listing box-sd">
+                                                                                                                                                <a href="tour-single.html" class="tour-listing-image">
+                                                                                                                                                    <div class="badge-top flex-two">
+                                                                                                                                                        <span class="feature
+                                                                                                                                                              <c:choose>
+                                                                                                                                                                  <c:when test="${o.status == 'Bảo trì'}">maintenance</c:when>
+                                                                                                                                                                  <c:when test="${o.status == 'Hỏng'}">broken</c:when>
+                                                                                                                                                                  <c:otherwise></c:otherwise>
+                                                                                                                                                              </c:choose>">${o.status}</span>
+                                                                                                                                                    </div>
+                                                                                                                                                    <img src="${o.image}" alt="Image Listing">
+                                                                                                                                                </a>
+                                                                                                                                                <div class="tour-listing-content">
+                                                                                                                                                    <span class="map"><i class="icon-Vector4"></i>${o.zone.address}</span>
+                                                                                                                                                    <h3 class="title-tour-list"><a href="tour-single.html">${o.fieldName}</a>
+                                                                                                                                                    </h3>
+                                                                                                                                                    <div class="icon-box flex-three">
+                                                                                                                                                        <div class="icons flex-three">
+                                                                                                                                                            <i class="icon-time-left"></i>
+                                                                                                                                                            <span>Số ca: ${totalSlotMap[o.fieldId]}</span>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="icons flex-three">
+                                                                                                                                                            <i class="icon-user"></i>
+                                                                                                                                                            <span>${o.typeOfField.fieldTypeName}</span>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="field-block" data-field-id="${o.fieldId}">
+                                                                                                                                                        <input type="date" class="slotDatePicker" data-field-id="${o.fieldId}" />
+
+                                                                                                                                                        <div class="time-slots">
+                                                                                                                                                            <div class="slots-header">
+                                                                                                                                                                <div class="slots-title">Khung giờ có sẵn</div>
+                                                                                                                                                                <button type="button" class="toggle-btn" onclick="toggleSlots()">
+                                                                                                                                                                    <span id="toggleText">Thu gọn</span>
+                                                                                                                                                                    <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </button>
+                                                                                                                                                            </div>
+
+                                                                                                                                                            <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
+                                                                                                                                                                <div class="slots-grid">
+                                                                                                                                                                    <c:forEach items="${o.slots}" var="s">
+                                                                                                                                                                        <button
+                                                                                                                                                                            type="button"
+                                                                                                                                                                            class="slot-btn"
+                                                                                                                                                                            data-field-id="${o.fieldId}"
+                                                                                                                                                                            data-price="${s.slotFieldPrice}"
+                                                                                                                                                                            data-start="${s.slotInfo.startTime}"
+                                                                                                                                                                            data-end="${s.slotInfo.endTime}"
+                                                                                                                                                                            data-slot-id="${s.slotFieldId}"
+                                                                                                                                                                            onclick="selectSlot(this)">
+                                                                                                                                                                            ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
+                                                                                                                                                                        </button>
+                                                                                                                                                                    </c:forEach>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="show-more-indicator" id="showMoreIndicator">
+                                                                                                                                                                <div class="show-more-text">... và nhiều khung giờ khác</div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+
+
+
+                                                                                                                                                    <div class="price-section">
+                                                                                                                                                        <div class="price-box flex-three">
+                                                                                                                                                            <div class="price-info">
+                                                                                                                                                                <div class="price-label" id="priceLabel">Giá từ:</div>
+                                                                                                                                                                <div class="price-range">
+                                                                                                                                                                    <c:set var="prices" value="${priceMap[o.fieldId]}" />
+                                                                                                                                                                    <span class="price-from" id="priceDisplay" data-original-min="${prices[0]}">
+                                                                                                                                                                        <fmt:formatNumber value="${prices[0]}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                    </span>
+                                                                                                                                                                    <span class="price-to" id="originalPrice" data-original-max="${prices[1]}">
+                                                                                                                                                                        - <fmt:formatNumber value="${prices[1]}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                    </span>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="book-btn flex-three">
+                                                                                                                                                            <button type="button" onclick="bookField()">Đặt sân</button>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </c:forEach>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="row">
+                                                                                                                                        <div class="col-md-12 ">
+                                                                                                                                            <ul class="tf-pagination flex-three">
+                                                                                                                                                <li>
+                                                                                                                                                    <c:if test="${page > 1}">
+                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page - 1}&sortBy=${sortBy}"><i class="icon-29"></i></a>
+                                                                                                                                                        </c:if>
+                                                                                                                                                </li>
+                                                                                                                                                <c:forEach begin="1" end="${endP}" var="p">
+                                                                                                                                                    <li>
+                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
+                                                                                                                                                    </li>
+                                                                                                                                                </c:forEach>
+                                                                                                                                                <li>
+                                                                                                                                                    <c:if test="${page * 6 < total}">
+                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page + 1}&sortBy=${sortBy}"><i class=" icon--1"></i></a>
+                                                                                                                                                        </c:if>
+                                                                                                                                                </li>
+                                                                                                                                            </ul>
+
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+
+                                                                                                                                </div>
+                                                                                                                            </div>
+
+                                                                                                                        </div>
+                                                                                                                    </section>
+                                                                                                                    <!-- Widget archieve tour -->
+
+                                                                                                                    </main>
+
+                                                                                                                    <jsp:include page="footer.jsp" />
+
+
+                                                                                                                    <!-- Bottom -->
+                                                                                                                    </div>
+                                                                                                                    <!-- /#page -->
+                                                                                                                    </div>
+
+                                                                                                                    <!-- Modal Popup Bid -->
+
+                                                                                                                    <a id="scroll-top" class="button-go"></a>
+
+                                                                                                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
+                                                                                                                        <div class="offcanvas-header">
+                                                                                                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                                                                                                        </div>
+                                                                                                                        <div class="offcanvas-body">
+                                                                                                                            <div class="logo-canvas">
+                                                                                                                                <img src="./assets/images/logo.png" alt="image">
+                                                                                                                            </div>
+                                                                                                                            <p class="des">The world’s first and largest digital market
+                                                                                                                                for crypto collectibles and non-fungible
+                                                                                                                            </p>
+                                                                                                                            <ul class="canvas-info">
+                                                                                                                                <li class="flex-three">
+                                                                                                                                    <i class="icon-noun-mail-5780740-1"></i>
+                                                                                                                                    <p>Info@webmail.com</p>
+                                                                                                                                </li>
+                                                                                                                                <li class="flex-three">
+                                                                                                                                    <i class="icon-Group-9"></i>
+                                                                                                                                    <p>684 555-0102 490</p>
+                                                                                                                                </li>
+                                                                                                                                <li class="flex-three">
+                                                                                                                                    <i class="icon-Layer-19"></i>
+                                                                                                                                    <p>6391 Elgin St. Celina, NYC 10299</p>
+                                                                                                                                </li>
+                                                                                                                            </ul>
+                                                                                                                            <ul class="social flex-three">
+                                                                                                                                <li>
+                                                                                                                                    <a href="#">
+                                                                                                                                        <i class="icon-icon-2"></i>
+                                                                                                                                    </a>
+                                                                                                                                </li>
+                                                                                                                                <li>
+                                                                                                                                    <a href="#">
+                                                                                                                                        <i class="icon-x"></i>
+                                                                                                                                    </a>
+                                                                                                                                </li>
+                                                                                                                                <li>
+                                                                                                                                    <a href="#">
+                                                                                                                                        <i class="icon-8"></i>
+                                                                                                                                    </a>
+                                                                                                                                </li>
+                                                                                                                                <li>
+                                                                                                                                    <a href="#">
+                                                                                                                                        <i class="icon-6"></i>
+                                                                                                                                    </a>
+                                                                                                                                </li>
+                                                                                                                            </ul>
+
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+
+
+                                                                                                                    <script>
+                                                                                                                        document.querySelectorAll(".nice-select .option").forEach(function (option) {
+                                                                                                                            option.addEventListener("click", function () {
+                                                                                                                                const value = this.getAttribute("data-value");
+                                                                                                                                const hiddenInput = this.closest("fieldset").querySelector("input[type='hidden']");
+                                                                                                                                if (hiddenInput) {
+                                                                                                                                    hiddenInput.value = value;
+                                                                                                                                    this.closest("form").submit();
+                                                                                                                                }
+                                                                                                                            });
+                                                                                                                        });
+
+                                                                                                                        //tiền
+
+                                                                                                                    </script>
+                                                                                                                    <script>
+                                                                                                                        document.querySelectorAll(".slotDatePicker").forEach(input => {
+                                                                                                                            input.addEventListener("change", function () {
+                                                                                                                                const selectedDate = this.value;
+                                                                                                                                const fieldId = this.getAttribute("data-field-id");
+                                                                                                                                const fieldBlock = this.closest(".field-block");
+
+                                                                                                                                if (!fieldId || !fieldBlock) {
+                                                                                                                                    console.log("❌ Thiếu fieldId hoặc fieldBlock");
+                                                                                                                                    return;
+                                                                                                                                }
+
+                                                                                                                                const courtId = fieldId;
+
+                                                                                                                                // ✅ Luôn reset UI khi date thay đổi (dù rỗng)
+                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
+                                                                                                                                    btn.classList.remove('booked', 'expired', 'pending', 'selected');
+                                                                                                                                    btn.disabled = true;
+                                                                                                                                    btn.removeAttribute('data-slot-date');
+                                                                                                                                });
+
+                                                                                                                                // ✅ Xoá slot chọn cũ
+                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                                selectedSlotPrices.delete(courtId);
+
+                                                                                                                                // ❌ Nếu chưa có ngày thì không gọi API
+                                                                                                                                if (!selectedDate) {
+                                                                                                                                    console.log("📛 Input bị xoá ngày — đã reset slot UI, không gọi API");
+                                                                                                                                    return;
+                                                                                                                                }
+
+                                                                                                                                console.log("📅 Đã chọn ngày:", selectedDate, "⛳ FieldId:", fieldId);
+
+                                                                                                                                // Gán ngày vào slot để kiểm tra
+                                                                                                                                fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
+                                                                                                                                    btn.setAttribute("data-slot-date", selectedDate);
+                                                                                                                                });
+
+                                                                                                                                // Gọi API
+                                                                                                                                $.ajax({
+                                                                                                                                    url: '/FB_N1/checking-slots',
+                                                                                                                                    method: 'GET',
+                                                                                                                                    data: {
+                                                                                                                                        fieldId: fieldId,
+                                                                                                                                        start: selectedDate,
+                                                                                                                                        end: selectedDate
+                                                                                                                                    },
+                                                                                                                                    dataType: 'json',
+                                                                                                                                    success: function (bookedSlots) {
+                                                                                                                                        console.log("✅ API trả về:", bookedSlots);
+                                                                                                                                        updateSlotUI(bookedSlots, selectedDate, fieldBlock);
+                                                                                                                                    },
+                                                                                                                                    error: function (xhr, status, error) {
+                                                                                                                                        console.error("❌ Lỗi API:", error);
+                                                                                                                                    }
+                                                                                                                                });
+                                                                                                                            });
+                                                                                                                        });
+
+
+                                                                                                                    </script>
+
+
+                                                                                                                    <script>
+                                                                                                                        let selectedSlotPrices = new Map(); // Lưu giá đã chọn cho mỗi sân
+                                                                                                                        let expandedStates = new Map(); // Lưu trạng thái mở/đóng của mỗi sân
+                                                                                                                        let selectedSlots = [];
+
+
+                                                                                                                        function selectSlot(button) {
+                                                                                                                            if (button.disabled || button.classList.contains('booked') || button.classList.contains('expired')) {
+                                                                                                                                console.warn("⛔ Slot không hợp lệ.");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            const courtContainer = button.closest('.time-slots');
+                                                                                                                            const courtId = getCourtId(courtContainer);
+                                                                                                                            const selectedDate = courtContainer.closest('.field-block')?.querySelector('.slotDatePicker')?.value;
+
+                                                                                                                            const slotDate = button.getAttribute('data-slot-date');
+                                                                                                                            const start = button.getAttribute('data-start');
+                                                                                                                            const end = button.getAttribute('data-end');
+                                                                                                                            const slotFieldId = button.getAttribute('data-slot-id');
+                                                                                                                            const price = parseInt(button.getAttribute('data-price'));
+
+                                                                                                                            // Ngăn người dùng chọn ca không thuộc ngày đang xem
+                                                                                                                            if (slotDate !== selectedDate) {
+                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            // Không cho chọn nếu ngày nhỏ hơn ngày hiện tại
+                                                                                                                            const now = new Date().toISOString().split('T')[0];
+                                                                                                                            if (slotDate < now) {
+                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            //  Toggle chọn/bỏ chọn
+                                                                                                                            if (button.classList.contains('selected')) {
+                                                                                                                                button.classList.remove('selected');
+                                                                                                                                selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                                selectedSlotPrices.set(courtId, 0);
+                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            // Bỏ chọn slot khác của cùng sân
+                                                                                                                            courtContainer.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('selected'));
+
+                                                                                                                            // Chọn slot mới
+                                                                                                                            button.classList.add('selected');
+                                                                                                                            selectedSlotPrices.set(courtId, price);
+                                                                                                                            updatePriceDisplay(courtContainer, price);
+
+                                                                                                                            selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
+                                                                                                                            selectedSlots.push({
+                                                                                                                                courtId,
+                                                                                                                                slot_field_id: slotFieldId,
+                                                                                                                                slot_date: slotDate,
+                                                                                                                                start,
+                                                                                                                                end,
+                                                                                                                                price
+                                                                                                                            });
+
+                                                                                                                            console.log("📌 Slots đã chọn:", selectedSlots);
+                                                                                                                        }
+
+
+                                                                                                                        function bookField() {
+                                                                                                                            if (selectedSlots.length === 0) {
+                                                                                                                                alert("⚠️ Bạn chưa chọn ca nào để đặt.");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            const bookingDetailsList = selectedSlots.map(slot => ({
+                                                                                                                                    bookingDetailsId: null,
+                                                                                                                                    bookingId: null,
+                                                                                                                                    slotFieldId: slot.slot_field_id,
+                                                                                                                                    slotFieldPrice: slot.price,
+                                                                                                                                    extraMinutes: 0,
+                                                                                                                                    extraFee: 0,
+                                                                                                                                    slotDate: slot.slot_date,
+                                                                                                                                    note: null,
+                                                                                                                                    statusCheckingId: 1
+                                                                                                                                }));
+
+                                                                                                                            $.ajax({
+                                                                                                                                url: '/FB_N1/dat-san',
+                                                                                                                                method: 'POST',
+                                                                                                                                contentType: 'application/json',
+                                                                                                                                data: JSON.stringify(bookingDetailsList),
+                                                                                                                                success: function (response) {
+                                                                                                                                    if (response && response.success) {
+                                                                                                                                        alert("✅ Đặt sân thành công!");
+                                                                                                                                        selectedSlots = [];
+                                                                                                                                        selectedSlotPrices.clear();
+                                                                                                                                        $('.slot-btn.selected').removeClass('selected');
+                                                                                                                                    } else {
+                                                                                                                                        alert("❌ Lỗi: " + (response.message || "Không rõ nguyên nhân"));
+                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                                error: function (xhr) {
+                                                                                                                                    if (xhr.status === 401 || xhr.status === 302) {
+                                                                                                                                        alert("⚠️ Bạn cần đăng nhập để đặt sân.");
+                                                                                                                                        window.location.href = "/FB_N1/login";
+                                                                                                                                    } else {
+                                                                                                                                        alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            });
+                                                                                                                        }
+
+
+
+                                                                                                                        function toggleSlots(event) {
+                                                                                                                            const button = event.currentTarget; // ✅ chính là nút được click
+                                                                                                                            const fieldBlock = button.closest(".field-block");
+
+                                                                                                                            if (!fieldBlock)
+                                                                                                                                return;
+
+                                                                                                                            const fieldId = fieldBlock.getAttribute("data-field-id");
+                                                                                                                            const container = fieldBlock.querySelector(".slots-container");
+                                                                                                                            const toggleText = button.querySelector("span");
+                                                                                                                            const toggleIcon = button.querySelector("svg");
+
+                                                                                                                            const isExpanded = expandedStates.get(fieldId) === true;
+
+                                                                                                                            if (isExpanded) {
+                                                                                                                                container?.classList.remove("expanded");
+                                                                                                                                container?.classList.add("collapsed");
+                                                                                                                                toggleText.textContent = "Xem thêm";
+                                                                                                                                toggleIcon.classList.add("rotated");
+                                                                                                                                expandedStates.set(fieldId, false);
+                                                                                                                            } else {
+                                                                                                                                container?.classList.remove("collapsed");
+                                                                                                                                container?.classList.add("expanded");
+                                                                                                                                toggleText.textContent = "Thu gọn";
+                                                                                                                                toggleIcon.classList.remove("rotated");
+                                                                                                                                expandedStates.set(fieldId, true);
+                                                                                                                            }
+                                                                                                                        }
+
+
+
+
+
+                                                                                                                        function updatePriceDisplay(courtContainer, price) {
+                                                                                                                            // Tìm price section của sân này (có thể ở ngoài time-slots)
+                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
+                                                                                                                            if (!priceSection) {
+                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
+                                                                                                                            }
+
+                                                                                                                            if (priceSection) {
+                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
+                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
+                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
+
+                                                                                                                                if (priceLabel)
+                                                                                                                                    priceLabel.textContent = 'Giá đã chọn:';
+                                                                                                                                if (priceDisplay)
+                                                                                                                                    priceDisplay.textContent = formatPrice(price) + ' ₫';
+                                                                                                                                if (originalPrice)
+                                                                                                                                    originalPrice.style.display = 'none';
+                                                                                                                            }
+                                                                                                                        }
+
+                                                                                                                        function resetPriceDisplay(courtContainer) {
+                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
+                                                                                                                            if (!priceSection) {
+                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
+                                                                                                                            }
+
+                                                                                                                            if (priceSection) {
+                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
+                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
+                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
+
+                                                                                                                                if (priceDisplay) {
+                                                                                                                                    const originalMin = priceDisplay.getAttribute('data-original-min');
+                                                                                                                                    if (originalMin) {
+                                                                                                                                        priceDisplay.textContent = formatPrice(parseInt(originalMin)) + ' ₫';
+                                                                                                                                    }
+                                                                                                                                }
+
+                                                                                                                                if (originalPrice) {
+                                                                                                                                    const originalMax = originalPrice.getAttribute('data-original-max');
+                                                                                                                                    if (originalMax) {
+                                                                                                                                        originalPrice.textContent = '- ' + formatPrice(parseInt(originalMax)) + ' ₫';
+                                                                                                                                        originalPrice.style.display = 'inline';
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+
+
+                                                                                                                        function formatPrice(price) {
+                                                                                                                            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                                                                        }
+
+                                                                                                                        // Tạo ID duy nhất cho mỗi sân
+                                                                                                                        function getCourtId(courtContainer) {
+                                                                                                                            if (!courtContainer.dataset.courtId) {
+                                                                                                                                // Tạo ID duy nhất dựa trên vị trí trong DOM
+                                                                                                                                const allCourts = document.querySelectorAll('.time-slots');
+                                                                                                                                const index = Array.from(allCourts).indexOf(courtContainer);
+                                                                                                                                courtContainer.dataset.courtId = 'court_' + index;
+                                                                                                                            }
+                                                                                                                            return courtContainer.dataset.courtId;
+                                                                                                                        }
+
+                                                                                                                        // Simulate some unavailable slots
+                                                                                                                        function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
+                                                                                                                            if (!fieldBlock) {
+                                                                                                                                console.error("❌ fieldBlock is undefined");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            const btns = fieldBlock.querySelectorAll('.slot-btn');
+
+                                                                                                                            btns.forEach(btn => {
+                                                                                                                                const start = btn.getAttribute('data-start'); // vd: "12:00"
+                                                                                                                                const end = btn.getAttribute('data-end');
+                                                                                                                                const slotId = btn.getAttribute('data-slot-id');
+
+                                                                                                                                const matchedSlot = bookedSlots.find(slot => {
+                                                                                                                                    const slotFieldId = slot.extendedProps?.slot_field_id;
+                                                                                                                                    return String(slotFieldId) === String(slotId);
+                                                                                                                                });
+
+                                                                                                                                if (matchedSlot) {
+                                                                                                                                    const status = matchedSlot.extendedProps?.status;
+
+                                                                                                                                    if (status === "Booked") {
+                                                                                                                                        btn.classList.add('booked');
+                                                                                                                                        btn.disabled = true;
+                                                                                                                                    } else if (status === "Đã qua") {
+                                                                                                                                        btn.classList.add('expired');
+                                                                                                                                        btn.disabled = true;
+                                                                                                                                    } else if (status === "Pending") {
+                                                                                                                                        // Có thể xử lý riêng nếu cần
+                                                                                                                                        btn.classList.add('pending');
+                                                                                                                                        btn.disabled = true;
+                                                                                                                                    } else {
+                                                                                                                                        btn.classList.remove('booked', 'expired');
+                                                                                                                                        btn.disabled = false;
+                                                                                                                                    }
+
+                                                                                                                                    console.log("🔒 Slot đã bị đặt:", {slotId, start, end, status});
+                                                                                                                                } else {
+                                                                                                                                    // Không match thì vẫn là slot trống, nhưng kiểm tra thêm ngày có đã qua chưa
+                                                                                                                                    const slotDateTime = new Date(`${selectedDate}T${start}`);
+                                                                                                                                                    const now = new Date();
+
+                                                                                                                                                    if (slotDateTime < now) {
+                                                                                                                                                        btn.classList.add('expired');
+                                                                                                                                                        btn.disabled = true;
+                                                                                                                                                        console.log("⏰ Slot đã qua thời gian:", {slotId, start, end});
+                                                                                                                                                    } else {
+                                                                                                                                                        btn.classList.remove('booked', 'expired');
+                                                                                                                                                        btn.disabled = false;
+                                                                                                                                                        console.log("✅ Slot còn trống:", {slotId, start, end});
+                                                                                                                                                    }
+                                                                                                                                                }
+
+                                                                                                                                            });
+                                                                                                                                        }
+
+
+
+
+                                                                                                                                        // Initialize
+                                                                                                                                        document.addEventListener('DOMContentLoaded', function () {
+
+
+                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                const courtId = getCourtId(courtContainer);
+
+                                                                                                                                                // ✅ Gán trạng thái ban đầu là "collapsed"
+                                                                                                                                                expandedStates.set(courtId, false);
+
+                                                                                                                                                // ✅ Cập nhật UI về trạng thái thu gọn đúng cách
+                                                                                                                                                const container = courtContainer.querySelector('.slots-container, #slotsContainer');
+                                                                                                                                                const toggleText = courtContainer.querySelector('#toggleText, [id*="toggleText"]');
+                                                                                                                                                const toggleIcon = courtContainer.querySelector('#toggleIcon, [id*="toggleIcon"]');
+                                                                                                                                                const showMoreIndicator = courtContainer.querySelector('#showMoreIndicator, [id*="showMoreIndicator"]');
+
+                                                                                                                                                container?.classList.add('collapsed');
+                                                                                                                                                container?.classList.remove('expanded');
+                                                                                                                                                toggleText && (toggleText.textContent = 'Xem thêm');
+                                                                                                                                                toggleIcon?.classList.add('rotated');
+                                                                                                                                                showMoreIndicator?.classList.add('visible');
+                                                                                                                                            });
+
+                                                                                                                                            // ✅ Gắn sự kiện click sau khi đã xử lý trạng thái ban đầu
+                                                                                                                                            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                                                                                                                                                btn.addEventListener('click', toggleSlots);
+                                                                                                                                            });
+                                                                                                                                        });
+
+                                                                                                                                        // Utility functions
+                                                                                                                                        function getAllSelectedSlots() {
+                                                                                                                                            const result = {};
+                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                const courtId = getCourtId(courtContainer);
+                                                                                                                                                const selectedButton = courtContainer.querySelector('.slot-btn.selected');
+                                                                                                                                                const price = selectedSlotPrices.get(courtId) || 0;
+
+                                                                                                                                                if (selectedButton && price > 0) {
+                                                                                                                                                    result[courtId] = {
+                                                                                                                                                        time: selectedButton.textContent.trim(),
+                                                                                                                                                        price: price
+                                                                                                                                                    };
+                                                                                                                                                }
+                                                                                                                                            });
+                                                                                                                                            return result;
+                                                                                                                                        }
+
+                                                                                                                                        function getTotalPrice() {
+                                                                                                                                            let total = 0;
+                                                                                                                                            selectedSlotPrices.forEach(price => {
+                                                                                                                                                total += price;
+                                                                                                                                            });
+                                                                                                                                            return total;
+                                                                                                                                        }
+
+                                                                                                                                        function resetAllSelections() {
+                                                                                                                                            document.querySelectorAll('.time-slots').forEach(courtContainer => {
+                                                                                                                                                const courtId = getCourtId(courtContainer);
+                                                                                                                                                courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
+                                                                                                                                                    btn.classList.remove('selected');
+                                                                                                                                                });
+                                                                                                                                                selectedSlotPrices.set(courtId, 0);
+                                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                            });
+                                                                                                                                        }
+                                                                                                                    </script>
+                                                                                                                    <!-- Flatpickr JS -->
+                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+                                                                                                                    <!-- Flatpickr Vietnamese locale -->
+                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
+                                                                                                                    <script>
+                                                                                                                                        // Initialize Flatpickr for date picker
+                                                                                                                                        const datePicker = flatpickr("#bookingDateAdvanced", {
+                                                                                                                                            locale: "vn",
+                                                                                                                                            dateFormat: "d/m/Y",
+                                                                                                                                            minDate: "today",
+                                                                                                                                            defaultDate: new Date(),
+                                                                                                                                            enableTime: false,
+                                                                                                                                            clickOpens: true,
+                                                                                                                                            allowInput: false,
+                                                                                                                                            onChange: function (selectedDates, dateStr, instance) {
+                                                                                                                                                console.log("Ngày được chọn:", dateStr);
+                                                                                                                                            }
+                                                                                                                                        });
+
+                                                                                                                                        // Custom nice-select functionality
+                                                                                                                                        document.querySelectorAll('.nice-select').forEach(select => {
+                                                                                                                                            select.addEventListener('click', function (e) {
+                                                                                                                                                e.stopPropagation();
+
+                                                                                                                                                // Close all other selects
+                                                                                                                                                document.querySelectorAll('.nice-select').forEach(otherSelect => {
+                                                                                                                                                    if (otherSelect !== this) {
+                                                                                                                                                        otherSelect.classList.remove('open');
+                                                                                                                                                    }
+                                                                                                                                                });
+
+                                                                                                                                                // Toggle current select
+                                                                                                                                                this.classList.toggle('open');
+                                                                                                                                            });
+
+                                                                                                                                            // Handle option selection
+                                                                                                                                            select.querySelectorAll('.option').forEach(option => {
+                                                                                                                                                option.addEventListener('click', function (e) {
+                                                                                                                                                    e.stopPropagation();
+
+                                                                                                                                                    const selectElement = this.closest('.nice-select');
+                                                                                                                                                    const currentSpan = selectElement.querySelector('.current');
+                                                                                                                                                    const hiddenInput = selectElement.parentElement.querySelector('input[type="hidden"]');
+
+                                                                                                                                                    // Remove selected class from all options
+                                                                                                                                                    selectElement.querySelectorAll('.option').forEach(opt => {
+                                                                                                                                                        opt.classList.remove('selected');
+                                                                                                                                                    });
+
+                                                                                                                                                    // Add selected class to clicked option
+                                                                                                                                                    this.classList.add('selected');
+
+                                                                                                                                                    // Update current text and hidden input value
+                                                                                                                                                    currentSpan.textContent = this.textContent;
+                                                                                                                                                    if (hiddenInput) {
+                                                                                                                                                        hiddenInput.value = this.getAttribute('data-value');
+                                                                                                                                                    }
+
+                                                                                                                                                    // Close dropdown
+                                                                                                                                                    selectElement.classList.remove('open');
+                                                                                                                                                });
+                                                                                                                                            });
+                                                                                                                                        });
+
+                                                                                                                                        // Close dropdowns when clicking outside
+                                                                                                                                        document.addEventListener('click', function () {
+                                                                                                                                            document.querySelectorAll('.nice-select').forEach(select => {
+                                                                                                                                                select.classList.remove('open');
+                                                                                                                                            });
+                                                                                                                                        });
+
+                                                                                                                                        // Handle search button click
+                                                                                                                                        document.querySelector('.btn-search').addEventListener('click', function (e) {
+                                                                                                                                            e.preventDefault();
+
+                                                                                                                                            // Validate required fields
+                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
+                                                                                                                                            if (!bookingDate) {
+                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
+                                                                                                                                                return;
+                                                                                                                                            }
+
+                                                                                                                                            // Submit form to servlet
+                                                                                                                                            document.getElementById('search-form-slider').submit();
+                                                                                                                                        });
+
+                                                                                                                                        // Handle form submission
+                                                                                                                                        document.getElementById('search-form-slider').addEventListener('submit', function (e) {
+                                                                                                                                            const bookingDate = document.getElementById('bookingDateAdvanced').value;
+                                                                                                                                            if (!bookingDate) {
+                                                                                                                                                e.preventDefault();
+                                                                                                                                                alert('Vui lòng chọn ngày đặt sân!');
+                                                                                                                                                return false;
+                                                                                                                                            }
+                                                                                                                                        });
+
+                                                                                                                                        // Ensure date picker is clickable
+                                                                                                                                        document.getElementById('bookingDateAdvanced').addEventListener('click', function () {
+                                                                                                                                            if (this._flatpickr) {
+                                                                                                                                                this._flatpickr.open();
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                        );
+                                                                                                                    </script>
+                                                                                                                    <!--sắp xếp-->
+
+                                                                                                                    <script src="app/js/jquery.min.js"></script>
+                                                                                                                    <script src="app/js/jquery.nice-select.min.js"></script>
+                                                                                                                    <script src="app/js/bootstrap.min.js"></script>
+                                                                                                                    <script src="app/js/swiper-bundle.min.js"></script>
+                                                                                                                    <script src="app/js/swiper.js"></script>
+                                                                                                                    <script src="app/js/plugin.js"></script>
+                                                                                                                    <script src="app/js/jquery.fancybox.js"></script>
+                                                                                                                    <script src="app/js/shortcodes.js"></script>
+                                                                                                                    <script src="app/js/main.js"></script>
+
+                                                                                                                    </body>
+
+                                                                                                                    </html>

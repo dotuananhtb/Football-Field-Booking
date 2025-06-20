@@ -30,15 +30,7 @@
 
 
     </head>
-    <%
-        Account account = (Account) session.getAttribute("account");
-        UserProfile userProfile = (account != null) ? account.getUserProfile() : null;
-    %>
-
-    <script>
-        window.accountId = <%= (account != null) ? account.getAccountId() : -1%>;
-        window.roleId = <%= (userProfile != null) ? userProfile.getRoleId() : -1%>;
-    </script>
+   
 
 
     <style>

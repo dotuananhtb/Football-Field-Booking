@@ -3,6 +3,8 @@
     Author     : Đỗ Tuấn Anh
 --%>
 
+<%@page import="model.UserProfile"%>
+<%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -20,6 +22,18 @@
     <div id="header">
         <jsp:include page="toast.jsp" />
         <jsp:include page="sweetalert-include.jsp" />
+        <script src="${pageContext.request.contextPath}/UI/app/js/userNoti-socket.js"></script>
+        <%
+            Account acc = (Account) session.getAttribute("account");
+            int accountId = acc != null ? acc.getAccountId() : 0;
+            int roleId = acc != null && acc.getUserProfile() != null ? acc.getUserProfile().getRoleId() : 0;
+        %>
+        <script>
+            const accountId = <%= accountId%>;
+            const roleId = <%= roleId%>;
+            connectUserNotiSocket(accountId, roleId);
+        </script>
+
         <div class="header-lower">
             <div class="tf-container full">
                 <div class="row">
@@ -70,16 +84,15 @@
                                             <c:if test="${sessionScope.account.userProfile.roleId == 1 || sessionScope.account.userProfile.roleId == 2 }">
                                                 <li><a href="/FB_N1/admin/dat-san"
                                                        style="position: fixed; top: 70px; right: 20px;
-                                                   background-color: #4da528; color: white;
-                                                   padding: 10px 16px; border-radius: 8px;
-                                                   text-decoration: none; font-weight: 500;
-                                                   box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                                       background-color: #4da528; color: white;
+                                                       padding: 10px 16px; border-radius: 8px;
+                                                       text-decoration: none; font-weight: 500;
+                                                       box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
                                                         ️ Bảng điều khiển của Quản trị viên
                                                     </a></li>
-                                                
+
                                             </c:if>
                                             <c:if test="${sessionScope.account != null}">
-
 
                                                 <li class="dropdown2"
                                                     style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
@@ -105,11 +118,12 @@
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                </c:if>
+                                            </c:if>
 
 
 
-                                      
+
+
 
                                         </ul>
 
