@@ -63,27 +63,58 @@ public class Admin_UpdateSlotStatusServlet extends HttpServlet {
                 int accid = bookingDetailsDAO.getAccountIdByBookingDetailId(bd.getBookingDetailsId());
                 String accountId = String.valueOf(accid);
 
-                // Lấy thông tin ca sân
-                SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
-                slotDAO.setConnection(bookingService.getConnection()); // nếu dùng transaction
-                SlotsOfField slot = slotDAO.getSlotOfFieldById(bd.getSlotFieldId());
+                try {
+                    System.out.println("→ Bắt đầu lấy thông tin ca sân với slotFieldId = " + bd.getSlotFieldId());
 
-                String timeRange = slot.getSlotInfo().getStartTime() + " - " + slot.getSlotInfo().getEndTime();
-                String fieldName = slot.getField().getFieldName();
-                String dateStr = new SimpleDateFormat("dd/MM/yyyy").format(bd.getSlotDate()); 
+                    SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
+                    SlotsOfField slot = slotDAO.getSlotOfFieldById(bd.getSlotFieldId());
 
-                String msg = switch (newStatusId) {
-                    case 1 ->
-                        "✅ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được xác nhận.";
-                    case 2 ->
-                        "⌛ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã chuyển về trạng thái chờ xử lý.";
-                    case 3 ->
-                        "❌ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã bị huỷ bởi quản lý.";
-                    default ->
-                        "⚠️ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã được cập nhật.";
-                };
+                    if (slot == null) {
+                        System.err.println("❌ Không tìm thấy slot với ID: " + bd.getSlotFieldId());
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        response.getWriter().write("{\"error\": \"Không tìm thấy thông tin ca sân.\"}");
+                        return;
+                    }
 
-                AppWebSocket.sendToAccount(accountId, "userMessage", msg);
+                    if (slot.getSlotInfo() == null) {
+                        System.err.println("❌ SlotInfo null với slotFieldId = " + slot.getSlotFieldId());
+                    }
+
+                    if (slot.getField() == null) {
+                        System.err.println("❌ Field null với slotFieldId = " + slot.getSlotFieldId());
+                    }
+
+                    String timeRange = slot.getSlotInfo().getStartTime() + " - " + slot.getSlotInfo().getEndTime();
+                    String fieldName = slot.getField().getFieldName();
+                    String dateStr = new SimpleDateFormat("dd/MM/yyyy")
+                            .format(new SimpleDateFormat("yyyy-MM-dd").parse(bd.getSlotDate()));
+
+                    System.out.println("✅ Thông tin đã lấy được:");
+                    System.out.println("  - Ca: " + timeRange);
+                    System.out.println("  - Sân: " + fieldName);
+                    System.out.println("  - Ngày: " + dateStr);
+                    System.out.println("  - Trạng thái mới: " + newStatusId);
+
+                    String msg = switch (newStatusId) {
+                        case 1 ->
+                            "✅ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được xác nhận.";
+                        case 2 ->
+                            "⌛ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã chuyển về trạng thái chờ xử lý.";
+                        case 3 ->
+                            "❌ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã bị huỷ bởi quản lý.";
+                        default ->
+                            "⚠️ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " đã được cập nhật.";
+                    };
+
+                    System.out.println("📢 Gửi socket đến accountId = " + accountId + " với message: " + msg);
+                    AppWebSocket.sendToAccount(accountId, "userMessage", msg);
+
+                } catch (Exception e) {
+                    System.err.println("❌ Exception khi xử lý thông báo:");
+                    e.printStackTrace();
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\": \"Lỗi server trong quá trình xử lý thông báo.\"}");
+                }
 
             }
 

@@ -115,6 +115,7 @@ public class SlotsOfFieldDAO extends DBContext {
         }
         return null;
     }
+
     public SlotsOfField getSlotOfFieldById(int slotFieldId) {
         String sql = """
         SELECT 
@@ -163,5 +164,27 @@ public class SlotsOfFieldDAO extends DBContext {
         }
 
         return null;
+    }
+
+    public static void main(String[] args) {
+        // Tạo DAO, giả sử constructor DAO có tự set connection
+        SlotsOfFieldDAO slotsOfFieldDAO= new SlotsOfFieldDAO();
+
+        // ID ca sân muốn test, ví dụ: 1
+        int testSlotFieldId = 1;
+
+        SlotsOfField sof = slotsOfFieldDAO.getSlotOfFieldById(testSlotFieldId);
+
+        if (sof != null) {
+            System.out.println("Thông tin ca sân:");
+            System.out.println("🆔 ID: " + sof.getSlotFieldId());
+            System.out.println("💵 Giá: " + sof.getSlotFieldPrice());
+            System.out.println("📍 Sân: " + sof.getField().getFieldName());
+            System.out.println("🕒 Thời gian: " + sof.getSlotInfo().getStartTime()
+                    + " - " + sof.getSlotInfo().getEndTime());
+            System.out.println("⚽ Loại sân (ID): " + sof.getSlotInfo().getFieldTypeId());
+        } else {
+            System.out.println("Không tìm thấy ca sân với ID: " + testSlotFieldId);
+        }
     }
 }
