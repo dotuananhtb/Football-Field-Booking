@@ -1,5 +1,34 @@
 let calendar;
 let selectedSlots = [];
+let socket_user = null;
+
+function connectWebSocket(fieldId) {
+    if (socket_user && socket_user.readyState === WebSocket.OPEN) {
+        socket_user.close(); // đóng socket_user cũ nếu có
+    }
+
+    const url = `ws://${location.host}/FB_N1/ws/app?accountId=${accountId}&roleId=${roleId}&fieldId=${fieldId}`;
+    socket_user = new WebSocket(url);
+
+    socket_user.onopen = () => {
+        console.log("✅ WebSocket connected");
+    };
+
+    socket_user.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.type === "refreshCalendar") {
+            calendar.refetchEvents();
+        }
+    };
+
+    socket_user.onclose = () => {
+        console.warn("⚠️ WebSocket disconnected");
+    };
+
+    socket_user.onerror = (e) => {
+        console.error("❌ WebSocket error", e);
+    };
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
@@ -12,10 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         views: {
-            dayGridMonth: { buttonText: 'Tháng' },
-            timeGridWeek: { buttonText: 'Tuần' },
-            timeGridDay: { buttonText: 'Ngày' },
-            listWeek: { buttonText: 'Danh sách' }
+            dayGridMonth: {buttonText: 'Tháng'},
+            timeGridWeek: {buttonText: 'Tuần'},
+            timeGridDay: {buttonText: 'Ngày'},
+            listWeek: {buttonText: 'Danh sách'}
         },
         locale: 'vi',
         height: 'auto',
@@ -52,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (slot.status === "Available") {
                 const existsIndex = selectedSlots.findIndex(s =>
                     String(s.slot_field_id) === String(slot.slot_field_id) &&
-                    s.slot_date === slot.slot_date &&
-                    s.start === info.event.startStr &&
-                    s.end === info.event.endStr
+                            s.slot_date === slot.slot_date &&
+                            s.start === info.event.startStr &&
+                            s.end === info.event.endStr
                 );
 
                 if (existsIndex > -1) {
@@ -79,11 +108,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     calendar.render();
+    const initialFieldId = $('#fieldSelect').val();
+    if (initialFieldId) {
+        connectWebSocket(initialFieldId);
+    }
 
     $('#fieldSelect').on('change', function () {
+        const newFieldId = $(this).val();
+        connectWebSocket(newFieldId);
         calendar.refetchEvents();
         renderSelectedTable();
     });
+
 
     $('#bookNowBtn').on('click', function () {
         if (selectedSlots.length === 0) {
@@ -92,16 +128,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const bookingDetailsList = selectedSlots.map(slot => ({
-            bookingDetailsId: null,
-            bookingId: null,
-            slotFieldId: slot.slot_field_id,
-            slotFieldPrice: slot.price,
-            extraMinutes: 0,
-            extraFee: 0,
-            slotDate: slot.slot_date,
-            note: null,
-            statusCheckingId: 1
-        }));
+                bookingDetailsId: null,
+                bookingId: null,
+                slotFieldId: slot.slot_field_id,
+                slotFieldPrice: slot.price,
+                extraMinutes: 0,
+                extraFee: 0,
+                slotDate: slot.slot_date,
+                note: null,
+                statusCheckingId: 1
+            }));
 
         $.ajax({
             url: '/FB_N1/dat-san',
@@ -142,12 +178,12 @@ function renderSelectedTable() {
         const priceFormatted = price.toLocaleString('vi-VN') + '₫';
 
         const rowHTML =
-            '<tr data-index="' + index + '">' +
-            '<td>' + slotDate + '</td>' +
-            '<td>' + timeRange + '</td>' +
-            '<td>' + priceFormatted + '</td>' +
-            '<td><button class="remove-slot-btn btn btn-sm btn-danger">Xoá</button></td>' +
-            '</tr>';
+                '<tr data-index="' + index + '">' +
+                '<td>' + slotDate + '</td>' +
+                '<td>' + timeRange + '</td>' +
+                '<td>' + priceFormatted + '</td>' +
+                '<td><button class="remove-slot-btn btn btn-sm btn-danger">Xoá</button></td>' +
+                '</tr>';
 
         tbody.append(rowHTML);
         total += price;
@@ -162,11 +198,11 @@ function renderSelectedTable() {
             calendar.getEvents().forEach(event => {
                 const props = event.extendedProps;
                 if (
-                    String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-                    props.slot_date === removedSlot.slot_date &&
-                    event.startStr === removedSlot.start &&
-                    event.endStr === removedSlot.end
-                ) {
+                        String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                        props.slot_date === removedSlot.slot_date &&
+                        event.startStr === removedSlot.start &&
+                        event.endStr === removedSlot.end
+                        ) {
                     event.setProp('classNames', []);
                 }
             });

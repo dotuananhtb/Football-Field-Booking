@@ -1,3 +1,5 @@
+<%@page import="model.UserProfile"%>
+<%@page import="model.Account"%>
 <%@page import="model.Field"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.FieldDAO"%>
@@ -10,8 +12,17 @@
         <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet'/>
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="app/js/calendarBooking.js"></script> <!-- File js tách riêng -->
 
+        <%
+            Account account = (Account) session.getAttribute("account");
+            UserProfile userProfile = (account != null) ? account.getUserProfile() : null;
+        %>
+
+        <script>
+            window.accountId = <%= (account != null) ? account.getAccountId() : -1%>;
+            window.roleId = <%= (userProfile != null) ? userProfile.getRoleId() : -1%>;
+        </script>
+        <script src="app/js/calendarBooking.js"></script> <!-- File js tách riêng -->
         <style>
             body {
                 font-family: Arial, sans-serif;
