@@ -62,6 +62,7 @@ public class BlogServlet extends HttpServlet {
             request.setAttribute("commentCounts", commentCounts);
             request.setAttribute("recentPosts", recentPosts);
             request.setAttribute("commentsMap", commentsMap);
+            request.setAttribute("search", search);
             request.getRequestDispatcher("UI/blog.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

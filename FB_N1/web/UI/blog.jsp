@@ -258,23 +258,40 @@
                                     </c:if>
                                 </div>
                                 <!-- Pagination -->
-                                <div class="row">
-                                    <div class="col-md-12 ">
-                                        <ul class="tf-pagination flex-five mt-20">
-                                            <li>
-                                                <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=1${search != null ? '&search=' + search : ''}"><i class="icon-29"></i></a>
-                                            </li>
-                                            <c:forEach begin="1" end="${totalPages}" var="i">
-                                                <li class="pages-item${currentPage == i ? ' active' : ''}" aria-current="${currentPage == i ? 'page' : ''}">
-                                                    <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=${i}${search != null ? '&search=' + search : ''}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <li>
-                                                <a class="pages-link" href="${pageContext.request.contextPath}/blog?page=${totalPages}${search != null ? '&search=' + search : ''}"><i class="icon--1"></i></a>
-                                            </li>
-                                        </ul>
+                                <c:if test="${totalPages > 1}">
+                                    <div class="row mt-40">
+                                        <div class="col-md-12">
+                                            <nav aria-label="Blog pagination">
+                                                <ul class="pagination justify-content-center" style="gap: 5px;">
+                                                    <c:if test="${currentPage > 1}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                <i class="icon-29"></i> Trước
+                                                            </a>
+                                                        </li>
+                                                    </c:if>
+                                                    
+                                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${i}&search=${search != null ? search : ''}" 
+                                                               style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
+                                                                ${i}
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    
+                                                    <c:if test="${currentPage < totalPages}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                Sau <i class="icon--1"></i>
+                                                            </a>
+                                                        </li>
+                                                    </c:if>
+                                                </ul>
+                                            </nav>
+                                        </div>
                                     </div>
-                                </div>
+                                </c:if>
                             </div>
                             <div class="col-lg-4 col-12">
                                 <div class="side-bar-right">

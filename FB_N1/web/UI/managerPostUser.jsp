@@ -35,20 +35,31 @@
                                                 <main id="main">
                                                    <section class="profile-dashboard">
                                                         <div class="inner-header mb-40">
+                                                            <c:if test="${account.userProfile.roleId==1 || account.userProfile.roleId==2}">
+                                                            <h3 class="title">Tin tức</h3>
+                                                            <p class="des">Dưới đây là danh sách các tin tức</p>
+                                                            </c:if>
+                                                            <c:if test="${account.userProfile.roleId==3}">
                                                             <h3 class="title">Quản lý bài viết của bạn</h3>
                                                             <p class="des">Dưới đây là danh sách các bài viết bạn đã đăng</p>
+                                                            </c:if>
                                                         </div>  
                                                         <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết</a>
+                                                            <c:if test="${account.userProfile.roleId==3}">
+                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết tìm đối</a>
+                                                            </c:if>
+                                                            <c:if test="${account.userProfile.roleId==1 || account.userProfile.roleId==2}">
+                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo Tin tức mới</a>
+                                                            </c:if>
                                                         </div>
                                                         <div class="my-booking-wrap ">
                                                             <!-- Header with search and filter -->
                                                             <div class="d-flex justify-content-between align-items-center mb-30" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
                                                                 <div>
-                                                                    <h5 style="margin: 0; color: #333;">Tổng cộng: ${totalPosts} bài viết</h5>
+                                                                    <h5 style="margin: 0; color: #333;">Tổng cộng: </h5>
                                                                 </div>
                                                                 <form action="${pageContext.request.contextPath}/managerPostUser" method="get" class="d-flex gap-2">
-                                                                    <input type="text" name="search" value="${search}" placeholder="Tìm theo tiêu đề..." class="form-control" style="width: 250px;">
+                                                                    <input type="text" name="search" value="${search}" placeholder="Tìm theo tiêu đề hoặc nội dung" class="form-control" style="width: 270px;">
                                                                     <button type="submit" class="btn btn-outline-primary">Tìm</button>
                                                                 </form>
                                                             </div>
