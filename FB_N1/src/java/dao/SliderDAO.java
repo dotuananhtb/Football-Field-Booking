@@ -43,6 +43,52 @@ public class SliderDAO extends DBContext {
     }
     
     
+    public void insertSlider(Slider slider) {
+    String sql = "INSERT INTO Slider (image, content_1_big, content_1_small, content_2_small) VALUES (?, ?, ?, ?)";
+    
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, slider.getImage());
+        ps.setString(2, slider.getContent1_big());
+        ps.setString(3, slider.getContent1_small());
+        ps.setString(4, slider.getContent2_small());
+
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    public void updateSlider(Slider slider) {
+    String sql = "UPDATE Slider SET image = ?, content_1_big = ?, content_1_small = ?, content_2_small = ? WHERE slider_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, slider.getImage());
+        ps.setString(2, slider.getContent1_big());
+        ps.setString(3, slider.getContent1_small());
+        ps.setString(4, slider.getContent2_small());
+        ps.setInt(5, slider.getSlider_id());
+
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    public int countSliders() {
+    String sql = "SELECT COUNT(*) FROM Slider";
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
+
+
+    
+    
     public static void main(String[] args) {
         SliderDAO dao = new SliderDAO();
         List<Slider> listS = dao.getAllSlider();     

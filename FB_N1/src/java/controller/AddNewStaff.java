@@ -6,6 +6,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.RoleDAO;
 import dao.StatusAccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import model.Account;
+import model.Role;
 import model.StatusAccount;
 import model.UserProfile;
 import util.ToastUtil;
@@ -97,8 +99,12 @@ public class AddNewStaff extends HttpServlet {
         int roleId = 2;
         StatusAccountDAO sDao = new StatusAccountDAO();
         AccountDAO aDao = new AccountDAO();
+        RoleDAO rDao = new RoleDAO();
         List<Account> listA = aDao.getAccountByRoleId(roleId);
         List<StatusAccount> listS = sDao.getStatusAccount();
+        List<Role> listR = rDao.getAllRoles();
+        
+        request.setAttribute("listRole", listR);
         request.setAttribute("listUser", listA);
         request.setAttribute("listStatus", listS);
          request.getRequestDispatcher("/admin/manage-staff.jsp").forward(request, response);

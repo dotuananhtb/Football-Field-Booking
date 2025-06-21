@@ -46,23 +46,6 @@ public class HomeControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-//                FieldDAO fdao = new FieldDAO();
-//                Zone_DAO Zdao = new Zone_DAO();
-//                // Vector<Field> list = dao.getAllField();
-//                // List<Zone> listZ = Zdao.getAllZone();
-//                //
-//                // request.setAttribute("listF", list);
-//                // request.setAttribute("listZ", listZ);
-//
-//                Vector<Field> daof = fdao.getAllFieldLast();
-//                request.setAttribute("fdao", daof);
-//
-//                ProductDAO pdao = new ProductDAO();
-//                Vector<Product> plist = pdao.getAllProductsWithCategory();
-//                request.setAttribute("plist", plist);
-//
-//                Vector<FieldDetails> fieldList = fdao.getAllFieldDetails();
-//                request.setAttribute("fieldList", fieldList);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -78,24 +61,38 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // lay param tu jsp ve 
         String zoneId = request.getParameter("zID");
         String cateId = request.getParameter("cid");
+        
+        String pageStr = request.getParameter("page");
+
+        // khoi tao DAO
         SliderDAO sDao = new SliderDAO();
         FieldDAO fDao = new FieldDAO();
         Zone_DAO zDao = new Zone_DAO();
         EventDAO eDao = new EventDAO();
         TypeOfFieldDAO tDao = new TypeOfFieldDAO();
         PostDAO postDao = new PostDAO();
-
         CateProduct_DAO cDao = new CateProduct_DAO();
         ProductDAO pDao = new ProductDAO();
+        SelectDAO selectDao = new SelectDAO();
+        String eventId = selectDao.getSelectedThemeEventId();
+
+        // lay du lieu tu dao
         List<Slider> listS = sDao.getAllSlider();
         List<Zone> listZ = zDao.getAllZone();
-        Event listE = eDao.getAllEventByEventId(2);
+        
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = cDao.getAllCategory2();
         Vector<Post> listPost = postDao.get3LastestPost();
-        String pageStr = request.getParameter("page");
+        
+
+        Event event = eDao.getAllEventByEventId(eventId);
+        
+
+        // slider field 
         int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
         int pageSize = 4;
         List<Field> listF1;
@@ -104,8 +101,7 @@ public class HomeControl extends HttpServlet {
         } else {
             listF1 = fDao.get6Field();
         }
-        
-        
+
         // paging product
         Vector<Product> listP;
         int totalProduct = 0;
@@ -121,16 +117,15 @@ public class HomeControl extends HttpServlet {
             totalProduct = pDao.getTotalProduct();
         }
         totalPage = (int) Math.ceil((double) totalProduct / pageSize);
-        
-        
-        
+
+        // set thuoc tinh de ban sang jsp
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPage", totalPage);
         request.setAttribute("listPost", listPost);
-        
+
         // end paging product 
         request.setAttribute("listT", listT);
-        request.setAttribute("event", listE);
+        request.setAttribute("event", event);
         request.setAttribute("listP", listP);
         request.setAttribute("listC", listC);
         request.setAttribute("field", listF1);
