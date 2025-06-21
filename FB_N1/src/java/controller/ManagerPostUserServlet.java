@@ -26,17 +26,28 @@ public class ManagerPostUserServlet extends HttpServlet {
         int userId = account.getAccountId();
 
         String pageStr = request.getParameter("page");
+        String search = request.getParameter("search");
         int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
         int pageSize = 4;
 
         PostDAO postDAO = new PostDAO();
-        List<Post> userPosts = postDAO.getPostsByAccountIdPaging(userId, page, pageSize);
-        int totalPosts = postDAO.countPostsByAccountId(userId);
+        List<Post> userPosts;
+        int totalPosts;
+        
+        if (search != null && !search.trim().isEmpty()) {
+            userPosts = postDAO.searchPostsByUserAndTitle(userId, search, page, pageSize);
+            totalPosts = postDAO.countPostsByUserAndTitle(userId, search);
+        } else {
+            userPosts = postDAO.getPostsByAccountIdPaging(userId, page, pageSize);
+            totalPosts = postDAO.countPostsByAccountId(userId);
+        }
+
         int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
 
         request.setAttribute("userPosts", userPosts);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("UI/managerPostUser.jsp").forward(request, response);
     }
 } 

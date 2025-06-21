@@ -38,8 +38,13 @@
                                     <label>Ghi chú/Nội dung thêm</label>
                                     <textarea name="userContent" rows="4" placeholder="Nhập ghi chú hoặc yêu cầu đặc biệt...">${post.contentPost}</textarea>
                                 </div>
-                                <div style="text-align:center;">
-                                    <button type="submit" class="button-add">Cập nhật</button>
+                                <div style="text-align:center; padding: 20px 0; display: flex; justify-content: center; gap: 15px;">
+                                    <button type="submit" class="button-add" style="background: #4DA528; color: white; padding: 12px 30px; border: none; border-radius: 6px; font-size: 16px; font-weight: 600;">
+                                        <i class="icon-save" style="margin-right: 8px;"></i>Lưu thay đổi
+                                    </button>
+                                    <a href="${pageContext.request.contextPath}/managerPostUser" class="btn btn-secondary" style="padding: 12px 30px; text-decoration: none; border-radius: 6px;">
+                                        Hủy bỏ
+                                    </a>
                                 </div>
                             </div>
                         </form>
