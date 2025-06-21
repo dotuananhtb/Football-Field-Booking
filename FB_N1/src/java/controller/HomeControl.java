@@ -85,7 +85,7 @@ public class HomeControl extends HttpServlet {
         List<Zone> listZ = zDao.getAllZone();
         
         List<TypeOfField> listT = tDao.getAllFieldTypes();
-        Vector<CateProduct> listC = cDao.getAllCategory2();
+        Vector<CateProduct> listC = (Vector<CateProduct>) cDao.getAllCategory2();
         Vector<Post> listPost = postDao.get3LastestPost();
         
 
@@ -109,11 +109,11 @@ public class HomeControl extends HttpServlet {
 
         if (cateId != null) {
             int cateIDInt = Integer.parseInt(cateId);
-            listP = pDao.pagingProductByCateID(cateIDInt, page, pageSize);
+            listP = (Vector<Product>) pDao.pagingProductByCateID(cateIDInt, page, pageSize);
             totalProduct = pDao.countProductByCateID(cateIDInt);
             request.setAttribute("cid", cateIDInt); // để dùng lại trong phân trang link
         } else {
-            listP = pDao.pagingProduct(page, pageSize);
+            listP = (Vector<Product>) pDao.pagingProduct(page, pageSize);
             totalProduct = pDao.getTotalProduct();
         }
         totalPage = (int) Math.ceil((double) totalProduct / pageSize);
