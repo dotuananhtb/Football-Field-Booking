@@ -96,9 +96,17 @@ public class Product {
         this.productStatus = productStatus;
     }
 
+    public CateProduct getCateProduct() {
+        return CateProduct;
+    }
+
+    public void setCateProduct(CateProduct CateProduct) {
+        this.CateProduct = CateProduct;
+    }
+
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productCateId=" + productCateId + ", productName=" + productName + ", productPrice=" + productPrice + ", productImage=" + productImage + ", productDescription=" + productDescription + ", productStatus=" + productStatus + '}';
+        return "Product{" + "productId=" + productId + ", productCateId=" + productCateId + ", productName=" + productName + ", productPrice=" + productPrice + ", productImage=" + productImage + ", productDescription=" + productDescription + ", productStatus=" + productStatus + ", CateProduct=" + CateProduct + '}';
     }
     
     

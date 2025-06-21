@@ -281,13 +281,18 @@
                                                     opacity: 0.6;
                                                 }
                                                 .slot-btn.booked {
-                                                    background-color: #dc3545 !important; /* đỏ */
+                                                    background-color: #dc3545; /* đỏ */
                                                     color: white;
                                                     cursor: not-allowed;
                                                 }
 
                                                 .slot-btn.expired {
-                                                    background-color: #6c757d !important; /* xám */
+                                                    background-color: #6c757d; /* xám */
+                                                    color: white;
+                                                    cursor: not-allowed;
+                                                }
+                                                .slot-btn.pending {
+                                                    background-color: #FCD34D; /* vàng */
                                                     color: white;
                                                     cursor: not-allowed;
                                                 }
@@ -399,6 +404,31 @@
                                                         max-height: 120px; /* Tăng chiều cao cho mobile */
                                                     }
                                                 }
+                                                .tf-pagination .pages-link {
+                                                    display: inline-block;
+                                                    width: 40px;
+                                                    height: 40px;
+                                                    line-height: 40px;
+                                                    text-align: center;
+                                                    border-radius: 50%;
+                                                    background-color: white;
+                                                    color: #0c1e35;
+                                                    font-weight: 500;
+                                                    border: 1px solid #ddd;
+                                                    transition: all 0.3s ease;
+                                                    margin: 0 4px;
+                                                    cursor: pointer;
+                                                    font-size: 16px;
+                                                    padding: 0;
+                                                }
+
+                                                .tf-pagination .pages-link:hover,
+                                                .tf-pagination .pages-link.active {
+                                                    background-color: #4CAF50; /* màu xanh lá */
+                                                    color: white;
+                                                    border-color: #4CAF50;
+                                                }
+
                                             </style>
                                             </head>
 
@@ -652,101 +682,102 @@
                                                                                                                     <!-- Widget archieve tour -->
                                                                                                                     <section class="archieve-tour">
                                                                                                                         <div class="tf-container">
+                                                                                                                            <form method="get" action="${pageContext.request.contextPath}/DanhSachSan">
 
-                                                                                                                            <div class="row">
-                                                                                                                                <div class="col-lg-4">
-                                                                                                                                    <form method="get" action="${pageContext.request.contextPath}/DanhSachSan" class="sider-bar-tour-package" >
-                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                            <h6 class="title-tour">Lọc </h6>
-                                                                                                                                            <div class="group-select-wrap">
-                                                                                                                                                <fieldset class="group-select relative mb-22">
-                                                                                                                                                    <i class="icon-Vector-8"></i>
-                                                                                                                                                    <div class="search-bar-group relative">
-                                                                                                                                                        <label>Địa Điểm</label>
-                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                            <span class="current">
-                                                                                                                                                                <c:choose>
-                                                                                                                                                                    <c:when test="${not empty param.zoneId}">
+                                                                                                                                <div class="row">
+                                                                                                                                    <div class="col-lg-4">
+                                                                                                                                        <div class="sider-bar-tour-package" >
+                                                                                                                                            <div class="widget-filter mb-40">
+                                                                                                                                                <h6 class="title-tour">Lọc </h6>
+                                                                                                                                                <div class="group-select-wrap">
+                                                                                                                                                    <fieldset class="group-select relative mb-22">
+                                                                                                                                                        <i class="icon-Vector-8"></i>
+                                                                                                                                                        <div class="search-bar-group relative">
+                                                                                                                                                            <label>Địa Điểm</label>
+                                                                                                                                                            <div class="nice-select" tabindex="0">
+                                                                                                                                                                <span class="current">
+                                                                                                                                                                    <c:choose>
+                                                                                                                                                                        <c:when test="${not empty param.zoneId}">
+                                                                                                                                                                            <c:forEach items="${listZ}" var="z">
+                                                                                                                                                                                <c:if test="${z.zoneId == param.zoneId}">
+                                                                                                                                                                                    ${z.address}
+                                                                                                                                                                                </c:if>
+                                                                                                                                                                            </c:forEach>
+                                                                                                                                                                        </c:when>
+                                                                                                                                                                        <c:otherwise>Tất cả</c:otherwise>
+                                                                                                                                                                    </c:choose>
+                                                                                                                                                                </span>
+                                                                                                                                                                <ul class="list">
+                                                                                                                                                                    <li data-value="" class="option ${empty param.zoneId ? 'selected focus' : ''}">Tất cả</li>
                                                                                                                                                                         <c:forEach items="${listZ}" var="z">
-                                                                                                                                                                            <c:if test="${z.zoneId == param.zoneId}">
-                                                                                                                                                                                ${z.address}
-                                                                                                                                                                            </c:if>
-                                                                                                                                                                        </c:forEach>
-                                                                                                                                                                    </c:when>
-                                                                                                                                                                    <c:otherwise>Tất cả</c:otherwise>
-                                                                                                                                                                </c:choose>
-                                                                                                                                                            </span>
-                                                                                                                                                            <ul class="list">
-                                                                                                                                                                <li data-value="" class="option ${empty param.zoneId ? 'selected focus' : ''}">Tất cả</li>
-                                                                                                                                                                    <c:forEach items="${listZ}" var="z">
-                                                                                                                                                                    <li data-value="${z.zoneId}" class="option ${param.zoneId == z.zoneId ? 'selected focus' : ''}">
-                                                                                                                                                                        ${z.address}
-                                                                                                                                                                    </li>
-                                                                                                                                                                </c:forEach>
-                                                                                                                                                            </ul>
+                                                                                                                                                                        <li data-value="${z.zoneId}" class="option ${param.zoneId == z.zoneId ? 'selected focus' : ''}">
+                                                                                                                                                                            ${z.address}
+                                                                                                                                                                        </li>
+                                                                                                                                                                    </c:forEach>
+                                                                                                                                                                </ul>
+                                                                                                                                                            </div>
+                                                                                                                                                            <!-- Trường hidden để gửi zoneId -->
+                                                                                                                                                            <input type="hidden" name="zoneId" id="zoneIdInput" value="${param.zoneId}" />
                                                                                                                                                         </div>
-                                                                                                                                                        <!-- Trường hidden để gửi zoneId -->
-                                                                                                                                                        <input type="hidden" name="zoneId" id="zoneIdInput" value="${param.zoneId}" />
-                                                                                                                                                    </div>
-                                                                                                                                                </fieldset>
+                                                                                                                                                    </fieldset>
 
-                                                                                                                                                <fieldset class="group-select relative mb-22">
-                                                                                                                                                    <i class="icon-15"></i>
-                                                                                                                                                    <div class="search-bar-group relative">
-                                                                                                                                                        <label>Sân Bóng</label>
-                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                            <span class="current">
-                                                                                                                                                                <c:choose>
-                                                                                                                                                                    <c:when test="${not empty param.typeId}">
-                                                                                                                                                                        <c:forEach var="t" items="${listT}">
-                                                                                                                                                                            <c:if test="${t.fieldTypeId == param.typeId}">
-                                                                                                                                                                                ${t.fieldTypeName}
-                                                                                                                                                                            </c:if>
-                                                                                                                                                                        </c:forEach>
-                                                                                                                                                                    </c:when>
-                                                                                                                                                                    <c:otherwise>Loại Sân</c:otherwise>
-                                                                                                                                                                </c:choose>
-                                                                                                                                                            </span>
-                                                                                                                                                            <ul class="list">
-                                                                                                                                                                <li data-value="" class="option ${empty param.typeId ? 'selected focus' : ''}">Lựa chọn</li>
-                                                                                                                                                                    <c:forEach items="${listT}" var="t">
-                                                                                                                                                                    <li data-value="${t.fieldTypeId}"
-                                                                                                                                                                        class="option ${param.typeId == t.fieldTypeId ? 'selected focus' : ''}">
-                                                                                                                                                                        ${t.fieldTypeName}
-                                                                                                                                                                    </li>
-                                                                                                                                                                </c:forEach>
-                                                                                                                                                            </ul>
+                                                                                                                                                    <fieldset class="group-select relative mb-22">
+                                                                                                                                                        <i class="icon-15"></i>
+                                                                                                                                                        <div class="search-bar-group relative">
+                                                                                                                                                            <label>Sân Bóng</label>
+                                                                                                                                                            <div class="nice-select" tabindex="0">
+                                                                                                                                                                <span class="current">
+                                                                                                                                                                    <c:choose>
+                                                                                                                                                                        <c:when test="${not empty param.typeId}">
+                                                                                                                                                                            <c:forEach var="t" items="${listT}">
+                                                                                                                                                                                <c:if test="${t.fieldTypeId == param.typeId}">
+                                                                                                                                                                                    ${t.fieldTypeName}
+                                                                                                                                                                                </c:if>
+                                                                                                                                                                            </c:forEach>
+                                                                                                                                                                        </c:when>
+                                                                                                                                                                        <c:otherwise>Loại Sân</c:otherwise>
+                                                                                                                                                                    </c:choose>
+                                                                                                                                                                </span>
+                                                                                                                                                                <ul class="list">
+                                                                                                                                                                    <li data-value="" class="option ${empty param.typeId ? 'selected focus' : ''}">Tất cả</li>
+                                                                                                                                                                        <c:forEach items="${listT}" var="t">
+                                                                                                                                                                        <li data-value="${t.fieldTypeId}"
+                                                                                                                                                                            class="option ${param.typeId == t.fieldTypeId ? 'selected focus' : ''}">
+                                                                                                                                                                            ${t.fieldTypeName}
+                                                                                                                                                                        </li>
+                                                                                                                                                                    </c:forEach>
+                                                                                                                                                                </ul>
+                                                                                                                                                            </div>
+                                                                                                                                                            <!-- Trường ẩn để gửi giá trị chọn -->
+                                                                                                                                                            <input type="hidden" name="typeId" id="typeIdInput" value="${param.typeId}" />
                                                                                                                                                         </div>
-                                                                                                                                                        <!-- Trường ẩn để gửi giá trị chọn -->
-                                                                                                                                                        <input type="hidden" name="typeId" id="typeIdInput" value="${param.typeId}" />
-                                                                                                                                                    </div>
-                                                                                                                                                </fieldset>
-                                                                                                                                                <fieldset class="group-select relative mb-22">
-                                                                                                                                                    <i class="icon-Group-111"></i>
-                                                                                                                                                    <div class="search-bar-group relative">
-                                                                                                                                                        <label> Các loại ca </label>
-                                                                                                                                                        <div class="nice-select" tabindex="0">
-                                                                                                                                                            <span class="current">
-                                                                                                                                                                <c:choose>
-                                                                                                                                                                    <c:when test="${param.time == 'morning'}">Ca sáng</c:when>
-                                                                                                                                                                    <c:when test="${param.time == 'afternoon'}">Ca chiều</c:when>
-                                                                                                                                                                    <c:when test="${param.time == 'evening'}">Ca tối</c:when>
-                                                                                                                                                                    <c:otherwise>Ca nào</c:otherwise>
-                                                                                                                                                                </c:choose>
-                                                                                                                                                            </span>
-                                                                                                                                                            <ul class="list">
-                                                                                                                                                                <li data-value="" class="option ${empty param.time ? 'selected focus' : ''}">Lựa chọn</li>
-                                                                                                                                                                <li data-value="morning" class="option ${param.time == 'morning' ? 'selected focus' : ''}">Ca sáng</li>
-                                                                                                                                                                <li data-value="afternoon" class="option ${param.time == 'afternoon' ? 'selected focus' : ''}">Ca chiều</li>
-                                                                                                                                                                <li data-value="evening" class="option ${param.time == 'evening' ? 'selected focus' : ''}">Ca tối</li>
-                                                                                                                                                            </ul>
+                                                                                                                                                    </fieldset>
+                                                                                                                                                    <fieldset class="group-select relative mb-22">
+                                                                                                                                                        <i class="icon-Group-111"></i>
+                                                                                                                                                        <div class="search-bar-group relative">
+                                                                                                                                                            <label> Các loại ca </label>
+                                                                                                                                                            <div class="nice-select" tabindex="0">
+                                                                                                                                                                <span class="current">
+                                                                                                                                                                    <c:choose>
+                                                                                                                                                                        <c:when test="${param.time == 'morning'}">Ca sáng</c:when>
+                                                                                                                                                                        <c:when test="${param.time == 'afternoon'}">Ca chiều</c:when>
+                                                                                                                                                                        <c:when test="${param.time == 'evening'}">Ca tối</c:when>
+                                                                                                                                                                        <c:otherwise>Ca nào</c:otherwise>
+                                                                                                                                                                    </c:choose>
+                                                                                                                                                                </span>
+                                                                                                                                                                <ul class="list">
+                                                                                                                                                                    <li data-value="" class="option ${empty param.time ? 'selected focus' : ''}">Tất cả</li>
+                                                                                                                                                                    <li data-value="morning" class="option ${param.time == 'morning' ? 'selected focus' : ''}">Ca sáng</li>
+                                                                                                                                                                    <li data-value="afternoon" class="option ${param.time == 'afternoon' ? 'selected focus' : ''}">Ca chiều</li>
+                                                                                                                                                                    <li data-value="evening" class="option ${param.time == 'evening' ? 'selected focus' : ''}">Ca tối</li>
+                                                                                                                                                                </ul>
+                                                                                                                                                            </div>
+                                                                                                                                                            <!-- Trường hidden để submit lựa chọn -->
+                                                                                                                                                            <input type="hidden" name="time" id="timeInput" value="${param.time}" />
                                                                                                                                                         </div>
-                                                                                                                                                        <!-- Trường hidden để submit lựa chọn -->
-                                                                                                                                                        <input type="hidden" name="time" id="timeInput" value="${param.time}" />
-                                                                                                                                                    </div>
-                                                                                                                                                </fieldset>
+                                                                                                                                                    </fieldset>
 
-                                                                                                                                                <!--                                                                                                                                                <fieldset class="group-select relative mb-40">
+                                                                                                                                                    <!--                                                                                                                                                <fieldset class="group-select relative mb-40">
                                                                                                                                                                                                         <h6 class="title-tour">Tìm kiếm theo giá</h6>
                                                                                                                                                                                                         <div class="widget widget-price ">
                                                                                                                                                                                                         <div id="slider-range2"></div>
@@ -760,110 +791,117 @@
                                                                                                                                                                                                         <div class="number-range">
                                                                                                                                                                                                         <span id="slider-range-value01">${param.minPrice}</span>
                                                                                                                                                                                                         <span id="slider-range-value02">${param.maxPrice}</span>
-                                                                                                                                                
+                                                                                                                                                    
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         <input type="hidden" name="minPrice" id="minPriceInput" value="${param.minPrice}">
                                                                                                                                                                                                         <input type="hidden" name="maxPrice" id="maxPriceInput" value="${param.maxPrice}">
-                                                                                                                                                
+                                                                                                                                                    
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div>
                                                                                                                                                                                                         </div> /.widget_price 
                                                                                                                                                                                                         </fieldset>-->
+                                                                                                                                                </div>
                                                                                                                                             </div>
+                                                                                                                                            <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check">10+</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check1" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check1">12+</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check2" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check2">15+</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check3" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check3">Adults</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        </div>
+                                                                                                                                                        </div>-->
+                                                                                                                                            <!--                                                                                                                                                                        <div class="widget-filter mb-40">
+                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
+                                                                                                                                                        <div class="group-check-box-wrap">
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check4-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check4-bar">Accepts Credit Cards</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check5-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check5-bar">Car Parking</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check6-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check6-bar">Free Coupons</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check7-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check7-bar">Laundry Service</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check8-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check8-bar">Outdoor Seating</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check9-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check9-bar">Reservations</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check10-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check10-bar">Restaurant</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="checkbox">
+                                                                                                                                                        <input id="check11-bar" type="checkbox" name="check" value="check">
+                                                                                                                                                        <label for="check11-bar">Smoking Allowed</label>
+                                                                                                                                                        </div>
+                                                                                                                                                        </div>
+                                                                                                                                                        </div>-->
                                                                                                                                         </div>
-                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                    <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check">10+</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check1" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check1">12+</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check2" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check2">15+</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check3" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check3">Adults</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    </div>
-                                                                                                                                                    </div>-->
-                                                                                                                                        <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                    <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                    <div class="group-check-box-wrap">
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check4-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check4-bar">Accepts Credit Cards</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check5-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check5-bar">Car Parking</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check6-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check6-bar">Free Coupons</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check7-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check7-bar">Laundry Service</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check8-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check8-bar">Outdoor Seating</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check9-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check9-bar">Reservations</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check10-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check10-bar">Restaurant</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="checkbox">
-                                                                                                                                                    <input id="check11-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                    <label for="check11-bar">Smoking Allowed</label>
-                                                                                                                                                    </div>
-                                                                                                                                                    </div>
-                                                                                                                                                    </div>-->
-                                                                                                                                    </form>
-                                                                                                                                </div>
-                                                                                                                                <div class="col-lg-8 listing-list-car-wrap">
-                                                                                                                                    <form  action="${pageContext.request.contextPath}/DanhSachSan" class="tf-my-listing mb-37">
-                                                                                                                                        <input type="hidden" name="sortBy" id="sortByInput" value="${sortBy}">
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-lg-8 listing-list-car-wrap">
+                                                                                                                                        <div class="tf-my-listing mb-37">
                                                                                                                                             <div class="row align-center">
                                                                                                                                                 <div class="col-sm-5">
-                                                                                                                                                    <p class="showing">Showing <span class="text-main">${showing}</span> of ${total} Results
+                                                                                                                                                    <p class="showing">Hiện thị <span class="text-main">${showing}</span> / ${total} Tổng số sản phẩm
                                                                                                                                                     </p>
                                                                                                                                                 </div>
                                                                                                                                                 <div class="col-sm-7 group-bar-wrap flex-six">
                                                                                                                                                     <div class="listing-all-wrap">
                                                                                                                                                         <div class="flex-three">
-                                                                                                                                                            <div class="group-select-recently">
-                                                                                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                                                                                    <i class="icon-Vector6"></i>
-                                                                                                                                                                    <span class="current">
-                                                                                                                                                                        <c:choose>                                                                                                                                                                                                        <c:when test="${sortBy == 'name'}">Name</c:when>
-                                                                                                                                                                            <c:when test="${sortBy == 'new'}">Sân mới</c:when>
-                                                                                                                                                                            <c:when test="${sortBy == 'recent'}">Mới cập nhật</c:when>
-                                                                                                                                                                            <c:otherwise>Sắp xếp</c:otherwise>
-                                                                                                                                                                        </c:choose>
-                                                                                                                                                                    </span>
-                                                                                                                                                                    <ul class="list">                                                                                                                                                                                                        <li class="option ${sortBy == 'name' ? 'selected focus' : ''}">
-                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=name">Theo Tên Sân</a>
-                                                                                                                                                                        </li>
-                                                                                                                                                                        <li class="option ${sortBy == 'new' ? 'selected focus' : ''}">
-                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=new">Sân mới</a>
-                                                                                                                                                                        </li>
-                                                                                                                                                                        <li class="option ${sortBy == 'recent' ? 'selected focus' : ''}">
-                                                                                                                                                                            <a href="${pageContext.request.contextPath}/DanhSachSan?sortBy=recent">Mới cập nhật</a>
-                                                                                                                                                                        </li>
-                                                                                                                                                                    </ul>
+                                                                                                                                                            <fieldset>
+                                                                                                                                                                <div class="group-select-recently relative">
+                                                                                                                                                                    <div class="nice-select" tabindex="0">
+                                                                                                                                                                        <i class="icon-Vector6"></i>
+                                                                                                                                                                        <span class="current">
+                                                                                                                                                                            <span class="current">
+                                                                                                                                                                                <c:choose>
+                                                                                                                                                                                    <c:when test="${param.sortBy == 'name'}">Theo Tên Sân</c:when>
+                                                                                                                                                                                    <c:when test="${param.sortBy == 'new'}">Sân mới</c:when>
+                                                                                                                                                                                    <c:when test="${param.sortBy == 'recent'}">Mới cập nhật</c:when>
+                                                                                                                                                                                    <c:otherwise>Sắp xếp</c:otherwise>
+                                                                                                                                                                                </c:choose>
+                                                                                                                                                                            </span>
+                                                                                                                                                                        </span>
+                                                                                                                                                                        <ul class="list">
+                                                                                                                                                                            <li data-value="" class="option ${empty param.sortBy ? 'selected focus' : ''}">Mặc định</li>
+                                                                                                                                                                            <li data-value="name" class="option ${param.sortBy == 'name' ? 'selected focus' : ''}">
+                                                                                                                                                                                Theo Tên Sân
+                                                                                                                                                                            </li>
+                                                                                                                                                                            <li data-value="new" class="option ${param.sortBy == 'new' ? 'selected focus' : ''}">
+                                                                                                                                                                                Sân mới
+                                                                                                                                                                            </li>
+                                                                                                                                                                            <li data-value="recent" class="option ${param.sortBy == 'recent' ? 'selected focus' : ''}">
+                                                                                                                                                                                Mới cập nhật
+                                                                                                                                                                            </li>
+                                                                                                                                                                        </ul>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    <input type="hidden" name="sortBy" id="sortByInput" value="${param.sortBy}" />
                                                                                                                                                                 </div>
-                                                                                                                                                            </div>
+                                                                                                                                                            </fieldset>
                                                                                                                                                             <div class="toolbar-list">
                                                                                                                                                                 <div class="form-group">
                                                                                                                                                                     <a class="btn-display-listing-grid active">
@@ -880,123 +918,120 @@
                                                                                                                                                     </div>
                                                                                                                                                 </div>
                                                                                                                                             </div>
-                                                                                                                                    </form>
-                                                                                                                                    <div class="listing-list-car-grid mb-60">
-                                                                                                                                        <c:forEach items="${listF}" var="o">
-                                                                                                                                            <div class="tour-listing box-sd">
-                                                                                                                                                <a href="tour-single.html" class="tour-listing-image">
-                                                                                                                                                    <div class="badge-top flex-two">
-                                                                                                                                                        <span class="feature
-                                                                                                                                                              <c:choose>
-                                                                                                                                                                  <c:when test="${o.status == 'Bảo trì'}">maintenance</c:when>
-                                                                                                                                                                  <c:when test="${o.status == 'Hỏng'}">broken</c:when>
-                                                                                                                                                                  <c:otherwise></c:otherwise>
-                                                                                                                                                              </c:choose>">${o.status}</span>
-                                                                                                                                                    </div>
-                                                                                                                                                    <img src="${o.image}" alt="Image Listing">
-                                                                                                                                                </a>
-                                                                                                                                                <div class="tour-listing-content">
-                                                                                                                                                    <span class="map"><i class="icon-Vector4"></i>${o.zone.address}</span>
-                                                                                                                                                    <h3 class="title-tour-list"><a href="tour-single.html">${o.fieldName}</a>
-                                                                                                                                                    </h3>
-                                                                                                                                                    <div class="icon-box flex-three">
-                                                                                                                                                        <div class="icons flex-three">
-                                                                                                                                                            <i class="icon-time-left"></i>
-                                                                                                                                                            <span>Số ca: ${totalSlotMap[o.fieldId]}</span>
+                                                                                                                                        </div>
+                                                                                                                                        <div class="listing-list-car-grid mb-60">
+                                                                                                                                            <c:forEach items="${listF}" var="o">
+                                                                                                                                                <div class="tour-listing box-sd">
+                                                                                                                                                    <a href="tour-single.html" class="tour-listing-image">
+                                                                                                                                                        <div class="badge-top flex-two">
+                                                                                                                                                            <span class="feature
+                                                                                                                                                                  <c:choose>
+                                                                                                                                                                      <c:when test="${o.status == 'Bảo trì'}">maintenance</c:when>
+                                                                                                                                                                      <c:when test="${o.status == 'Hỏng'}">broken</c:when>
+                                                                                                                                                                      <c:otherwise></c:otherwise>
+                                                                                                                                                                  </c:choose>">${o.status}</span>
                                                                                                                                                         </div>
-                                                                                                                                                        <div class="icons flex-three">
-                                                                                                                                                            <i class="icon-user"></i>
-                                                                                                                                                            <span>${o.typeOfField.fieldTypeName}</span>
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="field-block" data-field-id="${o.fieldId}">
-                                                                                                                                                        <input type="date" class="slotDatePicker" data-field-id="${o.fieldId}" />
-
-                                                                                                                                                        <div class="time-slots">
-                                                                                                                                                            <div class="slots-header">
-                                                                                                                                                                <div class="slots-title">Khung giờ có sẵn</div>
-                                                                                                                                                                <button type="button" class="toggle-btn" onclick="toggleSlots()">
-                                                                                                                                                                    <span id="toggleText">Thu gọn</span>
-                                                                                                                                                                    <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                                                                                                                                                        <path d="M7 14l5-5 5 5z"/>
-                                                                                                                                                                    </svg>
-                                                                                                                                                                </button>
+                                                                                                                                                        <img src="${o.image}" alt="Image Listing">
+                                                                                                                                                    </a>
+                                                                                                                                                    <div class="tour-listing-content">
+                                                                                                                                                        <span class="map"><i class="icon-Vector4"></i>${o.zone.address}</span>
+                                                                                                                                                        <h3 class="title-tour-list"><a href="tour-single.html">${o.fieldName}</a>
+                                                                                                                                                        </h3>
+                                                                                                                                                        <div class="icon-box flex-three">
+                                                                                                                                                            <div class="icons flex-three">
+                                                                                                                                                                <i class="icon-time-left"></i>
+                                                                                                                                                                <span>Số ca: ${totalSlotMap[o.fieldId]}</span>
                                                                                                                                                             </div>
+                                                                                                                                                            <div class="icons flex-three">
+                                                                                                                                                                <i class="icon-user"></i>
+                                                                                                                                                                <span>${o.typeOfField.fieldTypeName}</span>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="field-block" data-field-id="${o.fieldId}">
+                                                                                                                                                            <input type="date" class="slotDatePicker" data-field-id="${o.fieldId}" />
 
-                                                                                                                                                            <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
-                                                                                                                                                                <div class="slots-grid">
-                                                                                                                                                                    <c:forEach items="${o.slots}" var="s">
-                                                                                                                                                                        <button
-                                                                                                                                                                            type="button"
-                                                                                                                                                                            class="slot-btn"
-                                                                                                                                                                            data-field-id="${o.fieldId}"
-                                                                                                                                                                            data-price="${s.slotFieldPrice}"
-                                                                                                                                                                            data-start="${s.slotInfo.startTime}"
-                                                                                                                                                                            data-end="${s.slotInfo.endTime}"
-                                                                                                                                                                            data-slot-id="${s.slotFieldId}"
-                                                                                                                                                                            onclick="selectSlot(this)">
-                                                                                                                                                                            ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
-                                                                                                                                                                        </button>
-                                                                                                                                                                    </c:forEach>
+                                                                                                                                                            <div class="time-slots">
+                                                                                                                                                                <div class="slots-header">
+                                                                                                                                                                    <div class="slots-title">Khung giờ có sẵn</div>
+                                                                                                                                                                    <button type="button" class="toggle-btn" onclick="toggleSlots()">
+                                                                                                                                                                        <span id="toggleText">Thu gọn</span>
+                                                                                                                                                                        <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                                                                                                                                            <path d="M7 14l5-5 5 5z"/>
+                                                                                                                                                                        </svg>
+                                                                                                                                                                    </button>
+                                                                                                                                                                </div>
+
+                                                                                                                                                                <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
+                                                                                                                                                                    <div class="slots-grid">
+                                                                                                                                                                        <c:forEach items="${o.slots}" var="s">
+                                                                                                                                                                            <button
+                                                                                                                                                                                type="button"
+                                                                                                                                                                                class="slot-btn"
+                                                                                                                                                                                data-field-id="${o.fieldId}"
+                                                                                                                                                                                data-price="${s.slotFieldPrice}"
+                                                                                                                                                                                data-start="${s.slotInfo.startTime}"
+                                                                                                                                                                                data-end="${s.slotInfo.endTime}"
+                                                                                                                                                                                data-slot-id="${s.slotFieldId}"
+                                                                                                                                                                                onclick="selectSlot(this)">
+                                                                                                                                                                                ${s.slotInfo.startTime} - ${s.slotInfo.endTime}
+                                                                                                                                                                            </button>
+                                                                                                                                                                        </c:forEach>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div class="show-more-indicator" id="showMoreIndicator">
+                                                                                                                                                                    <div class="show-more-text">... và nhiều khung giờ khác</div>
                                                                                                                                                                 </div>
                                                                                                                                                             </div>
-                                                                                                                                                            <div class="show-more-indicator" id="showMoreIndicator">
-                                                                                                                                                                <div class="show-more-text">... và nhiều khung giờ khác</div>
-                                                                                                                                                            </div>
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
-
-
-
-                                                                                                                                                    <div class="price-section">
-                                                                                                                                                        <div class="price-box flex-three">
-                                                                                                                                                            <div class="price-info">
-                                                                                                                                                                <div class="price-label" id="priceLabel">Giá từ:</div>
-                                                                                                                                                                <div class="price-range">
-                                                                                                                                                                    <c:set var="prices" value="${priceMap[o.fieldId]}" />
-                                                                                                                                                                    <span class="price-from" id="priceDisplay" data-original-min="${prices[0]}">
-                                                                                                                                                                        <fmt:formatNumber value="${prices[0]}" type="number" groupingUsed="true"/> ₫
-                                                                                                                                                                    </span>
-                                                                                                                                                                    <span class="price-to" id="originalPrice" data-original-max="${prices[1]}">
-                                                                                                                                                                        - <fmt:formatNumber value="${prices[1]}" type="number" groupingUsed="true"/> ₫
-                                                                                                                                                                    </span>
+                                                                                                                                                            <div class="price-section">
+                                                                                                                                                                <div class="price-box flex-three">
+                                                                                                                                                                    <div class="price-info">
+                                                                                                                                                                        <div class="price-label" >Giá từ:</div>
+                                                                                                                                                                        <div class="price-range">
+                                                                                                                                                                            <c:set var="prices" value="${priceMap[o.fieldId]}" />
+                                                                                                                                                                            <span class="price-from" data-original-min="${prices[0]}">
+                                                                                                                                                                                <fmt:formatNumber value="${prices[0]}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                            </span>
+                                                                                                                                                                            <span class="price-to" data-original-max="${prices[1]}">
+                                                                                                                                                                                - <fmt:formatNumber value="${prices[1]}" type="number" groupingUsed="true"/> ₫
+                                                                                                                                                                            </span>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div class="book-btn flex-three">
+                                                                                                                                                                    <button type="button" onclick="bookField()">Đặt sân</button>
                                                                                                                                                                 </div>
                                                                                                                                                             </div>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="book-btn flex-three">
-                                                                                                                                                            <button type="button" onclick="bookField()">Đặt sân</button>
                                                                                                                                                         </div>
                                                                                                                                                     </div>
                                                                                                                                                 </div>
-                                                                                                                                            </div>
-                                                                                                                                        </c:forEach>
-                                                                                                                                    </div>
-                                                                                                                                    <div class="row">
-                                                                                                                                        <div class="col-md-12 ">
-                                                                                                                                            <ul class="tf-pagination flex-three">
-                                                                                                                                                <li>
-                                                                                                                                                    <c:if test="${page > 1}">
-                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page - 1}&sortBy=${sortBy}"><i class="icon-29"></i></a>
-                                                                                                                                                        </c:if>
-                                                                                                                                                </li>
-                                                                                                                                                <c:forEach begin="1" end="${endP}" var="p">
-                                                                                                                                                    <li>
-                                                                                                                                                        <a class="pages-link ${p == page ? 'active' : ''}"  href="${pageContext.request.contextPath}/DanhSachSan?index=${p}&sortBy=${sortBy}">${p}</a>
-                                                                                                                                                    </li>
-                                                                                                                                                </c:forEach>
-                                                                                                                                                <li>
-                                                                                                                                                    <c:if test="${page * 6 < total}">
-                                                                                                                                                        <a class="pages-link" href="${pageContext.request.contextPath}/DanhSachSan?index=${page + 1}&sortBy=${sortBy}"><i class=" icon--1"></i></a>
-                                                                                                                                                        </c:if>
-                                                                                                                                                </li>
-                                                                                                                                            </ul>
-
+                                                                                                                                            </c:forEach>
                                                                                                                                         </div>
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-md-12 ">
+                                                                                                                                                <ul class="tf-pagination flex-three">
+                                                                                                                                                    <li>
+                                                                                                                                                        <c:if test="${param.index > 1}">
+                                                                                                                                                            <button type="button" class="pages-link" onclick="goToPage(${param.index - 1})"><i class="icon-29"></i></button>
+                                                                                                                                                            </c:if>
+                                                                                                                                                    </li>
+                                                                                                                                                    <c:forEach begin="1" end="${endP}" var="p">
+                                                                                                                                                        <li>
+                                                                                                                                                            <button type="button" class="pages-link" class="${p == page ? 'active' : ''}"  onclick="goToPage(${p})" >${p}</button>
+                                                                                                                                                        </li>
+                                                                                                                                                    </c:forEach>
+                                                                                                                                                    <li>
+                                                                                                                                                        <c:if test="${param.index * 6 < total}">
+                                                                                                                                                            <button class="pages-link" onclick="goToPage(${param.index + 1})"><i class=" icon--1"></i></button>
+                                                                                                                                                            </c:if>
+                                                                                                                                                    </li>
+                                                                                                                                                </ul>
+                                                                                                                                                <input type="hidden" name="index" id="pageIndexInput" value="${param.index}" />
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+
                                                                                                                                     </div>
-
                                                                                                                                 </div>
-                                                                                                                            </div>
-
+                                                                                                                            </form>
                                                                                                                         </div>
                                                                                                                     </section>
                                                                                                                     <!-- Widget archieve tour -->
@@ -1066,8 +1101,6 @@
                                                                                                                         </div>
                                                                                                                     </div>
 
-
-
                                                                                                                     <script>
                                                                                                                         document.querySelectorAll(".nice-select .option").forEach(function (option) {
                                                                                                                             option.addEventListener("click", function () {
@@ -1079,6 +1112,13 @@
                                                                                                                                 }
                                                                                                                             });
                                                                                                                         });
+                                                                                                                        function goToPage(pageNumber) {
+                                                                                                                            const pageInput = document.getElementById("pageIndexInput");
+                                                                                                                            if (pageInput) {
+                                                                                                                                pageInput.value = pageNumber;
+                                                                                                                                pageInput.form.submit();
+                                                                                                                            }
+                                                                                                                        }
 
                                                                                                                         //tiền
 
@@ -1170,14 +1210,17 @@
 
                                                                                                                             // Ngăn người dùng chọn ca không thuộc ngày đang xem
                                                                                                                             if (slotDate !== selectedDate) {
-                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
+//                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
+                                                                                                                                showToast("error", "Ca không thuộc ngày hiện tại.");
+
                                                                                                                                 return;
                                                                                                                             }
 
                                                                                                                             // Không cho chọn nếu ngày nhỏ hơn ngày hiện tại
                                                                                                                             const now = new Date().toISOString().split('T')[0];
                                                                                                                             if (slotDate < now) {
-                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
+//                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
+                                                                                                                                showToast("error", "ca đã qua ngày");
                                                                                                                                 return;
                                                                                                                             }
 
@@ -1186,7 +1229,7 @@
                                                                                                                                 button.classList.remove('selected');
                                                                                                                                 selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
                                                                                                                                 selectedSlotPrices.set(courtId, 0);
-                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                resetPriceDisplay(button);
                                                                                                                                 return;
                                                                                                                             }
 
@@ -1196,7 +1239,7 @@
                                                                                                                             // Chọn slot mới
                                                                                                                             button.classList.add('selected');
                                                                                                                             selectedSlotPrices.set(courtId, price);
-                                                                                                                            updatePriceDisplay(courtContainer, price);
+                                                                                                                            updatePriceDisplay(button, price);
 
                                                                                                                             selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
                                                                                                                             selectedSlots.push({
@@ -1214,7 +1257,8 @@
 
                                                                                                                         function bookField() {
                                                                                                                             if (selectedSlots.length === 0) {
-                                                                                                                                alert("⚠️ Bạn chưa chọn ca nào để đặt.");
+                                                                                                                                showToast("error", "Bạn chưa chọn ca nào để đặt.");
+
                                                                                                                                 return;
                                                                                                                             }
 
@@ -1237,7 +1281,7 @@
                                                                                                                                 data: JSON.stringify(bookingDetailsList),
                                                                                                                                 success: function (response) {
                                                                                                                                     if (response && response.success) {
-                                                                                                                                        alert("✅ Đặt sân thành công!");
+                                                                                                                                        showToast("success", "Đặt sân thành công!");
                                                                                                                                         selectedSlots = [];
                                                                                                                                         selectedSlotPrices.clear();
                                                                                                                                         $('.slot-btn.selected').removeClass('selected');
@@ -1247,7 +1291,7 @@
                                                                                                                                 },
                                                                                                                                 error: function (xhr) {
                                                                                                                                     if (xhr.status === 401 || xhr.status === 302) {
-                                                                                                                                        alert("⚠️ Bạn cần đăng nhập để đặt sân.");
+                                                                                                                                        showToast("error", "Bạn cần đăng nhập để đặt sân.");
                                                                                                                                         window.location.href = "/FB_N1/login";
                                                                                                                                     } else {
                                                                                                                                         alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
@@ -1289,63 +1333,78 @@
 
 
 
-
-
-                                                                                                                        function updatePriceDisplay(courtContainer, price) {
-                                                                                                                            // Tìm price section của sân này (có thể ở ngoài time-slots)
-                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
-                                                                                                                            if (!priceSection) {
-                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
+                                                                                                                        function updatePriceDisplay(button, price) {
+                                                                                                                            // Tìm .field-block chứa button được click
+                                                                                                                            const fieldBlock = button.closest('.field-block');
+                                                                                                                            if (!fieldBlock) {
+                                                                                                                                console.warn("⚠️ Không tìm thấy field-block để cập nhật giá");
+                                                                                                                                return;
                                                                                                                             }
 
-                                                                                                                            if (priceSection) {
-                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
-                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
-                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
+                                                                                                                            // Tìm .price-section bên trong sân
+                                                                                                                            const priceSection = fieldBlock.querySelector('.price-section');
+                                                                                                                            if (!priceSection) {
+                                                                                                                                console.warn("⚠️ Không tìm thấy price-section trong field-block");
+                                                                                                                                return;
+                                                                                                                            }
 
-                                                                                                                                if (priceLabel)
-                                                                                                                                    priceLabel.textContent = 'Giá đã chọn:';
-                                                                                                                                if (priceDisplay)
-                                                                                                                                    priceDisplay.textContent = formatPrice(price) + ' ₫';
-                                                                                                                                if (originalPrice)
-                                                                                                                                    originalPrice.style.display = 'none';
+                                                                                                                            const priceLabel = priceSection.querySelector('.price-label');
+                                                                                                                            const priceDisplay = priceSection.querySelector('.price-from');
+                                                                                                                            const originalPrice = priceSection.querySelector('.price-to');
+
+                                                                                                                            if (priceLabel)
+                                                                                                                                priceLabel.textContent = 'Giá đã chọn:';
+
+                                                                                                                            if (priceDisplay)
+                                                                                                                                priceDisplay.textContent = formatPrice(price) + ' ₫';
+
+                                                                                                                            if (originalPrice)
+                                                                                                                                originalPrice.style.display = 'none';
+                                                                                                                        }
+
+                                                                                                                        function resetPriceDisplay(button) {
+                                                                                                                            const fieldBlock = button.closest('.field-block');
+                                                                                                                            if (!fieldBlock) {
+                                                                                                                                console.warn("⚠️ Không tìm thấy field-block để reset giá");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            const priceSection = fieldBlock.querySelector('.price-section');
+                                                                                                                            if (!priceSection) {
+                                                                                                                                console.warn("⚠️ Không tìm thấy price-section trong field-block");
+                                                                                                                                return;
+                                                                                                                            }
+
+                                                                                                                            const priceLabel = priceSection.querySelector('.price-label');
+                                                                                                                            const priceDisplay = priceSection.querySelector('.price-from');
+                                                                                                                            const originalPrice = priceSection.querySelector('.price-to');
+
+                                                                                                                            if (priceLabel)
+                                                                                                                                priceLabel.textContent = 'Giá từ:';
+
+                                                                                                                            if (button) {
+                                                                                                                                const originalMin = priceDisplay.getAttribute('data-original-min');
+                                                                                                                                if (originalMin) {
+                                                                                                                                    priceDisplay.textContent = formatPrice(parseInt(originalMin)) + ' ₫';
+                                                                                                                                }
+                                                                                                                            }
+
+                                                                                                                            if (originalPrice) {
+                                                                                                                                const originalMax = originalPrice.getAttribute('data-original-max');
+                                                                                                                                if (originalMax) {
+                                                                                                                                    originalPrice.textContent = '- ' + formatPrice(parseInt(originalMax)) + ' ₫';
+                                                                                                                                    originalPrice.style.display = 'inline';
+                                                                                                                                }
                                                                                                                             }
                                                                                                                         }
 
-                                                                                                                        function resetPriceDisplay(courtContainer) {
-                                                                                                                            let priceSection = courtContainer.parentElement.querySelector('.price-section');
-                                                                                                                            if (!priceSection) {
-                                                                                                                                priceSection = courtContainer.querySelector('.price-section');
-                                                                                                                            }
-
-                                                                                                                            if (priceSection) {
-                                                                                                                                const priceLabel = priceSection.querySelector('.price-label, [id*="priceLabel"]');
-                                                                                                                                const priceDisplay = priceSection.querySelector('.price-from, [id*="priceDisplay"]');
-                                                                                                                                const originalPrice = priceSection.querySelector('.price-to, [id*="originalPrice"]');
-
-                                                                                                                                if (priceDisplay) {
-                                                                                                                                    const originalMin = priceDisplay.getAttribute('data-original-min');
-                                                                                                                                    if (originalMin) {
-                                                                                                                                        priceDisplay.textContent = formatPrice(parseInt(originalMin)) + ' ₫';
-                                                                                                                                    }
-                                                                                                                                }
-
-                                                                                                                                if (originalPrice) {
-                                                                                                                                    const originalMax = originalPrice.getAttribute('data-original-max');
-                                                                                                                                    if (originalMax) {
-                                                                                                                                        originalPrice.textContent = '- ' + formatPrice(parseInt(originalMax)) + ' ₫';
-                                                                                                                                        originalPrice.style.display = 'inline';
-                                                                                                                                    }
-                                                                                                                                }
-                                                                                                                            }
-                                                                                                                        }
 
 
                                                                                                                         function formatPrice(price) {
                                                                                                                             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                                                                                                                         }
 
-                                                                                                                        // Tạo ID duy nhất cho mỗi sân
+                                                                                                                        // Tạo ID duy nhất cho mỗi sân    
                                                                                                                         function getCourtId(courtContainer) {
                                                                                                                             if (!courtContainer.dataset.courtId) {
                                                                                                                                 // Tạo ID duy nhất dựa trên vị trí trong DOM
@@ -1464,11 +1523,7 @@
                                                                                                                                         }
 
                                                                                                                                         function getTotalPrice() {
-                                                                                                                                            let total = 0;
-                                                                                                                                            selectedSlotPrices.forEach(price => {
-                                                                                                                                                total += price;
-                                                                                                                                            });
-                                                                                                                                            return total;
+                                                                                                                                            return Array.from(selectedSlotPrices.values()).reduce((sum, price) => sum + price, 0);
                                                                                                                                         }
 
                                                                                                                                         function resetAllSelections() {
@@ -1478,7 +1533,7 @@
                                                                                                                                                     btn.classList.remove('selected');
                                                                                                                                                 });
                                                                                                                                                 selectedSlotPrices.set(courtId, 0);
-                                                                                                                                                resetPriceDisplay(courtContainer);
+                                                                                                                                                resetPriceDisplay();
                                                                                                                                             });
                                                                                                                                         }
                                                                                                                     </script>
@@ -1595,6 +1650,7 @@
                                                                                                                     <script src="app/js/swiper.js"></script>
                                                                                                                     <script src="app/js/plugin.js"></script>
                                                                                                                     <script src="app/js/jquery.fancybox.js"></script>
+                                                                                                                    <script src="app/js/price-ranger.js"></script>
                                                                                                                     <script src="app/js/shortcodes.js"></script>
                                                                                                                     <script src="app/js/main.js"></script>
 

@@ -72,13 +72,15 @@ public class AddNewStaff extends HttpServlet {
         AccountDAO ad = new AccountDAO();
 
         try {
-            if (ad.checkTonTaiUsername(username)) {
+          if (ad.checkTonTaiUsername(username)) {
                 ToastUtil.setErrorToast(request,"Tên đăng nhập đã tồn tại!");
+                response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
                 return;
             }
 
             if (ad.checkTonTaiEmail(email)) {
                 ToastUtil.setErrorToast(request, "Email đã tồn tại!");
+                response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
                 return;
             }
 
