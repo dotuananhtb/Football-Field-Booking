@@ -233,4 +233,38 @@ public class BookingDetailsDAO extends DBContext {
         return 0;
     }
 
+    public BookingDetails getBookingDetailsById(int bookingDetailsId) {
+        String sql = """
+        SELECT booking_details_id, booking_id, slot_field_id,
+               slot_field_price, extra_minutes, extra_fee,
+               slot_date, note, status_checking_id
+        FROM BookingDetails
+        WHERE booking_details_id = ?
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingDetailsId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new BookingDetails(
+                            rs.getInt("booking_details_id"),
+                            rs.getInt("booking_id"),
+                            rs.getInt("slot_field_id"),
+                            rs.getBigDecimal("slot_field_price"),
+                            rs.getInt("extra_minutes"),
+                            rs.getBigDecimal("extra_fee"),
+                            rs.getString("slot_date"),
+                            rs.getString("note"),
+                            rs.getInt("status_checking_id")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

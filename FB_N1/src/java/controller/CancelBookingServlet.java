@@ -5,6 +5,7 @@
 package controller;
 
 import dao.BookingDetailsDAO;
+import dao.SlotsOfFieldDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
 import model.Account;
+import model.BookingDetails;
 import service.BookingService;
 import util.ToastUtil;
 import websocket.AppWebSocket;
@@ -31,7 +35,7 @@ public class CancelBookingServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         Account account = (session != null) ? (Account) session.getAttribute("account") : null;
-
+        BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
         if (account == null) {
             response.sendRedirect("login");
             return;
@@ -40,7 +44,7 @@ public class CancelBookingServlet extends HttpServlet {
         int bookingDetailsId = Integer.parseInt(request.getParameter("bookingDetailsId"));
         String bookingId = request.getParameter("bookingId");
         String page = request.getParameter("page");
-
+        BookingDetails bookingDetails = bookingDetailsDAO.getBookingDetailsById(bookingDetailsId);
         BookingService bookingService = new BookingService();
 
         // Kiểm tra có được phép hủy không
@@ -54,6 +58,15 @@ public class CancelBookingServlet extends HttpServlet {
 
         if (success) {
             AppWebSocket.broadcastToRole("1", "cancelRequest", "Khách hàng " + account.getUsername() + " yêu cầu huỷ ca #" + bookingDetailsId);
+            Set<String> affectedFieldIds = new HashSet<>();
+            SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+
+            String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(bookingDetails.getSlotFieldId());
+            if (fieldId != null) {
+                affectedFieldIds.add(fieldId);
+
+            }
+            AppWebSocket.broadcastCalendarUpdates(affectedFieldIds); // Gửi socket cập nhật lịch cho tất cả các sân bị ảnh hưởng
             ToastUtil.setSuccessToast(request, "Yêu cầu huỷ thành công, vui lòng đợi Nhân viên xử lí!");
         } else {
             ToastUtil.setErrorToast(request, "Hủy ca thất bại! Vui lòng thử lại sau.");
