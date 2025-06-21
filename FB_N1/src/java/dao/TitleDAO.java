@@ -21,13 +21,13 @@ import java.util.logging.Logger;
  */
 public class TitleDAO extends DBContext {
 
-    public Title getTitlebyEventId(int eventID) {
+    public Title getTitlebyEventId(String eventID) {
         String sql = "SELECT * FROM title_content \n"
                 + "WHERE title_id = (SELECT title_id FROM Event_content WHERE event_id = ?)";
 
         try (PreparedStatement ptm = connection.prepareStatement(sql);) {
 
-            ptm.setInt(1, eventID);
+            ptm.setString(1, eventID);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 return new Title(rs.getInt(1), rs.getString(2), rs.getString(3),

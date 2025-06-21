@@ -6,6 +6,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.RoleDAO;
 import dao.StatusAccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import model.Account;
+import model.Role;
 import model.StatusAccount;
 import model.UserProfile;
 import util.ToastUtil;
@@ -56,14 +58,8 @@ public class AddNewStaff extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
        String username = request.getParameter("username");
-        String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String firstName = request.getParameter("firstname");
-        String lastName = request.getParameter("lastname");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-        String gender = request.getParameter("gender");
-        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String avatar = "./assets/images/avata/avt123.jpeg";
         int statusId = 1;
@@ -72,23 +68,23 @@ public class AddNewStaff extends HttpServlet {
         AccountDAO ad = new AccountDAO();
 
         try {
-            if (ad.checkTonTaiUsername(username)) {
+          if (ad.checkTonTaiUsername(username)) {
                 ToastUtil.setErrorToast(request,"Tên đăng nhập đã tồn tại!");
+                response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
                 return;
             }
-
-            if (ad.checkTonTaiEmail(email)) {
-                ToastUtil.setErrorToast(request, "Email đã tồn tại!");
+          if(ad.checkTonTaiEmail(email)){
+                ToastUtil.setErrorToast(request,"Email đã tồn tại!");
+                response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
                 return;
-            }
-
-            UserProfile profile = new UserProfile(roleId, firstName, lastName, address, gender, dob, phone, avatar);
+          }
+            UserProfile profile = new UserProfile(roleId, avatar);
             Account account = new Account(statusId, username, password, email, createdAt, profile);
 
             if (ad.insertAccountWithProfile(account)) {
-                ToastUtil.setSuccessToast(request, "Thêm người dùng thành công!");
+                ToastUtil.setSuccessToast(request, "Thêm nhân viên thành công!");
             } else {
-                ToastUtil.setErrorToast(request, "Thêm người dùng không thành công!");
+                ToastUtil.setErrorToast(request, "Thêm nhân viên không thành công!");
             }
 
         } catch (Exception e) {
@@ -103,8 +99,12 @@ public class AddNewStaff extends HttpServlet {
         int roleId = 2;
         StatusAccountDAO sDao = new StatusAccountDAO();
         AccountDAO aDao = new AccountDAO();
+        RoleDAO rDao = new RoleDAO();
         List<Account> listA = aDao.getAccountByRoleId(roleId);
         List<StatusAccount> listS = sDao.getStatusAccount();
+        List<Role> listR = rDao.getAllRoles();
+        
+        request.setAttribute("listRole", listR);
         request.setAttribute("listUser", listA);
         request.setAttribute("listStatus", listS);
          request.getRequestDispatcher("/admin/manage-staff.jsp").forward(request, response);

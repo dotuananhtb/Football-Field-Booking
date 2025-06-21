@@ -144,13 +144,19 @@
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="ui-accordions.html">Chọn chủ đề</a>
+                            <a href="/FB_N1/admin/xu-li-chieu-thu-trang-chu">Chọn chủ đề</a>
                         </li>
                         <li>
-                            <a href="ui-alerts.html">Tạo mới chủ đề</a>
+                            <a href="/FB_N1/admin/tao-moi-chu-de">Tạo mới chủ đề</a>
                         </li>
                         <li>
-                            <a href="ui-avatars.html">Sửa chủ đề</a>
+                            <a href="/FB_N1/admin/tao-moi-slider">Tạo mới slider</a>
+                        </li>
+                        <li>
+                            <a href="/FB_N1/admin/sua-chu-de">Sửa chủ đề</a>
+                        </li>
+                        <li>
+                            <a href="/FB_N1/admin/sua-slider">Sửa slider</a>
                         </li>
 
                     </ul>

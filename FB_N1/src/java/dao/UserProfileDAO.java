@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.sql.Connection;
 import java.util.Vector;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,7 +48,23 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-    
+
+    public boolean changeRole(String accountId, String role) {
+        String sql = "UPDATE [dbo].[UserProfile]\n"
+                + "   SET \n"
+                + "      [role_id] = ?\n"
+                + "\n"
+                + " WHERE account_id = ?";
+        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, role);
+            ps.setString(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public UserProfile getProfileByAccountId(int accountId) {
         String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
@@ -73,6 +90,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
+
     public UserProfile getProfileByAccountIdString(String accountId) {
         String sql = "SELECT * FROM UserProfile WHERE account_id = ?";
         try {
@@ -97,9 +115,10 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
+
     public Vector<UserProfile> getProfileByRoleId(int roleId) {
         String sql = "SELECT * FROM UserProfile WHERE role_id = ?";
-        Vector <UserProfile> list = new Vector<>();
+        Vector<UserProfile> list = new Vector<>();
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, roleId);
@@ -123,7 +142,6 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-     
 
     public void insertProfile(UserProfile up) {
         String sql = "INSERT INTO tblUserProfile (accountId, roleId, firstName, lastName, address, gender, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -280,11 +298,9 @@ public class UserProfileDAO extends DBContext {
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
         Vector<UserProfile> list = dao.getProfileByRoleId(3);
-       for(UserProfile u : list){
-           System.out.println(u);
-       }
+        for (UserProfile u : list) {
+            System.out.println(u);
         }
-
     }
 
-
+}

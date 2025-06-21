@@ -22,6 +22,13 @@ public class UserProfile {
 
     public UserProfile() {
     }
+
+    public UserProfile(int roleId, String avatar) {
+        this.roleId = roleId;
+        this.avatar = avatar;
+    }
+
+   
     
     
 

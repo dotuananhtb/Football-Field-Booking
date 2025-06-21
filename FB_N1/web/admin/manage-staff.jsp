@@ -82,7 +82,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Quản Lí Nhân Viên</h4>
+                                    <h4 class="page-title">Quản lí nhân viên</h4>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
 
 
 
-                                    <table id="row-callback-datatable" class="table table-striped dt-responsive nowrap w-100">
+                                    <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -113,7 +113,7 @@
                                                 <th>Email</th>
                                                 <th>Số điện thoại</th>
                                                 <th>Trạng thái</th>                                                
-                                                <th></th>
+                                                <th>Vai trò</th>
                                             </tr>
                                         </thead>
 
@@ -132,21 +132,26 @@
 
                                                     <td>
                                                         <div class="btn-group mb-2">
-                                                            <c:if test="${user.statusId  == 1}">
+                                                            <c:choose>
+                                                            <c:when test="${user.statusId  == 1}">
                                                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Hoạt Động</button></c:if>
-                                                                <c:if test="${user.statusId  == 2}">
+                                                                    Hoạt Động</button>
+                                                            </c:when>
+                                                                <c:when test="${user.statusId  == 2}">
                                                                 <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Chờ xác minh</button></c:if>
-                                                                <c:if test="${user.statusId  == 3}">
+                                                                    Chờ xác minh</button>
+                                                                </c:when>
+                                                                <c:when test="${user.statusId  == 3}">
                                                                 <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Bị khóa</button></c:if>
+                                                                    Bị khóa</button>
+                                                                </c:when>
+                                                            </c:choose>
                                                                 <div class="dropdown-menu">
                                                                 <c:forEach items="${listStatus}" var="status">
-                                                                    <form action="${pageContext.request.contextPath}/admin/quan-li-nhan-vien" method="post" style="margin: 0;">
+                                                                    <form action="${pageContext.request.contextPath}/admin/quan-li-nhan-vien" method="post" >
                                                                         <input type="hidden" name="sId" value="${status.statusId}" />
                                                                         <input type="hidden" name="aId" value="${user.accountId}" />
-                                                                        <button type="submit" class="dropdown-item" style="border: none; background: none; padding: 8px 16px; width: 100%; text-align: left;">
+                                                                        <button type="submit" class="dropdown-item" >
                                                                             ${status.statusName}
                                                                         </button>
                                                                     </form>
@@ -154,7 +159,35 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                  
+                                                    <td>
+                                                        <div class="btn-group mb-2">
+
+                                                            <c:choose>
+                                                                <c:when test="${user.userProfile.roleId == 2}">
+                                                                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Nhân Viên</button>
+                                                                </c:when>
+
+                                                                <c:otherwise>
+                                                                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Khách</button>
+                                                                </c:otherwise>
+                                                            </c:choose>
+
+                                                            <div class="dropdown-menu">
+                                                                <c:forEach items="${listRole}" var="role">
+                                                                    <c:if test="${role.roleId != 1}">
+                                                                        <form action="${pageContext.request.contextPath}/admin/quan-li-nhan-vien" method="post" >
+                                                                            <input type="hidden" name="rId" value="${role.roleId}" />
+                                                                            <input type="hidden" name="aId" value="${user.accountId}" />
+                                                                            <button type="submit" class="dropdown-item"  >
+                                                                                ${role.description}
+                                                                            </button>
+                                                                        </form>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -163,10 +196,10 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                        
-                          
-                        
-                        
+
+
+
+
 
                         <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -186,53 +219,23 @@
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputEmai6" class="form-label">Tên Đăng Nhập</label>
-                                                                <input type="text" name="username" class="form-control" id="inputEmail6" placeholder="Tên Đăng Nhập">
+                                                                <input type="text" name="username" class="form-control" id="inputEmail6" placeholder="Tên Đăng Nhập" required>
                                                             </div>
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputPassword5" class="form-label">Mật Khẩu</label>
-                                                                <input type="password" name ="password" class="form-control" id="inputPassword5" placeholder="Mật Khẩu">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-2">
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputEmail4" class="form-label">Họ</label>
-                                                                <input type="text" name ="firstname" class="form-control" id="inputEmail4" placeholder="Họ">
-                                                            </div>
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputPassword4" class="form-label">Tên</label>
-                                                                <input type="text" name ="lastname" class="form-control" id="inputPassword4" placeholder="Tên">
+                                                                <input type="password" name ="password" class="form-control" id="inputPassword5" placeholder="Mật Khẩu" required>
                                                             </div>
                                                         </div>
 
-                                                        <div class="mb-3">
-                                                            <label for="inputAddress" class="form-label">Địa Chỉ</label>
-                                                            <input type="text" name ="address" class="form-control" id="inputAddress" placeholder="Địa Chỉ">
-                                                        </div>
+
+
 
                                                         <div class="mb-3">
                                                             <label for="inputEmail5" class="form-label">Email</label>
-                                                            <input type="email" name ="email" class="form-control" id="inputEmail5" placeholder="Email">
+                                                            <input type="email" name ="email" class="form-control" id="inputEmail5" placeholder="Email" required>
                                                         </div>
 
-                                                        <div class="row g-2">
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputCity" class="form-label">Số Điện Thoại</label>
-                                                                <input type="number" name ="phone" class="form-control" id="inputCity">
-                                                            </div>
-                                                            <div class="mb-3 col-md-4">
-                                                                <label for="inputState"  class="form-label">Giới Tính</label>
-                                                                <select id="inputState" name ="gender" class="form-select">
-                                                                    <option>Giới Tính </option>
-                                                                    <option value="Nam">Nam</option>
-                                                                    <option value="Nữ">Nữ</option>
-                                                                    <option value="Khác">Khác</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3 col-md-2">
-                                                                <label for="example-date" class="form-label">Ngày Sinh</label>
-                                                                <input class="form-control" name ="dob" id="example-date" type="date" name="date">
-                                                            </div>
-                                                        </div>
+
 
 
 
