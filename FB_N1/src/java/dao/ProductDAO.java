@@ -4,32 +4,39 @@
  */
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 import model.*;
 import util.DBContext;
 
-/**
- *
- * @author Đỗ Tuấn Anh
- */
 public class ProductDAO extends DBContext {
 
-    public Vector<Product> getAllProducts(String sql) {
-        Vector<Product> listProduct = new Vector<>();
+    public List<Product> getAllProducts() {
+        String sql = "SELECT f.*,c.cate_name from Product f\n"
+                + "join Cate_Product c on f.product_cate_id=c.product_cate_id";
+        List<Product> listProduct = new ArrayList<>();
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getString(3),
-                        rs.getByte(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7));
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setProductCateId(rs.getInt("product_cate_id"));
+                p.setProductName(rs.getString("product_name"));
+                p.setProductPrice(rs.getDouble("product_price"));
+                p.setProductImage(rs.getString("product_image"));
+                p.setProductDescription(rs.getString("product_description"));
+                p.setProductStatus(rs.getString("product_status"));
+
+                CateProduct c = new CateProduct();
+                c.setProductCateId(rs.getInt("product_cate_id"));
+                c.setCateName(rs.getString("cate_name"));
+                p.setCateProduct(c);
+
                 listProduct.add(p);
             }
         } catch (SQLException ex) {
@@ -38,8 +45,8 @@ public class ProductDAO extends DBContext {
         return listProduct;
     }
 
-    public Vector<Product> getAllProductsByCateID(String cateID) {
-        Vector<Product> listProduct = new Vector<>();
+    public List<Product> getAllProductsByCateID(String cateID) {
+        List<Product> listProduct = new ArrayList<>();
         String sql = "SELECT*\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Product]\n"
                 + "  where product_cate_id =?";
@@ -62,9 +69,174 @@ public class ProductDAO extends DBContext {
         }
         return listProduct;
     }
+/////// binh
+    public List<Product> pagingProduct(String productCateId, String productName,
+            Double minPrice, Double maxPrice,
+            int pageIndex, int pageSize,
+            String sortBy) {
 
-    public Vector<Product> pagingProduct(int page, int pageSize) {
-        Vector<Product> list = new Vector<>();
+        List<Product> list = new ArrayList<>();
+        String sortClause = "p.product_id"; // mặc định
+
+        switch (sortBy) {
+            case "new":
+                sortClause = "p.product_id DESC"; // Sản phẩm mới nhất (ID cao nhất)
+                break;
+            case "price_low":
+                sortClause = "p.product_price ASC"; // Giá thấp đến cao
+                break;
+            case "price_high":
+                sortClause = "p.product_price DESC"; // Giá cao đến thấp
+                break;
+            case "name_asc":
+                sortClause = "p.product_name ASC"; // Tên A-Z
+                break;
+            case "name_desc":
+                sortClause = "p.product_name DESC"; // Tên Z-A
+                break;
+            default:
+                sortClause = "p.product_id DESC"; // Mặc định sản phẩm mới nhất
+                break;
+        }
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT p.product_id, p.product_name, p.product_price, ")
+                .append("p.product_image, p.product_description, p.product_status, ")
+                .append("c.product_cate_id, c.cate_name ")
+                .append("FROM Product p ")
+                .append("INNER JOIN Cate_Product c ON p.product_cate_id = c.product_cate_id ")
+                .append("WHERE 1=1 ");
+
+        // Thêm điều kiện lọc theo danh mục
+        if (productCateId != null && !productCateId.isEmpty()) {
+            sql.append("AND c.product_cate_id = ? ");
+        }
+
+        // Thêm điều kiện tìm kiếm theo tên sản phẩm
+        if (productName != null && !productName.trim().isEmpty()) {
+            sql.append("AND p.product_name LIKE ? ");
+        }
+
+        // Thêm điều kiện lọc theo giá tối thiểu
+        if (minPrice != null) {
+            sql.append("AND p.product_price >= ? ");
+        }
+
+        // Thêm điều kiện lọc theo giá tối đa
+        if (maxPrice != null) {
+            sql.append("AND p.product_price <= ? ");
+        }
+
+        // Thêm sắp xếp và phân trang
+        sql.append("ORDER BY ").append(sortClause).append(" ")
+                .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+
+            // Set parameters theo thứ tự điều kiện WHERE
+            if (productCateId != null && !productCateId.isEmpty()) {
+                ps.setString(i++, productCateId);
+            }
+
+            if (productName != null && !productName.trim().isEmpty()) {
+                ps.setString(i++, "%" + productName.trim() + "%");
+            }
+
+            if (minPrice != null) {
+                ps.setDouble(i++, minPrice);
+            }
+
+            if (maxPrice != null) {
+                ps.setDouble(i++, maxPrice);
+            }
+
+            // Set parameters cho phân trang
+            ps.setInt(i++, (pageIndex - 1) * pageSize); // OFFSET
+            ps.setInt(i, pageSize); // FETCH NEXT
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setProductName(rs.getString("product_name"));
+                p.setProductPrice(rs.getDouble("product_price"));
+                p.setProductImage(rs.getString("product_image"));
+                p.setProductDescription(rs.getString("product_description"));
+                p.setProductStatus(rs.getString("product_status"));
+
+                // Set thông tin danh mục
+                CateProduct cate = new CateProduct();
+                cate.setProductCateId(rs.getInt("product_cate_id"));
+                cate.setCateName(rs.getString("cate_name"));
+                p.setCateProduct(cate);
+
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+// Hàm đếm tổng số sản phẩm (để tính tổng số trang)
+    public int countProduct(String productCateId, String productName,
+            Double minPrice, Double maxPrice) {
+
+        int count = 0;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(*) as total ")
+                .append("FROM Product p ")
+                .append("INNER JOIN Cate_Product c ON p.product_cate_id = c.product_cate_id ")
+                .append("WHERE 1=1 ");
+
+        if (productCateId != null && !productCateId.isEmpty()) {
+            sql.append("AND c.product_cate_id = ? ");
+        }
+
+        if (productName != null && !productName.trim().isEmpty()) {
+            sql.append("AND p.product_name LIKE ? ");
+        }
+
+        if (minPrice != null) {
+            sql.append("AND p.product_price >= ? ");
+        }
+
+        if (maxPrice != null) {
+            sql.append("AND p.product_price <= ? ");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+
+            if (productCateId != null && !productCateId.isEmpty()) {
+                ps.setString(i++, productCateId);
+            }
+
+            if (productName != null && !productName.trim().isEmpty()) {
+                ps.setString(i++, "%" + productName.trim() + "%");
+            }
+
+            if (minPrice != null) {
+                ps.setDouble(i++, minPrice);
+            }
+
+            if (maxPrice != null) {
+                ps.setDouble(i++, maxPrice);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public List<Product> pagingProduct(int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
         String query = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Product]\n"
                 + "	order by product_id\n"
@@ -89,9 +261,9 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
-    public Vector<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
-        Vector<Product> list = new Vector<>();
+////////////////
+    public List<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE product_cate_id = ?\n"
                 + "ORDER BY product_id \n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -119,8 +291,8 @@ public class ProductDAO extends DBContext {
 
     public int countProductByCateID(int cateID) {
         String query = "SELECT COUNT(*) FROM Product WHERE product_cate_id = ?";
-        try(PreparedStatement ptm = connection.prepareStatement(query);) {
-            
+        try (PreparedStatement ptm = connection.prepareStatement(query);) {
+
             ptm.setInt(1, cateID);
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
@@ -145,8 +317,8 @@ public class ProductDAO extends DBContext {
         return 0;
     }
 
-    public Vector<Product> getAllProductsWithCategory() {
-        Vector<Product> products = new Vector<>();
+    public List<Product> getAllProductsWithCategory() {
+        List<Product> products = new ArrayList<>();
         String sql = "SELECT p.product_id, p.product_name, p.product_price, "
                 + "p.product_image, p.product_description, p.product_status, "
                 + "p.product_cate_id, cp.cate_name "
@@ -203,27 +375,42 @@ public class ProductDAO extends DBContext {
         return n;
     }
 
-    public Product searchProduct(int productId) {
-        String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Product] WHERE product_id = ?";
-        try {
-            PreparedStatement ptm = connection.prepareStatement(sql);
-            ptm.setInt(1, productId);
-            ResultSet rs = ptm.executeQuery();
-            if (rs.next()) {
-                Product pro = new Product(
-                        rs.getInt("product_id"),
-                        rs.getInt("product_cate_id"),
-                        rs.getString("product_name"),
-                        rs.getDouble("product_price"),
-                        rs.getString("product_image"),
-                        rs.getString("product_description"),
-                        rs.getString("product_status"));
-                return pro;
+    public List<Product> searchProductByName(String productName) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT p.product_id, p.product_name, p.product_price, "
+                + "p.product_image, p.product_description, p.product_status, "
+                + "c.product_cate_id, c.cate_name "
+                + "FROM Product p "
+                + "INNER JOIN Cate_Product c ON p.product_cate_id = c.product_cate_id "
+                + "WHERE p.product_name LIKE ? "
+                + "ORDER BY p.product_name";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + productName + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setProductId(rs.getInt("product_id"));
+                    product.setProductName(rs.getString("product_name"));
+                    product.setProductPrice(rs.getDouble("product_price"));
+                    product.setProductImage(rs.getString("product_image"));
+                    product.setProductDescription(rs.getString("product_description"));
+                    product.setProductStatus(rs.getString("product_status"));
+
+                    // Set thông tin danh mục
+                    CateProduct cate = new CateProduct();
+                    cate.setProductCateId(rs.getInt("product_cate_id"));
+                    cate.setCateName(rs.getString("cate_name"));
+                    product.setCateProduct(cate);
+
+                    products.add(product);
+                }
             }
-        } catch (SQLException ex) {
-            ex.getStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+        return products;
     }
 
     public void updateProduct(Product p) {
@@ -247,14 +434,11 @@ public class ProductDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        String sql = "SELECT * FROM [dbo].[tblProducts]";
         ProductDAO pDAO = new ProductDAO();
-        Vector<Product> p = pDAO.getAllProducts(sql);
-        Vector<Product> pList = pDAO.getAllProducts(sql);
 
-//        for (Products products : p) {
-//            System.out.println(products);
-//        }
+        int total = pDAO.countProduct(null, null, null, null);
+        System.out.println("✅ Tổng số sản phẩm đang hoạt động: " + total);
+
 //        Products pro = new Products(1, "bep nuong", "http//SE1902", 100, 50, "C004",
 //                new Date(2025 - 1900, 1, 15), new Date(2025 - 1900, 1, 15));
 //        int n = pDAO.insertProduct(pro);

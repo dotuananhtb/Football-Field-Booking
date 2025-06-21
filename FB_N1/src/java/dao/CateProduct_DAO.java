@@ -10,6 +10,8 @@ import model.CateProduct;
 import util.DBContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +19,10 @@ import java.sql.SQLException;
  */
 public class CateProduct_DAO extends DBContext {
 
-    public Vector<CateProduct> getAllCategory(String sql) {
-        Vector<CateProduct> listCategories = new Vector<>();
+    public List<CateProduct> getAllCategory() {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Cate_Product]";
+        List<CateProduct> listCategories = new ArrayList<>();
 
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
@@ -35,8 +39,8 @@ public class CateProduct_DAO extends DBContext {
         return listCategories;
     }
 
-    public Vector<CateProduct> getAllCategory2() {
-        Vector<CateProduct> listCategories = new Vector<>();
+    public List<CateProduct> getAllCategory2() {
+        List<CateProduct> listCategories = new ArrayList<>();
         String sql = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Cate_Product]";
         try {
@@ -145,6 +149,15 @@ public class CateProduct_DAO extends DBContext {
         }
         return n;
 
+    }
+
+    public static void main(String[] args) {
+        CateProduct_DAO dao = new CateProduct_DAO();
+        List<CateProduct> listc = dao.getAllCategory();
+
+        for (CateProduct c : listc) {
+            System.out.println("cateid" + c.getProductCateId() + "  cate name:" + c.getCateName());
+        }
     }
 
 }

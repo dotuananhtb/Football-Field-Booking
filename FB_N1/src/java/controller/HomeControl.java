@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Vector;
 import model.Account;
 import model.Field;
 import model.UserProfile;
@@ -93,8 +92,8 @@ public class HomeControl extends HttpServlet {
         List<Zone> listZ = zDao.getAllZone();
         Event listE = eDao.getAllEventByEventId(2);
         List<TypeOfField> listT = tDao.getAllFieldTypes();
-        Vector<CateProduct> listC = cDao.getAllCategory2();
-        Vector<Post> listPost = postDao.get3LastestPost();
+        List<CateProduct> listC = cDao.getAllCategory2();
+        List<Post> listPost = postDao.get3LastestPost();
         String pageStr = request.getParameter("page");
         int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
         int pageSize = 4;
@@ -107,7 +106,7 @@ public class HomeControl extends HttpServlet {
         
         
         // paging product
-        Vector<Product> listP;
+        List<Product> listP;
         int totalProduct = 0;
         int totalPage = 0;
 

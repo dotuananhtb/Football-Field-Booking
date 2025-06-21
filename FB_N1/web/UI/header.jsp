@@ -41,14 +41,7 @@
                                 <nav class="main-menu show navbar-expand-md">
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
-                                            <li class="dropdown2">
-                                                <a href="#">Cửa Hàng</a>
-                                                <ul>
-                                                    <li><a href="index.html">Giày </a></li>
-                                                    <li><a href="home2.html">Quần Áo Thể Thao</a></li>
-                                                    <li><a href="home3.html">Dụng Cụ Thể Thao</a></li>
-                                                </ul>
-                                                <div class="dropdown2-btn"></div></li>
+                                            <li><a href="/FB_N1/Shop">Cửa Hàng</a></li>
                                             <li><a href="/FB_N1/DanhSachSan">Danh sách sân</a></li>
 
                                             <li class="dropdown2 "><a href="/FB_N1/blog">Diễn Đàn</a>
