@@ -23,15 +23,12 @@ public class Account {
     public Account() {
     }
 
-    public Account(int statusId, String username, String password, String email, UserProfile userProfile) {
-        this.statusId = statusId;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.userProfile = userProfile;
+   
+    
+    
 
-    }
-
+    
+    
     public Account(int accountId, int statusId, String username, String password, String email, String createdAt, UserProfile userProfile) {
         this.accountId = accountId;
         this.statusId = statusId;

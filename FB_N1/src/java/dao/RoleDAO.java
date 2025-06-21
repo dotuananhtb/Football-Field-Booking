@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.DBContext;
@@ -20,17 +22,18 @@ import model.*;
  */
 public class RoleDAO extends DBContext {
 
-    public Vector<Role> getAllRoles() {
-        Vector<Role> roles = new Vector<>();
-        String sql = "SELECT * FROM tblRole";
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>();
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Role]";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Role r = new Role(
-                        rs.getInt("roleId"),
-                        rs.getString("roleName"),
-                        rs.getString("description")
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3)
                 );
                 roles.add(r);
             }
@@ -48,9 +51,9 @@ public class RoleDAO extends DBContext {
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return new Role(
-                        rs.getInt("roleId"),
-                        rs.getString("roleName"),
-                        rs.getString("description")
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3)
                 );
             }
         } catch (SQLException ex) {
@@ -96,5 +99,12 @@ public class RoleDAO extends DBContext {
             ex.printStackTrace();
         }
 
+    }
+    public static void main(String[] args) {
+        RoleDAO rDao = new RoleDAO();
+        List<Role> r = rDao.getAllRoles();
+        for(Role rs : r){
+            System.out.println(rs);
+        }
     }
 }
