@@ -33,7 +33,7 @@ public class SlotEventDTODAO extends DBContext {
         BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
 
         List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
-        String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName(); 
+        String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName();
 
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
@@ -125,17 +125,35 @@ public class SlotEventDTODAO extends DBContext {
                 String className;
 
                 if (slotStartDateTime.isBefore(now)) {
-                    status = -1;//quá tg
-                    className = "bg-secondary";
-                } else if (detail == null || detail.getStatusCheckingId() == 3) {
-                    status = 0;//có thể đặt
-                    className = "bg-success";
-                } else if (detail.getStatusCheckingId() == 2) {
-                    status = 2;//chờ xử lí
-                    className = "bg-warning";
+                    // Slot trong quá khứ
+                    if (detail != null) {
+                        int detailStatus = detail.getStatusCheckingId();
+                        if (detailStatus == 1) {
+                            status = 1;
+                            className = "bg-primary bg-opacity-50";
+                        } else if (detailStatus == 2) {
+                            status = 2;
+                            className = "bg-warning bg-opacity-50";
+                        } else {
+                            status = 3; // huỷ
+                            className = "bg-light text-dark";
+                        }
+                    } else {
+                        status = -1; // chưa đặt
+                        className = "bg-light text-dark";
+                    }
                 } else {
-                    status = 1;//đã đặt
-                    className = "bg-danger";
+                    // Slot trong tương lai
+                    if (detail == null || detail.getStatusCheckingId() == 3) {
+                        status = 0; // có thể đặt
+                        className = "bg-success";
+                    } else if (detail.getStatusCheckingId() == 2) {
+                        status = 2; // chờ xử lý
+                        className = "bg-warning";
+                    } else {
+                        status = 1; // đã đặt
+                        className = "bg-danger";
+                    }
                 }
 
                 String title = fieldName + " ca " + startTime + " - " + endTime;
@@ -150,7 +168,7 @@ public class SlotEventDTODAO extends DBContext {
                 event.put("title", title);
                 event.put("start", slotDate + "T" + startTime);
                 event.put("end", slotDate + "T" + endTime);
-                event.put("className", className); // 👈 dùng className thay vì color
+                event.put("className", className);
                 event.put("extendedProps", extendedProps);
 
                 list.add(event);

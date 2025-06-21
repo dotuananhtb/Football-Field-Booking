@@ -30,7 +30,7 @@
 
 
     </head>
-   
+
 
 
     <style>
@@ -38,6 +38,24 @@
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
         }
+        /* Đảm bảo mọi bg-dark có chữ trắng */
+        .fc-event.bg-dark,
+        .fc-event.bg-dark .fc-event-time,
+        .fc-event.bg-dark .fc-event-title {
+            color: #fff !important;
+        }
+
+        /* Đảm bảo chỉ text-dark mới có chữ đen */
+        .fc-event.text-dark {
+            color: #212529 !important;
+        }
+
+        .fc-event.text-dark .fc-event-time,
+        .fc-event.text-dark .fc-event-title {
+            color: inherit !important;
+        }
+
+
 
         #calendar-wrapper {
             position: relative;
