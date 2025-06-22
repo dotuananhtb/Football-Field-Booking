@@ -115,8 +115,8 @@ function openSlotInfoModal(slot) {
     $('#ci-phone').text(user.phone || '---');
     $('#ci-email').text(user.email || '---');
     $('#ci-note').text(slot.note || '---');
-    $('#ci-booking-id').text(slot.booking_id || '---');
-    $('#ci-booking-details-id').text(slot.booking_details_id || '---');
+    $('#ci-booking-id').text(slot.booking_code || '---');
+    $('#ci-booking-details-id').text(slot.booking_details_code || '---');
     $('#ci-booking-date').text(slot.booking_date || '---');
 
     const isOffline = user.isOffline === true || user.isOffline === "true";

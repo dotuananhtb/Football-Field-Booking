@@ -13,9 +13,8 @@ public class BookingDetailsDAO extends DBContext {
 
     public boolean insertBookingDetail(BookingDetails detail) {
         String sql = "INSERT INTO BookingDetails "
-                + "(booking_id, slot_field_id, slot_field_price, extra_minutes, extra_fee, slot_date, start_time, end_time, note, status_checking_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+                + "(booking_id, slot_field_id, slot_field_price, extra_minutes, extra_fee, slot_date, start_time, end_time, note, status_checking_id, booking_details_code) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, detail.getBookingId());
             ps.setInt(2, detail.getSlotFieldId());
@@ -23,11 +22,11 @@ public class BookingDetailsDAO extends DBContext {
             ps.setInt(4, detail.getExtraMinutes());
             ps.setBigDecimal(5, detail.getExtraFee());
             ps.setString(6, detail.getSlotDate());
-            ps.setString(7, detail.getStartTime());   // thêm start_time
-            ps.setString(8, detail.getEndTime());     // thêm end_time
+            ps.setString(7, detail.getStartTime());
+            ps.setString(8, detail.getEndTime());
             ps.setString(9, detail.getNote());
             ps.setInt(10, detail.getStatusCheckingId());
-
+            ps.setString(11, detail.getBookingDetailsCode()); 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,6 +81,7 @@ public class BookingDetailsDAO extends DBContext {
                 return new BookingDetails(
                         rs.getInt("booking_details_id"),
                         rs.getInt("booking_id"),
+                        rs.getString("booking_details_code"),
                         rs.getInt("slot_field_id"),
                         rs.getBigDecimal("slot_field_price"),
                         rs.getInt("extra_minutes"),
@@ -112,6 +112,7 @@ public class BookingDetailsDAO extends DBContext {
                 BookingDetails detail = new BookingDetails(
                         rs.getInt("booking_details_id"),
                         rs.getInt("booking_id"),
+                        rs.getString("booking_details_code"),
                         rs.getInt("slot_field_id"),
                         rs.getBigDecimal("slot_field_price"),
                         rs.getInt("extra_minutes"),
@@ -244,6 +245,7 @@ public class BookingDetailsDAO extends DBContext {
                     return new BookingDetails(
                             rs.getInt("booking_details_id"),
                             rs.getInt("booking_id"),
+                            rs.getString("booking_details_code"),
                             rs.getInt("slot_field_id"),
                             rs.getBigDecimal("slot_field_price"),
                             rs.getInt("extra_minutes"),

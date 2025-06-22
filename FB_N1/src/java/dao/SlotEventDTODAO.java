@@ -222,6 +222,9 @@ public class SlotEventDTODAO extends DBContext {
                 extendedProps.put("booking_id", detail != null ? detail.getBookingId() : null);
                 extendedProps.put("booking_details_id", detail != null ? detail.getBookingDetailsId() : null);
                 extendedProps.put("booking_date", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingDate() : null);
+                extendedProps.put("booking_code", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingCode() : null);
+                extendedProps.put("booking_details_code", detail != null ? detail.getBookingDetailsCode(): null);
+
                 extendedProps.put("field_type_name", fieldTypeName);
 
                 // Event

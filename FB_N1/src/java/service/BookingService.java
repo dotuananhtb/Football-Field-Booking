@@ -35,6 +35,7 @@ import mailverify.SendMail;
 import model.Account;
 import model.OfflineCustomer;
 import model.OfflineUser;
+import util.CodeUtil;
 import util.DBContext;
 import websocket.AppWebSocket;
 
@@ -47,39 +48,49 @@ public class BookingService extends DBContext {
 //     1. Tạo đơn đặt sân
     public boolean createBooking(Account account, List<BookingDetails> detailsList) {
         Connection conn = null;
-
         try {
             // 1. Tạo connection dùng chung
             conn = DBContext.getConnection();
             conn.setAutoCommit(false);
 
-            // 2. Tạo các DAO như bình thường
+            // 2. Tạo các DAO
             BookingDAO bookingDAO = new BookingDAO();
             BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
             SaleDAO saleDAO = new SaleDAO();
 
-            // 3. Gán connection chung vào các DAO
+            // 3. Gán connection
             bookingDAO.setConnection(conn);
             bookingDetailsDAO.setConnection(conn);
             saleDAO.setConnection(conn);
 
-            // 4. Thực hiện logic 
+            // 4. Tính toán booking
             int slotCount = detailsList.size();
             Integer saleId = saleDAO.getSaleIdBySlotCount(slotCount);
             BigDecimal totalAmount = bookingDAO.calculateTotalBooking(detailsList);
 
+            // 5. Sinh mã booking_code (ddMMyyXXXXX)
+            String bookingCode;
+            do {
+                bookingCode = CodeUtil.generateBookingCode(); // cần viết hàm này
+            } while (bookingDAO.isBookingCodeExists(bookingCode));
+
+            // 6. Tạo booking object
             Booking booking = new Booking();
             booking.setAccountId(account.getAccountId());
             booking.setEmail(account.getEmail());
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
+            booking.setBookingCode(bookingCode); // gán code
 
+            // 7. Ghi Booking
             int bookingId = bookingDAO.insertBooking(booking);
             if (bookingId == -1) {
                 conn.rollback();
                 return false;
             }
 
+            // 8. Ghi từng bookingDetails
+            int detailIndex = 1;
             for (BookingDetails detail : detailsList) {
                 Map<String, String> timeMap = slotsOfFieldDAO.getStartEndTimeBySlotFieldId(detail.getSlotFieldId());
                 if (timeMap != null) {
@@ -88,15 +99,21 @@ public class BookingService extends DBContext {
                 }
                 detail.setBookingId(bookingId);
                 detail.setStatusCheckingId(1);
+
+                // Gán mã booking_details_code dạng {bookingCode}_01
+                String suffix = String.format("_%02d", detailIndex++);
+                detail.setBookingDetailsCode(bookingCode + suffix);
+
                 if (!bookingDetailsDAO.insertBookingDetail(detail)) {
                     conn.rollback();
                     return false;
                 }
             }
 
+            // 9. Commit
             conn.commit();
 
-            /// Sync real time ///
+            // 10. Gửi socket cập nhật lịch
             Set<String> affectedFieldIds = new HashSet<>();
             for (BookingDetails detail : detailsList) {
                 String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(detail.getSlotFieldId());
@@ -104,24 +121,26 @@ public class BookingService extends DBContext {
                     affectedFieldIds.add(fieldId);
                 }
             }
-            AppWebSocket.broadcastCalendarUpdates(affectedFieldIds); // Gửi socket cập nhật lịch cho tất cả các sân bị ảnh hưởng
-
+            AppWebSocket.broadcastCalendarUpdates(affectedFieldIds);
             AppWebSocket.broadcastToRole("1", "newBooking", "Khách hàng " + account.getUsername() + " vừa đặt sân.");
 
-            /// Sync real time ///
+            // 11. Gửi mail (nếu cần)
             String finalBookingId = Integer.toString(bookingId);
             new Thread(() -> {
                 try {
-                    // Ví dụ: gửi mail xác nhận đặt sân
                     SendMail sender = new SendMail();
-                    sender.guiMailDatSanThanhCong(account.getEmail(), account.getUserProfile().getLastName() + " " + account.getUserProfile().getFirstName(), finalBookingId, totalAmount);
+                    sender.guiMailDatSanThanhCong(
+                            account.getEmail(),
+                            account.getUserProfile().getLastName() + " " + account.getUserProfile().getFirstName(),
+                            finalBookingId,
+                            totalAmount
+                    );
                 } catch (Exception ex) {
-                    ex.printStackTrace(); // không ảnh hưởng logic chính
+                    ex.printStackTrace();
                 }
             }).start();
 
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             try {
@@ -136,8 +155,6 @@ public class BookingService extends DBContext {
             try {
                 if (conn != null) {
                     conn.setAutoCommit(true);
-                }
-                if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException e) {
@@ -150,7 +167,6 @@ public class BookingService extends DBContext {
 
     public boolean createOfflineBooking(OfflineUser offlineUser, int createdByAccountId, List<BookingDetails> detailsList) {
         Connection conn = null;
-
         try {
             conn = DBContext.getConnection();
             conn.setAutoCommit(false);
@@ -174,12 +190,19 @@ public class BookingService extends DBContext {
             Integer saleId = saleDAO.getSaleIdBySlotCount(slotCount);
             BigDecimal totalAmount = bookingDAO.calculateTotalBooking(detailsList);
 
-            // 2. Tạo Booking (accountId là người nhân viên tạo hộ)
+            // 2. Sinh booking_code duy nhất
+            String bookingCode;
+            do {
+                bookingCode = CodeUtil.generateBookingCode(); // Viết trong CodeUtil
+            } while (bookingDAO.isBookingCodeExists(bookingCode));
+
+            // 3. Tạo Booking (người tạo là nhân viên)
             Booking booking = new Booking();
-            booking.setAccountId(createdByAccountId); // Nhân viên là người tạo
+            booking.setAccountId(createdByAccountId);
             booking.setEmail(null);
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
+            booking.setBookingCode(bookingCode); // Gán code mới
 
             int bookingId = bookingDAO.insertBooking(booking);
             if (bookingId == -1) {
@@ -187,25 +210,28 @@ public class BookingService extends DBContext {
                 return false;
             }
 
-            // 3. Gán bookingId cho OfflineCustomer
+            // 4. Gán bookingId cho khách offline
             OfflineCustomer offlineCustomer = new OfflineCustomer();
             offlineCustomer.setBookingId(bookingId);
             offlineCustomer.setOfflineUserId(offlineUser.getOfflineUserId());
-
             if (!offlineCustomerDAO.insertOfflineCustomer(offlineCustomer)) {
                 conn.rollback();
                 return false;
             }
 
-            // 4. Ghi từng BookingDetails
+            // 5. Ghi từng BookingDetails
+            int detailIndex = 1;
             for (BookingDetails detail : detailsList) {
                 Map<String, String> timeMap = slotsOfFieldDAO.getStartEndTimeBySlotFieldId(detail.getSlotFieldId());
                 if (timeMap != null) {
                     detail.setStartTime(timeMap.get("start_time"));
                     detail.setEndTime(timeMap.get("end_time"));
                 }
+
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(1); // Đã xác nhận
+                detail.setStatusCheckingId(1); // đã xác nhận
+                String detailCode = bookingCode + String.format("_%02d", detailIndex++);
+                detail.setBookingDetailsCode(detailCode); // Gán mã chi tiết
 
                 if (!bookingDetailsDAO.insertBookingDetail(detail)) {
                     conn.rollback();
@@ -213,10 +239,10 @@ public class BookingService extends DBContext {
                 }
             }
 
-            // 5. Commit transaction
+            // 6. Commit transaction
             conn.commit();
 
-            // 6. Gửi socket cập nhật lịch sân
+            // 7. Gửi socket cập nhật lịch sân
             Set<String> affectedFieldIds = new HashSet<>();
             for (BookingDetails detail : detailsList) {
                 String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(detail.getSlotFieldId());

@@ -13,19 +13,29 @@ import java.math.BigDecimal;
 public class Booking {
 
     private int bookingId;
+    private String bookingCode;
     private int accountId;
     private Integer saleId; // Dữ liệu có thể null
     private String bookingDate;
     private BigDecimal totalAmount;
     private String email;
 
-    public Booking(int bookingId, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email) {
+    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email) {
         this.bookingId = bookingId;
+        this.bookingCode = bookingCode;
         this.accountId = accountId;
         this.saleId = saleId;
         this.bookingDate = bookingDate;
         this.totalAmount = totalAmount;
         this.email = email;
+    }
+
+    public String getBookingCode() {
+        return bookingCode;
+    }
+
+    public void setBookingCode(String bookingCode) {
+        this.bookingCode = bookingCode;
     }
 
     // Getters & Setters

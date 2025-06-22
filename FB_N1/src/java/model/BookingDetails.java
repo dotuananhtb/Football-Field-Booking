@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 public class BookingDetails {
 
     private int bookingDetailsId;
+
     private int bookingId;
+    private String bookingDetailsCode;
     private int slotFieldId;
     private BigDecimal slotFieldPrice;
     private int extraMinutes;
@@ -24,9 +26,10 @@ public class BookingDetails {
     private String note;
     private int statusCheckingId;
 
-    public BookingDetails(int bookingDetailsId, int bookingId, int slotFieldId, BigDecimal slotFieldPrice, int extraMinutes, BigDecimal extraFee, String slotDate, String startTime, String endTime, String note, int statusCheckingId) {
+    public BookingDetails(int bookingDetailsId, int bookingId, String bookingDetailsCode, int slotFieldId, BigDecimal slotFieldPrice, int extraMinutes, BigDecimal extraFee, String slotDate, String startTime, String endTime, String note, int statusCheckingId) {
         this.bookingDetailsId = bookingDetailsId;
         this.bookingId = bookingId;
+        this.bookingDetailsCode = bookingDetailsCode;
         this.slotFieldId = slotFieldId;
         this.slotFieldPrice = slotFieldPrice;
         this.extraMinutes = extraMinutes;
@@ -36,6 +39,14 @@ public class BookingDetails {
         this.endTime = endTime;
         this.note = note;
         this.statusCheckingId = statusCheckingId;
+    }
+
+    public String getBookingDetailsCode() {
+        return bookingDetailsCode;
+    }
+
+    public void setBookingDetailsCode(String bookingDetailsCode) {
+        this.bookingDetailsCode = bookingDetailsCode;
     }
 
     public String getStartTime() {
