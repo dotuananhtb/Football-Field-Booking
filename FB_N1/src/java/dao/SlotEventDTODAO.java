@@ -19,7 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Account;
+import model.Booking;
 import model.BookingDetails;
+import model.OfflineCustomer;
+import model.OfflineUser;
 import model.SlotEventDTO;
 import model.SlotsOfField;
 import util.DBContext;
@@ -99,9 +103,13 @@ public class SlotEventDTODAO extends DBContext {
         FieldDAO fieldDAO = new FieldDAO();
         SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
         BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+        BookingDAO bookingDAO = new BookingDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        OfflineCustomerDAO offlineDAO = new OfflineCustomerDAO();
 
         List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
         String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName();
+        String fieldTypeName = fieldDAO.getFieldByFieldID(fieldId).getTypeOfField().getFieldTypeName();
 
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
@@ -110,7 +118,6 @@ public class SlotEventDTODAO extends DBContext {
 
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             String slotDate = date.format(dateFormat);
-
             for (SlotsOfField slot : slots) {
                 int slotFieldId = slot.getSlotFieldId();
                 String startTime = slot.getSlotInfo().getStartTime();
@@ -120,52 +127,97 @@ public class SlotEventDTODAO extends DBContext {
                 LocalDateTime slotStartDateTime = LocalDateTime.of(date, slotStartTime);
 
                 BookingDetails detail = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
-
                 int status;
                 String className;
+                Map<String, Object> userInfo = null;
 
                 if (slotStartDateTime.isBefore(now)) {
-                    // Slot trong quá khứ
                     if (detail != null) {
-                        int detailStatus = detail.getStatusCheckingId();
-                        if (detailStatus == 1) {
-                            status = 1;
-                            className = "bg-danger bg-opacity-50";
-                        } else if (detailStatus == 2) {
-                            status = 2;
-                            className = "bg-warning bg-opacity-50";
-                        } else {
-                            status = 3; // huỷ
-                            className = "bg-light text-dark";
+                        switch (detail.getStatusCheckingId()) {
+                            case 1 -> {
+                                status = 1;
+                                className = "bg-danger bg-opacity-50";
+                            }
+                            case 2 -> {
+                                status = 2;
+                                className = "bg-warning bg-opacity-50";
+                            }
+                            default -> {
+                                status = 3;
+                                className = "bg-light text-dark";
+                            }
                         }
                     } else {
-                        status = -1; // chưa đặt
+                        status = -1;
                         className = "bg-light text-dark";
                     }
                 } else {
-                    // Slot trong tương lai
                     if (detail == null || detail.getStatusCheckingId() == 3) {
-                        status = 0; // có thể đặt
+                        status = 0;
                         className = "bg-success";
                     } else if (detail.getStatusCheckingId() == 2) {
-                        status = 2; // chờ xử lý
+                        status = 2;
                         className = "bg-warning";
                     } else {
-                        status = 1; // đã đặt
+                        status = 1;
                         className = "bg-danger";
                     }
                 }
 
-                String title = fieldName + " ca " + startTime + " - " + endTime;
+                // Lấy thông tin người đặt (nếu có)
+                if (detail != null) {
+                    userInfo = new HashMap<>();
+                    Booking booking = bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId());
 
+                    if (booking != null) {
+                        Integer accountId = booking.getAccountId();
+
+                        // Kiểm tra xem có phải khách offline không (dựa vào bảng OfflineCustomer)
+                        OfflineCustomer offlineCustomer = offlineDAO.getOfflineCustomerByBookingId(booking.getBookingId());
+
+                        if (offlineCustomer != null) {
+                            // Là khách offline
+                            OfflineUser offlineUser = offlineDAO.getOfflineUserByBookingDetailId(detail.getBookingDetailsId());
+                            if (offlineUser != null) {
+                                userInfo.put("name", offlineUser.getFullName());
+                                userInfo.put("phone", offlineUser.getPhone());
+                                userInfo.put("email", offlineUser.getEmail());
+                                userInfo.put("isOffline", true);
+                                userInfo.put("createdBy", offlineUser.getCreatedBy()); // ID nhân viên đặt hộ
+                            }
+                        } else {
+                            // Là khách online
+                            Account acc = accountDAO.getAccountById(accountId);
+                            if (acc != null) {
+                                userInfo.put("name", acc.getUserProfile().getFullName());
+                                userInfo.put("email", acc.getEmail());
+                                userInfo.put("phone", acc.getUserProfile().getPhone());
+                                userInfo.put("isOffline", false);
+                            }
+                        }
+                    }
+                }
+
+                // Tạo extendedProps
                 Map<String, Object> extendedProps = new HashMap<>();
                 extendedProps.put("slot_field_id", slotFieldId);
                 extendedProps.put("slot_date", slotDate);
+                extendedProps.put("start_time", startTime);
+                extendedProps.put("end_time", endTime);
+                extendedProps.put("field_name", fieldName);
                 extendedProps.put("price", price);
+                extendedProps.put("extra_minutes", detail != null ? detail.getExtraMinutes() : 0);
+                extendedProps.put("extra_fee", detail != null ? detail.getExtraFee() : BigDecimal.ZERO);
+                extendedProps.put("note", detail != null ? detail.getNote() : null);
                 extendedProps.put("status", status);
+                extendedProps.put("userInfo", userInfo);
+                extendedProps.put("booking_id", detail != null ? detail.getBookingId() : null);
+                extendedProps.put("booking_details_id", detail != null ? detail.getBookingDetailsId() : null);
+                extendedProps.put("booking_date", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingDate() : null);
+                extendedProps.put("field_type_name", fieldTypeName);
 
                 Map<String, Object> event = new HashMap<>();
-                event.put("title", title);
+                event.put("title", fieldName + " ca " + startTime + " - " + endTime);
                 event.put("start", slotDate + "T" + startTime);
                 event.put("end", slotDate + "T" + endTime);
                 event.put("className", className);

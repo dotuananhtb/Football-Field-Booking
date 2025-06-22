@@ -95,12 +95,25 @@
 
         #fieldSelect {
             display: block;
+            width: 100%;
+            max-width: 400px;
             margin: 20px auto;
-            font-size: 16px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #495057;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
+
+        #fieldSelect:focus {
+            border-color: #198754; /* Bootstrap's success color */
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+            outline: none;
+        }
+
 
 
 
@@ -208,60 +221,114 @@
                         <div class="row">
                             <div class="col-12">
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- comment -->
-                                        <select id="fieldSelect">
-                                            <option value="">-- Chọn sân --</option>
-                                            <%
-                                                FieldDAO fieldDAO = new FieldDAO();
-                                                List<Field> fields = fieldDAO.getAllFields();
-                                                for (Field field : fields) {
-                                            %>
-                                            <option value="<%= field.getFieldId()%>"><%= field.getFieldName()%></option>
-                                            <% }%>
-                                        </select>
+                                <div class="container-fluid px-4">
+                                    <div class="card shadow-sm border-0">
+                                        <div class="card-body">
 
-                                        <div id="calendar-wrapper">
-                                            <div class="calendar-fixed-header">
-                                                <div class="fc-toolbar"></div>
-                                                <div class="fc-col-header"></div>
+                                            <!-- 🔹 Chọn sân -->
+                                            <div class="mb-3">
+                                                <label for="fieldSelect" class="form-label fw-bold">Chọn sân</label>
+                                                <select id="fieldSelect" class="form-select">
+                                                    <option value="">-- Chọn sân --</option>
+                                                    <%
+                                                        FieldDAO fieldDAO = new FieldDAO();
+                                                        List<Field> fields = fieldDAO.getAllFields();
+                                                        for (Field field : fields) {
+                                                    %>
+                                                    <option value="<%= field.getFieldId()%>"><%= field.getFieldName()%></option>
+                                                    <% }%>
+                                                </select>
                                             </div>
 
-                                            <div class="calendar-scrollable-body">
-                                                <div id="calendar"></div>
+                                            <!-- 🔹 Lịch -->
+                                            <div id="calendar-wrapper" class="card shadow-sm p-3 mb-4">
+                                                <div class="calendar-fixed-header mb-3">
+                                                    <div class="fc-toolbar"></div>
+                                                    <div class="fc-col-header"></div>
+                                                </div>
+                                                <div class="calendar-scrollable-body">
+                                                    <div id="calendar"></div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <table id="selectedSlotsTable" class="table" style="display:none;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ngày</th>
-                                                    <th>Khung giờ</th>
-                                                    <th>Giá</th>
-                                                    <th>Ghi chú(SDT khách)</th>
-                                                    <th>Hành động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                        <div id="totalPrice" style="display:none; margin-top: 10px;">Tổng tiền: 0₫</div>
+                                            <!-- 🔹 Thông tin khách hàng offline -->
+                                            <form id="offlineUserForm" class="needs-validation card shadow-sm p-4 mb-4 border-0" style="display: none;" novalidate>
+                                                <h5 class="mb-4 text-primary fw-bold">Thông tin khách hàng offline</h5>
+                                                <div class="row g-3">
+                                                    <!-- Họ tên -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlineFullName" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                                        <input type="text" id="offlineFullName" name="offlineFullName" class="form-control" placeholder="Nhập họ tên khách hàng"
+                                                               required minlength="2" maxlength="50"
+                                                               pattern="^[a-zA-ZÀ-ỹ\s]+$"
+                                                               title="Chỉ chứa chữ cái và khoảng trắng. Tối đa 50 ký tự.">
+                                                        <div class="invalid-feedback">
+                                                            Họ và tên từ 2–50 ký tự, chỉ chứa chữ cái và khoảng trắng.
+                                                        </div>
+                                                    </div>
 
-                                        <div style="text-align: center; margin-top: 20px;">
-                                            <button id="bookNowBtn">Đặt sân</button>
-                                        </div>
-                                        <!--                                        <script src="assets/js/calendarBooking.js"></script>-->
+                                                    <!-- Số điện thoại -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlinePhone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                                        <input type="tel" id="offlinePhone" name="offlinePhone" class="form-control" placeholder="Nhập số điện thoại"
+                                                               required pattern="^0[0-9]{9}$" maxlength="10"
+                                                               title="Phải có đúng 10 chữ số và bắt đầu bằng số 0.">
+                                                        <div class="invalid-feedback">
+                                                            Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Email -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlineEmail" class="form-label">Email (tuỳ chọn)</label>
+                                                        <input type="email" id="offlineEmail" name="offlineEmail" class="form-control" placeholder="Email khách hàng (nếu có)"
+                                                               maxlength="100"
+                                                               title="Nhập đúng định dạng email và không vượt quá 100 ký tự.">
+                                                        <div class="invalid-feedback">
+                                                            Email không đúng định dạng hoặc quá 100 ký tự.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
 
 
-                                        <!-- comment -->
-                                    </div> <!-- end card body-->
-                                </div> <!-- end card -->
+
+                                            <!-- 🔹 Bảng ca đã chọn -->
+                                            <div class="table-responsive mb-3">
+                                                <table id="selectedSlotsTable" class="table table-bordered table-hover align-middle text-center shadow-sm" style="display: none;">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Ngày</th>
+                                                            <th>Khung giờ</th>
+                                                            <th>Giá</th>
+                                                            <th>Ghi chú</th>
+                                                            <th>Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- 🔹 Tổng tiền -->
+                                            <div id="totalPrice" class="fw-bold fs-5 text-end text-success mb-3" style="display: none;">
+                                                Tổng tiền: 0₫
+                                            </div>
+
+                                            <!-- 🔹 Nút đặt sân -->
+                                            <div class="text-center">
+                                                <button id="bookNowBtn" class="btn btn-success btn-lg w-100" style="display: none;">
+                                                    <i class="bi bi-check-circle-fill me-2"></i>Đặt sân
+                                                </button>
+                                            </div>
+
+                                        </div> <!-- end card-body -->
+                                    </div> <!-- end card -->
+                                </div>
+
+
 
                                 <!-- Admin Modal -->
-                                <!-- Modal Thông Tin Ca Sân -->
-                                <!-- Modal xem chi tiết ca sân -->
-                                <!-- Modal hiển thị tất cả thông tin slot + người đặt -->
-                                <!-- Modal xem chi tiết slot -->
+
                                 <div class="modal fade" id="event-modal" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered">
                                         <div class="modal-content shadow rounded-3">
@@ -273,8 +340,10 @@
                                             </div>
 
                                             <div class="modal-body p-4">
-                                                <!-- Thông tin ca sân -->
-                                                <h6 class="text-primary fw-bold mb-3"><i class="bi bi-info-circle"></i> Thông tin ca sân</h6>
+                                                <!-- 🔹 Thông tin ca sân -->
+                                                <h6 class="text-primary fw-bold mb-3">
+                                                    <i class="bi bi-info-circle"></i> Thông tin ca sân
+                                                </h6>
                                                 <div class="row mb-3">
                                                     <div class="col-md-6"><i class="bi bi-calendar"></i> <strong>Ngày đá:</strong> <span id="event-date">---</span></div>
                                                     <div class="col-md-6"><i class="bi bi-clock"></i> <strong>Khung giờ:</strong> <span id="event-time">---</span></div>
@@ -288,10 +357,12 @@
                                                     <div class="col-md-6"><i class="bi bi-hourglass-split"></i> <strong>Trạng thái:</strong> <span id="event-status">---</span></div>
                                                 </div>
 
-                                                <hr class="my-4">
+                                                <hr class="my-4" />
 
-                                                <!-- Thông tin người đặt -->
-                                                <h6 class="text-primary fw-bold mb-3"><i class="bi bi-person-circle"></i> Thông tin người đặt</h6>
+                                                <!-- 🔹 Thông tin người đặt -->
+                                                <h6 class="text-primary fw-bold mb-3">
+                                                    <i class="bi bi-person-circle"></i> Thông tin người đặt
+                                                </h6>
                                                 <div class="row mb-3">
                                                     <div class="col-md-6"><strong>Họ tên:</strong> <span id="ci-name">---</span></div>
                                                     <div class="col-md-6"><strong>SĐT:</strong> <span id="ci-phone">---</span></div>
@@ -306,10 +377,12 @@
                                                 </div>
                                                 <div class="row mb-2">
                                                     <div class="col-md-6"><strong>Ngày đặt:</strong> <span id="ci-booking-date">---</span></div>
+                                                    <div class="col-md-6"><strong>Hình thức đặt:</strong> <span id="ci-is-offline">---</span></div>
                                                 </div>
+                                                
                                             </div>
 
-                                            <!-- Nút cập nhật trạng thái -->
+                                            <!-- 🔹 Nút cập nhật trạng thái -->
                                             <div class="modal-footer bg-light border-top d-flex justify-content-between">
                                                 <div>
                                                     <button id="modal-confirm-btn" class="btn btn-success">
@@ -329,6 +402,7 @@
                                         </div>
                                     </div>
                                 </div>
+
 
 
 

@@ -84,6 +84,34 @@ public class BookingDAO extends DBContext {
         return list;
     }
 
+    public Booking getBookingByBookingDetailId(int bookingDetailsId) {
+        String sql = """
+        SELECT b.*
+        FROM Booking b
+        JOIN BookingDetails bd ON b.booking_id = bd.booking_id
+        WHERE bd.booking_details_id = ?
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingDetailsId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public List<Booking> getBookingsByAccountIdPaging(int accountId, int pageIndex, int pageSize) {
         List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM Booking WHERE account_id = ? "

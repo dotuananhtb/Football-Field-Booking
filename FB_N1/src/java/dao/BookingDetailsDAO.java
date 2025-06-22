@@ -1,30 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.BookingDetails;
 import util.DBContext;
-import model.Booking;
-import model.BookingDetails;
-import util.DBContext;
+import model.BookingDetailsDTO;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.BookingDetailsDTO;
 
-/**
- *
- * @author Đỗ Tuấn Anh
- */
 public class BookingDetailsDAO extends DBContext {
 
     public boolean insertBookingDetail(BookingDetails detail) {
-        String sql = "INSERT INTO BookingDetails (booking_id, slot_field_id, slot_field_price, extra_minutes, extra_fee, slot_date, note, status_checking_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO BookingDetails "
+                + "(booking_id, slot_field_id, slot_field_price, extra_minutes, extra_fee, slot_date, start_time, end_time, note, status_checking_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, detail.getBookingId());
@@ -33,8 +23,10 @@ public class BookingDetailsDAO extends DBContext {
             ps.setInt(4, detail.getExtraMinutes());
             ps.setBigDecimal(5, detail.getExtraFee());
             ps.setString(6, detail.getSlotDate());
-            ps.setString(7, detail.getNote());
-            ps.setInt(8, detail.getStatusCheckingId());
+            ps.setString(7, detail.getStartTime());   // thêm start_time
+            ps.setString(8, detail.getEndTime());     // thêm end_time
+            ps.setString(9, detail.getNote());
+            ps.setInt(10, detail.getStatusCheckingId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -54,7 +46,6 @@ public class BookingDetailsDAO extends DBContext {
                 + "WHERE bd.booking_details_id = ?";
 
         try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setInt(1, bookingDetailsId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -96,6 +87,8 @@ public class BookingDetailsDAO extends DBContext {
                         rs.getInt("extra_minutes"),
                         rs.getBigDecimal("extra_fee"),
                         rs.getString("slot_date"),
+                        rs.getString("start_time"), // thêm start_time
+                        rs.getString("end_time"), // thêm end_time
                         rs.getString("note"),
                         rs.getInt("status_checking_id")
                 );
@@ -106,7 +99,6 @@ public class BookingDetailsDAO extends DBContext {
         return null;
     }
 
-    // Lấy chi tiết đặt sân theo booking
     public List<BookingDetails> getDetailsByBookingId(int bookingId) {
         List<BookingDetails> list = new ArrayList<>();
 
@@ -125,6 +117,8 @@ public class BookingDetailsDAO extends DBContext {
                         rs.getInt("extra_minutes"),
                         rs.getBigDecimal("extra_fee"),
                         rs.getString("slot_date"),
+                        rs.getString("start_time"), // thêm start_time
+                        rs.getString("end_time"), // thêm end_time
                         rs.getString("note"),
                         rs.getInt("status_checking_id")
                 );
@@ -237,7 +231,7 @@ public class BookingDetailsDAO extends DBContext {
         String sql = """
         SELECT booking_details_id, booking_id, slot_field_id,
                slot_field_price, extra_minutes, extra_fee,
-               slot_date, note, status_checking_id
+               slot_date, start_time, end_time, note, status_checking_id
         FROM BookingDetails
         WHERE booking_details_id = ?
     """;
@@ -255,6 +249,8 @@ public class BookingDetailsDAO extends DBContext {
                             rs.getInt("extra_minutes"),
                             rs.getBigDecimal("extra_fee"),
                             rs.getString("slot_date"),
+                            rs.getString("start_time"),
+                            rs.getString("end_time"),
                             rs.getString("note"),
                             rs.getInt("status_checking_id")
                     );
@@ -266,5 +262,4 @@ public class BookingDetailsDAO extends DBContext {
 
         return null;
     }
-
 }

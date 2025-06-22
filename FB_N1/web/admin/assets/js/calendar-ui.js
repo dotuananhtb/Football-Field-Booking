@@ -59,68 +59,86 @@ function renderSelectedTable() {
         `);
     });
 
+    // Lưu lại ghi chú vào selectedSlots
+    $(".slot-note-input").off("input").on("input", function () {
+        const index = $(this).data("index");
+        if (index !== undefined) {
+            selectedSlots[index].note = $(this).val();
+        }
+    });
+
+    // Xử lý xoá slot
     $(".remove-slot-btn").off("click").on("click", function () {
         const rowIndex = $(this).closest("tr").data("index");
         if (rowIndex !== undefined) {
             restoreSlotAppearance(selectedSlots[rowIndex]);
             selectedSlots.splice(rowIndex, 1);
-            renderSelectedTable();
+            renderSelectedTable(); // vẽ lại sau khi xoá
         }
     });
 
-    $("#selectedSlotsTable").toggle(selectedSlots.length > 0);
-    $("#totalPrice").toggle(selectedSlots.length > 0)
-        .html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
-    $("#bookNowBtn").toggle(selectedSlots.length > 0);
+    const hasSlots = selectedSlots.length > 0;
+    $("#selectedSlotsTable").toggle(hasSlots);
+    $("#totalPrice").toggle(hasSlots).html('Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫');
+    $("#bookNowBtn").toggle(hasSlots);
+    $("#offlineUserForm").toggle(hasSlots);
 }
+
 
 // 🔹 Khôi phục giao diện ca
 function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-            props.slot_date === removedSlot.slot_date &&
-            event.startStr === removedSlot.start &&
-            event.endStr === removedSlot.end
-        ) {
+                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                props.slot_date === removedSlot.slot_date &&
+                event.startStr === removedSlot.start &&
+                event.endStr === removedSlot.end
+                ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
 }
 
-// 🔹 Mở modal chi tiết (gọi API check-slot-info)
-function openSlotInfoModal(slotFieldId, slotDate) {
-    $.ajax({
-        url: '/FB_N1/check-slot-info',
-        method: 'GET',
-        data: { slotFieldId, slotDate },
-        success: function (data) {
-            if (data) {
-                $('#event-date').text(data.slotDate || '---');
-                $('#event-time').text(`${data.startTime} - ${data.endTime}`);
-                $('#event-price').text(Number(data.slotFieldPrice).toLocaleString('vi-VN') + '₫');
-                $('#event-status').text(data.slotStatus || '---');
-                $('#event-field-name').text(data.fieldName || '---');
-                $('#event-field-type').text(data.fieldTypeName || '---');
+// ✅ Đã cập nhật để không dùng AJAX nữa
+function openSlotInfoModal(slot) {
+    $('#event-date').text(slot.slot_date || '---');
+    $('#event-time').text(`${slot.start_time} - ${slot.end_time}`);
+    $('#event-price').text(Number(slot.price).toLocaleString('vi-VN') + '₫');
+    $('#event-status').text(getStatusText(slot.status));
+    $('#event-field-name').text(slot.field_name || '---');
+    $('#event-field-type').text(slot.field_type_name || '---');
+    $('#ci-is-offline').text(slot.isOffline ? 'Online' : 'Offline');
 
-                $('#ci-name').text(data.customerName || '---');
-                $('#ci-phone').text(data.phone || '---');
-                $('#ci-email').text(data.email || '---');
-                $('#ci-note').text(data.note || '---');
-                $('#ci-booking-id').text(data.bookingId || '---');
-                $('#ci-booking-details-id').text(data.bookingDetailsId || '---');
-                $('#ci-booking-date').text(data.bookingDate || '---');
+    const user = slot.userInfo || {};
+    $('#ci-name').text(user.name || '---');
+    $('#ci-phone').text(user.phone || '---');
+    $('#ci-email').text(user.email || '---');
+    $('#ci-note').text(slot.note || '---');
+    $('#ci-booking-id').text(slot.booking_id || '---');
+    $('#ci-booking-details-id').text(slot.booking_details_id || '---');
+    $('#ci-booking-date').text(slot.booking_date || '---');
 
-                $('#event-modal').modal('show');
-            }
-        },
-        error: function () {
-            showToast("error", "❌ Không thể tải dữ liệu chi tiết.");
-        }
-    });
+    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn').data('slotId', slot.slot_field_id);
+    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn').data('slotDate', slot.slot_date);
+
+    $('#event-modal').modal('show');
 }
 
+function getStatusText(status) {
+    switch (status) {
+        case 0:
+            return "Có thể đặt";
+        case 1:
+            return "Đã xác nhận";
+        case 2:
+            return "Chờ xử lý";
+        case 3:
+            return "Đã huỷ";
+        default:
+            return "---";
+    }
+}
 
 // 🔹 Xử lý sự kiện UI
 function bindUIEvents() {

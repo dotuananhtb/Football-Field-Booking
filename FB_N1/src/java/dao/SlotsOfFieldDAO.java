@@ -20,6 +20,28 @@ public class SlotsOfFieldDAO extends DBContext {
         this.connection = conn;
     }
 
+    public Map<String, String> getStartEndTimeBySlotFieldId(int slotFieldId) {
+        String sql = "SELECT sd.start_time, sd.end_time "
+                + "FROM SlotsOfField sf "
+                + "JOIN SlotsOfDay sd ON sf.slot_id = sd.slot_id "
+                + "WHERE sf.slot_field_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Map<String, String> result = new HashMap<>();
+                    result.put("start_time", rs.getString("start_time"));
+                    result.put("end_time", rs.getString("end_time"));
+                    return result;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<SlotEventDTO> getAllSlotsOfField(int fieldId) {
         List<SlotEventDTO> list = new ArrayList<>();
         String sql = """
@@ -168,7 +190,7 @@ public class SlotsOfFieldDAO extends DBContext {
 
     public static void main(String[] args) {
         // Tạo DAO, giả sử constructor DAO có tự set connection
-        SlotsOfFieldDAO slotsOfFieldDAO= new SlotsOfFieldDAO();
+        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
 
         // ID ca sân muốn test, ví dụ: 1
         int testSlotFieldId = 1;

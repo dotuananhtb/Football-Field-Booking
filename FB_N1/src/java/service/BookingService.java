@@ -11,6 +11,8 @@ package service;
 import dao.AccountDAO;
 import dao.BookingDAO;
 import dao.BookingDetailsDAO;
+import dao.OfflineCustomerDAO;
+import dao.OfflineUserDAO;
 import dao.SaleDAO;
 import dao.SlotsOfFieldDAO;
 import java.math.BigDecimal;
@@ -27,9 +29,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import mailverify.SendMail;
 import model.Account;
+import model.OfflineCustomer;
+import model.OfflineUser;
 import util.DBContext;
 import websocket.AppWebSocket;
 
@@ -76,6 +81,11 @@ public class BookingService extends DBContext {
             }
 
             for (BookingDetails detail : detailsList) {
+                Map<String, String> timeMap = slotsOfFieldDAO.getStartEndTimeBySlotFieldId(detail.getSlotFieldId());
+                if (timeMap != null) {
+                    detail.setStartTime(timeMap.get("start_time"));
+                    detail.setEndTime(timeMap.get("end_time"));
+                }
                 detail.setBookingId(bookingId);
                 detail.setStatusCheckingId(1);
                 if (!bookingDetailsDAO.insertBookingDetail(detail)) {
@@ -95,12 +105,10 @@ public class BookingService extends DBContext {
                 }
             }
             AppWebSocket.broadcastCalendarUpdates(affectedFieldIds); // Gửi socket cập nhật lịch cho tất cả các sân bị ảnh hưởng
-            
+
             AppWebSocket.broadcastToRole("1", "newBooking", "Khách hàng " + account.getUsername() + " vừa đặt sân.");
 
             /// Sync real time ///
-            
-            
             String finalBookingId = Integer.toString(bookingId);
             new Thread(() -> {
                 try {
@@ -130,6 +138,110 @@ public class BookingService extends DBContext {
                     conn.setAutoCommit(true);
                 }
                 if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+//
+    ///
+
+    public boolean createOfflineBooking(OfflineUser offlineUser, int createdByAccountId, List<BookingDetails> detailsList) {
+        Connection conn = null;
+
+        try {
+            conn = DBContext.getConnection();
+            conn.setAutoCommit(false);
+
+            // DAO khởi tạo
+            BookingDAO bookingDAO = new BookingDAO();
+            BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+            OfflineCustomerDAO offlineCustomerDAO = new OfflineCustomerDAO();
+            SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+            SaleDAO saleDAO = new SaleDAO();
+
+            // Gán connection
+            bookingDAO.setConnection(conn);
+            bookingDetailsDAO.setConnection(conn);
+            offlineCustomerDAO.setConnection(conn);
+            slotsOfFieldDAO.setConnection(conn);
+            saleDAO.setConnection(conn);
+
+            // 1. Tính sale và tổng tiền
+            int slotCount = detailsList.size();
+            Integer saleId = saleDAO.getSaleIdBySlotCount(slotCount);
+            BigDecimal totalAmount = bookingDAO.calculateTotalBooking(detailsList);
+
+            // 2. Tạo Booking (accountId là người nhân viên tạo hộ)
+            Booking booking = new Booking();
+            booking.setAccountId(createdByAccountId); // Nhân viên là người tạo
+            booking.setEmail(null);
+            booking.setSaleId(saleId);
+            booking.setTotalAmount(totalAmount);
+
+            int bookingId = bookingDAO.insertBooking(booking);
+            if (bookingId == -1) {
+                conn.rollback();
+                return false;
+            }
+
+            // 3. Gán bookingId cho OfflineCustomer
+            OfflineCustomer offlineCustomer = new OfflineCustomer();
+            offlineCustomer.setBookingId(bookingId);
+            offlineCustomer.setOfflineUserId(offlineUser.getOfflineUserId());
+
+            if (!offlineCustomerDAO.insertOfflineCustomer(offlineCustomer)) {
+                conn.rollback();
+                return false;
+            }
+
+            // 4. Ghi từng BookingDetails
+            for (BookingDetails detail : detailsList) {
+                Map<String, String> timeMap = slotsOfFieldDAO.getStartEndTimeBySlotFieldId(detail.getSlotFieldId());
+                if (timeMap != null) {
+                    detail.setStartTime(timeMap.get("start_time"));
+                    detail.setEndTime(timeMap.get("end_time"));
+                }
+                detail.setBookingId(bookingId);
+                detail.setStatusCheckingId(1); // Đã xác nhận
+
+                if (!bookingDetailsDAO.insertBookingDetail(detail)) {
+                    conn.rollback();
+                    return false;
+                }
+            }
+
+            // 5. Commit transaction
+            conn.commit();
+
+            // 6. Gửi socket cập nhật lịch sân
+            Set<String> affectedFieldIds = new HashSet<>();
+            for (BookingDetails detail : detailsList) {
+                String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(detail.getSlotFieldId());
+                if (fieldId != null) {
+                    affectedFieldIds.add(fieldId);
+                }
+            }
+            AppWebSocket.broadcastCalendarUpdates(affectedFieldIds);
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
                     conn.close();
                 }
             } catch (SQLException e) {
@@ -197,72 +309,73 @@ public class BookingService extends DBContext {
         return false; // Không tìm thấy hoặc lỗi → không cho hủy
     }
 
+    
+
     //////////
-    public static void main(String[] args) {
-        System.out.println("=== Bắt đầu chương trình ===");
-
-        // Khởi tạo Service và DAO
-        System.out.println("Khởi tạo service và DAO...");
-        BookingService bookingService = new BookingService();
-        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
-        AccountDAO accountDAO = new AccountDAO();
-
-        // Lấy tài khoản mẫu
-        System.out.println("Lấy tài khoản...");
-        Account account = accountDAO.getAccountById(3);
-        System.out.println("Tài khoản: " + account.getEmail());
-
-        // Tạo danh sách BookingDetails
-        System.out.println("Tạo danh sách BookingDetails...");
-        List<BookingDetails> detailsList = new ArrayList<>();
-
-        // Booking detail 1
-        System.out.println("Tạo detail 1...");
-        BookingDetails detail1 = new BookingDetails();
-        detail1.setSlotFieldId(101);
-        BigDecimal price1 = slotsOfFieldDAO.getPriceBySlotFieldId(101);
-        System.out.println("→ Giá slot 101: " + price1);
-        detail1.setSlotFieldPrice(price1);
-        detail1.setExtraMinutes(0);
-        detail1.setExtraFee(BigDecimal.ZERO);
-        detail1.setSlotDate("2025-06-20");
-        detail1.setNote("Trận sáng");
-
-        // Booking detail 2
-        System.out.println("Tạo detail 2...");
-        BookingDetails detail2 = new BookingDetails();
-        detail2.setSlotFieldId(102);
-        BigDecimal price2 = slotsOfFieldDAO.getPriceBySlotFieldId(102);
-        System.out.println("→ Giá slot 102: " + price2);
-        detail2.setSlotFieldPrice(price2);
-        detail2.setExtraMinutes(15);
-        detail2.setExtraFee(new BigDecimal("50000"));
-        detail2.setSlotDate("2025-06-20");
-        detail2.setNote("Trận chiều");
-
-        // Thêm vào list
-        detailsList.add(detail1);
-        detailsList.add(detail2);
-
-        System.out.println("Đã tạo xong " + detailsList.size() + " booking detail.");
-        System.out.println("Gọi hàm createBooking...");
-
-        // Gọi hàm đặt sân
-        boolean result = bookingService.createBooking(account, detailsList);
-
-        System.out.println("=== Kết quả ===");
-        if (result) {
-            System.out.println("✅ Đặt sân thành công!");
-        } else {
-            System.out.println("❌ Đặt sân thất bại!");
-        }
-
-        System.out.println("=== Kết thúc chương trình ===");
-    }
-
+//    public static void main(String[] args) {
+//        System.out.println("=== Bắt đầu chương trình ===");
+//
+//        // Khởi tạo Service và DAO
+//        System.out.println("Khởi tạo service và DAO...");
+//        BookingService bookingService = new BookingService();
+//        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+//        AccountDAO accountDAO = new AccountDAO();
+//
+//        // Lấy tài khoản mẫu
+//        System.out.println("Lấy tài khoản...");
+//        Account account = accountDAO.getAccountById(3);
+//        System.out.println("Tài khoản: " + account.getEmail());
+//
+//        // Tạo danh sách BookingDetails
+//        System.out.println("Tạo danh sách BookingDetails...");
+//        List<BookingDetails> detailsList = new ArrayList<>();
+//
+//        // Booking detail 1
+//        System.out.println("Tạo detail 1...");
+//        BookingDetails detail1 = new BookingDetails();
+//        detail1.setSlotFieldId(101);
+//        BigDecimal price1 = slotsOfFieldDAO.getPriceBySlotFieldId(101);
+//        System.out.println("→ Giá slot 101: " + price1);
+//        detail1.setSlotFieldPrice(price1);
+//        detail1.setExtraMinutes(0);
+//        detail1.setExtraFee(BigDecimal.ZERO);
+//        detail1.setSlotDate("2025-06-20");
+//        detail1.setNote("Trận sáng");
+//
+//        // Booking detail 2
+//        System.out.println("Tạo detail 2...");
+//        BookingDetails detail2 = new BookingDetails();
+//        detail2.setSlotFieldId(102);
+//        BigDecimal price2 = slotsOfFieldDAO.getPriceBySlotFieldId(102);
+//        System.out.println("→ Giá slot 102: " + price2);
+//        detail2.setSlotFieldPrice(price2);
+//        detail2.setExtraMinutes(15);
+//        detail2.setExtraFee(new BigDecimal("50000"));
+//        detail2.setSlotDate("2025-06-20");
+//        detail2.setNote("Trận chiều");
+//
+//        // Thêm vào list
+//        detailsList.add(detail1);
+//        detailsList.add(detail2);
+//
+//        System.out.println("Đã tạo xong " + detailsList.size() + " booking detail.");
+//        System.out.println("Gọi hàm createBooking...");
+//
+//        // Gọi hàm đặt sân
+//        boolean result = bookingService.createBooking(account, detailsList);
+//
+//        System.out.println("=== Kết quả ===");
+//        if (result) {
+//            System.out.println("✅ Đặt sân thành công!");
+//        } else {
+//            System.out.println("❌ Đặt sân thất bại!");
+//        }
+//
+//        System.out.println("=== Kết thúc chương trình ===");
+//    }
 }
-////----------////
 
+////----------////
 //    public boolean createBooking(Account account, List<BookingDetails> detailsList) {
 //        String insertBookingSQL = "INSERT INTO Booking (account_id, sale_id, booking_date, total_amount, email) VALUES (?, ?, ?, ?, ?)";
 //        String insertDetailSQL = "INSERT INTO BookingDetails (booking_id, slot_field_id, slot_field_price, extra_minutes, extra_fee, slot_date, note, status_checking_id) "
