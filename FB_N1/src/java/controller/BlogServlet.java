@@ -11,8 +11,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Post;
 import model.Comment;
+import model.Account;
 
 @WebServlet(name = "BlogServlet", urlPatterns = {"/blog"})
 public class BlogServlet extends HttpServlet {
@@ -32,17 +34,17 @@ public class BlogServlet extends HttpServlet {
 
             String search = request.getParameter("search");
 
-
             Vector<Post> posts;
             int totalPosts;
             if (search != null && !search.trim().isEmpty()) {
-                posts = postDAO.searchPostsByTitle(search, page, pageSize);
-                totalPosts = postDAO.countPostsByTitle(search);
+                posts = postDAO.searchPostsByRegularUsers(search, page, pageSize);
+                totalPosts = postDAO.countSearchPostsByRegularUsers(search);
                 request.setAttribute("search", search);
             } else {
-                posts = postDAO.getAllPosts(page, pageSize);
-                totalPosts = postDAO.getTotalPosts();
+                posts = postDAO.getPostsByRegularUsers(page, pageSize);
+                totalPosts = postDAO.countPostsByRegularUsers();
             }
+            
             // Tạo Map lưu số comment cho từng post
             Map<Integer, Integer> commentCounts = new HashMap<>();
             Map<Integer, List<Comment>> commentsMap = new HashMap<>();
@@ -52,14 +54,15 @@ public class BlogServlet extends HttpServlet {
                 commentsMap.put(post.getPostId(), commentDAO.getCommentsByPostId(post.getPostId()));
             }
             int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
-            // Lấy 3 bài viết mới nhất 
-            Vector<Post> recentPosts = postDAO.getRecentPosts(3);
+            // Lấy 3 bài viết mới nhất của user thường
+            Vector<Post> recentPosts = postDAO.getRecentPostsByRegularUsers(3);
             request.setAttribute("posts", posts);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPage", page);
             request.setAttribute("commentCounts", commentCounts);
             request.setAttribute("recentPosts", recentPosts);
             request.setAttribute("commentsMap", commentsMap);
+            request.setAttribute("search", search);
             request.getRequestDispatcher("UI/blog.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

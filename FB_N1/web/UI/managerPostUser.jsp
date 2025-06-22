@@ -35,85 +35,140 @@
                                                 <main id="main">
                                                    <section class="profile-dashboard">
                                                         <div class="inner-header mb-40">
+                                                            <c:if test="${account.userProfile.roleId==1 || account.userProfile.roleId==2}">
+                                                            <h3 class="title">Tin tức</h3>
+                                                            <p class="des">Dưới đây là danh sách các tin tức</p>
+                                                            </c:if>
+                                                            <c:if test="${account.userProfile.roleId==3}">
                                                             <h3 class="title">Quản lý bài viết của bạn</h3>
                                                             <p class="des">Dưới đây là danh sách các bài viết bạn đã đăng</p>
+                                                            </c:if>
                                                         </div>  
                                                         <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết</a>
+                                                            <c:if test="${account.userProfile.roleId==3}">
+                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết tìm đối</a>
+                                                            </c:if>
+                                                            <c:if test="${account.userProfile.roleId==1 || account.userProfile.roleId==2}">
+                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo Tin tức mới</a>
+                                                            </c:if>
                                                         </div>
                                                         <div class="my-booking-wrap ">
-                                                            <ul class="booking-table-title flex-three">
-                                                                <li><p>Tiêu đề</p></li>
-                                                                <li><p>Ghi chú/Nội dung</p></li>
-                                                                <li><p>Ngày đăng</p></li>
-                                                                <li><p>Trạng thái</p></li>
-                                                                <li><p>Hành động</p></li>
-                                                            </ul>
+                                                            <!-- Header with search and filter -->
+                                                            <div class="d-flex justify-content-between align-items-center mb-30" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                                                <div>
+                                                                    <h5 style="margin: 0; color: #333;">Tổng cộng: </h5>
+                                                                </div>
+                                                                <form action="${pageContext.request.contextPath}/managerPostUser" method="get" class="d-flex gap-2">
+                                                                    <input type="text" name="search" value="${search}" placeholder="Tìm theo tiêu đề hoặc nội dung" class="form-control" style="width: 270px;">
+                                                                    <button type="submit" class="btn btn-outline-primary">Tìm</button>
+                                                                </form>
+                                                            </div>
+                                                            
+                                                            <!-- Posts list -->
                                                             <c:forEach var="post" items="${userPosts}">
-                                                                <ul class="booking-table-content mb-60">
-                                                                    <li class="flex-three">
-                                                                        <div class="booking-list flex-three">
-                                                                            <p class="date-gues">
-                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color:#4DA528;text-decoration:underline;font-weight:600;">
+                                                                <div class="post-card mb-20" style="background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                                                    <div class="d-flex justify-content-between align-items-start mb-15">
+                                                                        <div class="flex-grow-1">
+                                                                            <h4 style="margin: 0 0 8px 0; color: #4DA528;">
+                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color: inherit; text-decoration: none;">
                                                                                     ${post.title}
                                                                                 </a>
-                                                                            </p>
+                                                                            </h4>
+                                                                            <div class="post-meta" style="color: #666; font-size: 14px;">
+                                                                                <span><i class="icon-4"></i> ${post.postDate}</span>
+                                                                                
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="booking-list-table">
-                                                                            <p class="date-gues">
-                                                                                <c:choose>
-                                                                                    <c:when test="${fn:length(post.contentPost) > 20}">
-                                                                                        ${fn:substring(post.contentPost, 0, 20)}... 
-                                                                                        <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color:#4DA528; font-weight:600; text-decoration:underline;">Xem thêm</a>
-                                                                                    </c:when>
-                                                                                    <c:otherwise>
-                                                                                        ${post.contentPost}
-                                                                                    </c:otherwise>
-                                                                                </c:choose>
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="booking-list-table">
-                                                                            <p class="date-gues">${post.postDate}</p>
-                                                                        </div>
-                                                                        <div class="booking-list-table">
-                                                                            <p class="status">
-                                                                                <c:choose>
-                                                                                    <c:when test="${post.statusPost eq 'active'}">Đang hiển thị</c:when>
-                                                                                    <c:otherwise>Đã ẩn</c:otherwise>
-                                                                                </c:choose>
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="flex-five action-wrap" style="gap: 12px; align-items: center;">
-                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" title="Cập nhật" style="background: #f6f6f6; border-radius: 8px; padding: 6px 10px; display: inline-flex; align-items: center; color: blue">cập nhật</a>
+                                                                        <div class="post-actions d-flex gap-2">
+                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" 
+                                                                               class="btn btn-outline-primary btn-sm" 
+                                                                               style="padding: 6px 12px; border-radius: 6px;">
+                                                                                <i class="icon-edit"></i> Sửa
+                                                                            </a>
                                                                             <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline; margin:0;">
                                                                                 <input type="hidden" name="postId" value="${post.postId}" />
-                                                                                <button type="submit" class="btn btn-danger" style="padding:6px 10px; border-radius:8px; margin-left:0; display:inline-flex; align-items:center;" onclick="return confirm('Bạn chắc chắn muốn xóa bài viết này?')"><i class="icon-Vector-18"></i></button>
+                                                                                <button type="submit" 
+                                                                                        class="btn btn-outline-danger btn-sm" 
+                                                                                        style="padding: 6px 12px; border-radius: 6px;"
+                                                                                        onclick="return confirm('Bạn chắc chắn muốn xóa bài viết này?')">
+                                                                                    <i class="icon-delete"></i> Xóa
+                                                                                </button>
                                                                             </form>
                                                                         </div>
-                                                                    </li>
-                                                                </ul>
+                                                                    </div>
+                                                                    
+                                                                    <div class="post-content" style="color: #555; line-height: 1.6;">
+                                                                        <c:choose>
+                                                                            <c:when test="${fn:length(post.contentPost) > 100}">
+                                                                                ${fn:substring(post.contentPost, 0, 100)}... 
+                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                                                   style="color: #4DA528; font-weight: 600; text-decoration: underline;">
+                                                                                    Xem thêm
+                                                                                </a>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                ${post.contentPost}
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </div>
+                                                                    
+                                                                    <div class="post-footer mt-15" style="border-top: 1px solid #eee; padding-top: 15px;">
+                                                                        <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                                           class="btn btn-sm btn-outline-secondary" 
+                                                                           style="padding: 4px 12px; border-radius: 4px;">
+                                                                            <i class="icon-eye"></i> Xem chi tiết
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
                                                             </c:forEach>
+                                                            
                                                             <c:if test="${empty userPosts}">
-                                                                <p>Bạn chưa có bài viết nào.</p>
+                                                                <div class="text-center py-50" style="background: #f8f9fa; border-radius: 12px; margin: 30px 0;">
+                                                                    <i class="icon-document" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
+                                                                    <h5 style="color: #666; margin-bottom: 10px;">Bạn chưa có bài viết nào</h5>
+                                                                    <p style="color: #999; margin-bottom: 20px;">Hãy tạo bài viết đầu tiên để tìm đối thủ đá bóng!</p>
+                                                                    <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">
+                                                                        <i class="icon-plus"></i> Tạo bài viết đầu tiên
+                                                                    </a>
+                                                                </div>
                                                             </c:if>
-                                                            <div class="row">
+                                                        </div>
+                                                        
+                                                        <!-- Pagination -->
+                                                        <c:if test="${totalPages > 1}">
+                                                            <div class="row mt-40">
                                                                 <div class="col-md-12">
-                                                                    <ul class="tf-pagination flex-five">
-                                                                        <c:if test="${currentPage > 1}">
-                                                                            <li><a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}"><i class="icon-29"></i></a></li>
-                                                                        </c:if>
-                                                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                                                            <li class="pages-item ${i == currentPage ? 'active' : ''}" aria-current="${i == currentPage ? 'page' : ''}">
-                                                                                <a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}">${i}</a>
-                                                                            </li>
-                                                                        </c:forEach>
-                                                                        <c:if test="${currentPage < totalPages}">
-                                                                            <li><a class="pages-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}"><i class="icon--1"></i></a></li>
-                                                                        </c:if>
-                                                                    </ul>
+                                                                    <nav aria-label="Post pagination">
+                                                                        <ul class="pagination justify-content-center" style="gap: 5px;">
+                                                                            <c:if test="${currentPage > 1}">
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                        <i class="icon-29"></i> Trước
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                            
+                                                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}&search=${search != null ? search : ''}" 
+                                                                                       style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
+                                                                                        ${i}
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:forEach>
+                                                                            
+                                                                            <c:if test="${currentPage < totalPages}">
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                        Sau <i class="icon--1"></i>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                        </ul>
+                                                                    </nav>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </c:if>
                                                     </section>
                                                 </main>
 
