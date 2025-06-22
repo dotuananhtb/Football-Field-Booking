@@ -4,12 +4,12 @@
  */
 package dao;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import model.*;
 import util.DBContext;
 
@@ -235,8 +235,8 @@ public class ProductDAO extends DBContext {
         return count;
     }
 
-    public List<Product> pagingProduct(int page, int pageSize) {
-        List<Product> list = new ArrayList<>();
+    public Vector<Product> pagingProduct(int page, int pageSize) {
+        Vector<Product> list = new Vector<>();
         String query = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Product]\n"
                 + "	order by product_id\n"
@@ -262,8 +262,8 @@ public class ProductDAO extends DBContext {
         return list;
     }
 ////////////////
-    public List<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
-        List<Product> list = new ArrayList<>();
+    public Vector<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
+        Vector<Product> list = new Vector<>();
         String query = "SELECT * FROM Product WHERE product_cate_id = ?\n"
                 + "ORDER BY product_id \n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";

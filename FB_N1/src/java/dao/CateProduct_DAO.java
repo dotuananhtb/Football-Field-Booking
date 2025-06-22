@@ -39,8 +39,8 @@ public class CateProduct_DAO extends DBContext {
         return listCategories;
     }
 
-    public List<CateProduct> getAllCategory2() {
-        List<CateProduct> listCategories = new ArrayList<>();
+    public Vector<CateProduct> getAllCategory2() {
+        Vector<CateProduct> listCategories = new Vector<>();
         String sql = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Cate_Product]";
         try {
