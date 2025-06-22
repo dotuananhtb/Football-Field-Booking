@@ -114,4 +114,42 @@
             }
         });
     }
+    function showPopup( { title = 'Thông báo', text = '', icon = 'info', confirmText = 'Đóng' }) {
+        Swal.fire({
+            icon: icon, // Các giá trị: 'success', 'error', 'warning', 'info', 'question'
+            title: title,
+            text: text,
+            confirmButtonText: confirmText
+        });
+    }
+    
+
+//// 1. Thông báo thành công
+//showPopup({
+//    title: 'Thành công!',
+//    text: 'Đặt sân thành công.',
+//    icon: 'success'
+//});
+//
+//// 2. Thông báo lỗi
+//showPopup({
+//    title: 'Lỗi!',
+//    text: 'Không thể huỷ ca vì thời gian đã qua.',
+//    icon: 'error'
+//});
+//
+//// 3. Cảnh báo
+//showPopup({
+//    title: 'Cảnh báo',
+//    text: 'Bạn sắp xoá dữ liệu.',
+//    icon: 'warning'
+//});
+//
+//// 4. Câu hỏi xác nhận
+//showPopup({
+//    title: 'Bạn chắc chứ?',
+//    text: 'Thao tác này sẽ không thể hoàn tác.',
+//    icon: 'question'
+//});
+
 </script>

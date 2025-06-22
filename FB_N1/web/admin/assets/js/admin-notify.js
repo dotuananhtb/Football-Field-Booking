@@ -25,10 +25,20 @@ function connectAdminSocket(accountId, roleId) {
 
         if (data.type === 'newBooking') {
             showToast("info", `🟢 ${data.message}`);
+            showPopup({
+                title: 'Thông báo từ hệ thống',
+                text: `🟢 ${data.message}`,
+                icon: 'info'
+            });
         }
 
         if (data.type === 'cancelRequest') {
             showToast("warning", `🔴 ${data.message}`);
+            showPopup({
+                title: 'Thông báo từ hệ thống',
+                text: `🟢 ${data.message}`,
+                icon: 'info'
+            });
         }
 
         // Có thể xử lý thêm các loại khác nếu cần
