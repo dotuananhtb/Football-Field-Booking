@@ -71,7 +71,7 @@ public class BookingService extends DBContext {
             // 5. Sinh mã booking_code (ddMMyyXXXXX)
             String bookingCode;
             do {
-                bookingCode = CodeUtil.generateBookingCode(); // cần viết hàm này
+                bookingCode = "ON"+CodeUtil.generateBookingCode(); // cần viết hàm này
             } while (bookingDAO.isBookingCodeExists(bookingCode));
 
             // 6. Tạo booking object
@@ -193,7 +193,7 @@ public class BookingService extends DBContext {
             // 2. Sinh booking_code duy nhất
             String bookingCode;
             do {
-                bookingCode = CodeUtil.generateBookingCode(); // Viết trong CodeUtil
+                bookingCode = "OFF"+CodeUtil.generateBookingCode(); // Viết trong CodeUtil
             } while (bookingDAO.isBookingCodeExists(bookingCode));
 
             // 3. Tạo Booking (người tạo là nhân viên)
