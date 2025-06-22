@@ -130,7 +130,7 @@ public class SlotEventDTODAO extends DBContext {
                         int detailStatus = detail.getStatusCheckingId();
                         if (detailStatus == 1) {
                             status = 1;
-                            className = "bg-success bg-opacity-50";
+                            className = "bg-danger bg-opacity-50";
                         } else if (detailStatus == 2) {
                             status = 2;
                             className = "bg-warning bg-opacity-50";
