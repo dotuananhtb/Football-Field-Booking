@@ -34,6 +34,7 @@
 
 <jsp:include page="/UI/toast.jsp" />
 
+<jsp:include page="/UI/sweetalert-include.jsp" />
 
 <%
     Account account = (Account) session.getAttribute("account");

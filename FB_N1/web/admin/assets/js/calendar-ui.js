@@ -102,13 +102,13 @@ function restoreSlotAppearance(removedSlot) {
 
 // ✅ Đã cập nhật để không dùng AJAX nữa
 function openSlotInfoModal(slot) {
+    // Đổ thông tin slot
     $('#event-date').text(slot.slot_date || '---');
     $('#event-time').text(`${slot.start_time} - ${slot.end_time}`);
     $('#event-price').text(Number(slot.price).toLocaleString('vi-VN') + '₫');
     $('#event-status').text(getStatusText(slot.status));
     $('#event-field-name').text(slot.field_name || '---');
     $('#event-field-type').text(slot.field_type_name || '---');
-    $('#ci-is-offline').text(slot.isOffline ? 'Online' : 'Offline');
 
     const user = slot.userInfo || {};
     $('#ci-name').text(user.name || '---');
@@ -119,11 +119,44 @@ function openSlotInfoModal(slot) {
     $('#ci-booking-details-id').text(slot.booking_details_id || '---');
     $('#ci-booking-date').text(slot.booking_date || '---');
 
-    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn').data('slotId', slot.slot_field_id);
-    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn').data('slotDate', slot.slot_date);
+    const isOffline = user.isOffline === true || user.isOffline === "true";
+    $('#ci-is-offline').html(
+            isOffline
+            ? '<span class="badge bg-secondary">Khách offline</span>'
+            : '<span class="badge bg-success">Khách online</span>'
+            );
+
+    // Gán dữ liệu vào các nút
+    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn, #modal-confirm-cancel-btn, #modal-cancel-request-btn')
+            .data('slotId', slot.slot_field_id)
+            .data('slotDate', slot.slot_date);
+
+    // Ẩn tất cả các nút
+    $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn, #modal-confirm-cancel-btn, #modal-cancel-request-btn').addClass('d-none');
+
+    // Kiểm tra thời gian
+    const slotDateTimeStr = `${slot.slot_date}T${slot.start_time}`;
+    const now = new Date();
+    const slotEndTime = new Date(slotDateTimeStr);
+    const isPast = slotEndTime < now;
+
+    // Chỉ xử lý nếu chưa qua thời gian
+    if (!isPast) {
+        if (slot.status === 1) {
+            // Đã xác nhận: có thể chuyển về chờ xử lý hoặc huỷ
+            $('#modal-pending-btn').removeClass('d-none'); // -> Trạng thái 2
+            $('#modal-cancel-btn').removeClass('d-none');  // -> Trạng thái 3
+        } else if (slot.status === 2) {
+            // Chờ xử lý: có thể xác nhận huỷ hoặc huỷ bỏ huỷ
+            $('#modal-confirm-cancel-btn').removeClass('d-none');  // -> Trạng thái 3
+            $('#modal-cancel-request-btn').removeClass('d-none');  // -> Trạng thái 1
+        }
+    }
 
     $('#event-modal').modal('show');
 }
+
+
 
 function getStatusText(status) {
     switch (status) {
@@ -155,15 +188,44 @@ function bindUIEvents() {
         $('#customer-info-modal').modal('show');
     });
 
+    // ✅ Thêm xác nhận trước khi gọi updateSlotStatus
     $('#modal-confirm-btn, #btn-confirm-slot').on('click', function () {
-        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 1);
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        showConfirmDialog("Xác nhận ca này?", () => {
+            updateSlotStatus(slotId, slotDate, 1);
+        });
     });
 
     $('#modal-pending-btn, #btn-pending-slot').on('click', function () {
-        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 2);
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        showConfirmDialog("Chuyển ca này về trạng thái chờ xử lý?", () => {
+            updateSlotStatus(slotId, slotDate, 2);
+        });
     });
 
     $('#modal-cancel-btn, #btn-cancel-slot').on('click', function () {
-        updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 3);
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        showConfirmDialog("Bạn chắc chắn muốn huỷ ca này?", () => {
+            updateSlotStatus(slotId, slotDate, 3);
+        });
+    });
+
+    $('#modal-confirm-cancel-btn').on('click', function () {
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        showConfirmDialog("Xác nhận yêu cầu huỷ ca này?", () => {
+            updateSlotStatus(slotId, slotDate, 3);
+        });
+    });
+
+    $('#modal-cancel-request-btn').on('click', function () {
+        const slotId = $(this).data('slotId');
+        const slotDate = $(this).data('slotDate');
+        showConfirmDialog("Huỷ bỏ yêu cầu và chuyển về trạng thái đã đặt?", () => {
+            updateSlotStatus(slotId, slotDate, 1);
+        });
     });
 }

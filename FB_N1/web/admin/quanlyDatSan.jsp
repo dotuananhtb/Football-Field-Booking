@@ -379,21 +379,34 @@
                                                     <div class="col-md-6"><strong>Ngày đặt:</strong> <span id="ci-booking-date">---</span></div>
                                                     <div class="col-md-6"><strong>Hình thức đặt:</strong> <span id="ci-is-offline">---</span></div>
                                                 </div>
-                                                
+
                                             </div>
 
                                             <!-- 🔹 Nút cập nhật trạng thái -->
                                             <div class="modal-footer bg-light border-top d-flex justify-content-between">
                                                 <div>
-                                                    <button id="modal-confirm-btn" class="btn btn-success">
-                                                        <i class="bi bi-check-circle"></i> Xác nhận
+                                               
+                                                    <!-- ✅ Các nút xử lý đặt trong footer modal -->
+                                                    <button id="modal-confirm-btn" class="btn btn-success d-none">
+                                                        <i class="bi bi-check-circle-fill me-1"></i> Xác nhận ca
                                                     </button>
-                                                    <button id="modal-pending-btn" class="btn btn-warning">
-                                                        <i class="bi bi-hourglass-split"></i> Đang chờ
+
+                                                    <button id="modal-pending-btn" class="btn btn-warning text-dark d-none">
+                                                        <i class="bi bi-clock-history me-1"></i> Chuyển về chờ xử lý
                                                     </button>
-                                                    <button id="modal-cancel-btn" class="btn btn-danger">
-                                                        <i class="bi bi-x-circle"></i> Huỷ
+
+                                                    <button id="modal-cancel-btn" class="btn btn-danger d-none">
+                                                        <i class="bi bi-x-circle-fill me-1"></i> Huỷ ca
                                                     </button>
+
+                                                    <button id="modal-confirm-cancel-btn" class="btn btn-danger d-none">
+                                                        <i class="bi bi-trash3-fill me-1"></i> Xác nhận huỷ ca
+                                                    </button>
+
+                                                    <button id="modal-cancel-request-btn" class="btn btn-secondary d-none">
+                                                        <i class="bi bi-arrow-counterclockwise me-1"></i> Huỷ bỏ yêu cầu huỷ
+                                                    </button>
+
                                                 </div>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     <i class="bi bi-x-lg"></i> Đóng
