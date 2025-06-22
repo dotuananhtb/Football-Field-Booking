@@ -1,36 +1,25 @@
-////calendar-ui.js
-
 let calendar;
 let selectedSlots = [];
 let socket = null;
 
-// 🔹 0. Kết nối WebSocket theo fieldId
+// 🔹 Kết nối WebSocket
 function connectWebSocket(fieldId) {
     if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.close(); // Đóng kết nối cũ
+        socket.close();
     }
 
     const url = `ws://${location.host}/FB_N1/ws/app?accountId=${accountId}&roleId=${roleId}&fieldId=${fieldId}`;
     socket = new WebSocket(url);
 
-    socket.onopen = () => {
-        console.log("✅ WebSocket connected");
-    };
-
+    socket.onopen = () => console.log("✅ WebSocket connected");
     socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
         if (msg.type === "refreshCalendar") {
             calendar.refetchEvents();
         }
     };
-
-    socket.onclose = () => {
-        console.warn("⚠️ WebSocket disconnected");
-    };
-
-    socket.onerror = (e) => {
-        console.error("❌ WebSocket error", e);
-    };
+    socket.onclose = () => console.warn("⚠️ WebSocket disconnected");
+    socket.onerror = (e) => console.error("❌ WebSocket error", e);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -38,14 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
     bindUIEvents();
 
-    // 👉 Kết nối socket ban đầu theo sân đang chọn
     const fieldId = $('#fieldSelect').val();
     if (fieldId) {
         connectWebSocket(fieldId);
     }
 });
 
-// 🔹 1. Hiển thị bảng slot đã chọn
+// 🔹 Hiển thị bảng slot đã chọn
 function renderSelectedTable() {
     const tbody = $("#selectedSlotsTable tbody");
     tbody.empty();
@@ -86,7 +74,7 @@ function renderSelectedTable() {
     $("#bookNowBtn").toggle(selectedSlots.length > 0);
 }
 
-// 🔹 2. Khôi phục slot
+// 🔹 Khôi phục giao diện ca
 function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
@@ -101,62 +89,53 @@ function restoreSlotAppearance(removedSlot) {
     });
 }
 
-// 🔹 3. Modal chi tiết slot
-function openStatusModal(event) {
-    const slot = event.extendedProps;
-    $('#event-modal').modal('show');
-    $('#event-date').val(slot.slot_date);
-    $('#event-time').val(event.title);
-    $('#event-price').val(Number(slot.price).toLocaleString('vi-VN') + '₫');
-    $('#event-status').val(slot.status);
-
-    $('#btn-confirm-slot, #modal-confirm-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
-    $('#btn-cancel-slot, #modal-cancel-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
-    $('#btn-pending-slot, #modal-pending-btn').data('slotId', slot.slot_field_id).data('slotDate', slot.slot_date);
-
+// 🔹 Mở modal chi tiết (gọi API check-slot-info)
+function openSlotInfoModal(slotFieldId, slotDate) {
     $.ajax({
         url: '/FB_N1/check-slot-info',
         method: 'GET',
-        data: {
-            slotDate: slot.slot_date,
-            slotFieldId: slot.slot_field_id
-        },
+        data: { slotFieldId, slotDate },
         success: function (data) {
             if (data) {
-                $('#btn-show-customer').data('customerInfo', data);
-                $('#event-field-name').val(data.fieldName || '---');
-                $('#event-field-type').val(data.fieldTypeName || '---');
-                $('#event-status').val(data.slotStatus || '---');
+                $('#event-date').text(data.slotDate || '---');
+                $('#event-time').text(`${data.startTime} - ${data.endTime}`);
+                $('#event-price').text(Number(data.slotFieldPrice).toLocaleString('vi-VN') + '₫');
+                $('#event-status').text(data.slotStatus || '---');
+                $('#event-field-name').text(data.fieldName || '---');
+                $('#event-field-type').text(data.fieldTypeName || '---');
+
+                $('#ci-name').text(data.customerName || '---');
+                $('#ci-phone').text(data.phone || '---');
+                $('#ci-email').text(data.email || '---');
+                $('#ci-note').text(data.note || '---');
+                $('#ci-booking-id').text(data.bookingId || '---');
+                $('#ci-booking-details-id').text(data.bookingDetailsId || '---');
+                $('#ci-booking-date').text(data.bookingDate || '---');
+
+                $('#event-modal').modal('show');
             }
         },
         error: function () {
-            $('#btn-show-customer').data('customerInfo', null);
+            showToast("error", "❌ Không thể tải dữ liệu chi tiết.");
         }
     });
 }
 
-// 🔹 4. Modal thông tin người đặt
-function showCustomerInfoModal(info) {
-    $('#ci-name').text(info.customerName || '---');
-    $('#ci-phone').text(info.phone || '---');
-    $('#ci-email').text(info.email || '---');
-    $('#ci-note').text(info.note || '---');
-    $('#ci-booking-id').text(info.bookingId || '---');
-    $('#ci-booking-details-id').text(info.bookingDetailsId || '---');
-    $('#ci-booking-date').text(info.bookingDate || '---');
-    $('#customer-info-modal').modal('show');
-}
 
-// 🔹 5. Sự kiện UI
+// 🔹 Xử lý sự kiện UI
 function bindUIEvents() {
     $('#fieldSelect').on('change', function () {
         const newFieldId = $(this).val();
-        connectWebSocket(newFieldId); // 🔥 Reconnect socket khi đổi sân
+        connectWebSocket(newFieldId);
         calendar.refetchEvents();
         renderSelectedTable();
     });
 
     $('#bookNowBtn').on('click', handleBookingSubmit);
+
+    $('#btn-show-customer').on('click', function () {
+        $('#customer-info-modal').modal('show');
+    });
 
     $('#modal-confirm-btn, #btn-confirm-slot').on('click', function () {
         updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 1);
@@ -168,14 +147,5 @@ function bindUIEvents() {
 
     $('#modal-cancel-btn, #btn-cancel-slot').on('click', function () {
         updateSlotStatus($(this).data('slotId'), $(this).data('slotDate'), 3);
-    });
-
-    $('#btn-show-customer').on('click', function () {
-        const info = $(this).data('customerInfo');
-        if (!info) {
-            showToast("warning", "Không tìm thấy thông tin người đặt.");
-            return;
-        }
-        showCustomerInfoModal(info);
     });
 }
