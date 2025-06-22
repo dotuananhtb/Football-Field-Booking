@@ -120,13 +120,23 @@ public class SlotEventDTODAO extends DBContext {
             String slotDate = date.format(dateFormat);
             for (SlotsOfField slot : slots) {
                 int slotFieldId = slot.getSlotFieldId();
-                String startTime = slot.getSlotInfo().getStartTime();
-                String endTime = slot.getSlotInfo().getEndTime();
                 BigDecimal price = slot.getSlotFieldPrice();
+
+                BookingDetails detail = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
+
+                // ✅ Ưu tiên thời gian từ BookingDetails nếu đã được đặt
+                String startTime, endTime;
+                if (detail != null && detail.getStartTime() != null && detail.getEndTime() != null) {
+                    startTime = detail.getStartTime();
+                    endTime = detail.getEndTime();
+                } else {
+                    startTime = slot.getSlotInfo().getStartTime();
+                    endTime = slot.getSlotInfo().getEndTime();
+                }
+
                 LocalTime slotStartTime = LocalTime.parse(startTime);
                 LocalDateTime slotStartDateTime = LocalDateTime.of(date, slotStartTime);
 
-                BookingDetails detail = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
                 int status;
                 String className;
                 Map<String, Object> userInfo = null;
@@ -172,21 +182,19 @@ public class SlotEventDTODAO extends DBContext {
                     if (booking != null) {
                         Integer accountId = booking.getAccountId();
 
-                        // Kiểm tra xem có phải khách offline không (dựa vào bảng OfflineCustomer)
+                        // Kiểm tra offline
                         OfflineCustomer offlineCustomer = offlineDAO.getOfflineCustomerByBookingId(booking.getBookingId());
 
                         if (offlineCustomer != null) {
-                            // Là khách offline
                             OfflineUser offlineUser = offlineDAO.getOfflineUserByBookingDetailId(detail.getBookingDetailsId());
                             if (offlineUser != null) {
                                 userInfo.put("name", offlineUser.getFullName());
                                 userInfo.put("phone", offlineUser.getPhone());
                                 userInfo.put("email", offlineUser.getEmail());
                                 userInfo.put("isOffline", true);
-                                userInfo.put("createdBy", offlineUser.getCreatedBy()); // ID nhân viên đặt hộ
+                                userInfo.put("createdBy", offlineUser.getCreatedBy());
                             }
                         } else {
-                            // Là khách online
                             Account acc = accountDAO.getAccountById(accountId);
                             if (acc != null) {
                                 userInfo.put("name", acc.getUserProfile().getFullName());
@@ -198,7 +206,7 @@ public class SlotEventDTODAO extends DBContext {
                     }
                 }
 
-                // Tạo extendedProps
+                // extendedProps
                 Map<String, Object> extendedProps = new HashMap<>();
                 extendedProps.put("slot_field_id", slotFieldId);
                 extendedProps.put("slot_date", slotDate);
@@ -216,6 +224,7 @@ public class SlotEventDTODAO extends DBContext {
                 extendedProps.put("booking_date", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingDate() : null);
                 extendedProps.put("field_type_name", fieldTypeName);
 
+                // Event
                 Map<String, Object> event = new HashMap<>();
                 event.put("title", fieldName + " ca " + startTime + " - " + endTime);
                 event.put("start", slotDate + "T" + startTime);
