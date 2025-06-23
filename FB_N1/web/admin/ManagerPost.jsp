@@ -103,7 +103,7 @@
                                                 <th>Nội dung</th>
                                                 <th>Người đăng</th>
                                                 <th>Ngày đăng</th>
-                                                <th>Trạng thái</th>
+<!--                                                <th>Trạng thái</th>-->
                                                 <th>Số bình luận</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -117,10 +117,10 @@
                                                     <td>${post.contentPost}</td>
                                                     <td>${post.account.username}</td>
                                                     <td>${post.postDate}</td>
-                                                    <td>
+<!--                                                    <td>
                                                         <c:if test="${post.statusPost eq 'active'}">Hiện</c:if>
                                                         <c:if test="${post.statusPost eq 'deactive'}">Ẩn</c:if>
-                                                        </td>
+                                                        </td>-->
                                                         <td>${commentCounts[post.postId]}</td>
                                                     <td>
                                                         <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline;">

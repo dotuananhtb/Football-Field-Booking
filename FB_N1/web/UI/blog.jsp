@@ -174,7 +174,7 @@
                                             <p style="margin: 5px 0 0 0; color: #666;">Tìm kiếm và tham gia các buổi đá bóng</p>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <c:if test="${sessionScope.account != null}">
+                                            <c:if test="${sessionScope.account != null && account.userProfile.roleId ==3}">
                                                 <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary" style="border-radius: 6px; white-space: nowrap;">
                                                     <i class="icon-plus"></i> Tạo bài viết
                                                 </a>
