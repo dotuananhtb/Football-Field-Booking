@@ -127,7 +127,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí bài viết </span>
+                    <span> Quản lí bài viết và tin tức</span>
 
 
                 </a>
