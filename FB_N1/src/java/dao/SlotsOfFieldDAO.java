@@ -143,15 +143,30 @@ public class SlotsOfFieldDAO extends DBContext {
         SELECT 
             sf.slot_field_id, 
             sf.slot_field_price,
-            sf.field_id,
+            
+            -- Field
+            f.field_id,
             f.field_name,
+            f.field_type_id,
+            f.zone_id,
+            
+            -- TypeOfField
+            tf.field_type_name,
+            
+            -- Zone
+            z.zone_name,
+            z.address,
+
+            -- Slot Info
             sd.slot_id, 
             sd.start_time, 
             sd.end_time, 
-            sd.field_type_id
+            sd.field_type_id AS slot_field_type_id
         FROM SlotsOfField sf
         JOIN SlotsOfDay sd ON sf.slot_id = sd.slot_id
         JOIN Field f ON sf.field_id = f.field_id
+        JOIN TypeOfField tf ON f.field_type_id = tf.field_type_id
+        JOIN Zone z ON f.zone_id = z.zone_id
         WHERE sf.slot_field_id = ?
     """;
 
@@ -159,19 +174,32 @@ public class SlotsOfFieldDAO extends DBContext {
             ps.setInt(1, slotFieldId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    // Gán thông tin SlotsOfDay
+                    // ✅ Gán thông tin SlotsOfDay
                     SlotsOfDay slot = new SlotsOfDay();
                     slot.setSlotId(rs.getInt("slot_id"));
                     slot.setStartTime(rs.getString("start_time"));
                     slot.setEndTime(rs.getString("end_time"));
-                    slot.setFieldTypeId(rs.getInt("field_type_id"));
+                    slot.setFieldTypeId(rs.getInt("slot_field_type_id"));
 
-                    // Gán thông tin Field
+                    // ✅ Gán thông tin TypeOfField
+                    TypeOfField tf = new TypeOfField();
+                    tf.setFieldTypeId(rs.getInt("field_type_id"));
+                    tf.setFieldTypeName(rs.getString("field_type_name"));
+
+                    // ✅ Gán thông tin Zone
+                    Zone zone = new Zone();
+                    zone.setZoneId(rs.getInt("zone_id"));
+                    zone.setZone_name(rs.getString("zone_name"));
+                    zone.setAddress(rs.getString("address"));
+
+                    // ✅ Gán thông tin Field
                     Field field = new Field();
                     field.setFieldId(rs.getInt("field_id"));
                     field.setFieldName(rs.getString("field_name"));
+                    field.setTypeOfField(tf); // Liên kết TypeOfField
+                    field.setZone(zone);      // Liên kết Zone
 
-                    // Gán vào SlotsOfField
+                    // ✅ Gán vào SlotsOfField
                     SlotsOfField sof = new SlotsOfField();
                     sof.setSlotFieldId(rs.getInt("slot_field_id"));
                     sof.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));

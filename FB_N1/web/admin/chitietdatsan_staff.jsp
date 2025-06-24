@@ -91,21 +91,21 @@
                                     </p>
 
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+
                                         <thead>
                                             <tr>
-                                                <th>Mã chi tiết</th>
-                                                <th>Mã đơn</th>
-                                                <th>Ngày đặt</th>
-                                                <th>Ngày diễn ra</th>
-                                                <th>Giờ bắt đầu</th>      
-                                                <th>Giờ kết thúc</th>     
+                                                <th>STT</th>
+                                                <th>Mã đặt ca(BDC)</th>                                             
+                                                <th>Ngày đá</th>
+                                                <th>Khung giờ</th>
                                                 <th>Sân</th>
                                                 <th>Loại sân</th>
-                                                <th>Giá</th>
                                                 <th>Trạng thái</th>
                                                 <th>Người đặt</th>
                                                 <th>SĐT</th>
                                                 <th>Email</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Giá</th>
                                                 <th>Ghi chú</th>
                                             </tr>
                                         </thead>
@@ -164,28 +164,97 @@
         <script src="assets/js/app.min.js"></script>
         <script>
             $(document).ready(function () {
-                if (!$.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
-                    $("#scroll-horizontal-datatable").DataTable({
+                const tableId = '#scroll-horizontal-datatable';
+
+                if (!$.fn.DataTable.isDataTable(tableId)) {
+                    $(tableId).DataTable({
                         scrollX: true,
                         ajax: {
-                            url: '/FB_N1/check-slot-info', // 🔁 endpoint trả về JSON array
-                            dataSrc: '' // Nếu response là dạng mảng JSON, giữ nguyên ''
+                            url: '/FB_N1/checking-slots2',
+                            dataSrc: ''
                         },
                         columns: [
-                            {data: 'bookingDetailsId', title: 'Mã chi tiết'},
-                            {data: 'bookingId', title: 'Mã đặt sân'},
-                            {data: 'bookingDate', title: 'Ngày đặt'},
-                            {data: 'slotDate', title: 'Ngày đá'},
-                            {data: 'startTime', title: 'Giờ bắt đầu'},
-                            {data: 'endTime', title: 'Giờ kết thúc'},
-                            {data: 'fieldName', title: 'Sân'},
-                            {data: 'fieldTypeName', title: 'Loại sân'},
-                            {data: 'slotFieldPrice', title: 'Giá'},
-                            {data: 'slotStatus', title: 'Trạng thái'},
-                            {data: 'customerName', title: 'Khách hàng'},
-                            {data: 'phone', title: 'SĐT'},
-                            {data: 'email', title: 'Email'},
-                            {data: 'note', title: 'Ghi chú'}
+                            {
+                                data: null,
+                                title: 'STT',
+                                render: function (data, type, row, meta) {
+                                    return meta.row + 1;
+                                }
+                            },
+                            {
+                                data: 'extendedProps.booking_details_code',
+                                title: 'Mã đặt ca(BDC)',
+                                defaultContent: '-'
+                            },
+
+                            {
+                                data: 'extendedProps.slot_date',
+                                title: 'Ngày đá',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: null,
+                                title: 'Khung giờ',
+                                render: function (data, type, row) {
+                                    const ep = row.extendedProps || {};
+                                    return (ep.start_time || '-') + ' - ' + (ep.end_time || '-');
+                                }
+                            },
+                            {
+                                data: 'extendedProps.field_name',
+                                title: 'Sân',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.field_type_name',
+                                title: 'Loại sân',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.status',
+                                title: 'Trạng thái',
+                                render: function (data) {
+                                    if (data === 1)
+                                        return '<span class="badge bg-success">Đã đặt</span>';
+                                    if (data === 2)
+                                        return '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
+                                    if (data === 3)
+                                        return '<span class="badge bg-danger">Đã huỷ</span>';
+                                    return '<span class="badge bg-secondary">Không xác định</span>';
+                                }
+                            },
+                            {
+                                data: 'extendedProps.userInfo.name',
+                                title: 'Người đặt',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.userInfo.phone',
+                                title: 'SĐT',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.userInfo.email',
+                                title: 'Email',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.booking_date',
+                                title: 'Ngày đặt',
+                                defaultContent: '-'
+                            },
+                            {
+                                data: 'extendedProps.price',
+                                title: 'Giá',
+                                render: function (data) {
+                                    return data != null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-';
+                                }
+                            },
+                            {
+                                data: 'extendedProps.note',
+                                title: 'Ghi chú',
+                                defaultContent: '-'
+                            }
                         ],
                         pageLength: 10,
                         lengthMenu: [[10, 20, 30, -1], [10, 20, 30, "Tất cả"]],
@@ -209,11 +278,15 @@
                         }
                     });
                 } else {
-                    $('#scroll-horizontal-datatable').DataTable().ajax.reload();
+                    $(tableId).DataTable().ajax.reload();
                 }
             });
-
         </script>
+
+
+
+
+
 
 
     </body>
