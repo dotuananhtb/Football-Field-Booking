@@ -84,6 +84,17 @@
                                         <span><i class="icon-user" style="color: #4DA528;"></i> <strong>Tác giả:</strong> ${post.account.username}</span>
                                         <span><i class="icon-4" style="color: #4DA528;"></i> <strong>Ngày đăng:</strong> ${post.postDate}</span>
                                     </div>
+                                    <!-- Thông tin chi tiết trận đấu nếu có -->
+                                    <c:if test="${not empty postDetails}">
+                                        <div class="post-details-info" style="background: #f8f9fa; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; border: 1px solid #e5e5e5;">
+                                            
+                                            <ul style="list-style: none; padding: 0; margin: 0; color: #444; font-size: 15px;">
+                                                <li><strong>Ngày muốn  đấu:</strong> ${postDetails.matchDate}</li>
+                                                <li><strong>Giờ muốn đấu:</strong> ${postDetails.matchTime}</li>
+                                                <li><strong>Loại sân:</strong> ${postDetails.fieldType}</li>
+                                            </ul>
+                                        </div>
+                                    </c:if>
                                     <div class="post-content" style="font-size: 16px; line-height: 1.8; color: #444;">
                                         <p>
                                             <c:out value="${fn:replace(fn:replace(post.contentPost, ',', '<br/>'), 'Ghi chú:', '<br/><br/><strong>Ghi chú:</strong>')}" escapeXml="false"/>

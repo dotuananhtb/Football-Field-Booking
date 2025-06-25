@@ -1,8 +1,10 @@
 package controller;
 
 import dao.PostDAO;
+import dao.TypeOfFieldDAO;
 import model.Account;
 import model.Post;
+import model.TypeOfField;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,10 +46,15 @@ public class ManagerPostUserServlet extends HttpServlet {
 
         int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
 
+        // Lấy danh sách loại sân
+        TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
+        List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
+
         request.setAttribute("userPosts", userPosts);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("search", search);
+        request.setAttribute("fieldTypes", fieldTypes); // truyền sang JSP
         request.getRequestDispatcher("UI/managerPostUser.jsp").forward(request, response);
     }
-} 
+}

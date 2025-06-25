@@ -2,9 +2,11 @@ package controller;
 
 import dao.PostDAO;
 import dao.TypeOfFieldDAO;
+import dao.PostDetailsDAO;
 import model.Account;
 import model.Post;
 import model.TypeOfField;
+import model.PostDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,20 +19,18 @@ import util.ToastUtil;
 
 @WebServlet(name = "CreatePostServlet", urlPatterns = {"/createPost"})
 public class CreatePostServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
             response.sendRedirect("login");
             return;
         }
-        
-        // Lấy danh sách loại sân
-        TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
         List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
-        // Lấy ngày hiện tại
         String currentDate = java.time.LocalDate.now().toString();
         request.setAttribute("fieldTypes", fieldTypes);
         request.setAttribute("currentDate", currentDate);
@@ -41,6 +41,9 @@ public class CreatePostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
+        PostDAO postDAO = new PostDAO();
+        PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
@@ -50,33 +53,46 @@ public class CreatePostServlet extends HttpServlet {
         String title = request.getParameter("title");
         String startTime = request.getParameter("startTime");
         String bookingDate = request.getParameter("bookingDate");
-        String fieldTypeId = request.getParameter("fieldTypeId");
+        String fieldTypeIdStr = request.getParameter("fieldTypeId");
         String userContent = request.getParameter("userContent");
-        
-        // Ghép nội dung
-        String content;
-        if (startTime != null && !startTime.isEmpty() && bookingDate != null && !bookingDate.isEmpty() && fieldTypeId != null && !fieldTypeId.isEmpty()) {
-            // Có thông tin booking
-            TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
-            String fieldTypeName = typeDAO.getFieldTypeNameById(Integer.parseInt(fieldTypeId));
-            content = "Giờ muốn đặt: " + startTime +
-                     ", Ngày muốn đặt: " + bookingDate +
-                     ", Loại sân muốn chơi: " + fieldTypeName;
-            if (userContent != null && !userContent.trim().isEmpty()) {
-                content += ", Ghi chú: " + userContent;
-            }
-        } else {
-            
-            content = userContent != null ? userContent : "";
+        String content = userContent != null ? userContent : "";
+
+        if (title == null || title.trim().isEmpty() || startTime == null || startTime.trim().isEmpty() || bookingDate == null || bookingDate.trim().isEmpty() || fieldTypeIdStr == null || fieldTypeIdStr.trim().isEmpty()) {
+            ToastUtil.setErrorToast(request, "Vui lòng điền đầy đủ thông tin!");
+            response.sendRedirect("createPost");
+            return;
         }
-        
-        PostDAO postDAO = new PostDAO();
+        int fieldTypeId = 0;
+        String fieldType = "";
+        try {
+            fieldTypeId = Integer.parseInt(fieldTypeIdStr);
+            fieldType = typeDAO.getFieldTypeNameById(fieldTypeId);
+        } catch (NumberFormatException e) {
+            ToastUtil.setErrorToast(request, "Loại sân không hợp lệ!");
+            response.sendRedirect("createPost");
+            return;
+        }
         Post post = new Post();
         post.setAccountId(account.getAccountId());
         post.setTitle(title);
         post.setContentPost(content);
         post.setStatusPost("active");
-        postDAO.createPost(post);
+        post.setPostDate(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(java.time.LocalDateTime.now()));
+        int postId = postDAO.createPost(post);
+        if (postId <= 0) {
+            ToastUtil.setErrorToast(request, "Tạo bài viết thất bại!");
+            response.sendRedirect("createPost");
+            return;
+        }
+        PostDetails postDetails = new PostDetails(postId, bookingDate, startTime, fieldType);
+        try {
+            postDetailsDAO.insert(postDetails);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.setErrorToast(request, "Tạo chi tiết bài viết thất bại!");
+            response.sendRedirect("createPost");
+            return;
+        }
         ToastUtil.setSuccessToast(request, "Tạo bài viết thành công!");
         response.sendRedirect("managerPostUser");
     }

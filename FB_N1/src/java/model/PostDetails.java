@@ -4,17 +4,17 @@ public class PostDetails {
     private int postId;
     private String matchDate;
     private String matchTime;
-    private int fieldTypeId;
-    private String createdAt;
+    private String fieldType;
+   
 
     public PostDetails() {}
 
-    public PostDetails(int postId, String matchDate, String matchTime, int fieldTypeId, String createdAt) {
+    public PostDetails(int postId, String matchDate, String matchTime, String fieldType) {
         this.postId = postId;
         this.matchDate = matchDate;
         this.matchTime = matchTime;
-        this.fieldTypeId = fieldTypeId;
-        this.createdAt = createdAt;
+        this.fieldType = fieldType;
+        
     }
 
     public int getPostId() {
@@ -41,19 +41,21 @@ public class PostDetails {
         this.matchTime = matchTime;
     }
 
-    public int getFieldTypeId() {
-        return fieldTypeId;
+    public String getFieldType() {
+        return fieldType;
     }
 
-    public void setFieldTypeId(int fieldTypeId) {
-        this.fieldTypeId = fieldTypeId;
+    public void setFieldType(String fieldType) {
+        this.fieldType = fieldType;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    @Override
+    public String toString() {
+        return "PostDetails{" +
+                "postId=" + postId +
+                ", matchDate='" + matchDate + '\'' +
+                ", matchTime='" + matchTime + '\'' +
+                ", fieldType='" + fieldType + '\'' +
+                '}';
     }
 } 
