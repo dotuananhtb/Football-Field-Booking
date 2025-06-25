@@ -19,6 +19,22 @@ import java.util.List;
 
 public class BookingDAO extends DBContext {
 
+    public Booking findByCodeInContent(String content) throws SQLException {
+        String sql = "SELECT * FROM Booking WHERE booking_code IS NOT NULL AND ? LIKE '%' + booking_code + '%'";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, content);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBookingId(rs.getInt("booking_id"));
+                booking.setBookingCode(rs.getString("booking_code"));
+                booking.setTotalAmount(rs.getBigDecimal("total_amount"));
+                return booking;
+            }
+        }
+        return null;
+    }
+
     // Thêm đơn đặt sân, trả về booking_id
     public int insertBooking(Booking booking) {
         String sql = "INSERT INTO Booking (account_id, sale_id, booking_date, total_amount, email, booking_code) VALUES (?, ?, ?, ?, ?, ?)";

@@ -1,0 +1,83 @@
+package controller;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import dao.BookingDAO;
+import dao.PaymentDAO;
+import model.Booking;
+import model.Payment;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@WebServlet("/sepay-webhook")
+public class SePay_WebhookServlet extends HttpServlet {
+
+    private final Gson gson = new Gson();
+    private final PaymentDAO paymentDAO = new PaymentDAO();
+    private final BookingDAO bookingDAO = new BookingDAO();
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        StringBuilder jsonBuilder = new StringBuilder();
+        String line;
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+        }
+
+        String rawJson = jsonBuilder.toString();
+        try {
+            JsonObject data = gson.fromJson(rawJson, JsonObject.class);
+
+            String transactionDate = data.get("transactionDate").getAsString();
+            String transferType = data.get("transferType").getAsString();
+            double transferAmount = data.get("transferAmount").getAsDouble();
+            String content = data.has("content") ? data.get("content").getAsString() : "";
+            String referenceCode = data.has("referenceCode") ? data.get("referenceCode").getAsString() : "";
+            String description = data.has("description") ? data.get("description").getAsString() : "";
+            String gateway = data.has("gateway") ? data.get("gateway").getAsString() : "";
+
+            Payment payment = new Payment();
+            payment.setTransactionCode(referenceCode);
+            payment.setTransferAmount(transferAmount);
+            payment.setPayTime(transactionDate);
+            payment.setPayStatus("pending");
+            payment.setGateway(gateway);
+            payment.setContent(content);
+            payment.setDescription(description);
+            payment.setRawData(rawJson);
+
+            Booking matchedBooking = bookingDAO.findByCodeInContent(content);
+            if (matchedBooking != null) {
+                payment.setBookingId(matchedBooking.getBookingId());
+                if (matchedBooking.getTotalAmount().compareTo(java.math.BigDecimal.valueOf(transferAmount)) == 0) {
+                    payment.setPayStatus("success");
+                    payment.setConfirmedTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                }
+            }
+
+            paymentDAO.insert(payment);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\":true}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(500);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\":false, \"message\":\"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.getWriter().write("SePay Webhook OK");
+    }
+
+}
