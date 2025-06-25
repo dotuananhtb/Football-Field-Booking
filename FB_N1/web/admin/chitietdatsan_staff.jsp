@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Nhân viên | Bảng chi tiết các ca đã đặt </title>
+        <title>Bảng chi tiết các ca đã đặt </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -78,7 +78,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h2>Chi Tiết Đặt Sân</h2>
+                                    <h2>Bảng hiển thị chi tiết của tất cả các ca</h2>
                                 </div>
                             </div>
                         </div>
