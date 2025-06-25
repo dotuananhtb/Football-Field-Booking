@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Datatables | Powerx - Bootstrap 5 Admin & Dashboard Template</title>
+        <title>Nhân viên | Bảng chi tiết các ca đã đặt </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -35,7 +35,10 @@
         <!-- Icons css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     </head>
-
+    <style>.dataTables_filter {
+            display: none;
+        }
+    </style>
     <body>
         <!-- Begin page -->
         <div class="wrapper">
@@ -108,9 +111,82 @@
                                                 <th>Giá</th>
                                                 <th>Ghi chú</th>
                                             </tr>
+                                            <tr id="filter-row">
+                                                <th>
+                                                    <button id="reset-filters" class="btn btn-secondary btn-sm mt-2">Đặt lại</button>
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm mã ca"
+                                                           style="min-width: 120px; max-width: 200px;">
+                                                </th>
+                                                <th>
+                                                    <input type="date" class="form-control form-control-sm mb-1"
+                                                           id="slotDateFrom"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm"
+                                                           id="slotDateTo"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm giờ"
+                                                           style="min-width: 85px; max-width: 90px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Sân"
+                                                           style="min-width: 55px; max-width: 70px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Loại sân"
+                                                           style="min-width: 80px; max-width: 100px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Trạng thái"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm người đặt"
+                                                           style="min-width: 115px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm SĐT"
+                                                           style="min-width: 100px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm email"
+                                                           style="min-width: 150px; max-width: 220px;">
+                                                </th>
+                                                <th>
+                                                    <input type="date" class="form-control form-control-sm mb-1"
+                                                           id="bookingDateFrom"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm"
+                                                           id="bookingDateTo"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm giá"
+                                                           style="min-width: 100px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm ghi chú"
+                                                           style="min-width: 130px; max-width: 200px;">
+                                                </th>
+                                            </tr>
+
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+
 
                                 </div> <!-- end card -->
                             </div><!-- end col-->
@@ -159,129 +235,10 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
         <!-- Datatable Demo Aapp js -->
-
+        <script src="assets/js/booking-table.js"></script>
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                const tableId = '#scroll-horizontal-datatable';
 
-                if (!$.fn.DataTable.isDataTable(tableId)) {
-                    $(tableId).DataTable({
-                        scrollX: true,
-                        ajax: {
-                            url: '/FB_N1/checking-slots2',
-                            dataSrc: ''
-                        },
-                        columns: [
-                            {
-                                data: null,
-                                title: 'STT',
-                                render: function (data, type, row, meta) {
-                                    return meta.row + 1;
-                                }
-                            },
-                            {
-                                data: 'extendedProps.booking_details_code',
-                                title: 'Mã đặt ca(BDC)',
-                                defaultContent: '-'
-                            },
-
-                            {
-                                data: 'extendedProps.slot_date',
-                                title: 'Ngày đá',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: null,
-                                title: 'Khung giờ',
-                                render: function (data, type, row) {
-                                    const ep = row.extendedProps || {};
-                                    return (ep.start_time || '-') + ' - ' + (ep.end_time || '-');
-                                }
-                            },
-                            {
-                                data: 'extendedProps.field_name',
-                                title: 'Sân',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.field_type_name',
-                                title: 'Loại sân',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.status',
-                                title: 'Trạng thái',
-                                render: function (data) {
-                                    if (data === 1)
-                                        return '<span class="badge bg-success">Đã đặt</span>';
-                                    if (data === 2)
-                                        return '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
-                                    if (data === 3)
-                                        return '<span class="badge bg-danger">Đã huỷ</span>';
-                                    return '<span class="badge bg-secondary">Không xác định</span>';
-                                }
-                            },
-                            {
-                                data: 'extendedProps.userInfo.name',
-                                title: 'Người đặt',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.userInfo.phone',
-                                title: 'SĐT',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.userInfo.email',
-                                title: 'Email',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.booking_date',
-                                title: 'Ngày đặt',
-                                defaultContent: '-'
-                            },
-                            {
-                                data: 'extendedProps.price',
-                                title: 'Giá',
-                                render: function (data) {
-                                    return data != null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-';
-                                }
-                            },
-                            {
-                                data: 'extendedProps.note',
-                                title: 'Ghi chú',
-                                defaultContent: '-'
-                            }
-                        ],
-                        pageLength: 10,
-                        lengthMenu: [[10, 20, 30, -1], [10, 20, 30, "Tất cả"]],
-                        language: {
-                            info: "Hiển thị _START_ đến _END_ trong tổng _TOTAL_ dòng",
-                            infoEmpty: "Không có dữ liệu để hiển thị",
-                            lengthMenu: "Hiển thị _MENU_ dòng mỗi trang",
-                            search: "Tìm kiếm:",
-                            zeroRecords: "Không tìm thấy kết quả phù hợp",
-                            emptyTable: "Không có dữ liệu trong bảng",
-                            paginate: {
-                                previous: "<i class='ri-arrow-left-s-line'></i>",
-                                next: "<i class='ri-arrow-right-s-line'></i>"
-                            },
-                            loadingRecords: "Đang tải dữ liệu...",
-                            processing: "Đang xử lý...",
-                            infoFiltered: "(lọc từ tổng _MAX_ dòng)"
-                        },
-                        drawCallback: function () {
-                            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-                        }
-                    });
-                } else {
-                    $(tableId).DataTable().ajax.reload();
-                }
-            });
-        </script>
 
 
 
