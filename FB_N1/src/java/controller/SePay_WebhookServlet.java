@@ -20,7 +20,7 @@ import service.BookingService;
 @WebServlet("/sepay-webhook")
 public class SePay_WebhookServlet extends HttpServlet {
 
-    private static final String EXPECTED_API_KEY = "RT8HOQPGX5KFVEKBSEPA0B5TZWTGMIV4SIWKJQOJ2UYUCCMKGBLDJLZ9WURYNM3E"; // Thay bằng key thật bạn config trong SePay
+    private static final String EXPECTED_API_KEY = "RT8HOQPGX5KFVEKBSEPA0B5TZWTGMIV4SIWKJQOJ2UYUCCMKGBLDJLZ9WURYNM3E"; 
     private final Gson gson = new Gson();
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
