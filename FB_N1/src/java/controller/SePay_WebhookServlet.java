@@ -7,9 +7,10 @@ import dao.PaymentDAO;
 import model.Booking;
 import model.Payment;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,15 +19,25 @@ import java.time.format.DateTimeFormatter;
 @WebServlet("/sepay-webhook")
 public class SePay_WebhookServlet extends HttpServlet {
 
+    private static final String EXPECTED_API_KEY = "YMDNRPIXS0XPZVEUI9U4TEJ7IHBBHKOMF7BGDHSRW11FCGTATRIMW9LX8KJL28M6"; // Thay bằng key thật bạn config trong SePay
     private final Gson gson = new Gson();
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Xác thực API Key
+        String apiKeyHeader = request.getHeader("Authorization");
+        if (apiKeyHeader == null || !apiKeyHeader.equals(EXPECTED_API_KEY)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\":false,\"message\":\"Unauthorized\"}");
+            return;
+        }
+
         StringBuilder jsonBuilder = new StringBuilder();
-        String line;
         try (BufferedReader reader = request.getReader()) {
+            String line;
             while ((line = reader.readLine()) != null) {
                 jsonBuilder.append(line);
             }
@@ -57,20 +68,25 @@ public class SePay_WebhookServlet extends HttpServlet {
             Booking matchedBooking = bookingDAO.findByCodeInContent(content);
             if (matchedBooking != null) {
                 payment.setBookingId(matchedBooking.getBookingId());
-                if (matchedBooking.getTotalAmount().compareTo(java.math.BigDecimal.valueOf(transferAmount)) == 0) {
+
+                if (matchedBooking.getTotalAmount().compareTo(
+                        java.math.BigDecimal.valueOf(transferAmount)) == 0) {
                     payment.setPayStatus("success");
                     payment.setConfirmedTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 }
             }
 
             paymentDAO.insert(payment);
+
+            // Trả về đúng định dạng thành công
+            response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             response.getWriter().write("{\"success\":true}");
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(500);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
-            response.getWriter().write("{\"success\":false, \"message\":\"" + e.getMessage() + "\"}");
+            response.getWriter().write("{\"success\":false,\"message\":\"" + e.getMessage() + "\"}");
         }
     }
 
@@ -79,5 +95,4 @@ public class SePay_WebhookServlet extends HttpServlet {
         resp.setContentType("text/plain");
         resp.getWriter().write("SePay Webhook OK");
     }
-
 }
