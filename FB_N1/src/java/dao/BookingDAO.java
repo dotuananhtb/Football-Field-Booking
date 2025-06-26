@@ -248,21 +248,27 @@ public class BookingDAO extends DBContext {
     }
 
     public Booking findByBookingCode(String bookingCode) {
-        String sql = "SELECT booking_id, booking_code, total_amount FROM Booking WHERE booking_code = ?";
+        String sql = "SELECT * FROM Booking WHERE booking_code = ?";
         try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, bookingCode);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Booking b = new Booking();
-                b.setBookingId(rs.getInt("booking_id"));
-                b.setBookingCode(rs.getString("booking_code"));
-                b.setTotalAmount(rs.getBigDecimal("total_amount"));
-                return b;
+                Booking booking = new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email"),
+                        rs.getBoolean("status_pay")
+                );
+                return booking;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
+    
 }

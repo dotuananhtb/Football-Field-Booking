@@ -50,6 +50,15 @@ public class AppWebSocket {
         }
     }
 
+    public static void sendNotificationToAccount(String accountId, String message) {
+        String json = buildJson("notify", message);
+        for (Session s : sessions) {
+            if (accountId.equals(s.getUserProperties().get("accountId"))) {
+                s.getAsyncRemote().sendText(json);
+            }
+        }
+    }
+
     // Gửi đến một người cụ thể
     public static void sendToAccount(String accountId, String type, String content) {
         String json = buildJson(type, content);
@@ -64,7 +73,8 @@ public class AppWebSocket {
     public static void broadcastCalendarUpdate(String fieldId) {
         for (Session s : sessions) {
             String watchingField = (String) s.getUserProperties().get("fieldId");
-            if (fieldId.equals(watchingField)) {
+
+            if ("*".equals(fieldId) || fieldId.equals(watchingField)) {
                 s.getAsyncRemote().sendText("{\"type\":\"refreshCalendar\"}");
             }
         }

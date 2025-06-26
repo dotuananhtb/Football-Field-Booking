@@ -26,10 +26,11 @@ public class ThanhToanServlet extends HttpServlet {
 
         BookingDAO bookingDAO = new BookingDAO();
         Booking booking = bookingDAO.findByBookingCode(bookingCode);
-        if (booking == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đơn hàng.");
+        if (booking == null || booking.isStatusPay()) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
             return;
         }
+        
 
         // Xử lý dữ liệu QR ở đây
         BigDecimal amount = booking.getTotalAmount();
@@ -43,10 +44,10 @@ public class ThanhToanServlet extends HttpServlet {
                 + "-print.png?amount=" + amount
                 + "&addInfo=" + URLEncoder.encode(description, "UTF-8")
                 + "&accountName=" + URLEncoder.encode(accountName, "UTF-8");
-        
+
         DecimalFormat df = new DecimalFormat("#,###");
         String formattedAmount = df.format(booking.getTotalAmount());
-        
+
         request.setAttribute("qrUrl", qrUrl);
         request.setAttribute("bookingCode", booking.getBookingCode());
         request.setAttribute("amount", formattedAmount);

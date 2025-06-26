@@ -16,11 +16,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import service.BookingService;
+import websocket.AppWebSocket;
 
 @WebServlet("/sepay-webhook")
 public class SePay_WebhookServlet extends HttpServlet {
 
-    private static final String EXPECTED_API_KEY = "RT8HOQPGX5KFVEKBSEPA0B5TZWTGMIV4SIWKJQOJ2UYUCCMKGBLDJLZ9WURYNM3E"; 
+    private static final String EXPECTED_API_KEY = "RT8HOQPGX5KFVEKBSEPA0B5TZWTGMIV4SIWKJQOJ2UYUCCMKGBLDJLZ9WURYNM3E";
     private final Gson gson = new Gson();
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
@@ -78,6 +79,14 @@ public class SePay_WebhookServlet extends HttpServlet {
 
                     // ✅ Cập nhật trạng thái thanh toán thanh cong
                     bookingService.handlePaymentSuccess(content);
+
+                    String accountId = String.valueOf(matchedBooking.getAccountId());
+                    String message = "🎉 Thanh toán thành công cho mã đặt sân: " + matchedBooking.getBookingCode();
+
+                    AppWebSocket.sendNotificationToAccount(accountId, message);
+
+// Gửi socket cập nhật lịch đến các người đang xem sân đó
+                    AppWebSocket.broadcastCalendarUpdate("*");
                 }
             }
 
