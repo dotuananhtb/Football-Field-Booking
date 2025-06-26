@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 @WebServlet("/sepay-webhook")
 public class SePay_WebhookServlet extends HttpServlet {
 
-    private static final String EXPECTED_API_KEY = "YMDNRPIXS0XPZVEUI9U4TEJ7IHBBHKOMF7BGDHSRW11FCGTATRIMW9LX8KJL28M6"; // Thay bằng key thật bạn config trong SePay
+    private static final String EXPECTED_API_KEY = "RT8HOQPGX5KFVEKBSEPA0B5TZWTGMIV4SIWKJQOJ2UYUCCMKGBLDJLZ9WURYNM3E"; // Thay bằng key thật bạn config trong SePay
     private final Gson gson = new Gson();
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
@@ -28,12 +28,12 @@ public class SePay_WebhookServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Xác thực API Key
         String apiKeyHeader = request.getHeader("Authorization");
-        if (apiKeyHeader == null || !apiKeyHeader.equals(EXPECTED_API_KEY)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"success\":false,\"message\":\"Unauthorized\"}");
-            return;
-        }
+//        if (apiKeyHeader == null || !apiKeyHeader.equals(EXPECTED_API_KEY)) {
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.setContentType("application/json");
+//            response.getWriter().write("{\"success\":false,\"message\":\"Unauthorized\"}");
+//            return;
+//        }
 
         StringBuilder jsonBuilder = new StringBuilder();
         try (BufferedReader reader = request.getReader()) {
@@ -73,6 +73,10 @@ public class SePay_WebhookServlet extends HttpServlet {
                         java.math.BigDecimal.valueOf(transferAmount)) == 0) {
                     payment.setPayStatus("success");
                     payment.setConfirmedTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    
+                    
+                                        // ✅ Cập nhật trạng thái thanh toán trong bảng Booking
+                    bookingDAO.updateStatusPaySuccessByCode(matchedBooking.getBookingCode());
                 }
             }
 

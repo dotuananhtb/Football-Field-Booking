@@ -81,6 +81,7 @@ public class BookingService extends DBContext {
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
             booking.setBookingCode(bookingCode); // gán code
+            booking.setStatusPay(false); 
 
             // 7. Ghi Booking
             int bookingId = bookingDAO.insertBooking(booking);
@@ -203,6 +204,7 @@ public class BookingService extends DBContext {
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
             booking.setBookingCode(bookingCode); // Gán code mới
+            booking.setStatusPay(false); 
 
             int bookingId = bookingDAO.insertBooking(booking);
             if (bookingId == -1) {

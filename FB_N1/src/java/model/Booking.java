@@ -19,8 +19,10 @@ public class Booking {
     private String bookingDate;
     private BigDecimal totalAmount;
     private String email;
+    
+    private boolean statusPay;
 
-    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email) {
+    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email, boolean statusPay) {
         this.bookingId = bookingId;
         this.bookingCode = bookingCode;
         this.accountId = accountId;
@@ -28,7 +30,19 @@ public class Booking {
         this.bookingDate = bookingDate;
         this.totalAmount = totalAmount;
         this.email = email;
+        this.statusPay = statusPay;
     }
+
+   
+
+    public boolean isStatusPay() {
+        return statusPay;
+    }
+
+    public void setStatusPay(boolean statusPay) {
+        this.statusPay = statusPay;
+    }
+    
 
     public String getBookingCode() {
         return bookingCode;
