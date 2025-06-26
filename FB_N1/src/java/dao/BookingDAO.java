@@ -9,7 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDAO extends DBContext {
-
+    public Integer getBookingIdByCode(String bookingCode) {
+        String sql = "SELECT booking_id FROM Booking WHERE booking_code = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("booking_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public boolean updateStatusPaySuccessByCode(String bookingCode) {
         String sql = "UPDATE Booking SET status_pay = 1 WHERE booking_code = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

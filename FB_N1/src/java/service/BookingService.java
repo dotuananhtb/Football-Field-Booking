@@ -71,7 +71,7 @@ public class BookingService extends DBContext {
             // 5. Sinh mã booking_code (ddMMyyXXXXX)
             String bookingCode;
             do {
-                bookingCode = "ON"+CodeUtil.generateBookingCode(); // cần viết hàm này
+                bookingCode = "ON" + CodeUtil.generateBookingCode(); // cần viết hàm này
             } while (bookingDAO.isBookingCodeExists(bookingCode));
 
             // 6. Tạo booking object
@@ -81,7 +81,7 @@ public class BookingService extends DBContext {
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
             booking.setBookingCode(bookingCode); // gán code
-            booking.setStatusPay(false); 
+            booking.setStatusPay(false);
 
             // 7. Ghi Booking
             int bookingId = bookingDAO.insertBooking(booking);
@@ -99,7 +99,7 @@ public class BookingService extends DBContext {
                     detail.setEndTime(timeMap.get("end_time"));
                 }
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(1);
+                detail.setStatusCheckingId(2);
 
                 // Gán mã booking_details_code dạng {bookingCode}_01
                 String suffix = String.format("_%02d", detailIndex++);
@@ -194,7 +194,7 @@ public class BookingService extends DBContext {
             // 2. Sinh booking_code duy nhất
             String bookingCode;
             do {
-                bookingCode = "OFF"+CodeUtil.generateBookingCode(); // Viết trong CodeUtil
+                bookingCode = "OFF" + CodeUtil.generateBookingCode(); // Viết trong CodeUtil
             } while (bookingDAO.isBookingCodeExists(bookingCode));
 
             // 3. Tạo Booking (người tạo là nhân viên)
@@ -204,7 +204,7 @@ public class BookingService extends DBContext {
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
             booking.setBookingCode(bookingCode); // Gán code mới
-            booking.setStatusPay(false); 
+            booking.setStatusPay(false);
 
             int bookingId = bookingDAO.insertBooking(booking);
             if (bookingId == -1) {
@@ -231,7 +231,7 @@ public class BookingService extends DBContext {
                 }
 
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(1); // đã xác nhận
+                detail.setStatusCheckingId(2); // cho xu li
                 String detailCode = bookingCode + String.format("_%02d", detailIndex++);
                 detail.setBookingDetailsCode(detailCode); // Gán mã chi tiết
 
@@ -337,7 +337,60 @@ public class BookingService extends DBContext {
         return false; // Không tìm thấy hoặc lỗi → không cho hủy
     }
 
-    
+    public boolean handlePaymentSuccess(String bookingCode) {
+        Connection conn = null;
+        try {
+            conn = DBContext.getConnection();
+            conn.setAutoCommit(false);
+
+            BookingDAO bookingDAO = new BookingDAO();
+            BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+
+            bookingDAO.setConnection(conn);
+            bookingDetailsDAO.setConnection(conn);
+
+            Integer bookingId = bookingDAO.getBookingIdByCode(bookingCode);
+            if (bookingId == null) {
+                conn.rollback();
+                return false;
+            }
+
+            // 1. Cập nhật trạng thái các bookingDetails
+            if (!bookingDetailsDAO.updateStatusByBookingId(bookingId, 1)) {
+                conn.rollback();
+                return false;
+            }
+
+            // 2. Cập nhật trạng thái thanh toán trong bảng Booking
+            if (!bookingDAO.updateStatusPaySuccessByCode(bookingCode)) {
+                conn.rollback();
+                return false;
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     //////////
 //    public static void main(String[] args) {

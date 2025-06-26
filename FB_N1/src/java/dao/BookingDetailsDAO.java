@@ -70,7 +70,18 @@ public class BookingDetailsDAO extends DBContext {
             return false;
         }
     }
-
+    
+    public boolean updateStatusByBookingId(int bookingId, int newStatusId) {
+        String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newStatusId);
+            ps.setInt(2, bookingId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public BookingDetails getBySlotFieldAndDate(int slotFieldId, String slotDate) {
         String sql = "SELECT * FROM BookingDetails WHERE slot_field_id = ? AND slot_date = ? AND status_checking_id != 3"; // tránh lấy bản ghi đã hủy
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

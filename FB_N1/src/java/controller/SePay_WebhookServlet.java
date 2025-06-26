@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import service.BookingService;
 
 @WebServlet("/sepay-webhook")
 public class SePay_WebhookServlet extends HttpServlet {
@@ -23,11 +24,12 @@ public class SePay_WebhookServlet extends HttpServlet {
     private final Gson gson = new Gson();
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
+    private final BookingService bookingService = new BookingService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Xác thực API Key
-        String apiKeyHeader = request.getHeader("Authorization");
+//        String apiKeyHeader = request.getHeader("Authorization");
 //        if (apiKeyHeader == null || !apiKeyHeader.equals(EXPECTED_API_KEY)) {
 //            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 //            response.setContentType("application/json");
@@ -73,10 +75,9 @@ public class SePay_WebhookServlet extends HttpServlet {
                         java.math.BigDecimal.valueOf(transferAmount)) == 0) {
                     payment.setPayStatus("success");
                     payment.setConfirmedTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-                    
-                    
-                                        // ✅ Cập nhật trạng thái thanh toán trong bảng Booking
-                    bookingDAO.updateStatusPaySuccessByCode(matchedBooking.getBookingCode());
+
+                    // ✅ Cập nhật trạng thái thanh toán thanh cong
+                    bookingService.handlePaymentSuccess(content);
                 }
             }
 
