@@ -43,12 +43,16 @@ public class BookingDAO extends DBContext {
             ps.setString(1, content);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Booking booking = new Booking();
-                booking.setBookingId(rs.getInt("booking_id"));
-                booking.setBookingCode(rs.getString("booking_code"));
-                booking.setTotalAmount(rs.getBigDecimal("total_amount"));
-                booking.setStatusPay(rs.getInt("status_pay"));
-                return booking;
+                return new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email"),
+                        rs.getInt("status_pay")
+                );
             }
         }
         return null;

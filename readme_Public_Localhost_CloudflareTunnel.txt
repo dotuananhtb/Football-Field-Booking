@@ -16,7 +16,7 @@ https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-w
 check:
 trước khi check chạy về thư mục:
 
-cd C:\Program Files (x86)\cloudflared
+cd "C:\Program Files (x86)\cloudflared"
 
 cloudflared.exe --version
 

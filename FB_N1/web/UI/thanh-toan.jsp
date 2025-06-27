@@ -103,58 +103,16 @@
             }
         </script>
 
+
         <%
-            Account acc = (Account) session.getAttribute("account");
+            model.Account acc = (model.Account) session.getAttribute("account");
             int accountId = acc != null ? acc.getAccountId() : 0;
             int roleId = acc != null && acc.getUserProfile() != null ? acc.getUserProfile().getRoleId() : 0;
         %>
-        <script>
-            const accountId = <%= accountId%>;
-            const roleId = <%= roleId%>;
-            const fieldId = "*"; // Nếu trang cần cập nhật lịch sân cũng có thể đổi thành fieldId cụ thể
 
-            if (accountId > 0 && roleId > 0) {
-                const socket = new WebSocket(`ws://localhost:9999/FB_N1/ws/app?accountId=${accountId}&roleId=${roleId}&fieldId=${fieldId}`);
+    <body data-account-id="<%= accountId%>" data-role-id="<%= roleId%>">
+        <script src="${pageContext.request.contextPath}/UI/app/js/thanh-toan.js"></script>
 
-                socket.onopen = () => {
-                    console.log("✅ WebSocket đã kết nối.");
-                };
-
-                socket.onmessage = function (event) {
-                    try {
-                        const data = JSON.parse(event.data);
-
-                        // 💬 Nhận thông báo từ server
-
-
-
-                        if (data.type === "notify") {
-                            showToast_sweetalert(data.message || "🔔 Có thông báo mới", "success");
-                            setTimeout(() => {
-                                window.location.href = "/FB_N1/home";
-                            }, 3000);
-                        }
-
-                        if (data.type === "refreshCalendar") {
-                            showToast_sweetalert("🗓️ Lịch sân đã được cập nhật!", "info");
-                        }
-
-                    } catch (e) {
-                        console.error("❌ Lỗi phân tích WebSocket:", e);
-                    }
-                };
-
-                socket.onerror = function (error) {
-                    console.error("❌ WebSocket lỗi:", error);
-                };
-
-                socket.onclose = function () {
-                    console.warn("🔌 WebSocket đã đóng.");
-                };
-            } else {
-                console.warn("⚠️ Không có accountId hoặc roleId, không mở WebSocket.");
-            }
-        </script>
 
 
 

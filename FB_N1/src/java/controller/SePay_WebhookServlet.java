@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import dao.AccountDAO;
 import dao.BookingDAO;
 import dao.PaymentDAO;
 import model.Booking;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import model.Account;
 import service.BookingService;
 import websocket.AppWebSocket;
 
@@ -26,6 +28,7 @@ public class SePay_WebhookServlet extends HttpServlet {
     private final PaymentDAO paymentDAO = new PaymentDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
     private final BookingService bookingService = new BookingService();
+    private final AccountDAO accountDAO = new AccountDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,11 +84,13 @@ public class SePay_WebhookServlet extends HttpServlet {
                     bookingService.handlePaymentSuccess(content);
 
                     String accountId = String.valueOf(matchedBooking.getAccountId());
-                    String message = "🎉 Thanh toán thành công cho mã đặt sân: " + matchedBooking.getBookingCode();
+                    String message = "Thanh toán thành công cho mã đặt sân: #" + matchedBooking.getBookingCode();
+                    String message_admin = "Mã đặt sân: #" + matchedBooking.getBookingCode() + " được thanh toán thành công";
 
-                    AppWebSocket.sendNotificationToAccount(accountId, message);
+                    AppWebSocket.sendToAccount(accountId, "pay_success", message);
+                    AppWebSocket.broadcastToRole("1", "pay_success_to_admin", message_admin);
 
-// Gửi socket cập nhật lịch đến các người đang xem sân đó
+                    // Gửi socket cập nhật lịch đến các người đang xem sân đó
                     AppWebSocket.broadcastCalendarUpdate("*");
                 }
             }
