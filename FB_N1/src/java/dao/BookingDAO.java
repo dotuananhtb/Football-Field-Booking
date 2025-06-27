@@ -47,7 +47,7 @@ public class BookingDAO extends DBContext {
                 booking.setBookingId(rs.getInt("booking_id"));
                 booking.setBookingCode(rs.getString("booking_code"));
                 booking.setTotalAmount(rs.getBigDecimal("total_amount"));
-                booking.setStatusPay(rs.getBoolean("status_pay"));
+                booking.setStatusPay(rs.getInt("status_pay"));
                 return booking;
             }
         }
@@ -69,7 +69,7 @@ public class BookingDAO extends DBContext {
             ps.setBigDecimal(4, booking.getTotalAmount());
             ps.setString(5, booking.getEmail());
             ps.setString(6, booking.getBookingCode());
-            ps.setBoolean(7, booking.isStatusPay());
+            ps.setInt(7, booking.getStatusPay());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -107,7 +107,7 @@ public class BookingDAO extends DBContext {
                         rs.getString("booking_date"),
                         rs.getBigDecimal("total_amount"),
                         rs.getString("email"),
-                        rs.getBoolean("status_pay")
+                        rs.getInt("status_pay")
                 );
             }
         } catch (SQLException e) {
@@ -149,7 +149,7 @@ public class BookingDAO extends DBContext {
                         rs.getString("booking_date"),
                         rs.getBigDecimal("total_amount"),
                         rs.getString("email"),
-                        rs.getBoolean("status_pay")
+                        rs.getInt("status_pay")
                 );
                 list.add(booking);
             }
@@ -178,7 +178,7 @@ public class BookingDAO extends DBContext {
                         rs.getString("booking_date"),
                         rs.getBigDecimal("total_amount"),
                         rs.getString("email"),
-                        rs.getBoolean("status_pay")
+                        rs.getInt("status_pay")
                 );
             }
         } catch (SQLException e) {
@@ -206,7 +206,7 @@ public class BookingDAO extends DBContext {
                         rs.getString("booking_date"),
                         rs.getBigDecimal("total_amount"),
                         rs.getString("email"),
-                        rs.getBoolean("status_pay")
+                        rs.getInt("status_pay")
                 );
                 list.add(booking);
             }
@@ -261,7 +261,7 @@ public class BookingDAO extends DBContext {
                         rs.getString("booking_date"),
                         rs.getBigDecimal("total_amount"),
                         rs.getString("email"),
-                        rs.getBoolean("status_pay")
+                        rs.getInt("status_pay")
                 );
                 return booking;
             }
@@ -270,5 +270,5 @@ public class BookingDAO extends DBContext {
         }
         return null;
     }
-    
+
 }

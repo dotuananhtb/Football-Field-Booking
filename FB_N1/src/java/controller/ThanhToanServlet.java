@@ -26,11 +26,10 @@ public class ThanhToanServlet extends HttpServlet {
 
         BookingDAO bookingDAO = new BookingDAO();
         Booking booking = bookingDAO.findByBookingCode(bookingCode);
-        if (booking == null || booking.isStatusPay()) {
+        if (booking == null || booking.getStatusPay() == 1 || booking.getStatusPay() == -1) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
             return;
         }
-        
 
         // Xử lý dữ liệu QR ở đây
         BigDecimal amount = booking.getTotalAmount();

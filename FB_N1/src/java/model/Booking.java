@@ -20,9 +20,9 @@ public class Booking {
     private BigDecimal totalAmount;
     private String email;
     
-    private boolean statusPay;
+    private int statusPay;
 
-    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email, boolean statusPay) {
+    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email, int statusPay) {
         this.bookingId = bookingId;
         this.bookingCode = bookingCode;
         this.accountId = accountId;
@@ -33,15 +33,17 @@ public class Booking {
         this.statusPay = statusPay;
     }
 
-   
-
-    public boolean isStatusPay() {
+    public int getStatusPay() {
         return statusPay;
     }
 
-    public void setStatusPay(boolean statusPay) {
+    public void setStatusPay(int statusPay) {
         this.statusPay = statusPay;
     }
+
+   
+
+   
     
 
     public String getBookingCode() {
