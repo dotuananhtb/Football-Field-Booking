@@ -82,13 +82,22 @@ public class SePay_WebhookServlet extends HttpServlet {
 
                     // ✅ Cập nhật trạng thái thanh toán thanh cong
                     bookingService.handlePaymentSuccess(content);
-
+                    Account account = accountDAO.getAccountById(matchedBooking.getAccountId());
                     String accountId = String.valueOf(matchedBooking.getAccountId());
                     String message = "Thanh toán thành công cho mã đặt sân: #" + matchedBooking.getBookingCode();
                     String message_admin = "Mã đặt sân: #" + matchedBooking.getBookingCode() + " được thanh toán thành công";
 
-                    AppWebSocket.sendToAccount(accountId, "pay_success", message);
-                    AppWebSocket.broadcastToRole("1", "pay_success_to_admin", message_admin);
+                    // Nếu là admin thì gửi 2 socket trong 1 lần
+                    if (account.getUserProfile().getRoleId() == 1) {
+                        AppWebSocket.sendDualSocketToAccount(accountId,
+                                "pay_success", message,
+                                "pay_success_to_admin", message_admin);
+                        AppWebSocket.broadcastToRole("1", "pay_success_to_admin", message_admin);
+
+                    } else {
+                        AppWebSocket.sendToAccount(accountId, "pay_success", message);
+                        AppWebSocket.broadcastToRole("1", "pay_success_to_admin", message_admin);
+                    }
 
                     // Gửi socket cập nhật lịch đến các người đang xem sân đó
                     AppWebSocket.broadcastCalendarUpdate("*");

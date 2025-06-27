@@ -124,7 +124,32 @@ public class AppWebSocket {
             broadcastCalendarUpdate(fieldId);
         }
     }
+//hàm gửi nhiều message cho 1 session:
 
+    private static void sendMessagesToSession(Session session, List<String> messages) {
+        executor.submit(() -> {
+            synchronized (session) {
+                for (String msg : messages) {
+                    try {
+                        session.getBasicRemote().sendText(msg);
+                    } catch (IOException e) {
+                        System.err.println("❌ Lỗi khi gửi socket nối tiếp: " + e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    public static void sendDualSocketToAccount(String accountId, String type1, String msg1, String type2, String msg2) {
+        String json1 = buildJson(type1, msg1);
+        String json2 = buildJson(type2, msg2);
+        for (Session s : sessions) {
+            if (s.isOpen() && accountId.equals(s.getUserProperties().get("accountId"))) {
+                sendMessagesToSession(s, Arrays.asList(json1, json2));
+            }
+        }
+    }
+    
     // ========== Utilities ==========
     private static Map<String, String> parseQuery(String query) {
         Map<String, String> map = new HashMap<>();
