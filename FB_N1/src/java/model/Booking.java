@@ -19,8 +19,10 @@ public class Booking {
     private String bookingDate;
     private BigDecimal totalAmount;
     private String email;
+    
+    private int statusPay;
 
-    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email) {
+    public Booking(int bookingId, String bookingCode, int accountId, Integer saleId, String bookingDate, BigDecimal totalAmount, String email, int statusPay) {
         this.bookingId = bookingId;
         this.bookingCode = bookingCode;
         this.accountId = accountId;
@@ -28,7 +30,21 @@ public class Booking {
         this.bookingDate = bookingDate;
         this.totalAmount = totalAmount;
         this.email = email;
+        this.statusPay = statusPay;
     }
+
+    public int getStatusPay() {
+        return statusPay;
+    }
+
+    public void setStatusPay(int statusPay) {
+        this.statusPay = statusPay;
+    }
+
+   
+
+   
+    
 
     public String getBookingCode() {
         return bookingCode;
@@ -92,7 +108,8 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Booking{" + "bookingId=" + bookingId + ", accountId=" + accountId + ", saleId=" + saleId + ", bookingDate=" + bookingDate + ", totalAmount=" + totalAmount + ", email=" + email + '}';
+        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
+    
 }

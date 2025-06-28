@@ -22,6 +22,7 @@ import java.util.Map;
 import model.Account;
 import model.Booking;
 import model.BookingDetails;
+import model.Field;
 import model.OfflineCustomer;
 import model.OfflineUser;
 import model.SlotEventDTO;
@@ -93,6 +94,100 @@ public class SlotEventDTODAO extends DBContext {
 
                 list.add(event);
             }
+        }
+
+        return list;
+    }
+
+    public List<Map<String, Object>> getAllBookedOrPendingSlots() {
+        List<Map<String, Object>> list = new ArrayList<>();
+        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+        BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+        BookingDAO bookingDAO = new BookingDAO();
+        FieldDAO fieldDAO = new FieldDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        OfflineCustomerDAO offlineDAO = new OfflineCustomerDAO();
+
+        List<BookingDetails> allDetails = bookingDetailsDAO.getAllBookingDetail();
+
+        for (BookingDetails detail : allDetails) {
+            int slotFieldId = detail.getSlotFieldId();
+            String slotDate = detail.getSlotDate();
+
+            SlotsOfField slot = slotsOfFieldDAO.getSlotOfFieldById(slotFieldId);
+            if (slot == null) {
+                continue;
+            }
+
+            Field field = slot.getField();
+            if (field == null) {
+                continue;
+            }
+
+            String fieldName = field.getFieldName();
+            String fieldTypeName = field.getTypeOfField().getFieldTypeName();
+            String startTime = detail.getStartTime();
+            String endTime = detail.getEndTime();
+            BigDecimal price = slot.getSlotFieldPrice();
+
+            int status = detail.getStatusCheckingId();
+            String className = (status == 1) ? "bg-danger" : "bg-warning";
+
+            // Lấy thông tin người đặt
+            Map<String, Object> userInfo = null;
+            Booking booking = bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId());
+
+            if (booking != null) {
+                userInfo = new HashMap<>();
+                Integer accountId = booking.getAccountId();
+                OfflineCustomer offline = offlineDAO.getOfflineCustomerByBookingId(booking.getBookingId());
+
+                if (offline != null) {
+                    OfflineUser offlineUser = offlineDAO.getOfflineUserByBookingDetailId(detail.getBookingDetailsId());
+                    if (offlineUser != null) {
+                        userInfo.put("name", offlineUser.getFullName());
+                        userInfo.put("phone", offlineUser.getPhone());
+                        userInfo.put("email", offlineUser.getEmail());
+                        userInfo.put("isOffline", true);
+                    }
+                } else {
+                    Account acc = accountDAO.getAccountById(accountId);
+                    if (acc != null) {
+                        userInfo.put("name", acc.getUserProfile().getFullName());
+                        userInfo.put("email", acc.getEmail());
+                        userInfo.put("phone", acc.getUserProfile().getPhone());
+                        userInfo.put("isOffline", false);
+                    }
+                }
+            }
+
+            Map<String, Object> extendedProps = new HashMap<>();
+            extendedProps.put("slot_field_id", slotFieldId);
+            extendedProps.put("slot_date", slotDate);
+            extendedProps.put("start_time", startTime);
+            extendedProps.put("end_time", endTime);
+            extendedProps.put("field_name", fieldName);
+            extendedProps.put("price", price);
+            extendedProps.put("extra_minutes", detail.getExtraMinutes());
+            extendedProps.put("extra_fee", detail.getExtraFee());
+            extendedProps.put("note", detail.getNote());
+            extendedProps.put("status", status);
+            extendedProps.put("userInfo", userInfo);
+            extendedProps.put("booking_id", detail.getBookingId());
+            extendedProps.put("booking_details_id", detail.getBookingDetailsId());
+            extendedProps.put("booking_date", booking != null ? booking.getBookingDate() : null);
+            extendedProps.put("booking_code", booking != null ? booking.getBookingCode() : null);
+            extendedProps.put("booking_details_code", detail.getBookingDetailsCode());
+            extendedProps.put("field_type_name", fieldTypeName);
+
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", fieldName + " ca " + startTime + " - " + endTime);
+            event.put("start", slotDate + "T" + startTime);
+            event.put("end", slotDate + "T" + endTime);
+            event.put("className", className);
+            event.put("extendedProps", extendedProps);
+
+            list.add(event);
         }
 
         return list;
@@ -223,7 +318,7 @@ public class SlotEventDTODAO extends DBContext {
                 extendedProps.put("booking_details_id", detail != null ? detail.getBookingDetailsId() : null);
                 extendedProps.put("booking_date", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingDate() : null);
                 extendedProps.put("booking_code", detail != null ? bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId()).getBookingCode() : null);
-                extendedProps.put("booking_details_code", detail != null ? detail.getBookingDetailsCode(): null);
+                extendedProps.put("booking_details_code", detail != null ? detail.getBookingDetailsCode() : null);
 
                 extendedProps.put("field_type_name", fieldTypeName);
 
@@ -243,19 +338,43 @@ public class SlotEventDTODAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        // Khởi tạo DAO
+//        // Khởi tạo DAO
+//        SlotEventDTODAO dao = new SlotEventDTODAO();
+//
+//        // Gọi hàm chính để lấy danh sách slot
+//        List<Map<String, Object>> result = dao.getAllSlotsForRange(
+//                9, // fieldId: sân số 2
+//                "2025-06-13", // startDate
+//                "2025-06-22" // endDate
+//        );
+//
+//        // In ra dưới dạng JSON
+//        Gson gson = new Gson();
+//        String jsonOutput = gson.toJson(result);
+//        System.out.println(jsonOutput);
+
         SlotEventDTODAO dao = new SlotEventDTODAO();
+        List<Map<String, Object>> events = dao.getAllBookedOrPendingSlots();
 
-        // Gọi hàm chính để lấy danh sách slot
-        List<Map<String, Object>> result = dao.getAllSlotsForRange(
-                9, // fieldId: sân số 2
-                "2025-06-13", // startDate
-                "2025-06-22" // endDate
-        );
+        System.out.println("Tổng số slot đã đặt hoặc chờ xử lý: " + events.size());
 
-        // In ra dưới dạng JSON
-        Gson gson = new Gson();
-        String jsonOutput = gson.toJson(result);
-        System.out.println(jsonOutput);
+        for (Map<String, Object> event : events) {
+            System.out.println("-----");
+            System.out.println("Tiêu đề: " + event.get("title"));
+            System.out.println("Thời gian bắt đầu: " + event.get("start"));
+            System.out.println("Thời gian kết thúc: " + event.get("end"));
+
+            Map<String, Object> extended = (Map<String, Object>) event.get("extendedProps");
+            System.out.println("Sân: " + extended.get("field_name"));
+            System.out.println("Giá: " + extended.get("price"));
+            System.out.println("Trạng thái: " + extended.get("status"));
+
+            Map<String, Object> userInfo = (Map<String, Object>) extended.get("userInfo");
+            if (userInfo != null) {
+                System.out.println("Khách: " + userInfo.get("name") + " | " + userInfo.get("phone"));
+            } else {
+                System.out.println("Khách: (Không có)");
+            }
+        }
     }
 }

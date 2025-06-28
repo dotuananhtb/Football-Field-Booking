@@ -167,6 +167,15 @@ function handleBookingSubmit() {
         success: function (response) {
             if (response && response.success) {
                 showToast("success", response.message || "✅ Đặt sân thành công!");
+                
+                  // 👉 Redirect sang trang thanh toán với bookingCode
+                const bookingCode = response.bookingCode;
+                if (bookingCode) {
+                    setTimeout(() => {
+                        window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
+                    }, 1000);
+                }
+
                 selectedSlots = [];
                 calendar.refetchEvents();
                 renderSelectedTable();

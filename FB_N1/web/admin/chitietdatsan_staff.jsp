@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Datatables | Powerx - Bootstrap 5 Admin & Dashboard Template</title>
+        <title>Bảng chi tiết các ca đã đặt </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -35,7 +35,10 @@
         <!-- Icons css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     </head>
-
+    <style>.dataTables_filter {
+            display: none;
+        }
+    </style>
     <body>
         <!-- Begin page -->
         <div class="wrapper">
@@ -75,7 +78,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h2>Chi Tiết Đặt Sân</h2>
+                                    <h2>Bảng hiển thị chi tiết của tất cả các ca</h2>
                                 </div>
                             </div>
                         </div>
@@ -91,26 +94,99 @@
                                     </p>
 
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
+
                                         <thead>
                                             <tr>
-                                                <th>Mã chi tiết</th>
-                                                <th>Mã đơn</th>
-                                                <th>Ngày đặt</th>
-                                                <th>Ngày diễn ra</th>
-                                                <th>Giờ bắt đầu</th>      
-                                                <th>Giờ kết thúc</th>     
+                                                <th>STT</th>
+                                                <th>Mã đặt ca(BDC)</th>                                             
+                                                <th>Ngày đá</th>
+                                                <th>Khung giờ</th>
                                                 <th>Sân</th>
                                                 <th>Loại sân</th>
-                                                <th>Giá</th>
                                                 <th>Trạng thái</th>
                                                 <th>Người đặt</th>
                                                 <th>SĐT</th>
                                                 <th>Email</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Giá</th>
                                                 <th>Ghi chú</th>
                                             </tr>
+                                            <tr id="filter-row">
+                                                <th>
+                                                    <button id="reset-filters" class="btn btn-secondary btn-sm mt-2">Đặt lại</button>
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm mã ca"
+                                                           style="min-width: 120px; max-width: 200px;">
+                                                </th>
+                                                <th>
+                                                    <input type="date" class="form-control form-control-sm mb-1"
+                                                           id="slotDateFrom"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm"
+                                                           id="slotDateTo"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm giờ"
+                                                           style="min-width: 85px; max-width: 90px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Sân"
+                                                           style="min-width: 55px; max-width: 70px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Loại sân"
+                                                           style="min-width: 80px; max-width: 100px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Trạng thái"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm người đặt"
+                                                           style="min-width: 115px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm SĐT"
+                                                           style="min-width: 100px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm email"
+                                                           style="min-width: 150px; max-width: 220px;">
+                                                </th>
+                                                <th>
+                                                    <input type="date" class="form-control form-control-sm mb-1"
+                                                           id="bookingDateFrom"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm"
+                                                           id="bookingDateTo"
+                                                           style="min-width: 90px; max-width: 120px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm giá"
+                                                           style="min-width: 100px; max-width: 140px;">
+                                                </th>
+                                                <th>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                           placeholder="Tìm ghi chú"
+                                                           style="min-width: 130px; max-width: 200px;">
+                                                </th>
+                                            </tr>
+
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+
 
                                 </div> <!-- end card -->
                             </div><!-- end col-->
@@ -159,61 +235,15 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
         <!-- Datatable Demo Aapp js -->
-
+        <script src="assets/js/booking-table.js"></script>
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                if (!$.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
-                    $("#scroll-horizontal-datatable").DataTable({
-                        scrollX: true,
-                        ajax: {
-                            url: '/FB_N1/check-slot-info', // 🔁 endpoint trả về JSON array
-                            dataSrc: '' // Nếu response là dạng mảng JSON, giữ nguyên ''
-                        },
-                        columns: [
-                            {data: 'bookingDetailsId', title: 'Mã chi tiết'},
-                            {data: 'bookingId', title: 'Mã đặt sân'},
-                            {data: 'bookingDate', title: 'Ngày đặt'},
-                            {data: 'slotDate', title: 'Ngày đá'},
-                            {data: 'startTime', title: 'Giờ bắt đầu'},
-                            {data: 'endTime', title: 'Giờ kết thúc'},
-                            {data: 'fieldName', title: 'Sân'},
-                            {data: 'fieldTypeName', title: 'Loại sân'},
-                            {data: 'slotFieldPrice', title: 'Giá'},
-                            {data: 'slotStatus', title: 'Trạng thái'},
-                            {data: 'customerName', title: 'Khách hàng'},
-                            {data: 'phone', title: 'SĐT'},
-                            {data: 'email', title: 'Email'},
-                            {data: 'note', title: 'Ghi chú'}
-                        ],
-                        pageLength: 10,
-                        lengthMenu: [[10, 20, 30, -1], [10, 20, 30, "Tất cả"]],
-                        language: {
-                            info: "Hiển thị _START_ đến _END_ trong tổng _TOTAL_ dòng",
-                            infoEmpty: "Không có dữ liệu để hiển thị",
-                            lengthMenu: "Hiển thị _MENU_ dòng mỗi trang",
-                            search: "Tìm kiếm:",
-                            zeroRecords: "Không tìm thấy kết quả phù hợp",
-                            emptyTable: "Không có dữ liệu trong bảng",
-                            paginate: {
-                                previous: "<i class='ri-arrow-left-s-line'></i>",
-                                next: "<i class='ri-arrow-right-s-line'></i>"
-                            },
-                            loadingRecords: "Đang tải dữ liệu...",
-                            processing: "Đang xử lý...",
-                            infoFiltered: "(lọc từ tổng _MAX_ dòng)"
-                        },
-                        drawCallback: function () {
-                            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-                        }
-                    });
-                } else {
-                    $('#scroll-horizontal-datatable').DataTable().ajax.reload();
-                }
-            });
 
-        </script>
+
+
+
+
+
 
 
     </body>

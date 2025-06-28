@@ -100,12 +100,13 @@ public class Admin_DatSanOffline extends HttpServlet {
 
         // ✅ Gọi BookingService
         BookingService service = new BookingService();
-        boolean success = service.createOfflineBooking(offlineUser, account.getAccountId(), detailsList);
+        String bookingCode = service.createOfflineBooking(offlineUser, account.getAccountId(), detailsList);
 
-        if (success) {
+        if (bookingCode != null) {
             result.addProperty("success", true);
             result.addProperty("type", "success");
             result.addProperty("message", "✅ Đặt sân offline thành công!");
+            result.addProperty("bookingCode", bookingCode);
         } else {
             result.addProperty("success", false);
             result.addProperty("type", "error");
