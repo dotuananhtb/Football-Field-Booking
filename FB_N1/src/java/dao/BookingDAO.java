@@ -10,6 +10,75 @@ import java.util.List;
 
 public class BookingDAO extends DBContext {
 
+    public void autoCancelExpiredBookings() throws SQLException {
+        String selectExpiredBookingIdsSQL = """
+        SELECT booking_id FROM Booking
+        WHERE status_pay = 0
+        AND DATEDIFF(MINUTE, booking_date, GETDATE()) >= 1
+    """;
+
+        String cancelBookingSQL = """
+        UPDATE Booking
+        SET status_pay = -1
+        WHERE booking_id = ?
+    """;
+
+        String cancelBookingDetailsSQL = """
+        UPDATE BookingDetails
+        SET status_checking_id = 3,
+            note = CONCAT(
+                ISNULL(note, ''), 
+                N' [Tự động huỷ lúc ', 
+                CONVERT(NVARCHAR(50), GETDATE(), 120), 
+                ']'
+            )
+        WHERE booking_id = ?
+    """;
+
+        try (
+                Connection conn = this.connection; PreparedStatement selectStmt = conn.prepareStatement(selectExpiredBookingIdsSQL); PreparedStatement cancelBookingStmt = conn.prepareStatement(cancelBookingSQL); PreparedStatement cancelDetailsStmt = conn.prepareStatement(cancelBookingDetailsSQL)) {
+            conn.setAutoCommit(false); // Bắt đầu transaction
+
+            ResultSet rs = selectStmt.executeQuery();
+            List<Integer> expiredBookingIds = new ArrayList<>();
+            while (rs.next()) {
+                expiredBookingIds.add(rs.getInt("booking_id"));
+            }
+
+            System.out.println("📋 Số booking quá hạn cần huỷ: " + expiredBookingIds.size());
+
+            int countDetails = 0;
+            for (int bookingId : expiredBookingIds) {
+                cancelBookingStmt.setInt(1, bookingId);
+                cancelBookingStmt.executeUpdate();
+
+                cancelDetailsStmt.setInt(1, bookingId);
+                countDetails += cancelDetailsStmt.executeUpdate();
+            }
+
+            conn.commit();
+            System.out.println("✅ Đã huỷ " + expiredBookingIds.size() + " booking và " + countDetails + " chi tiết.");
+        } catch (SQLException e) {
+            System.err.println("❌ Lỗi khi huỷ booking tự động: " + e.getMessage());
+            if (this.connection != null) {
+                try {
+                    this.connection.rollback();
+                    System.err.println("🔁 Đã rollback transaction.");
+                } catch (SQLException ex) {
+                    System.err.println("❌ Rollback thất bại: " + ex.getMessage());
+                }
+            }
+        } finally {
+            if (this.connection != null) {
+                try {
+                    this.connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    System.err.println("❌ Không thể reset AutoCommit: " + e.getMessage());
+                }
+            }
+        }
+    }
+
     public Integer getBookingIdByCode(String bookingCode) {
         String sql = "SELECT booking_id FROM Booking WHERE booking_code = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
