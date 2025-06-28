@@ -163,13 +163,13 @@ function getStatusText(status) {
         case 0:
             return `<span class="badge bg-success">Có thể đặt</span>`;
         case 1:
-            return `<span class="badge bg-primary">Đã xác nhận</span>`;
+            return `<span class="badge bg-primary">Đã đặt</span>`;
         case 2:
             return `<span class="badge bg-warning">Yêu cầu huỷ</span>`;
         case 3:
             return `<span class="badge bg-danger">Đã huỷ</span>`;
         case 4:
-            return `<span class="badge bg-info">Đang chờ thanh toán</span>`;
+            return `<span class="badge bg-warning bg-opacity-25 text-dark border border-primary">Đang chờ thanh toán</span>`;
         default:
             return `<span class="badge bg-muted">---</span>`;
     }

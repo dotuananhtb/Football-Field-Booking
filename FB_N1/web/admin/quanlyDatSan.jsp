@@ -284,16 +284,15 @@
                                                 }
                                             </style>
                                             <div class="container mt-3" id="legend-bar">
-                                                <h6><i class="bi bi-info-circle-fill text-primary"></i> Chú thích trạng thái:</h6>
+                                                <h6><i class="bi bi-info-circle-fill text-primary"></i> Chú thích trạng thái màu của các ca trên lịch:</h6>
                                                 <div class="d-flex flex-wrap gap-2">
                                                     <span class="badge bg-success">Có thể đặt</span>
-                                                    <span class="badge bg-danger">Đã đặt</span>
-                                                    <span class="badge bg-danger bg-opacity-25 text-dark">Ca cũ đã đặt</span>
-
                                                     <span class="badge bg-warning">Yêu cầu huỷ</span>
+                                                    <span class="badge bg-danger">Đã đặt</span>                                                
+                                                    <span class="badge bg-danger bg-opacity-25 text-dark">Ca cũ đã đặt</span>
                                                     <span class="badge bg-warning bg-opacity-25 text-dark">Ca cũ chưa được xử lí huỷ</span>
                                                     <span class="badge bg-primary bg-opacity-25 text-dark border border-primary">Chờ thanh toán</span>
-                                                    <span class="badge bg-light text-dark border">Ca cũ không có trạng thái</span>
+                                                    <span class="badge bg-light text-dark border">Ca cũ chưa đặt</span>
                                                     <span class="badge bg-info">Đang chọn</span>
 
                                                 </div>
