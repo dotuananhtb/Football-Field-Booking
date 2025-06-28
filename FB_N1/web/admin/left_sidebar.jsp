@@ -186,28 +186,13 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">
                     <i class="ri-shield-user-fill"></i>
-                    <span> Quản lý cửa hàng </span>
+                    <span> Quản lý sản phẩm </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPagesAuth">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="auth-login.html">Login</a>
-                        </li>
-                        <li>
-                            <a href="auth-register.html">Register</a>
-                        </li>
-                        <li>
-                            <a href="auth-logout.html">Logout</a>
-                        </li>
-                        <li>
-                            <a href="auth-recoverpw.html">Recover Password</a>
-                        </li>
-                        <li>
-                            <a href="auth-lock-screen.html">Lock Screen</a>
-                        </li>
-                        <li>
-                            <a href="auth-confirm-mail.html">Confirm Mail</a>
+                            <a href="/FB_N1/admin/manager-product">Quản lý Sản phẩm</a>
                         </li>
                     </ul>
                 </div>

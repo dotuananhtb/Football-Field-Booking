@@ -47,16 +47,7 @@
                                                                 <button type="submit" class="btn btn-primary">Cập nhật avatar</button>
                                                         </form>
 
-                                                        <form action="${pageContext.request.contextPath}/upload-image" method="post" enctype="multipart/form-data">
-                                                            <div class="mb-3">
-                                                                <label for="image" class="form-label">Chọn ảnh đại diện lưu vào assets/images/upload</label>
-                                                                <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
-                                                            </div>
-
-                                                            <input type="hidden" name="type" value="avatars"> <!-- value này là cho thư mục riêng cho mỗi  object -->
-
-                                                                <button type="submit" class="btn btn-primary">Tải lên</button>
-                                                        </form>
+                                                        
                                                         <!-- comment: Do Tuan Anh -->
 
 
