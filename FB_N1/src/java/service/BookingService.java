@@ -99,7 +99,7 @@ public class BookingService extends DBContext {
                     detail.setEndTime(timeMap.get("end_time"));
                 }
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(2);
+                detail.setStatusCheckingId(4);
 
                 // Gán mã booking_details_code dạng {bookingCode}_01
                 String suffix = String.format("_%02d", detailIndex++);
@@ -230,7 +230,7 @@ public class BookingService extends DBContext {
                 }
 
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(2); // chờ xử lý
+                detail.setStatusCheckingId(4); // chờ xử lý
                 String detailCode = bookingCode + String.format("_%02d", detailIndex++);
                 detail.setBookingDetailsCode(detailCode);
 
@@ -343,7 +343,7 @@ public class BookingService extends DBContext {
                 }
 
                 detail.setBookingId(bookingId);
-                detail.setStatusCheckingId(2); // cho xu li
+                detail.setStatusCheckingId(4); // cho xu li
                 String detailCode = bookingCode + String.format("_%02d", detailIndex++);
                 detail.setBookingDetailsCode(detailCode); // Gán mã chi tiết
 

@@ -28,9 +28,11 @@ $(document).ready(function () {
                     if (data === 1)
                         return '<span class="badge bg-success">Đã đặt</span>';
                     if (data === 2)
-                        return '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
+                        return '<span class="badge bg-warning text-dark">Chờ xử lý huỷ</span>';
                     if (data === 3)
                         return '<span class="badge bg-danger">Đã huỷ</span>';
+                    if (data === 4)
+                        return '<span class="badge bg-primary ">Chờ thanh toán</span>';
                     return '<span class="badge bg-secondary">Không xác định</span>';
                 }
             },

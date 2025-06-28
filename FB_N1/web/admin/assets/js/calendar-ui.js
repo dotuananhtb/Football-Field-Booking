@@ -165,9 +165,11 @@ function getStatusText(status) {
         case 1:
             return "Đã xác nhận";
         case 2:
-            return "Chờ xử lý";
+            return "Yêu cầu huỷ";
         case 3:
             return "Đã huỷ";
+        case 4:
+            return "Đang chờ thanh toán";
         default:
             return "---";
     }

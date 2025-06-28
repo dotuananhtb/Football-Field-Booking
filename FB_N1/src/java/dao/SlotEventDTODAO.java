@@ -70,6 +70,9 @@ public class SlotEventDTODAO extends DBContext {
                 } else if (detail.getStatusCheckingId() == 2) {
                     status = "Pending";
                     color = "#ffc107";
+                } else if (detail.getStatusCheckingId() == 4) {
+                    status = "Wait";
+                    color = "#9900FF";
                 } else {
                     status = "Booked";
                     color = "#dc3545";
@@ -239,17 +242,22 @@ public class SlotEventDTODAO extends DBContext {
                 if (slotStartDateTime.isBefore(now)) {
                     if (detail != null) {
                         switch (detail.getStatusCheckingId()) {
+
                             case 1 -> {
                                 status = 1;
-                                className = "bg-danger bg-opacity-50";
+                                className = "bg-danger bg-opacity-25 text-dark";
                             }
                             case 2 -> {
                                 status = 2;
-                                className = "bg-warning bg-opacity-50";
+                                className = "bg-warning bg-opacity-25 text-dark";
                             }
                             default -> {
                                 status = 3;
                                 className = "bg-light text-dark";
+                            }
+                            case 4 -> {
+                                status = 4;
+                                className = "bg-primary bg-opacity-25 text-dark";
                             }
                         }
                     } else {
@@ -263,6 +271,11 @@ public class SlotEventDTODAO extends DBContext {
                     } else if (detail.getStatusCheckingId() == 2) {
                         status = 2;
                         className = "bg-warning";
+
+                    } else if (detail.getStatusCheckingId() == 4) {
+                        status = 4;
+                        className = "bg-primary bg-opacity-25 text-dark";//cho thanh toan
+
                     } else {
                         status = 1;
                         className = "bg-danger";

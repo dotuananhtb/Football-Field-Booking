@@ -49,7 +49,7 @@ function handleEventClick(info) {
     if (slot.status === 0) {
         toggleSlotSelection(info);
         renderSelectedTable();
-    } else if (slot.status === 1 || slot.status === 2) {
+    } else if (slot.status === 1 || slot.status === 2 || slot.status === 4) {
         openSlotInfoModal(slot); // Truyền toàn bộ dữ liệu slot
     }
 
@@ -148,7 +148,7 @@ function handleBookingSubmit() {
             extraFee: 0,
             slotDate: slot.slot_date,
             note: `NV ${currentUsername} đặt sân offline: ${slot.note || ""}`,
-            statusCheckingId: 1
+            statusCheckingId: 4
         }));
 
     const dataToSend = {
@@ -167,8 +167,8 @@ function handleBookingSubmit() {
         success: function (response) {
             if (response && response.success) {
                 showToast("success", response.message || "✅ Đặt sân thành công!");
-                
-                  // 👉 Redirect sang trang thanh toán với bookingCode
+
+                // 👉 Redirect sang trang thanh toán với bookingCode
                 const bookingCode = response.bookingCode;
                 if (bookingCode) {
                     setTimeout(() => {
@@ -215,7 +215,7 @@ function updateSlotStatus(slotId, slotDate, statusId) {
         success: function () {
             const msg =
                     statusId === 1 ? "✅ Đã xác nhận ca!" :
-                    statusId === 2 ? "⌛ Đang chờ xử lý!" :
+                    statusId === 2 ? "⌛ Đã chuyển ca sang trạng thái xử lí!" :
                     "🚫 Đã huỷ ca!";
             showToast("success", msg);
             $('#event-modal').modal('hide');

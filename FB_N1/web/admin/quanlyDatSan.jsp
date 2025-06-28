@@ -56,6 +56,27 @@
         }
 
 
+        /* Áp dụng màu chữ trắng nếu có bg-dark */
+        .fc-event.bg-dark,
+        .fc-event.bg-dark .fc-event-time,
+        .fc-event.bg-dark .fc-event-title,
+        .fc-timegrid-event.bg-dark,
+        .fc-timegrid-event.bg-dark .fc-event-title,
+        .fc-timegrid-event.bg-dark .fc-event-time {
+            color: #fff !important;
+        }
+
+        /* Áp dụng màu chữ đen nếu có text-dark */
+        .fc-event.text-dark,
+        .fc-event.text-dark .fc-event-title,
+        .fc-event.text-dark .fc-event-time,
+        .fc-timegrid-event.text-dark,
+        .fc-timegrid-event.text-dark .fc-event-title,
+        .fc-timegrid-event.text-dark .fc-event-time {
+            color: #212529 !important;
+        }
+
+
 
         #calendar-wrapper {
             position: relative;
@@ -385,7 +406,7 @@
                                             <!-- 🔹 Nút cập nhật trạng thái -->
                                             <div class="modal-footer bg-light border-top d-flex justify-content-between">
                                                 <div>
-                                               
+
                                                     <!-- ✅ Các nút xử lý đặt trong footer modal -->
                                                     <button id="modal-confirm-btn" class="btn btn-success d-none">
                                                         <i class="bi bi-check-circle-fill me-1"></i> Xác nhận ca
