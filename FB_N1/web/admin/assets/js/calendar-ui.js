@@ -106,7 +106,7 @@ function openSlotInfoModal(slot) {
     $('#event-date').text(slot.slot_date || '---');
     $('#event-time').text(`${slot.start_time} - ${slot.end_time}`);
     $('#event-price').text(Number(slot.price).toLocaleString('vi-VN') + '₫');
-    $('#event-status').text(getStatusText(slot.status));
+    $('#event-status').html(getStatusText(slot.status));
     $('#event-field-name').text(slot.field_name || '---');
     $('#event-field-type').text(slot.field_type_name || '---');
 
@@ -122,8 +122,8 @@ function openSlotInfoModal(slot) {
     const isOffline = user.isOffline === true || user.isOffline === "true";
     $('#ci-is-offline').html(
             isOffline
-            ? '<span class="badge bg-secondary">Khách offline</span>'
-            : '<span class="badge bg-success">Khách online</span>'
+            ? '<span class="badge bg-secondary">Offline</span>'
+            : '<span class="badge bg-success">Online</span>'
             );
 
     // Gán dữ liệu vào các nút
@@ -161,17 +161,17 @@ function openSlotInfoModal(slot) {
 function getStatusText(status) {
     switch (status) {
         case 0:
-            return "Có thể đặt";
+            return `<span class="badge bg-success">Có thể đặt</span>`;
         case 1:
-            return "Đã xác nhận";
+            return `<span class="badge bg-primary">Đã xác nhận</span>`;
         case 2:
-            return "Yêu cầu huỷ";
+            return `<span class="badge bg-warning">Yêu cầu huỷ</span>`;
         case 3:
-            return "Đã huỷ";
+            return `<span class="badge bg-danger">Đã huỷ</span>`;
         case 4:
-            return "Đang chờ thanh toán";
+            return `<span class="badge bg-info">Đang chờ thanh toán</span>`;
         default:
-            return "---";
+            return `<span class="badge bg-muted">---</span>`;
     }
 }
 
