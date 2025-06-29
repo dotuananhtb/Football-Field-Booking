@@ -38,8 +38,8 @@
                                             <main id="main">
                                                 <section class="profile-dashboard">
                                                     <div class="inner-header mb-40">
-                                                        <h3 class="title">Lịch sử chi tiết của Mã đặt sân(BookingID): #${bookingId}</h3>
-                                                        <p class="des">Dưới đây là danh sách chi tiết của mã đơn #${bookingId}</p>
+                                                        <h3 class="title">Lịch sử chi tiết của Mã đặt sân: #${booking_code}</h3>
+                                                        <p class="des">Dưới đây là danh sách chi tiết của mã đơn #${booking_code}</p>
                                                     </div>
                                                     <div class="my-booking-wrap ">
                                                         <ul class="booking-table-title flex-three">

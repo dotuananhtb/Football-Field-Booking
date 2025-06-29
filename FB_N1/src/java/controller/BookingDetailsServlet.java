@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
+import model.Booking;
 import model.BookingDetailsDTO;
 
 /**
@@ -44,9 +45,12 @@ public class BookingDetailsServlet extends HttpServlet {
 
         int bookingId;
         int page = 1;
-
+        String booking_code;
         try {
             bookingId = Integer.parseInt(bookingIdParam);
+            BookingDAO bookingDAO = new BookingDAO();
+            Booking booking = bookingDAO.getBookingByID(bookingId);
+            booking_code = booking.getBookingCode();
         } catch (NumberFormatException e) {
             response.sendRedirect("lich-su-dat-san");
             return;
@@ -67,6 +71,8 @@ public class BookingDetailsServlet extends HttpServlet {
 
         // Đẩy dữ liệu sang JSP
         request.setAttribute("bookingId", bookingId);
+        request.setAttribute("booking_code", booking_code);
+
         request.setAttribute("details", details);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
