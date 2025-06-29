@@ -126,14 +126,14 @@ public class BookingService extends DBContext {
             AppWebSocket.broadcastToRole("1", "newBooking", "Khách hàng " + account.getUsername() + " vừa đặt sân.");
 
             // 11. Gửi mail (nếu cần)
-            String finalBookingId = Integer.toString(bookingId);
+            String finalBookingCode = bookingCode;
             new Thread(() -> {
                 try {
                     SendMail sender = new SendMail();
                     sender.guiMailDatSanThanhCong(
                             account.getEmail(),
                             account.getUserProfile().getLastName() + " " + account.getUserProfile().getFirstName(),
-                            finalBookingId,
+                            finalBookingCode,
                             totalAmount
                     );
                 } catch (Exception ex) {
