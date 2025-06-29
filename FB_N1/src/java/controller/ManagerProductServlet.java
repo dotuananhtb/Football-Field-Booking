@@ -33,31 +33,8 @@ public class ManagerProductServlet extends HttpServlet {
         return account.getUserProfile().getRoleId() == 1;
     }
 
-    // Helper method để lấy ảnh chính cho danh sách products
-    private void loadProductImages(List<Product> products) {
-        if (products == null || products.isEmpty()) {
-            return;
-        }
-        
-        ImageStorageDAO imageDAO = new ImageStorageDAO();
-        for (Product product : products) {
-            List<ImageStorage> images = imageDAO.getImages("product", product.getProductId());
-            if (!images.isEmpty()) {
-                // Tìm ảnh chính hoặc lấy ảnh đầu tiên
-                String mainImageUrl = null;
-                for (ImageStorage img : images) {
-                    if (img.isIsMain()) {
-                        mainImageUrl = img.getImageUrl();
-                        break;
-                    }
-                }
-                if (mainImageUrl == null && !images.isEmpty()) {
-                    mainImageUrl = images.get(0).getImageUrl();
-                }
-                product.setProductImage(mainImageUrl);
-            }
-        }
-    }
+   
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -83,7 +60,7 @@ public class ManagerProductServlet extends HttpServlet {
         if ("search".equals(action) && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
             // Tìm kiếm product
             List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
-            loadProductImages(products); // Load ảnh cho products
+            
             request.setAttribute("products", products);
             request.setAttribute("searchKeyword", searchKeyword);
         } else if ("filter".equals(action)) {
@@ -110,11 +87,11 @@ public class ManagerProductServlet extends HttpServlet {
                     1000, // pageSize (hiện tất cả)
                     "new" // sortBy
                 );
-                loadProductImages(products); // Load ảnh cho products
+                
                 request.setAttribute("selectedCategory", categoryId);
             } else {
                 products = productDAO.getAllProducts();
-                loadProductImages(products); // Load ảnh cho products
+                
             }
             request.setAttribute("products", products);
             request.setAttribute("minPrice", minPriceStr);
@@ -122,7 +99,7 @@ public class ManagerProductServlet extends HttpServlet {
         } else {
             // Hiển thị tất cả product
             List<Product> products = productDAO.getAllProducts();
-            loadProductImages(products); // Load ảnh cho products
+            
             request.setAttribute("products", products);
         }
 
