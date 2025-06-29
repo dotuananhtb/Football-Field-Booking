@@ -95,7 +95,7 @@
                                                        color: white; font-weight: 500;">
                                                         <img src="${sessionScope.userProfile.avatar}"
                                                              style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
-                                                        ${sessionScope.account.userProfile.firstName}
+                                                        ${sessionScope.account.userProfile.firstName} ${sessionScope.account.userProfile.lastName}
                                                     </a>
 
                                                     <ul>
