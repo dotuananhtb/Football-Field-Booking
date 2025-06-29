@@ -573,6 +573,7 @@
                                                             <li class="booking-table-cell"><p>Thời gian đặt</p></li>
                                                             <li class="booking-table-cell"><p>Giảm giá (nếu có)</p></li>
                                                             <li class="booking-table-cell"><p>Tổng thanh toán</p></li>
+                                                            <li class="booking-table-cell"><p>Trạng thái</p></li>
                                                             <li class="booking-table-cell"><p>Xem chi tiết</p></li>
                                                         </ul>
 
@@ -589,7 +590,7 @@
 
                                                                     <!-- Mã đơn đặt -->
                                                                     <div class="booking-table-cell">
-                                                                        <p class="date-gues">ID: #${booking.bookingId}</p>
+                                                                        <p class="date-gues">#${booking.bookingCode}</p>
                                                                     </div>
 
                                                                     <!-- Thời gian đặt -->
@@ -609,11 +610,31 @@
                                                                         </p>
                                                                     </div>
 
+
                                                                     <!-- Tổng thanh toán -->
                                                                     <div class="booking-table-cell">
                                                                         <p style="font-weight: bold; color: red;">${booking.totalAmount} vnđ</p>
                                                                     </div>
-
+                                                                    
+                                                                    <!-- Trạng thái -->
+                                                                    <div class="booking-table-cell">
+                                                                        <p class="status">
+                                                                            <c:choose>
+                                                                                <c:when test="${booking.statusPay == 0}">
+                                                                                    <span style="color: orange; font-weight: bold;">Chờ thanh toán</span>
+                                                                                </c:when>
+                                                                                <c:when test="${booking.statusPay == 1}">
+                                                                                    <span style="color: green; font-weight: bold;">Đã thanh toán</span>
+                                                                                </c:when>
+                                                                                <c:when test="${booking.statusPay == -1}">
+                                                                                    <span style="color: gray; font-weight: bold;">Đã hủy (quá hạn)</span>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <span style="color: gray;">Không xác định</span>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </p>
+                                                                    </div>
                                                                     <!-- Xem chi tiết -->
                                                                     <div class="booking-table-cell action-wrap">
                                                                         <div class="action flex-five">
@@ -677,23 +698,7 @@
                                             <a id="scroll-top" class="button-go"></a>
 
                                             <!-- Modal search-->
-                                            <div class="modal search-mobie fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        <div class="modal-body">
-                                                            <form action="/" class="search-form-mobie">
-                                                                <div class="search">
-                                                                    <i class="icon-circle2017"></i>
-                                                                    <input type="search" placeholder="Search Travel" class="search-input" autocomplete="off">
-                                                                        <button type="button">Search</button>
-                                                                </div>
-                                                            </form>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
 
 

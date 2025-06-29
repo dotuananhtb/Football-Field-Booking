@@ -70,7 +70,7 @@ public class BookingDetailsDAO extends DBContext {
             return false;
         }
     }
-    
+
     public boolean updateStatusByBookingId(int bookingId, int newStatusId) {
         String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -82,6 +82,7 @@ public class BookingDetailsDAO extends DBContext {
         }
         return false;
     }
+
     public BookingDetails getBySlotFieldAndDate(int slotFieldId, String slotDate) {
         String sql = "SELECT * FROM BookingDetails WHERE slot_field_id = ? AND slot_date = ? AND status_checking_id != 3"; // tránh lấy bản ghi đã hủy
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -173,7 +174,7 @@ public class BookingDetailsDAO extends DBContext {
     public List<BookingDetailsDTO> getBookingDetailsByBookingIdPaging(int bookingId, int accountId, int pageIndex, int pageSize) {
         List<BookingDetailsDTO> list = new ArrayList<>();
 
-        String sql = "SELECT bd.booking_details_id, f.field_name, f.image, sd.start_time, sd.end_time, "
+        String sql = "SELECT bd.booking_details_id,bd.booking_details_code, f.field_name, f.image, sd.start_time, sd.end_time, "
                 + "bd.slot_date, bd.slot_field_price, bd.extra_fee, bd.extra_minutes, "
                 + "scs.status_name, scs.status_checking_id, bd.note "
                 + "FROM BookingDetails bd "
@@ -196,6 +197,7 @@ public class BookingDetailsDAO extends DBContext {
                 while (rs.next()) {
                     BookingDetailsDTO dto = new BookingDetailsDTO(
                             rs.getInt("booking_details_id"),
+                            rs.getString("booking_details_code"),
                             rs.getString("field_name"),
                             rs.getString("image"),
                             rs.getString("start_time"),

@@ -31,8 +31,8 @@
                                         </head>
 
                                         <body class="body header-fixed">
-                                           
-                                           
+
+
                                             <jsp:include page="header_dashboard.jsp" />
                                             <!-- End Main Header -->
                                             <main id="main">
@@ -74,7 +74,7 @@
                                                                             <img src="${item.imageUrl}" alt="Ảnh sân ${item.fieldName}">
                                                                         </div>
                                                                         <div class="content">
-                                                                            <p class="id">BookingDetailsID: #${item.bookingDetailsId}</p>
+                                                                            <p class="id">Mã chi tiết: #${item.bookingDetailsCode}</p>
                                                                             <h6 class="title-booking"><a href="#">${item.fieldName}</a></h6>
                                                                             <p style="font-weight: bold; background-color: #003147; color: white; padding: 10px; border-radius: 5px; text-align: center;">
                                                                                 ${item.startTime} - ${item.endTime}
@@ -93,7 +93,7 @@
                                                                     <div class="booking-list-table">
                                                                         <p class="status"
                                                                            style="font-weight: bold;
-                                                                           background-color: ${item.statusId == 1 ? '#28a745' : (item.statusId == 2 ? '#ffc107' : (item.statusId == 3 ? '#6c757d' : 'transparent'))};
+                                                                           background-color: ${item.statusId == 1 ? '#28a745' : (item.statusId == 2 ? '#ffc107' : (item.statusId == 3 ? '#6c757d' :(item.statusId == 4 ? '#154c79' : 'transparent')))};
                                                                            color: white;
                                                                            padding: 6px 12px;
                                                                            border-radius: 5px;
@@ -126,8 +126,8 @@
                                                                                 <div class="action flex-five">
                                                                                     <i class="icon-Vector-17" style="color:red; cursor:pointer;" title="Hủy ca"
                                                                                        onclick="showConfirmDialog('Bạn có chắc muốn hủy ca này?', function () {
-                                                                                                       document.getElementById('cancel-form-${item.bookingDetailsId}').submit();
-                                                                                                   })">
+                                                                                                   document.getElementById('cancel-form-${item.bookingDetailsId}').submit();
+                                                                                               })">
                                                                                     </i>
 
                                                                                 </div>
