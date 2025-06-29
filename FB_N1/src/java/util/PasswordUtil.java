@@ -20,11 +20,11 @@ public class PasswordUtil {
     // Kiểm tra mật khẩu (khi đăng nhập)
     public static boolean checkPassword(String plainPassword, String hashedPassword) {
         return BCrypt.checkpw(plainPassword, hashedPassword);
-    }
+    }//plainpw la mk get tu nguoi dung nhap vao nhe ae, con hashedpw la mk lay ra tu db nhe ae(da ma hoa)
 
     public static void main(String[] args) {
         String raw = "Tx)Ezn1>,iXL";
-        String hashed = "$2a$10$MIGdePsLq.kyHExrBm9jVefFzrF2aLNolSagOnoAIiUKgzs1i7hPS"; // dán từ DB của bạn
+        String hashed = "$2a$10$MIGdePsLq.kyHExrBm9jVefFzrF2aLNolSagOnoAIiUKgzs1i7hPS"; // dán từ DB 
 
         boolean match = BCrypt.checkpw(raw, hashed);
         System.out.println("Matched: " + match);
