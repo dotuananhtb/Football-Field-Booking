@@ -18,6 +18,7 @@ public class Post {
     private String postDate;
     private String statusPost;
     private Account account;
+    private PostDetails postDetails;
 
     public Post() {
     }
@@ -85,6 +86,14 @@ public class Post {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public PostDetails getPostDetails() {
+        return postDetails;
+    }
+
+    public void setPostDetails(PostDetails postDetails) {
+        this.postDetails = postDetails;
     }
 
     @Override

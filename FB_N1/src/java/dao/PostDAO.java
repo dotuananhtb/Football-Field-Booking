@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.util.List;
 import java.util.ArrayList;
 import model.Post;
-import model.Account;
+import model.*;
 import util.DBContext;
 
 public class PostDAO extends DBContext {
@@ -111,6 +111,11 @@ public class PostDAO extends DBContext {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
+                
+                // Lấy thêm PostDetails
+                dao.PostDetailsDAO postDetailsDAO = new dao.PostDetailsDAO();
+                model.PostDetails postDetails = postDetailsDAO.getByPostId(post.getPostId());
+                post.setPostDetails(postDetails);
                 
                 return post;
             }
@@ -252,19 +257,25 @@ public class PostDAO extends DBContext {
         }
     }
 
-    public void createPost(Post post) {
+    public int createPost(Post post) {
         String query = "INSERT INTO Post (account_id, title, content_post, post_date, status_post) VALUES (?, ?, ?, ?, ?)";
         try {
-            PreparedStatement ptm = connection.prepareStatement(query);
+            PreparedStatement ptm = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ptm.setInt(1, post.getAccountId());
             ptm.setString(2, post.getTitle());
             ptm.setString(3, post.getContentPost());
             ptm.setString(4, post.getPostDate());
             ptm.setString(5, post.getStatusPost());
             ptm.executeUpdate();
+            try (ResultSet rs = ptm.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // trả về post_id vừa tạo
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1; // lỗi
     }
 
     public void updatePost(Post post) {
@@ -364,6 +375,7 @@ public class PostDAO extends DBContext {
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
             ResultSet rs = ptm.executeQuery();
+            PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
             while (rs.next()) {
                 Post post = new Post();
                 post.setPostId(rs.getInt("post_id"));
@@ -375,6 +387,13 @@ public class PostDAO extends DBContext {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
+                // Lấy PostDetails cho từng post
+                try {
+                    PostDetails details = postDetailsDAO.getByPostId(post.getPostId());
+                    post.setPostDetails(details);
+                } catch (Exception e) {
+                    post.setPostDetails(null);
+                }
                 list.add(post);
             }
         } catch (SQLException e) {
@@ -752,6 +771,7 @@ public class PostDAO extends DBContext {
             ptm.setInt(1, (page - 1) * pageSize);
             ptm.setInt(2, pageSize);
             ResultSet rs = ptm.executeQuery();
+            PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
             while (rs.next()) {
                 Post post = new Post();
                 post.setPostId(rs.getInt("post_id"));
@@ -763,6 +783,9 @@ public class PostDAO extends DBContext {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
+                // Lấy PostDetails cho từng post
+                PostDetails details = postDetailsDAO.getByPostId(post.getPostId());
+                post.setPostDetails(details);
                 list.add(post);
             }
         } catch (SQLException e) {
@@ -804,6 +827,7 @@ public class PostDAO extends DBContext {
             ptm.setInt(3, (page - 1) * pageSize);
             ptm.setInt(4, pageSize);
             ResultSet rs = ptm.executeQuery();
+            PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
             while (rs.next()) {
                 Post post = new Post();
                 post.setPostId(rs.getInt("post_id"));
@@ -815,6 +839,9 @@ public class PostDAO extends DBContext {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
+                // Lấy PostDetails cho từng post
+                PostDetails details = postDetailsDAO.getByPostId(post.getPostId());
+                post.setPostDetails(details);
                 list.add(post);
             }
         } catch (SQLException e) {
@@ -854,6 +881,7 @@ public class PostDAO extends DBContext {
             PreparedStatement ptm = connection.prepareStatement(query);
             ptm.setInt(1, limit);
             ResultSet rs = ptm.executeQuery();
+            PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
             while (rs.next()) {
                 Post post = new Post();
                 post.setPostId(rs.getInt("post_id"));
@@ -865,6 +893,9 @@ public class PostDAO extends DBContext {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
+                // Lấy PostDetails cho từng post
+                PostDetails details = postDetailsDAO.getByPostId(post.getPostId());
+                post.setPostDetails(details);
                 list.add(post);
             }
         } catch (SQLException e) {

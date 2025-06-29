@@ -35,6 +35,24 @@
                                     <input type="text" name="title" required placeholder="Nhập tiêu đề bài viết" value="${post.title}">
                                 </div>
                                 <div class="input-wrap mb-45">
+                                    <label>Ngày đá <span style="color:red">*</span></label>
+                                    <input type="date" name="matchDate" required value="${postDetails.matchDate}" min="${currentDate}">
+                                </div>
+                                <div class="input-wrap mb-45">
+                                    <label>Giờ đá <span style="color:red">*</span></label>
+                                    <input type="time" name="matchTime" required value="${postDetails.matchTime}">
+                                </div>
+                                <div class="input-wrap mb-45">
+                                    <label>Loại sân <span style="color:red">*</span></label>
+                                    <select name="fieldTypeId" required>
+                                        <c:forEach var="type" items="${fieldTypes}">
+                                            <option value="${type.fieldTypeId}" <c:if test="${postDetails.fieldType == type.fieldTypeName}">selected</c:if>>
+                                                ${type.fieldTypeName}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="input-wrap mb-45">
                                     <label>Ghi chú/Nội dung thêm</label>
                                     <textarea name="userContent" rows="4" placeholder="Nhập ghi chú hoặc yêu cầu đặc biệt...">${post.contentPost}</textarea>
                                 </div>

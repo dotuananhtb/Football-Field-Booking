@@ -174,7 +174,7 @@
                                             <p style="margin: 5px 0 0 0; color: #666;">Tìm kiếm và tham gia các buổi đá bóng</p>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <c:if test="${sessionScope.account != null}">
+                                            <c:if test="${sessionScope.account != null && account.userProfile.roleId ==3}">
                                                 <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary" style="border-radius: 6px; white-space: nowrap;">
                                                     <i class="icon-plus"></i> Tạo bài viết
                                                 </a>
@@ -196,7 +196,9 @@
                                             <div class="blog-card-header" style="margin-bottom: 15px;">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex gap-3" style="color: #666; font-size: 14px;">
-                                                        <span><i class="icon-user"></i> ${post.account.username}</span>
+                                                        <c:if test="${not empty post.account}">
+                                                            <span><i class="icon-user"></i> ${post.account.username}</span>
+                                                        </c:if>
                                                         <span><i class="icon-25"></i> ${commentCounts[post.postId]} bình luận</span>
                                                         <span><i class="icon-24"></i> ${post.postDate}</span>
                                                     </div>
@@ -214,6 +216,14 @@
                                                     ${post.title}
                                                 </a>
                                             </h3>
+                                            <!-- Thông tin PostDetails nếu có -->
+                                            <c:if test="${not empty post.postDetails}">
+                                                <div style="margin-bottom: 10px; color: #333;">
+                                                    <b>Ngày đá:</b> ${post.postDetails.matchDate} &nbsp;|
+                                                    <b>Giờ đá:</b> ${post.postDetails.matchTime} &nbsp;|
+                                                    <b>Loại sân:</b> ${post.postDetails.fieldType}
+                                                </div>
+                                            </c:if>
                                             <p class="blog-card-desc" style="color: #555; line-height: 1.6; margin-bottom: 20px;">
                                                 <c:out value="${fn:replace(fn:replace(post.contentPost, ',', '<br/>'), 'Ghi chú:', '<br/><strong>Ghi chú:</strong>')}" escapeXml="false"/>
                                             </p>
@@ -231,7 +241,9 @@
                                                     <h6 style="margin-bottom: 15px; color: #333;">Bình luận</h6>
                                                     <c:forEach var="cmt" items="${commentsMap[post.postId]}">
                                                         <div class="blog-comment" style="background: white; border-radius: 6px; padding: 10px; margin-bottom: 10px; border-left: 3px solid #4DA528;">
-                                                            <div style="font-weight: 600; color: #4DA528; margin-bottom: 5px;">${cmt.account.username}</div>
+                                                            <c:if test="${not empty cmt.account}">
+                                                                <div style="font-weight: 600; color: #4DA528; margin-bottom: 5px;">${cmt.account.username}</div>
+                                                            </c:if>
                                                             <div style="color: #555;">${cmt.contentCmt}</div>
                                                         </div>
                                                     </c:forEach>
