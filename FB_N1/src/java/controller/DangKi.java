@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import model.Account;
 import model.UserProfile;
+import util.PasswordUtil;
 /////
+
 @WebServlet(name = "Dang_ki", urlPatterns = {"/dang-ki"})
 public class DangKi extends HttpServlet {
 
@@ -56,7 +58,7 @@ public class DangKi extends HttpServlet {
             }
 
             UserProfile profile = new UserProfile(roleId, firstName, lastName, address, gender, dob, phone, avatar);
-            Account account = new Account(statusId, username, password, email, createdAt, profile);
+            Account account = new Account(statusId, username, PasswordUtil.hashPassword(password), email, createdAt, profile);
 
             if (ad.addAccountAndSendVerificationEmail(account)) {
                 response.getWriter().write("Đăng ký thành công! Vui lòng kiểm tra email.");
