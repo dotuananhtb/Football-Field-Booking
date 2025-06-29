@@ -27,7 +27,35 @@
                                     <link rel="shortcut icon" href="assets/images/logoKoChu.png">
                                         <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                             </head>
+                                            <style>
+                                                .avatar-upload-wrapper {
+                                                    max-width: 400px;
+                                                    margin: 0 auto;
+                                                    background-color: #fff;
+                                                    border-radius: 12px;
+                                                    padding: 20px;
+                                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                                                }
 
+                                                .avatar-preview {
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    margin-bottom: 20px;
+                                                }
+
+                                                .avatar-preview img {
+                                                    max-width: 150px;
+                                                    max-height: 150px;
+                                                    border-radius: 50%;
+                                                    object-fit: cover;
+                                                    border: 3px solid #0d6efd;
+                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                                                }
+
+                                                .form-label {
+                                                    font-weight: 600;
+                                                }
+                                            </style>
                                             <body class="body header-fixed">
                                                 <jsp:include page="toast.jsp"/>
                                                 <jsp:include page="header_dashboard.jsp" />
@@ -36,19 +64,33 @@
                                                     <section class="profile-dashboard">
 
                                                         <!-- Mẫu cho nhóm upload ảnh_ ae thay đổi giá trị value để tạo ra folder lưu riêng ảnh cho Object mình làm -->                                                        
-                                                        <form action="${pageContext.request.contextPath}/upload-cloud-image" method="post" enctype="multipart/form-data">
-                                                            <div class="form-group mb-3">
-                                                                <label for="avatar">Chọn ảnh đại diện Cloud(Dùng api cloudinary):</label>
-                                                                <input type="file" name="image" id="avatar" accept="image/*" class="form-control" required>
-                                                            </div>
+                                                        <div class="avatar-upload-wrapper">
+                                                            <form action="${pageContext.request.contextPath}/upload-cloud-image" method="post" enctype="multipart/form-data">
+                                                                <h5 class="text-center mb-4">Cập nhật ảnh đại diện</h5>
 
-                                                            <input type="hidden" name="type" value="avatars">
+                                                                <!-- Ảnh xem trước -->
+                                                                <div class="avatar-preview" id="preview-container">
+                                                                    <img id="avatar-preview" src="${sessionScope.userProfile.avatar}" alt="avatar">
+                                                                </div>
 
-                                                                <button type="submit" class="btn btn-primary">Cập nhật avatar</button>
-                                                        </form>
+                                                                <!-- Chọn ảnh -->
+                                                                <div class="mb-3">
+                                                                    <label for="avatar" class="form-label">Chọn ảnh mới:</label>
+                                                                    <input type="file" name="image" id="avatar" accept="image/*" class="form-control" onchange="previewAvatar(event)" required>
+                                                                </div>
 
-                                                        
+                                                                <input type="hidden" name="type" value="avatars">
+
+                                                                    <!-- Nút cập nhật -->
+                                                                    <div class="d-grid">
+                                                                        <button class="button-wrap" type="submit"  >Cập nhật</button>
+                                                                    </div>
+                                                            </form>
+                                                        </div>
+
+
                                                         <!-- comment: Do Tuan Anh -->
+
 
 
 
@@ -62,28 +104,12 @@
                                                         %>
                                                         <form action="${pageContext.request.contextPath}/updateUser" method="post" class="edit-profile">
                                                             <c:set value="${sessionScope.userProfile}" var="u"></c:set>
-                                                                <div class="inner-header mb-40">
-                                                                    <h3 class="title">Hồ sơ cá nhân </h3>
 
-                                                                </div>
-                                                                <div class="upload-image-dashboard flex mb-80">
-                                                                    <span class="title-avata">Avatar:</span>
-                                                                    <div class="upload-image-wrap">
-                                                                        <div class="avata relative">
-                                                                            <img id="frame" src="${u.avatar}" alt="avatar">
 
-                                                                    </div>
-
-                                                                    <div class="upload-file">
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
 
                                                             <c:set value="${sessionScope.account}" var="a"></c:set>
                                                                 <div class="infomation-dashboard mb-70">
-                                                                    <h4 class="title">Thông tin cá nhân</h4>
+                                                                    <h3 class="title">Thông tin cá nhân</h3>
                                                                     <div class="widget-dash-board">
                                                                         <div class="grid-input-2">
                                                                             <input type="hidden" value="${u.getAccountId()}" name="id">
@@ -169,33 +195,8 @@
 
                                                 <a id="scroll-top" class="button-go"></a>
                                                 <!-- Modal search-->
-                                                <div class="modal search-mobie fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            <div class="modal-body">
-                                                                <form action="/" class="search-form-mobie">
-                                                                    <div class="search">
-                                                                        <i class="icon-circle2017"></i>
-                                                                        <input type="search" placeholder="Search Travel" class="search-input" autocomplete="off">
-                                                                            <button type="button">Search</button>
-                                                                    </div>
-                                                                </form>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
-                                                    <div class="offcanvas-header">
-                                                        <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="offcanvas-body">
-                                                        ...
-                                                    </div>
-                                                </div>
 
                                                 <!-- Javascript -->
                                                 <script src="app/js/jquery.min.js"></script>
@@ -206,6 +207,22 @@
                                                 <script src="app/js/plugin.js"></script>
                                                 <script src="app/js/shortcodes.js"></script>
                                                 <script src="app/js/main.js"></script>
+                                                <script>
+                                                                        function previewAvatar(event) {
+                                                                            const input = event.target;
+                                                                            const preview = document.getElementById('avatar-preview');
+
+                                                                            if (input.files && input.files[0]) {
+                                                                                const reader = new FileReader();
+
+                                                                                reader.onload = function (e) {
+                                                                                    preview.src = e.target.result;
+                                                                                };
+
+                                                                                reader.readAsDataURL(input.files[0]);
+                                                                            }
+                                                                        }
+                                                </script>
 
                                             </body>
 
