@@ -802,64 +802,6 @@
                                                                                                                                                                                                         </fieldset>-->
                                                                                                                                                 </div>
                                                                                                                                             </div>
-                                                                                                                                            <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check">10+</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check1" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check1">12+</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check2" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check2">15+</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check3" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check3">Adults</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        </div>
-                                                                                                                                                        </div>-->
-                                                                                                                                            <!--                                                                                                                                                                        <div class="widget-filter mb-40">
-                                                                                                                                                        <h6 class="title-tour">Search by Filter</h6>
-                                                                                                                                                        <div class="group-check-box-wrap">
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check4-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check4-bar">Accepts Credit Cards</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check5-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check5-bar">Car Parking</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check6-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check6-bar">Free Coupons</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check7-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check7-bar">Laundry Service</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check8-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check8-bar">Outdoor Seating</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check9-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check9-bar">Reservations</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check10-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check10-bar">Restaurant</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="checkbox">
-                                                                                                                                                        <input id="check11-bar" type="checkbox" name="check" value="check">
-                                                                                                                                                        <label for="check11-bar">Smoking Allowed</label>
-                                                                                                                                                        </div>
-                                                                                                                                                        </div>
-                                                                                                                                                        </div>-->
                                                                                                                                         </div>
                                                                                                                                     </div>
                                                                                                                                     <div class="col-lg-8 listing-list-car-wrap">
@@ -1047,60 +989,6 @@
                                                                                                                     </div>
 
                                                                                                                     <!-- Modal Popup Bid -->
-
-                                                                                                                    <a id="scroll-top" class="button-go"></a>
-
-                                                                                                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
-                                                                                                                        <div class="offcanvas-header">
-                                                                                                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                                                                                                        </div>
-                                                                                                                        <div class="offcanvas-body">
-                                                                                                                            <div class="logo-canvas">
-                                                                                                                                <img src="./assets/images/logo.png" alt="image">
-                                                                                                                            </div>
-                                                                                                                            <p class="des">The world’s first and largest digital market
-                                                                                                                                for crypto collectibles and non-fungible
-                                                                                                                            </p>
-                                                                                                                            <ul class="canvas-info">
-                                                                                                                                <li class="flex-three">
-                                                                                                                                    <i class="icon-noun-mail-5780740-1"></i>
-                                                                                                                                    <p>Info@webmail.com</p>
-                                                                                                                                </li>
-                                                                                                                                <li class="flex-three">
-                                                                                                                                    <i class="icon-Group-9"></i>
-                                                                                                                                    <p>684 555-0102 490</p>
-                                                                                                                                </li>
-                                                                                                                                <li class="flex-three">
-                                                                                                                                    <i class="icon-Layer-19"></i>
-                                                                                                                                    <p>6391 Elgin St. Celina, NYC 10299</p>
-                                                                                                                                </li>
-                                                                                                                            </ul>
-                                                                                                                            <ul class="social flex-three">
-                                                                                                                                <li>
-                                                                                                                                    <a href="#">
-                                                                                                                                        <i class="icon-icon-2"></i>
-                                                                                                                                    </a>
-                                                                                                                                </li>
-                                                                                                                                <li>
-                                                                                                                                    <a href="#">
-                                                                                                                                        <i class="icon-x"></i>
-                                                                                                                                    </a>
-                                                                                                                                </li>
-                                                                                                                                <li>
-                                                                                                                                    <a href="#">
-                                                                                                                                        <i class="icon-8"></i>
-                                                                                                                                    </a>
-                                                                                                                                </li>
-                                                                                                                                <li>
-                                                                                                                                    <a href="#">
-                                                                                                                                        <i class="icon-6"></i>
-                                                                                                                                    </a>
-                                                                                                                                </li>
-                                                                                                                            </ul>
-
-                                                                                                                        </div>
-                                                                                                                    </div>
-
                                                                                                                     <script>
                                                                                                                         document.querySelectorAll(".nice-select .option").forEach(function (option) {
                                                                                                                             option.addEventListener("click", function () {
@@ -1537,10 +1425,7 @@
                                                                                                                                             });
                                                                                                                                         }
                                                                                                                     </script>
-                                                                                                                    <!-- Flatpickr JS -->
-                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
-                                                                                                                    <!-- Flatpickr Vietnamese locale -->
-                                                                                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
+
                                                                                                                     <script>
                                                                                                                                         // Initialize Flatpickr for date picker
                                                                                                                                         const datePicker = flatpickr("#bookingDateAdvanced", {
