@@ -15,7 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import model.Account;
 import model.EmailVerificationToken;
+import model.UserProfile;
+import util.ToastUtil;
 
 /**
  *
@@ -23,6 +26,8 @@ import model.EmailVerificationToken;
  */
 @WebServlet(name = "VerifyMail", urlPatterns = {"/verify"})
 public class VerifyMail extends HttpServlet {
+
+    private AccountDAO accountDAO = new AccountDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,6 +67,7 @@ public class VerifyMail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String tokenParam = request.getParameter("token");
 
         if (tokenParam == null || tokenParam.isEmpty()) {
@@ -75,22 +81,34 @@ public class VerifyMail extends HttpServlet {
 
         if (token == null) {
             request.setAttribute("message", "Liên kết không tồn tại hoặc đã được sử dụng!");
+            ToastUtil.setErrorToast(request, "Liên kết không tồn tại hoặc đã được sử dụng!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else if (token.isUsed()) {
             request.setAttribute("message", "Liên kết đã được sử dụng!");
+            ToastUtil.setErrorToast(request, "Liên kết đã được sử dụng!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else if (System.currentTimeMillis()
                 > LocalDateTime.parse(token.getExpiresAt()).toInstant(ZoneOffset.UTC).toEpochMilli()) {
             request.setAttribute("message", "Liên kết đã hết hạn!");
+            ToastUtil.setErrorToast(request, "Liên kết đã hết hạn!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
         } else {
             // Cập nhật trạng thái tài khoản và token
-            tokenDAO.activateAccount(token.getAccountId()) ;
+            tokenDAO.activateAccount(token.getAccountId());
 
             tokenDAO.markTokenAsUsed(token.getToken());
 
+            ///
+            Account acc = accountDAO.getAccountById(tokenDAO.getAccountIdByToken(tokenParam));
+            UserProfile profile = acc.getUserProfile();
+
+            request.getSession().setAttribute("username", acc.getUsername());
+            request.getSession().setAttribute("account", acc);
+            request.getSession().setAttribute("userProfile", profile);
+
             // ✅ Xác minh thành công: chuyển hướng về trang chủ
-            response.sendRedirect("UI/success.html");
+            ToastUtil.setSuccessToast(request, "Xác minh E-mail thành công!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 

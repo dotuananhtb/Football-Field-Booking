@@ -64,8 +64,11 @@ function validateAndSubmit() {
                     showToast11(msg, isSuccess ? "success" : "error");
 
                     if (isSuccess) {
-                        setTimeout(() => location.reload(), 1000);
+                        setTimeout(() => {
+                            window.location.href = '/FB_N1/home'; // hoặc '/FootballFieldBooking/home' tùy context path
+                        }, 1800);
                     }
+
                 })
                 .catch(err => {
                     showToast11("Lỗi gửi dữ liệu. Vui lòng thử lại.", "error");

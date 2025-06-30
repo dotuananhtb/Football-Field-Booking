@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import util.ToastUtil;
 
 @WebServlet(name = "ThanhToanServlet", urlPatterns = {"/thanh-toan"})
 public class ThanhToanServlet extends HttpServlet {
@@ -20,14 +21,21 @@ public class ThanhToanServlet extends HttpServlet {
 
         String bookingCode = request.getParameter("code");
         if (bookingCode == null || bookingCode.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu mã booking.");
+
+            request.setAttribute("message", "Thiếu mã booking.");
+            ToastUtil.setErrorToast(request, "Thiếu mã booking.");
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
             return;
         }
 
         BookingDAO bookingDAO = new BookingDAO();
         Booking booking = bookingDAO.findByBookingCode(bookingCode);
         if (booking == null || booking.getStatusPay() == 1 || booking.getStatusPay() == -1) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
+
+            request.setAttribute("message", "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
+            ToastUtil.setErrorToast(request, "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
+            request.getRequestDispatcher("UI/error.jsp").forward(request, response);
+
             return;
         }
 
