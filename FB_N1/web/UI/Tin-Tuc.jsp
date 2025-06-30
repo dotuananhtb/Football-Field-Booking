@@ -1,5 +1,5 @@
 <%-- 
-    Document   : blog
+    Document   : Tin-Tuc
     Created on : 11 thg 6, 2025, 20:30:39
     Author     : Asus
 --%>
@@ -14,7 +14,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Blog của tôi - FootballStar</title>
+    <title>Tin Tức - FootballStar</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -150,10 +150,10 @@
                     <div class="tf-container">
                         <div class="row">
                             <div class="col-lg-12 center z-index1">
-                                <h1 class="title">Bài viết tìm đối</h1>
+                                <h1 class="title">Trang Tin Tức</h1>
                                 <ul class="breadcumb-list flex-five">
                                     <li><a href="/FB_N1/home">Trang chủ</a></li>
-                                    <li><span>Bài viết</span></li>
+                                    <li><span>Tin tức</span></li>
                                 </ul>
                                 <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
                             </div>
@@ -170,17 +170,17 @@
                                 <div class="search-filter-section mb-40" style="background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #e5e5e5;">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                                         <div>
-                                            <h4 style="margin: 0; color: #333;">Diễn đàn tìm đối thủ</h4>
-                                            <p style="margin: 5px 0 0 0; color: #666;">Tìm kiếm và tham gia các buổi đá bóng</p>
+                                            <h4 style="margin: 0; color: #333;">Diễn đàn tin tức</h4>
+                                            <p style="margin: 5px 0 0 0; color: #666;">Cập nhật tin tức mới nhất về bóng đá và sân bóng</p>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <c:if test="${sessionScope.account != null}">
+                                            <c:if test="${sessionScope.account != null && (sessionScope.account.userProfile.roleId == 1 || sessionScope.account.userProfile.roleId == 2)}">
                                                 <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary" style="border-radius: 6px; white-space: nowrap;">
-                                                    <i class="icon-plus"></i> Tạo bài viết
+                                                    <i class="icon-plus"></i> Tạo tin tức
                                                 </a>
                                             </c:if>
-                                            <form action="${pageContext.request.contextPath}/blog" method="get" class="d-flex gap-2">
-                                                <input type="text" name="search" value="${search}" placeholder="Tìm kiếm bài viết..." 
+                                            <form action="${pageContext.request.contextPath}/tin-tuc" method="get" class="d-flex gap-2">
+                                                <input type="text" name="search" value="${search}" placeholder="Tìm kiếm tin tức..." 
                                                        class="form-control" style="width: 250px; border-radius: 6px;">
                                                 <button type="submit" class="btn btn-outline-primary" style="border-radius: 6px; white-space: nowrap;">
                                                     <i class="icon-search-2"></i> Tìm
@@ -252,20 +252,21 @@
                                     <c:if test="${empty posts}">
                                         <div class="text-center py-50" style="background: #f8f9fa; border-radius: 12px;">
                                             <i class="icon-search" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
-                                            <h5 style="color: #666; margin-bottom: 10px;">Không tìm thấy bài viết nào</h5>
-                                            <p style="color: #999;">Hãy thử tìm kiếm với từ khóa khác hoặc tạo bài viết mới</p>
+                                            <h5 style="color: #666; margin-bottom: 10px;">Không tìm thấy tin tức nào</h5>
+                                            <p style="color: #999;">Hãy thử tìm kiếm với từ khóa khác</p>
                                         </div>
                                     </c:if>
                                 </div>
+                                
                                 <!-- Pagination -->
                                 <c:if test="${totalPages > 1}">
                                     <div class="row mt-40">
                                         <div class="col-md-12">
-                                            <nav aria-label="Blog pagination">
+                                            <nav aria-label="News pagination">
                                                 <ul class="pagination justify-content-center" style="gap: 5px;">
                                                     <c:if test="${currentPage > 1}">
                                                         <li class="page-item">
-                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/tin-tuc?page=${currentPage - 1}${search != null ? '&search=' + search : ''}" style="border-radius: 6px;">
                                                                 <i class="icon-29"></i> Trước
                                                             </a>
                                                         </li>
@@ -273,7 +274,7 @@
                                                     
                                                     <c:forEach var="i" begin="1" end="${totalPages}">
                                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${i}&search=${search != null ? search : ''}" 
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/tin-tuc?page=${i}${search != null ? '&search=' + search : ''}" 
                                                                style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
                                                                 ${i}
                                                             </a>
@@ -282,7 +283,7 @@
                                                     
                                                     <c:if test="${currentPage < totalPages}">
                                                         <li class="page-item">
-                                                            <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                            <a class="page-link" href="${pageContext.request.contextPath}/tin-tuc?page=${currentPage + 1}${search != null ? '&search=' + search : ''}" style="border-radius: 6px;">
                                                                 Sau <i class="icon--1"></i>
                                                             </a>
                                                         </li>
@@ -295,31 +296,44 @@
                             </div>
                             <div class="col-lg-4 col-12">
                                 <div class="side-bar-right">
-                                    
+                                    <div class="sidebar-widget" style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 30px;">
+                                        <h4 class="block-heading" style="color: #333; margin-bottom: 15px;">
+                                            <i class="icon-search-2" style="color: #4DA528; margin-right: 8px;"></i>Tìm kiếm nhanh
+                                        </h4>
+                                        <form action="${pageContext.request.contextPath}/tin-tuc" method="get" id="search-bar-widget">
+                                            <div class="d-flex gap-2">
+                                                <input type="text" name="search" value="${search}" placeholder="Tìm kiếm tin tức..." 
+                                                       class="form-control" style="border-radius: 6px;">
+                                                <button type="submit" class="btn btn-primary" style="border-radius: 6px;">
+                                                    <i class="icon-search-2"></i>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="sidebar-widget">
-                                        <h4 class="block-heading">Bài viết gần đây</h4>
+                                    
+                                    <div class="sidebar-widget" style="background: #f8f9fa; border-radius: 12px; padding: 20px;">
+                                        <h4 class="block-heading" style="color: #333; margin-bottom: 15px;">
+                                            <i class="icon-news" style="color: #4DA528; margin-right: 8px;"></i>Tin tức gần đây
+                                        </h4>
                                         <div class="recent-post-list">
                                             <c:forEach var="post" items="${recentPosts}">
-                                                <div class="list-recent flex-three">
-                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="recent-image">
-                                                        
-                                                    </a>
+                                                <div class="recent-post-item" style="border-bottom: 1px solid #e5e5e5; padding: 15px 0;">
                                                     <div class="recent-info">
-                                                        <div class="date">
+                                                        <div class="date" style="color: #666; font-size: 12px; margin-bottom: 5px;">
                                                             <i class="icon-4"></i>
                                                             <span>${post.postDate}</span>
                                                         </div>
-                                                        <h4 class="title">
-                                                            <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">${post.title}</a>
-                                                        </h4>
+                                                        <h5 class="title" style="margin: 0; font-size: 14px; line-height: 1.4;">
+                                                            <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                               style="color: #333; text-decoration: none; font-weight: 500;">
+                                                                ${post.title}
+                                                            </a>
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </c:forEach>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
                         </div>
@@ -409,14 +423,14 @@
         var btn = document.getElementById('toggle-btn-' + postId);
         if (el.style.display === 'none') {
             el.style.display = 'block';
-            btn.innerText = 'Ẩn bình luận';
+            btn.innerHTML = '<i class="icon-chat"></i> Ẩn bình luận';
         } else {
             el.style.display = 'none';
-            btn.innerText = 'Hiện bình luận';
+            btn.innerHTML = '<i class="icon-chat"></i> Hiện bình luận';
         }
     }
     </script>
 
 </body>
 
-</html>
+</html> 

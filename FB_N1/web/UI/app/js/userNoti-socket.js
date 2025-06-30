@@ -40,4 +40,9 @@ function connectUserNotiSocket(accountId, roleId) {
 
 function showUserNotification(message) {
     showToast("info", message); // hoặc alert(message);
+    showPopup({
+        title: 'Thông báo từ hệ thống',
+        text: message,
+        icon: 'info'
+    });
 }

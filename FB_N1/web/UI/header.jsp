@@ -61,7 +61,7 @@
                                             <li class="dropdown2 "><a href="/FB_N1/blog">Diễn Đàn</a>
                                                 <ul>
                                                     <li><a href="/FB_N1/blog">Diễn Đàn Tìm Đối Thủ</a></li>
-                                                    <li><a href="/FB_N1/UI/blogDetails.jsp">Diễn Đàn Thông Tin Cầu Thủ</a></li>
+                                                    <li><a href="/FB_N1/tin-tuc">Diễn Đàn Tin Tức</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
 

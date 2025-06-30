@@ -14,10 +14,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.BookingDetails;
+import model.SlotsOfField;
 import service.BookingService;
 import util.ToastUtil;
 import websocket.AppWebSocket;
@@ -57,9 +63,33 @@ public class CancelBookingServlet extends HttpServlet {
         boolean success = bookingService.updateStatus(bookingDetailsId, 2);
 
         if (success) {
-            AppWebSocket.broadcastToRole("1", "cancelRequest", "Khách hàng " + account.getUsername() + " yêu cầu huỷ ca #" + bookingDetailsId);
-            Set<String> affectedFieldIds = new HashSet<>();
+// Lấy thông tin thời gian ca và sân
             SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
+            String startTime = bookingDetails.getStartTime();
+            String endTime = bookingDetails.getEndTime();
+            String slotDate = null;
+            try {
+                slotDate = new SimpleDateFormat("dd/MM/yyyy")
+                        .format(new SimpleDateFormat("yyyy-MM-dd").parse(bookingDetails.getSlotDate()));
+            } catch (ParseException ex) {
+                Logger.getLogger(CancelBookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+// Lấy tên sân
+            SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
+            SlotsOfField slot = slotDAO.getSlotOfFieldById(bookingDetailsDAO.getBookingDetailsById(bookingDetailsId).getSlotFieldId());
+            String fieldName = slot.getField().getFieldName();
+// Gửi thông báo cụ thể
+            String message = String.format("⚠️ Khách hàng %s yêu cầu huỷ ca %s - %s tại sân %s ngày %s.",
+                    account.getUsername(),
+                    startTime,
+                    endTime,
+                    fieldName,
+                    slotDate
+            );
+
+            AppWebSocket.broadcastToRole("1", "cancelRequest", message);
+            Set<String> affectedFieldIds = new HashSet<>();
 
             String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(bookingDetails.getSlotFieldId());
             if (fieldId != null) {

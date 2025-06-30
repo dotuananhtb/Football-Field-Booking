@@ -21,7 +21,7 @@ public class BookingDAO extends DBContext {
 
     // Thêm đơn đặt sân, trả về booking_id
     public int insertBooking(Booking booking) {
-        String sql = "INSERT INTO Booking (account_id, sale_id, booking_date, total_amount, email) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Booking (account_id, sale_id, booking_date, total_amount, email, booking_code) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -39,6 +39,7 @@ public class BookingDAO extends DBContext {
             ps.setString(3, now); // Ghi nhận thời gian hiện tại
             ps.setBigDecimal(4, booking.getTotalAmount());
             ps.setString(5, booking.getEmail());
+            ps.setString(6, booking.getBookingCode());
 
             ps.executeUpdate();
 
@@ -52,6 +53,42 @@ public class BookingDAO extends DBContext {
         }
 
         return -1;
+    }
+
+    public Booking getBookingByCode(String bookingCode) {
+        String sql = "SELECT * FROM Booking WHERE booking_code = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean isBookingCodeExists(String bookingCode) {
+        String sql = "SELECT COUNT(*) FROM Booking WHERE booking_code = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void setConnection(Connection conn) {
@@ -69,6 +106,7 @@ public class BookingDAO extends DBContext {
             while (rs.next()) {
                 Booking booking = new Booking(
                         rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
                         rs.getInt("account_id"),
                         rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
                         rs.getString("booking_date"),
@@ -82,6 +120,35 @@ public class BookingDAO extends DBContext {
         }
 
         return list;
+    }
+
+    public Booking getBookingByBookingDetailId(int bookingDetailsId) {
+        String sql = """
+        SELECT b.*
+        FROM Booking b
+        JOIN BookingDetails bd ON b.booking_id = bd.booking_id
+        WHERE bd.booking_details_id = ?
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingDetailsId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Booking(
+                        rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
+                        rs.getInt("account_id"),
+                        rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
+                        rs.getString("booking_date"),
+                        rs.getBigDecimal("total_amount"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public List<Booking> getBookingsByAccountIdPaging(int accountId, int pageIndex, int pageSize) {
@@ -99,6 +166,7 @@ public class BookingDAO extends DBContext {
             while (rs.next()) {
                 Booking booking = new Booking(
                         rs.getInt("booking_id"),
+                        rs.getString("booking_code"),
                         rs.getInt("account_id"),
                         rs.getObject("sale_id") != null ? rs.getInt("sale_id") : null,
                         rs.getString("booking_date"),

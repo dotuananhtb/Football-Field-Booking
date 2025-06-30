@@ -1,6 +1,3 @@
-// calendar-logic.js
-
-// 🔹 1. Khởi tạo FullCalendar
 function initCalendar() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -28,7 +25,6 @@ function initCalendar() {
     });
 }
 
-// 🔹 2. Lấy ca từ server
 function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     const fieldId = $('#fieldSelect').val();
     if (!fieldId)
@@ -48,18 +44,17 @@ function fetchSlotEvents(fetchInfo, successCallback, failureCallback) {
     });
 }
 
-// 🔹 3. Xử lý khi click slot
 function handleEventClick(info) {
     const slot = info.event.extendedProps;
     if (slot.status === 0) {
         toggleSlotSelection(info);
         renderSelectedTable();
     } else if (slot.status === 1 || slot.status === 2) {
-        openStatusModal(info.event);
+        openSlotInfoModal(slot); // Truyền toàn bộ dữ liệu slot
     }
+
 }
 
-// 🔹 4. Chọn/bỏ chọn slot
 function toggleSlotSelection(info) {
     const slot = info.event.extendedProps;
     const existsIndex = selectedSlots.findIndex(s =>
@@ -84,16 +79,57 @@ function toggleSlotSelection(info) {
         info.event.setProp('classNames', ['bg-info', 'text-white']);
     }
 }
-
-// 🔹 5. Gửi yêu cầu đặt sân
-// 🔹 5. Gửi yêu cầu đặt sân
 function handleBookingSubmit() {
     if (selectedSlots.length === 0) {
         showToast("error", "⚠️ Bạn chưa chọn ca nào để đặt.");
         return;
     }
 
-    // Cập nhật note từ các input vào selectedSlots
+    const form = document.getElementById('offlineUserForm');
+    const fullNameInput = document.getElementById('offlineFullName');
+    const phoneInput = document.getElementById('offlinePhone');
+    const emailInput = document.getElementById('offlineEmail');
+
+    if (!form)
+        return;
+
+    // ✅ Nếu form không hợp lệ thì hiển thị từng lỗi
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+
+        if (!fullNameInput.checkValidity()) {
+            if (fullNameInput.validity.valueMissing) {
+                showToast("error", "❌ Họ và tên không được để trống.");
+            } else if (fullNameInput.validity.tooLong) {
+                showToast("error", "❌ Họ và tên không được vượt quá 100 ký tự.");
+            }
+        }
+
+        if (!phoneInput.checkValidity()) {
+            if (phoneInput.validity.valueMissing) {
+                showToast("error", "❌ Vui lòng nhập số điện thoại.");
+            } else if (phoneInput.validity.patternMismatch || phoneInput.validity.tooLong) {
+                showToast("error", "❌ Số điện thoại phải bắt đầu bằng 0 và đủ 10 chữ số.");
+            }
+        }
+
+        if (emailInput.value && !emailInput.checkValidity()) {
+            if (emailInput.validity.typeMismatch) {
+                showToast("error", "❌ Email không đúng định dạng.");
+            } else if (emailInput.validity.tooLong) {
+                showToast("error", "❌ Email không được vượt quá 100 ký tự.");
+            }
+        }
+
+        return;
+    }
+
+    // ✅ Thu thập dữ liệu
+    const fullName = fullNameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const email = emailInput.value.trim();
+
+    // ✅ Ghi chú từng slot
     $("#selectedSlotsTable tbody tr").each(function () {
         const noteInput = $(this).find(".slot-note-input");
         const i = noteInput.data("index");
@@ -111,23 +147,33 @@ function handleBookingSubmit() {
             extraMinutes: 0,
             extraFee: 0,
             slotDate: slot.slot_date,
-            note: `NV ${currentUsername} đặt sân offline cho khách: ${slot.note || ""}`, // <-- Gắn username
+            note: `NV ${currentUsername} đặt sân offline: ${slot.note || ""}`,
             statusCheckingId: 1
         }));
 
-    // 👉 In ra console để kiểm tra JSON trước khi gửi
+    const dataToSend = {
+        fullName: fullName,
+        phone: phone,
+        email: email || null,
+        details: bookingDetailsList
+    };
 
+    // ✅ Gửi dữ liệu
     $.ajax({
-        url: '/FB_N1/admin/dat-san',
+        url: '/FB_N1/admin/dat-san-offline',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(bookingDetailsList),
+        data: JSON.stringify(dataToSend),
         success: function (response) {
             if (response && response.success) {
                 showToast("success", response.message || "✅ Đặt sân thành công!");
                 selectedSlots = [];
                 calendar.refetchEvents();
                 renderSelectedTable();
+                fullNameInput.value = '';
+                phoneInput.value = '';
+                emailInput.value = '';
+                form.classList.remove('was-validated');
             } else {
                 showToast("error", response.message || "❌ Không rõ nguyên nhân!");
             }
@@ -145,7 +191,8 @@ function handleBookingSubmit() {
 }
 
 
-// 🔹 6. Cập nhật trạng thái ca (Admin)
+
+
 function updateSlotStatus(slotId, slotDate, statusId) {
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',

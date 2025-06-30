@@ -13,14 +13,57 @@ import java.math.BigDecimal;
 public class BookingDetails {
 
     private int bookingDetailsId;
+
     private int bookingId;
+    private String bookingDetailsCode;
     private int slotFieldId;
     private BigDecimal slotFieldPrice;
     private int extraMinutes;
     private BigDecimal extraFee;
-    private String slotDate; // Định dạng yyyy-MM-dd
+    private String slotDate;      // Định dạng yyyy-MM-dd
+    private String startTime;     // VD: "17:00"
+    private String endTime;       // VD: "18:30"
     private String note;
     private int statusCheckingId;
+
+    public BookingDetails(int bookingDetailsId, int bookingId, String bookingDetailsCode, int slotFieldId, BigDecimal slotFieldPrice, int extraMinutes, BigDecimal extraFee, String slotDate, String startTime, String endTime, String note, int statusCheckingId) {
+        this.bookingDetailsId = bookingDetailsId;
+        this.bookingId = bookingId;
+        this.bookingDetailsCode = bookingDetailsCode;
+        this.slotFieldId = slotFieldId;
+        this.slotFieldPrice = slotFieldPrice;
+        this.extraMinutes = extraMinutes;
+        this.extraFee = extraFee;
+        this.slotDate = slotDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.note = note;
+        this.statusCheckingId = statusCheckingId;
+    }
+
+    public String getBookingDetailsCode() {
+        return bookingDetailsCode;
+    }
+
+    public void setBookingDetailsCode(String bookingDetailsCode) {
+        this.bookingDetailsCode = bookingDetailsCode;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public BookingDetails() {
     }
@@ -114,5 +157,4 @@ public class BookingDetails {
         return "BookingDetails{" + "bookingDetailsId=" + bookingDetailsId + ", bookingId=" + bookingId + ", slotFieldId=" + slotFieldId + ", slotFieldPrice=" + slotFieldPrice + ", extraMinutes=" + extraMinutes + ", extraFee=" + extraFee + ", slotDate=" + slotDate + ", note=" + note + ", statusCheckingId=" + statusCheckingId + '}';
     }
 
-    
 }

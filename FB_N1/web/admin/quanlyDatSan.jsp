@@ -30,7 +30,7 @@
 
 
     </head>
-   
+
 
 
     <style>
@@ -38,6 +38,24 @@
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
         }
+        /* Đảm bảo mọi bg-dark có chữ trắng */
+        .fc-event.bg-dark,
+        .fc-event.bg-dark .fc-event-time,
+        .fc-event.bg-dark .fc-event-title {
+            color: #fff !important;
+        }
+
+        /* Đảm bảo chỉ text-dark mới có chữ đen */
+        .fc-event.text-dark {
+            color: #212529 !important;
+        }
+
+        .fc-event.text-dark .fc-event-time,
+        .fc-event.text-dark .fc-event-title {
+            color: inherit !important;
+        }
+
+
 
         #calendar-wrapper {
             position: relative;
@@ -77,12 +95,25 @@
 
         #fieldSelect {
             display: block;
+            width: 100%;
+            max-width: 400px;
             margin: 20px auto;
-            font-size: 16px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #495057;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
+
+        #fieldSelect:focus {
+            border-color: #198754; /* Bootstrap's success color */
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+            outline: none;
+        }
+
 
 
 
@@ -190,155 +221,202 @@
                         <div class="row">
                             <div class="col-12">
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- comment -->
-                                        <select id="fieldSelect">
-                                            <option value="">-- Chọn sân --</option>
-                                            <%
-                                                FieldDAO fieldDAO = new FieldDAO();
-                                                List<Field> fields = fieldDAO.getAllFields();
-                                                for (Field field : fields) {
-                                            %>
-                                            <option value="<%= field.getFieldId()%>"><%= field.getFieldName()%></option>
-                                            <% }%>
-                                        </select>
+                                <div class="container-fluid px-4">
+                                    <div class="card shadow-sm border-0">
+                                        <div class="card-body">
 
-                                        <div id="calendar-wrapper">
-                                            <div class="calendar-fixed-header">
-                                                <div class="fc-toolbar"></div>
-                                                <div class="fc-col-header"></div>
+                                            <!-- 🔹 Chọn sân -->
+                                            <div class="mb-3">
+                                                <label for="fieldSelect" class="form-label fw-bold">Chọn sân</label>
+                                                <select id="fieldSelect" class="form-select">
+                                                    <option value="">-- Chọn sân --</option>
+                                                    <%
+                                                        FieldDAO fieldDAO = new FieldDAO();
+                                                        List<Field> fields = fieldDAO.getAllFields();
+                                                        for (Field field : fields) {
+                                                    %>
+                                                    <option value="<%= field.getFieldId()%>"><%= field.getFieldName()%></option>
+                                                    <% }%>
+                                                </select>
                                             </div>
 
-                                            <div class="calendar-scrollable-body">
-                                                <div id="calendar"></div>
-                                            </div>
-                                        </div>
-
-                                        <table id="selectedSlotsTable" class="table" style="display:none;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ngày</th>
-                                                    <th>Khung giờ</th>
-                                                    <th>Giá</th>
-                                                    <th>Ghi chú(SDT khách)</th>
-                                                    <th>Hành động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                        <div id="totalPrice" style="display:none; margin-top: 10px;">Tổng tiền: 0₫</div>
-
-                                        <div style="text-align: center; margin-top: 20px;">
-                                            <button id="bookNowBtn">Đặt sân</button>
-                                        </div>
-                                        <!--                                        <script src="assets/js/calendarBooking.js"></script>-->
-
-
-                                        <!-- comment -->
-                                    </div> <!-- end card body-->
-                                </div> <!-- end card -->
-
-                                <!-- Admin Modal -->
-                                <!-- Modal Thông Tin Ca Sân -->
-                                <div class="modal fade" id="event-modal" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                                        <div class="modal-content">
-                                            <form class="needs-validation" id="form-event" novalidate>
-                                                <div class="modal-header bg-success text-white">
-                                                    <h5 class="modal-title">
-                                                        <i class="bi bi-calendar-check me-2"></i>Thông tin ca sân
-                                                    </h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <!-- 🔹 Lịch -->
+                                            <div id="calendar-wrapper" class="card shadow-sm p-3 mb-4">
+                                                <div class="calendar-fixed-header mb-3">
+                                                    <div class="fc-toolbar"></div>
+                                                    <div class="fc-col-header"></div>
                                                 </div>
+                                                <div class="calendar-scrollable-body">
+                                                    <div id="calendar"></div>
+                                                </div>
+                                            </div>
 
-                                                <div class="modal-body px-4 py-3">
-                                                    <div class="row g-3">
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Ngày</label>
-                                                            <input class="form-control" type="text" id="event-date" disabled />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Khung giờ</label>
-                                                            <input class="form-control" type="text" id="event-time" disabled />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Tên sân</label>
-                                                            <input class="form-control" type="text" id="event-field-name" disabled />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Loại sân</label>
-                                                            <input class="form-control" type="text" id="event-field-type" disabled />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Giá</label>
-                                                            <input class="form-control" type="text" id="event-price" disabled />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Trạng thái</label>
-                                                            <input class="form-control" type="text" id="event-status" disabled />
+                                            <!-- 🔹 Thông tin khách hàng offline -->
+                                            <form id="offlineUserForm" class="needs-validation card shadow-sm p-4 mb-4 border-0" style="display: none;" novalidate>
+                                                <h5 class="mb-4 text-primary fw-bold">Thông tin khách hàng offline</h5>
+                                                <div class="row g-3">
+                                                    <!-- Họ tên -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlineFullName" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                                        <input type="text" id="offlineFullName" name="offlineFullName" class="form-control" placeholder="Nhập họ tên khách hàng"
+                                                               required minlength="2" maxlength="50"
+                                                               pattern="^[a-zA-ZÀ-ỹ\s]+$"
+                                                               title="Chỉ chứa chữ cái và khoảng trắng. Tối đa 50 ký tự.">
+                                                        <div class="invalid-feedback">
+                                                            Họ và tên từ 2–50 ký tự, chỉ chứa chữ cái và khoảng trắng.
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="modal-footer px-4 pb-3 pt-0">
-                                                    <div class="container-fluid">
-                                                        <div class="row g-2">
-                                                            <div class="col-md-6 col-lg-3">
-                                                                <button type="button" class="btn btn-info w-100" id="btn-show-customer">
-                                                                    <i class="bi bi-person-circle me-1"></i> Người đặt
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-3">
-                                                                <button type="button" class="btn btn-secondary w-100" id="btn-cancel-slot">
-                                                                    <i class="bi bi-x-circle me-1"></i> Huỷ ca
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-3">
-                                                                <button type="button" class="btn btn-warning w-100" id="btn-pending-slot">
-                                                                    <i class="bi bi-hourglass-split me-1"></i> Đang xử lí
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-3">
-                                                                <button type="button" class="btn btn-danger w-100" id="btn-confirm-slot">
-                                                                    <i class="bi bi-check2-circle me-1"></i> Xác nhận
-                                                                </button>
-                                                            </div>
+                                                    <!-- Số điện thoại -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlinePhone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                                        <input type="tel" id="offlinePhone" name="offlinePhone" class="form-control" placeholder="Nhập số điện thoại"
+                                                               required pattern="^0[0-9]{9}$" maxlength="10"
+                                                               title="Phải có đúng 10 chữ số và bắt đầu bằng số 0.">
+                                                        <div class="invalid-feedback">
+                                                            Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Email -->
+                                                    <div class="col-md-4">
+                                                        <label for="offlineEmail" class="form-label">Email (tuỳ chọn)</label>
+                                                        <input type="email" id="offlineEmail" name="offlineEmail" class="form-control" placeholder="Email khách hàng (nếu có)"
+                                                               maxlength="100"
+                                                               title="Nhập đúng định dạng email và không vượt quá 100 ký tự.">
+                                                        <div class="invalid-feedback">
+                                                            Email không đúng định dạng hoặc quá 100 ký tự.
                                                         </div>
                                                     </div>
                                                 </div>
                                             </form>
+
+
+
+                                            <!-- 🔹 Bảng ca đã chọn -->
+                                            <div class="table-responsive mb-3">
+                                                <table id="selectedSlotsTable" class="table table-bordered table-hover align-middle text-center shadow-sm" style="display: none;">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Ngày</th>
+                                                            <th>Khung giờ</th>
+                                                            <th>Giá</th>
+                                                            <th>Ghi chú</th>
+                                                            <th>Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- 🔹 Tổng tiền -->
+                                            <div id="totalPrice" class="fw-bold fs-5 text-end text-success mb-3" style="display: none;">
+                                                Tổng tiền: 0₫
+                                            </div>
+
+                                            <!-- 🔹 Nút đặt sân -->
+                                            <div class="text-center">
+                                                <button id="bookNowBtn" class="btn btn-success btn-lg w-100" style="display: none;">
+                                                    <i class="bi bi-check-circle-fill me-2"></i>Đặt sân
+                                                </button>
+                                            </div>
+
+                                        </div> <!-- end card-body -->
+                                    </div> <!-- end card -->
+                                </div>
+
+
+
+                                <!-- Admin Modal -->
+
+                                <div class="modal fade" id="event-modal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content shadow rounded-3">
+                                            <div class="modal-header bg-success text-white rounded-top">
+                                                <h5 class="modal-title">
+                                                    <i class="bi bi-calendar-event"></i> Chi tiết ca sân
+                                                </h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                            </div>
+
+                                            <div class="modal-body p-4">
+                                                <!-- 🔹 Thông tin ca sân -->
+                                                <h6 class="text-primary fw-bold mb-3">
+                                                    <i class="bi bi-info-circle"></i> Thông tin ca sân
+                                                </h6>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><i class="bi bi-calendar"></i> <strong>Ngày đá:</strong> <span id="event-date">---</span></div>
+                                                    <div class="col-md-6"><i class="bi bi-clock"></i> <strong>Khung giờ:</strong> <span id="event-time">---</span></div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><i class="bi bi-geo-alt"></i> <strong>Tên sân:</strong> <span id="event-field-name">---</span></div>
+                                                    <div class="col-md-6"><i class="bi bi-grid-3x3"></i> <strong>Loại sân:</strong> <span id="event-field-type">---</span></div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><i class="bi bi-cash-coin"></i> <strong>Giá ca:</strong> <span id="event-price">---</span></div>
+                                                    <div class="col-md-6"><i class="bi bi-hourglass-split"></i> <strong>Trạng thái:</strong> <span id="event-status">---</span></div>
+                                                </div>
+
+                                                <hr class="my-4" />
+
+                                                <!-- 🔹 Thông tin người đặt -->
+                                                <h6 class="text-primary fw-bold mb-3">
+                                                    <i class="bi bi-person-circle"></i> Thông tin người đặt
+                                                </h6>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><strong>Họ tên:</strong> <span id="ci-name">---</span></div>
+                                                    <div class="col-md-6"><strong>SĐT:</strong> <span id="ci-phone">---</span></div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><strong>Email:</strong> <span id="ci-email">---</span></div>
+                                                    <div class="col-md-6"><strong>Ghi chú:</strong> <span id="ci-note">---</span></div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6"><strong>ID Booking:</strong> <span id="ci-booking-id">---</span></div>
+                                                    <div class="col-md-6"><strong>ID Booking Detail:</strong> <span id="ci-booking-details-id">---</span></div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-6"><strong>Ngày đặt:</strong> <span id="ci-booking-date">---</span></div>
+                                                    <div class="col-md-6"><strong>Hình thức đặt:</strong> <span id="ci-is-offline">---</span></div>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- 🔹 Nút cập nhật trạng thái -->
+                                            <div class="modal-footer bg-light border-top d-flex justify-content-between">
+                                                <div>
+                                               
+                                                    <!-- ✅ Các nút xử lý đặt trong footer modal -->
+                                                    <button id="modal-confirm-btn" class="btn btn-success d-none">
+                                                        <i class="bi bi-check-circle-fill me-1"></i> Xác nhận ca
+                                                    </button>
+
+                                                    <button id="modal-pending-btn" class="btn btn-warning text-dark d-none">
+                                                        <i class="bi bi-clock-history me-1"></i> Chuyển về chờ xử lý
+                                                    </button>
+
+                                                    <button id="modal-cancel-btn" class="btn btn-danger d-none">
+                                                        <i class="bi bi-x-circle-fill me-1"></i> Huỷ ca
+                                                    </button>
+
+                                                    <button id="modal-confirm-cancel-btn" class="btn btn-danger d-none">
+                                                        <i class="bi bi-trash3-fill me-1"></i> Xác nhận huỷ ca
+                                                    </button>
+
+                                                    <button id="modal-cancel-request-btn" class="btn btn-secondary d-none">
+                                                        <i class="bi bi-arrow-counterclockwise me-1"></i> Huỷ bỏ yêu cầu huỷ
+                                                    </button>
+
+                                                </div>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    <i class="bi bi-x-lg"></i> Đóng
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Modal Thông Tin Người Đặt -->
-                                <div class="modal fade" id="customer-info-modal" tabindex="-1" aria-labelledby="customerInfoModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header py-3 px-4">
-                                                <h5 class="modal-title" id="customerInfoModalLabel">
-                                                    <i class="bi bi-person-circle me-2"></i>Thông tin người đặt
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                                            </div>
-                                            <div class="modal-body px-4 pb-4 pt-0">
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item"><strong>Ngày đặt:</strong> <span id="ci-booking-date">---</span></li>
-                                                    <li class="list-group-item"><strong>Mã Booking:</strong> <span id="ci-booking-id">---</span></li>
-                                                    <li class="list-group-item"><strong>Mã Chi Tiết:</strong> <span id="ci-booking-details-id">---</span></li>
-                                                    <li class="list-group-item"><strong>Họ tên:</strong> <span id="ci-name">---</span></li>
-                                                    <li class="list-group-item"><strong>Số điện thoại:</strong> <span id="ci-phone">---</span></li>
-                                                    <li class="list-group-item"><strong>Email:</strong> <span id="ci-email">---</span></li>
-                                                    <li class="list-group-item"><strong>Ghi chú:</strong> <span id="ci-note">---</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="modal-footer px-4 py-3">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
 
 
