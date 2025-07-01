@@ -77,6 +77,9 @@
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
                                             <i class="ri-add-line"></i> Thêm Sản phẩm Mới
                                         </button>
+                                        <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                            <i class="ri-add-line"></i> Thêm Loại Sản phẩm
+                                        </button>
                                     </div>
                                     <h4 class="page-title">Quản lý Sản phẩm</h4>
                                 </div>
@@ -195,6 +198,50 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div> <!-- end row-->
+
+                        <!-- Danh sách loại sản phẩm -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Danh sách Loại Sản phẩm</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tên loại</th>
+                                                    <th>Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="cate" items="${categories}">
+                                                    <tr>
+                                                        <td>${cate.productCateId}</td>
+                                                        <td>${cate.cateName}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-sm btn-outline-primary edit-cate-btn"
+                                                                    data-cate-id="${cate.productCateId}"
+                                                                    data-cate-name="${cate.cateName}">
+                                                                <i class="ri-edit-line"></i> Sửa
+                                                            </button>
+                                                            <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" style="display:inline;">
+                                                                <input type="hidden" name="action" value="deleteCategory">
+                                                                <input type="hidden" name="categoryId" value="${cate.productCateId}">
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xác nhận xoá loại sản phẩm?')">
+                                                                    <i class="ri-delete-bin-line"></i> Xoá
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div> <!-- container -->
 
@@ -339,6 +386,57 @@
             </div>
         </div>
 
+        <!-- Add Category Modal -->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCategoryModalLabel">Thêm Loại Sản phẩm Mới</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                        <input type="hidden" name="action" value="addCategory">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="categoryName" class="form-label">Tên Loại Sản phẩm *</label>
+                                <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-success">Thêm Loại</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCategoryModalLabel">Chỉnh sửa Loại Sản phẩm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                        <input type="hidden" name="action" value="editCategory">
+                        <input type="hidden" name="categoryId" id="editCateId">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="editCateName" class="form-label">Tên Loại Sản phẩm *</label>
+                                <input type="text" class="form-control" id="editCateName" name="categoryName" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Theme Settings -->
         <%@include file="themesetting.jsp" %>
 
@@ -395,6 +493,19 @@
                 
                 new bootstrap.Modal(document.getElementById('editProductModal')).show();
             }
+
+            // Xử lý nút sửa loại sản phẩm
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.edit-cate-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const cateId = this.getAttribute('data-cate-id');
+                        const cateName = this.getAttribute('data-cate-name');
+                        document.getElementById('editCateId').value = cateId;
+                        document.getElementById('editCateName').value = cateName;
+                        new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
+                    });
+                });
+            });
         </script>
    
     </body>

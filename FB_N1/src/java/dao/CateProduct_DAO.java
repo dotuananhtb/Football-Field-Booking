@@ -59,20 +59,15 @@ public class CateProduct_DAO extends DBContext {
     }
 
     public int insertCategories(CateProduct c) {
-        String sql = "INSERT INTO [dbo].[Cate_Product]\n"
-                + "           ([product_cate_id]\n"
-                + "           ,[cate_name])\n"
-                + "     VALUES\n"
-                + "           (?,?)";
+        String sql = "INSERT INTO [dbo].[Cate_Product] ([cate_name]) VALUES (?)";
 
         int n = 0;
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
-            ptm.setInt(1, c.getProductCateId());
-            ptm.setString(2, c.getCateName());
+            ptm.setString(1, c.getCateName());
             n = ptm.executeUpdate();
         } catch (SQLException e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         return n;
     }
