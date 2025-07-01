@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -62,9 +63,10 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
         AccountDAO dao = new AccountDAO();
+
         boolean isSuccess = dao.checkLogin(username, password);
 
-        int statusID = dao.getStatusIDbyAccount(username, password);
+        int statusID = dao.getStatusIDByUsername(username);
 
         if (isSuccess && statusID == 1) {
             Account acc = dao.getAccountByUsername(username);

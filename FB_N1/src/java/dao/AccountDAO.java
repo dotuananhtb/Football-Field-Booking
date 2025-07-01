@@ -15,8 +15,10 @@ import mailverify.SendMail;
 import model.Account;
 import model.Role;
 import model.UserProfile;
+import org.mindrot.jbcrypt.BCrypt;
 import util.AccountCredentialsGenerator;
 import util.DBContext;
+import util.PasswordUtil;
 
 public class AccountDAO extends DBContext {
 
@@ -476,24 +478,19 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean checkLogin(String userName, String passWord) {
-        String sql = "SELECT *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
-                + "  where username =? and password =?";
-        boolean check = false;
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+    public boolean checkLogin(String userName, String plainPassword) {
+        String sql = "SELECT password FROM Account WHERE username = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, userName);
-            st.setString(2, passWord);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                check = true;
+                String hashedPassword = rs.getString("password");
+                return BCrypt.checkpw(plainPassword, hashedPassword);
             }
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace(); // hoặc log lỗi nếu cần
         }
-        return check;
-
+        return false;
     }
 
     public void updateUsername(String username, String accountId) {
@@ -580,7 +577,7 @@ public class AccountDAO extends DBContext {
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
             psAccount.setInt(1, 1); // status_id = 1
             psAccount.setString(2, username);
-            psAccount.setString(3, password);
+            psAccount.setString(3, PasswordUtil.hashPassword(password));
             psAccount.setString(4, email);
             String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             psAccount.setString(5, createdAt);
@@ -703,24 +700,21 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    public int getStatusIDbyAccount(String username, String password) {
-        int statusID = 0;
-        String sql = "SELECT a.status_id\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]  a\n"
-                + "  where a.username = ? and a.password = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+    public int getStatusIDByUsername(String username) {
+        int statusID = -1;
+        String sql = "SELECT status_id FROM Account WHERE username = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, username);
-            st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                statusID = rs.getInt(1);
+                statusID = rs.getInt("status_id");
             }
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
         return statusID;
     }
+
 
     public Account getAccountByUsername(String username) {
         UserProfileDAO userProfileDAO = new UserProfileDAO();
@@ -743,27 +737,11 @@ public class AccountDAO extends DBContext {
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
-        UserProfile profile = new UserProfile();
-        profile.setRoleId(2); // ví dụ: 2 = khách hàng
-        profile.setAvatar("default-avatar.png");
+        String username = "user202923";           // Nhập username tồn tại trong DB
+        String password = "Tx)Ezn1>,iXL";          // Nhập mật khẩu gốc (plaintext)
 
-        // Tạo đối tượng Account
-        Account account = new Account();
-        account.setStatusId(1); // ví dụ: 1 = active
-        account.setUsername("testuser");
-        account.setPassword("123456");
-        account.setEmail("test@example.com");
-        account.setCreatedAt("2025-06-19"); // hoặc LocalDate.now().toString()
-        account.setUserProfile(profile);
+        boolean matched = dao.checkLogin(username, password);
 
-        // Thử insert
-        boolean success = dao.insertAccountWithProfile(account);
-
-        if (success) {
-            System.out.println("✅ Insert thành công! Account ID: " + account.getAccountId());
-        } else {
-            System.out.println("❌ Insert thất bại.");
-        }
-
+        System.out.println(">>> Matched: " + matched);
     }
 }
