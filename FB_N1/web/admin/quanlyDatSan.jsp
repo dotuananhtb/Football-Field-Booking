@@ -56,6 +56,27 @@
         }
 
 
+        /* Áp dụng màu chữ trắng nếu có bg-dark */
+        .fc-event.bg-dark,
+        .fc-event.bg-dark .fc-event-time,
+        .fc-event.bg-dark .fc-event-title,
+        .fc-timegrid-event.bg-dark,
+        .fc-timegrid-event.bg-dark .fc-event-title,
+        .fc-timegrid-event.bg-dark .fc-event-time {
+            color: #fff !important;
+        }
+
+        /* Áp dụng màu chữ đen nếu có text-dark */
+        .fc-event.text-dark,
+        .fc-event.text-dark .fc-event-title,
+        .fc-event.text-dark .fc-event-time,
+        .fc-timegrid-event.text-dark,
+        .fc-timegrid-event.text-dark .fc-event-title,
+        .fc-timegrid-event.text-dark .fc-event-time {
+            color: #212529 !important;
+        }
+
+
 
         #calendar-wrapper {
             position: relative;
@@ -240,6 +261,7 @@
                                                 </select>
                                             </div>
 
+
                                             <!-- 🔹 Lịch -->
                                             <div id="calendar-wrapper" class="card shadow-sm p-3 mb-4">
                                                 <div class="calendar-fixed-header mb-3">
@@ -250,6 +272,32 @@
                                                     <div id="calendar"></div>
                                                 </div>
                                             </div>
+
+                                            <!-- Chú thích trạng thái cho người sử dụng -->
+                                            <style>#legend-bar {
+                                                    max-width: 1100px;
+                                                    margin: 0 auto 10px;
+                                                }
+                                                #legend-bar .badge {
+                                                    font-size: 0.9rem;
+                                                    padding: 0.5em 0.75em;
+                                                }
+                                            </style>
+                                            <div class="container mt-3" id="legend-bar">
+                                                <h6><i class="bi bi-info-circle-fill text-primary"></i> Chú thích trạng thái màu của các ca trên lịch:</h6>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <span class="badge bg-success">Có thể đặt</span>
+                                                    <span class="badge bg-warning">Yêu cầu huỷ</span>
+                                                    <span class="badge bg-danger">Đã đặt</span>                                                
+                                                    <span class="badge bg-danger bg-opacity-25 text-dark">Ca cũ đã đặt</span>
+                                                    <span class="badge bg-warning bg-opacity-25 text-dark">Ca cũ chưa được xử lí huỷ</span>
+                                                    <span class="badge bg-primary bg-opacity-25 text-dark border border-primary">Chờ thanh toán</span>
+                                                    <span class="badge bg-light text-dark border">Ca cũ chưa đặt</span>
+                                                    <span class="badge bg-info">Đang chọn</span>
+
+                                                </div>
+                                            </div>
+                                            <!-- comment -->
 
                                             <!-- 🔹 Thông tin khách hàng offline -->
                                             <form id="offlineUserForm" class="needs-validation card shadow-sm p-4 mb-4 border-0" style="display: none;" novalidate>
@@ -385,7 +433,7 @@
                                             <!-- 🔹 Nút cập nhật trạng thái -->
                                             <div class="modal-footer bg-light border-top d-flex justify-content-between">
                                                 <div>
-                                               
+
                                                     <!-- ✅ Các nút xử lý đặt trong footer modal -->
                                                     <button id="modal-confirm-btn" class="btn btn-success d-none">
                                                         <i class="bi bi-check-circle-fill me-1"></i> Xác nhận ca

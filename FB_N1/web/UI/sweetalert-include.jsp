@@ -122,7 +122,25 @@
             confirmButtonText: confirmText
         });
     }
-    
+    function showSuccessRedirectDialog( {
+    title = '🎉 Thành công!',
+            message = 'Cảm ơn bạn đã sử dụng dịch vụ.',
+            redirectUrl = '/FB_N1/home',
+            confirmText = '🏠 Về trang chủ'
+            } = {}) {
+        Swal.fire({
+            icon: 'success',
+            title: title,
+            text: message,
+            confirmButtonText: confirmText
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+
+
 
 //// 1. Thông báo thành công
 //showPopup({

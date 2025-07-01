@@ -17,30 +17,31 @@ import util.DBContext;
  * @author VAN NGUYEN
  */
 public class Zone_DAO extends DBContext {
-    public List<Zone> getAllZone(){
+
+    public List<Zone> getAllZone() {
         List<Zone> listZ = new ArrayList<>();
-        String sql = "SELECT *\n" +
-"  FROM [FootballFieldBooking].[dbo].[Zone]";
-         try {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Zone]";
+        try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
-                Zone zone = new Zone(rs.getInt(1), rs.getString(2));
+                Zone zone = new Zone(rs.getInt(1), rs.getString(2), rs.getString(3));
                 listZ.add(zone);
             }
-         } catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
-         return listZ;
+        return listZ;
     }
-    
+
     public static void main(String[] args) {
-        
+
         Zone_DAO zD = new Zone_DAO();
         List<Zone> list = zD.getAllZone();
-        for( Zone zone : list){
+        for (Zone zone : list) {
             System.out.println(zone);
         }
     }
-   
+
 }

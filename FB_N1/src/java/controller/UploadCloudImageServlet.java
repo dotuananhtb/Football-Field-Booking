@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ImageStorageDAO;
 import dao.UserProfileDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -17,70 +18,81 @@ import java.io.IOException;
 public class UploadCloudImageServlet extends HttpServlet {
 
     private final CloudinaryUploader uploader = new CloudinaryUploader();
+    private final ImageStorageDAO imageDAO = new ImageStorageDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Part filePart = request.getPart("image"); // name="image" trong form
-        String type = request.getParameter("type"); // avatars, products,...
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
+        String type = request.getParameter("type"); // avatars, field, article, etc.
+        String relatedIdStr = request.getParameter("relatedId");
+        int relatedId = relatedIdStr != null && !relatedIdStr.isBlank() ? Integer.parseInt(relatedIdStr) : -1;
+        Account account = (Account) request.getSession().getAttribute("account");
 
-        try {
-            String cloudinaryUrl = uploader.uploadImage(filePart, type);
-
-            if (cloudinaryUrl == null) {
-                ToastUtil.setErrorToast(request, "Vui lòng chọn đúng định dạng ảnh (jpg, png, jpeg, gif, webp).");
+        switch (type.toLowerCase()) {
+            case "avatars":
+                handleAvatarUpload(request, response, account);
+                break;
+            case "field":
+            case "article":
+            case "product":
+            case "banner":
+                handleMultiImageUpload(request, response, type, relatedId);
+                break;
+            default:
+                ToastUtil.setErrorToast(request, "Loại ảnh không được hỗ trợ.");
                 redirectBack(request, response);
-                return;
-            }
+        }
+    }
 
-            switch (type.toLowerCase()) {
-                case "avatars":
-                    if (account == null) {
-                        ToastUtil.setErrorToast(request, "Bạn cần đăng nhập để thay đổi avatar.");
-                        break;
-                    }
-
-                    UserProfileDAO profileDAO = new UserProfileDAO();
-                    UserProfile profile = account.getUserProfile();
-
-                    if (profile == null) {
-                        ToastUtil.setErrorToast(request, "Không tìm thấy hồ sơ người dùng.");
-                        break;
-                    }
-
-                    boolean updated = profileDAO.updateAvatar(cloudinaryUrl, account.getAccountId());
-                    if (updated) {
-                        profile.setAvatar(cloudinaryUrl);
-                        account.setUserProfile(profile);
-                        session.setAttribute("account", account);
-                        ToastUtil.setSuccessToast(request, "Cập nhật avatar thành công!");
-                    } else {
-                        ToastUtil.setErrorToast(request, "Không thể cập nhật avatar.");
-                    }
-                    break;
-//////-----Các case khác viết ở dưới---------------------////
-                case "products":
-                    ToastUtil.setWarningToast(request, "Tính năng đang được phát triển.");
-
-                case "banners":
-                    ToastUtil.setWarningToast(request, "Tính năng đang được phát triển.");
-
-                case "fatherproducts":
-                    ToastUtil.setWarningToast(request, "Tính năng đang được phát triển.");
-                    break;
-
-                default:
-                    ToastUtil.setErrorToast(request, "Loại ảnh không hợp lệ.");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace(); // ❗ In lỗi chi tiết ra console
-            ToastUtil.setErrorToast(request, "Lỗi upload ảnh: " + e.getMessage());
+    private void handleAvatarUpload(HttpServletRequest request, HttpServletResponse response, Account account) throws IOException, ServletException {
+        if (account == null || account.getUserProfile() == null) {
+            ToastUtil.setErrorToast(request, "Bạn cần đăng nhập để cập nhật avatar.");
+            redirectBack(request, response);
+            return;
         }
 
+        Part part = request.getPart("image"); // name="image"
+        try {
+            String url = uploader.uploadImage(part, "avatars");
+            UserProfileDAO profileDAO = new UserProfileDAO();
+            boolean updated = profileDAO.updateAvatar(url, account.getAccountId());
+            if (updated) {
+                account.getUserProfile().setAvatar(url);
+                request.getSession().setAttribute("account", account);
+                ToastUtil.setSuccessToast(request, "Cập nhật avatar thành công!");
+            } else {
+                ToastUtil.setErrorToast(request, "Không thể cập nhật avatar.");
+            }
+        } catch (Exception e) {
+            ToastUtil.setErrorToast(request, "Lỗi khi upload ảnh: " + e.getMessage());
+        }
+        redirectBack(request, response);
+    }
+
+    private void handleMultiImageUpload(HttpServletRequest request, HttpServletResponse response, String type, int relatedId) throws IOException, ServletException {
+        int success = 0;
+        for (Part part : request.getParts()) {
+            if (!"images".equals(part.getName()) || part.getSize() == 0) {
+                continue;
+            }
+
+            try {
+                String url = uploader.uploadImage(part, type);
+                boolean inserted = imageDAO.insertImage(url, type, relatedId);
+                if (inserted) {
+                    success++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (success > 0) {
+            ToastUtil.setSuccessToast(request, "Đã upload " + success + " ảnh thành công.");
+        } else {
+            ToastUtil.setErrorToast(request, "Không có ảnh nào được upload.");
+        }
         redirectBack(request, response);
     }
 

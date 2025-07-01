@@ -31,7 +31,15 @@ function connectAdminSocket(accountId, roleId) {
                 icon: 'info'
             });
         }
-
+        if (data.type === 'pay_success_to_admin') {
+            showToast("warning", `🔴 ${data.message}`);
+            showPopup({
+                title: 'Thông báo từ hệ thống',
+                text: `🟢 ${data.message}`,
+                icon: 'info'
+            });
+        }
+        
         if (data.type === 'cancelRequest') {
             showToast("warning", `🔴 ${data.message}`);
             showPopup({

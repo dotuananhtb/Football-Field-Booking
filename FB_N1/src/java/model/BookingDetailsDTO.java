@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 public class BookingDetailsDTO {
 
     private int bookingDetailsId;
+    private String bookingDetailsCode;
+
     private String fieldName;
     private String imageUrl;
     private String startTime;
@@ -26,6 +28,30 @@ public class BookingDetailsDTO {
     private int extraMinutes;
 
     public BookingDetailsDTO() {
+    }
+
+    public BookingDetailsDTO(int bookingDetailsId, String bookingDetailsCode, String fieldName, String imageUrl, String startTime, String endTime, String slotDate, BigDecimal slotPrice, BigDecimal extraFee, String statusName, int statusId, String note, int extraMinutes) {
+        this.bookingDetailsId = bookingDetailsId;
+        this.bookingDetailsCode = bookingDetailsCode;
+        this.fieldName = fieldName;
+        this.imageUrl = imageUrl;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.slotDate = slotDate;
+        this.slotPrice = slotPrice;
+        this.extraFee = extraFee;
+        this.statusName = statusName;
+        this.statusId = statusId;
+        this.note = note;
+        this.extraMinutes = extraMinutes;
+    }
+
+    public String getBookingDetailsCode() {
+        return bookingDetailsCode;
+    }
+
+    public void setBookingDetailsCode(String bookingDetailsCode) {
+        this.bookingDetailsCode = bookingDetailsCode;
     }
 
     public BookingDetailsDTO(int bookingDetailsId, String fieldName, String imageUrl, String startTime,

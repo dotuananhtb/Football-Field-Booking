@@ -8,13 +8,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mailverify.SendMail;
 import model.Account;
 import model.Role;
 import model.UserProfile;
+import org.mindrot.jbcrypt.BCrypt;
+import util.AccountCredentialsGenerator;
 import util.DBContext;
+import util.PasswordUtil;
 
 public class AccountDAO extends DBContext {
 
@@ -116,6 +120,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+
     public Account getAccountByIdString(String accountId) {
         UserProfileDAO userProfileDAO = new UserProfileDAO();
         String sql = "SELECT * FROM [FootballFieldBooking].[dbo].[Account] WHERE account_id = ?";
@@ -239,78 +244,75 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-   public boolean insertAccountWithProfile(Account account) {
-    String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
-    String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, avatar) VALUES (?, ?, ?)";
+    public boolean insertAccountWithProfile(Account account) {
+        String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
+        String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, avatar) VALUES (?, ?, ?)";
 
-    try {
-        connection.setAutoCommit(false); // Bắt đầu transaction
-
-        // Insert vào bảng Account
-        PreparedStatement psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
-        psAccount.setInt(1, account.getStatusId());
-        psAccount.setString(2, account.getUsername());
-        psAccount.setString(3, account.getPassword());
-        psAccount.setString(4, account.getEmail());
-        psAccount.setString(5, account.getCreatedAt());
-
-        int affectedRows = psAccount.executeUpdate();
-        if (affectedRows == 0) {
-            connection.rollback();
-            return false;
-        }
-
-        // Lấy account_id vừa tạo
-        ResultSet rs = psAccount.getGeneratedKeys();
-        int accountId;
-        if (rs.next()) {
-            accountId = rs.getInt(1);
-            account.setAccountId(accountId);
-        } else {
-            connection.rollback();
-            return false;
-        }
-
-        // Insert vào bảng UserProfile
-        UserProfile profile = account.getUserProfile();
-        if (profile == null) {
-            connection.rollback();
-            return false; // hoặc bạn có thể tạo UserProfile mặc định
-        }
-
-        PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
-        psProfile.setInt(1, accountId);
-        psProfile.setInt(2, profile.getRoleId());
-        psProfile.setString(3, profile.getAvatar());
-
-        int profileRows = psProfile.executeUpdate();
-        if (profileRows == 0) {
-            connection.rollback();
-            return false;
-        }
-
-        connection.commit(); // Nếu mọi thứ thành công
-        return true;
-
-    } catch (SQLException e) {
         try {
-            connection.rollback();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        e.printStackTrace();
-        return false;
-    } finally {
-        try {
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false); // Bắt đầu transaction
+
+            // Insert vào bảng Account
+            PreparedStatement psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            psAccount.setInt(1, account.getStatusId());
+            psAccount.setString(2, account.getUsername());
+            psAccount.setString(3, account.getPassword());
+            psAccount.setString(4, account.getEmail());
+            psAccount.setString(5, account.getCreatedAt());
+
+            int affectedRows = psAccount.executeUpdate();
+            if (affectedRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            // Lấy account_id vừa tạo
+            ResultSet rs = psAccount.getGeneratedKeys();
+            int accountId;
+            if (rs.next()) {
+                accountId = rs.getInt(1);
+                account.setAccountId(accountId);
+            } else {
+                connection.rollback();
+                return false;
+            }
+
+            // Insert vào bảng UserProfile
+            UserProfile profile = account.getUserProfile();
+            if (profile == null) {
+                connection.rollback();
+                return false; // hoặc bạn có thể tạo UserProfile mặc định
+            }
+
+            PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
+            psProfile.setInt(1, accountId);
+            psProfile.setInt(2, profile.getRoleId());
+            psProfile.setString(3, profile.getAvatar());
+
+            int profileRows = psProfile.executeUpdate();
+            if (profileRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            connection.commit(); // Nếu mọi thứ thành công
+            return true;
+
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
-
-
-
 
     public boolean addAccountAndSendVerificationEmail(Account account) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
@@ -414,43 +416,40 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean updateAccount(Account account) {
-    String updateAccountSQL = "UPDATE Account SET status_id = ?, username = ?, password = ?, email = ?, created_at = ? WHERE account_id = ?";
-    String updateProfileSQL = "UPDATE UserProfile SET role_id = ?, first_name = ?, last_name = ?, address = ?, gender = ?, dob = ?, phone = ? WHERE account_id = ?";
-    
-    try (Connection conn = connection;
-         PreparedStatement psAccount = conn.prepareStatement(updateAccountSQL);
-         PreparedStatement psProfile = conn.prepareStatement(updateProfileSQL)) {
+        String updateAccountSQL = "UPDATE Account SET status_id = ?, username = ?, password = ?, email = ?, created_at = ? WHERE account_id = ?";
+        String updateProfileSQL = "UPDATE UserProfile SET role_id = ?, first_name = ?, last_name = ?, address = ?, gender = ?, dob = ?, phone = ? WHERE account_id = ?";
 
-        // Cập nhật bảng Account
-        psAccount.setInt(1, account.getStatusId());
-        psAccount.setString(2, account.getUsername());
-        psAccount.setString(3, account.getPassword());
-        psAccount.setString(4, account.getEmail());
-        psAccount.setString(5, account.getCreatedAt());
-        psAccount.setInt(6, account.getAccountId());
-        int accountUpdated = psAccount.executeUpdate();
+        try (Connection conn = connection; PreparedStatement psAccount = conn.prepareStatement(updateAccountSQL); PreparedStatement psProfile = conn.prepareStatement(updateProfileSQL)) {
 
-        // Cập nhật bảng UserProfile (bỏ avatar)
-        UserProfile profile = account.getUserProfile();
-        psProfile.setInt(1, profile.getRoleId());
-        psProfile.setString(2, profile.getFirstName());
-        psProfile.setString(3, profile.getLastName());
-        psProfile.setString(4, profile.getAddress());
-        psProfile.setString(5, profile.getGender());
-        psProfile.setString(6, profile.getDob());
-        psProfile.setString(7, profile.getPhone());
-        psProfile.setInt(8, account.getAccountId());
-        int profileUpdated = psProfile.executeUpdate();
+            // Cập nhật bảng Account
+            psAccount.setInt(1, account.getStatusId());
+            psAccount.setString(2, account.getUsername());
+            psAccount.setString(3, account.getPassword());
+            psAccount.setString(4, account.getEmail());
+            psAccount.setString(5, account.getCreatedAt());
+            psAccount.setInt(6, account.getAccountId());
+            int accountUpdated = psAccount.executeUpdate();
 
-        return accountUpdated > 0 && profileUpdated > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
+            // Cập nhật bảng UserProfile (bỏ avatar)
+            UserProfile profile = account.getUserProfile();
+            psProfile.setInt(1, profile.getRoleId());
+            psProfile.setString(2, profile.getFirstName());
+            psProfile.setString(3, profile.getLastName());
+            psProfile.setString(4, profile.getAddress());
+            psProfile.setString(5, profile.getGender());
+            psProfile.setString(6, profile.getDob());
+            psProfile.setString(7, profile.getPhone());
+            psProfile.setInt(8, account.getAccountId());
+            int profileUpdated = psProfile.executeUpdate();
+
+            return accountUpdated > 0 && profileUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
-
 
     public boolean update_Password(String username, String newPassword) {
         String sql = "UPDATE [Account] SET password = ? WHERE username = ?";
@@ -479,24 +478,19 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean checkLogin(String userName, String passWord) {
-        String sql = "SELECT *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]\n"
-                + "  where username =? and password =?";
-        boolean check = false;
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+    public boolean checkLogin(String userName, String plainPassword) {
+        String sql = "SELECT password FROM Account WHERE username = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, userName);
-            st.setString(2, passWord);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                check = true;
+                String hashedPassword = rs.getString("password");
+                return BCrypt.checkpw(plainPassword, hashedPassword);
             }
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace(); // hoặc log lỗi nếu cần
         }
-        return check;
-
+        return false;
     }
 
     public void updateUsername(String username, String accountId) {
@@ -575,12 +569,15 @@ public class AccountDAO extends DBContext {
 
         try {
             connection.setAutoCommit(false);
+            Map<String, String> creds = AccountCredentialsGenerator.generateAccountCredentials(connection);
 
+            String username = creds.get("username");
+            String password = creds.get("password");
             // Thêm vào bảng Account
             psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
             psAccount.setInt(1, 1); // status_id = 1
-            psAccount.setString(2, googleId + "_gg"); // username = googleId + "gg"
-            psAccount.setString(3, googleId + "_pw"); // password = googleId + "pw"
+            psAccount.setString(2, username);
+            psAccount.setString(3, PasswordUtil.hashPassword(password));
             psAccount.setString(4, email);
             String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             psAccount.setString(5, createdAt);
@@ -624,6 +621,16 @@ public class AccountDAO extends DBContext {
             psGoogleAuth.executeUpdate();
 
             connection.commit();
+
+            SendMail sender = new SendMail();
+            Thread thread = new Thread(() -> {
+                try {
+                    sender.guiMailDangKyGoogle(email, firstName + " " + lastName, username, password);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            thread.start();
             return true;
 
         } catch (SQLException e) {
@@ -693,24 +700,21 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    public int getStatusIDbyAccount(String username, String password) {
-        int statusID = 0;
-        String sql = "SELECT a.status_id\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]  a\n"
-                + "  where a.username = ? and a.password = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+    public int getStatusIDByUsername(String username) {
+        int statusID = -1;
+        String sql = "SELECT status_id FROM Account WHERE username = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, username);
-            st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                statusID = rs.getInt(1);
+                statusID = rs.getInt("status_id");
             }
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
         return statusID;
     }
+
 
     public Account getAccountByUsername(String username) {
         UserProfileDAO userProfileDAO = new UserProfileDAO();
@@ -732,28 +736,12 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-            
-         UserProfile profile = new UserProfile();
-            profile.setRoleId(2); // ví dụ: 2 = khách hàng
-            profile.setAvatar("default-avatar.png");
 
-            // Tạo đối tượng Account
-            Account account = new Account();
-            account.setStatusId(1); // ví dụ: 1 = active
-            account.setUsername("testuser");
-            account.setPassword("123456");
-            account.setEmail("test@example.com");
-            account.setCreatedAt("2025-06-19"); // hoặc LocalDate.now().toString()
-            account.setUserProfile(profile);
+        String username = "user202923";           // Nhập username tồn tại trong DB
+        String password = "Tx)Ezn1>,iXL";          // Nhập mật khẩu gốc (plaintext)
 
-            // Thử insert
-            boolean success = dao.insertAccountWithProfile(account);
+        boolean matched = dao.checkLogin(username, password);
 
-            if (success) {
-                System.out.println("✅ Insert thành công! Account ID: " + account.getAccountId());
-            } else {
-                System.out.println("❌ Insert thất bại.");
-            }
-
+        System.out.println(">>> Matched: " + matched);
     }
 }

@@ -59,19 +59,35 @@ public class CheckingSlotServlet2 extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int fieldId = Integer.parseInt(request.getParameter("fieldId"));
+        response.setContentType("application/json");
+        SlotEventDTODAO dao = new SlotEventDTODAO();
+        Gson gson = new Gson();
+
+        // Lấy tham số từ request
+        String fieldIdStr = request.getParameter("fieldId");
         String start = request.getParameter("start");
         String end = request.getParameter("end");
 
-        SlotEventDTODAO dao = new SlotEventDTODAO();
-        List<Map<String, Object>> events = dao.getAllSlotsForRange2(fieldId, start, end);
+        List<Map<String, Object>> events;
 
-        response.setContentType("application/json");
-        new Gson().toJson(events, response.getWriter());
+        // Nếu thiếu bất kỳ tham số nào → gọi hàm không cần tham số
+        if (fieldIdStr == null || start == null || end == null) {
+            events = dao.getAllBookedOrPendingSlots();
+        } else {
+            try {
+                int fieldId = Integer.parseInt(fieldIdStr);
+                events = dao.getAllSlotsForRange2(fieldId, start, end);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                gson.toJson(Map.of("error", "Tham số fieldId không hợp lệ"), response.getWriter());
+                return;
+            }
+        }
+
+        gson.toJson(events, response.getWriter());
     }
 
     /**

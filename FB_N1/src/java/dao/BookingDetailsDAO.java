@@ -26,7 +26,7 @@ public class BookingDetailsDAO extends DBContext {
             ps.setString(8, detail.getEndTime());
             ps.setString(9, detail.getNote());
             ps.setInt(10, detail.getStatusCheckingId());
-            ps.setString(11, detail.getBookingDetailsCode()); 
+            ps.setString(11, detail.getBookingDetailsCode());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,6 +69,18 @@ public class BookingDetailsDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean updateStatusByBookingId(int bookingId, int newStatusId) {
+        String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newStatusId);
+            ps.setInt(2, bookingId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public BookingDetails getBySlotFieldAndDate(int slotFieldId, String slotDate) {
@@ -162,7 +174,7 @@ public class BookingDetailsDAO extends DBContext {
     public List<BookingDetailsDTO> getBookingDetailsByBookingIdPaging(int bookingId, int accountId, int pageIndex, int pageSize) {
         List<BookingDetailsDTO> list = new ArrayList<>();
 
-        String sql = "SELECT bd.booking_details_id, f.field_name, f.image, sd.start_time, sd.end_time, "
+        String sql = "SELECT bd.booking_details_id,bd.booking_details_code, f.field_name, f.image, sd.start_time, sd.end_time, "
                 + "bd.slot_date, bd.slot_field_price, bd.extra_fee, bd.extra_minutes, "
                 + "scs.status_name, scs.status_checking_id, bd.note "
                 + "FROM BookingDetails bd "
@@ -185,6 +197,7 @@ public class BookingDetailsDAO extends DBContext {
                 while (rs.next()) {
                     BookingDetailsDTO dto = new BookingDetailsDTO(
                             rs.getInt("booking_details_id"),
+                            rs.getString("booking_details_code"),
                             rs.getString("field_name"),
                             rs.getString("image"),
                             rs.getString("start_time"),
@@ -264,4 +277,70 @@ public class BookingDetailsDAO extends DBContext {
 
         return null;
     }
+
+    public List<BookingDetails> getAllBookingDetail() {
+        List<BookingDetails> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM BookingDetails\n"
+                + "ORDER BY booking_details_id DESC;";
+
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BookingDetails bd = new BookingDetails();
+                bd.setBookingDetailsId(rs.getInt("booking_details_id"));
+                bd.setBookingId(rs.getInt("booking_id"));
+                bd.setSlotFieldId(rs.getInt("slot_field_id"));
+                bd.setSlotDate(rs.getString("slot_date"));
+                bd.setStartTime(rs.getString("start_time"));
+                bd.setEndTime(rs.getString("end_time"));
+                bd.setStatusCheckingId(rs.getInt("status_checking_id"));
+                bd.setNote(rs.getString("note"));
+                bd.setExtraMinutes(rs.getInt("extra_minutes"));
+                bd.setExtraFee(rs.getBigDecimal("extra_fee"));
+                bd.setBookingDetailsCode(rs.getString("booking_details_code"));
+
+                list.add(bd);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<BookingDetails> getAllBookingDetailsWithStatus() {
+        List<BookingDetails> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM BookingDetails WHERE status_checking_id IN (1, 2,3)";
+
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BookingDetails bd = new BookingDetails();
+                bd.setBookingDetailsId(rs.getInt("booking_details_id"));
+                bd.setBookingId(rs.getInt("booking_id"));
+                bd.setSlotFieldId(rs.getInt("slot_field_id"));
+                bd.setSlotDate(rs.getString("slot_date"));
+                bd.setStartTime(rs.getString("start_time"));
+                bd.setEndTime(rs.getString("end_time"));
+                bd.setStatusCheckingId(rs.getInt("status_checking_id"));
+                bd.setNote(rs.getString("note"));
+                bd.setExtraMinutes(rs.getInt("extra_minutes"));
+                bd.setExtraFee(rs.getBigDecimal("extra_fee"));
+                bd.setBookingDetailsCode(rs.getString("booking_details_code"));
+
+                list.add(bd);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }

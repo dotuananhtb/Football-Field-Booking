@@ -434,35 +434,159 @@ public class ProductDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        ProductDAO pDAO = new ProductDAO();
-
-        int total = pDAO.countProduct(null, null, null, null);
-        System.out.println("✅ Tổng số sản phẩm đang hoạt động: " + total);
-
-//        Products pro = new Products(1, "bep nuong", "http//SE1902", 100, 50, "C004",
-//                new Date(2025 - 1900, 1, 15), new Date(2025 - 1900, 1, 15));
-//        int n = pDAO.insertProduct(pro);
-//        if (n > 0) {
-//            System.out.println("inserted");
-//            pList = pDAO.getAllProducts(sql);
-//            for (Products products : pList) {
-//                System.out.println(products);
-//            }
-//        } else {
-//            System.err.println("inserted fail");
-//        }
-//        Products pr = pDAO.searchProduct(5);
-//        if (pr != null) {
-//            pDAO.updateProduct(new Products(5, "ao len", "http//SE1902", 100, 100, "C005",
-//                    new Date(2025 - 1900, 1, 15), new Date(2025 - 1900, 1, 15)));
-//            System.out.println("updated");
-//            pList = pDAO.getAllProducts(sql);
-//            for (Products products : pList) {
-//                System.out.println(products);
-//            }
-//        } else {
-//            System.out.println("not found");
-//        }
+        ProductDAO dao = new ProductDAO();
+        List<Product> list = dao.getAllProducts();
+        for (Product product : list) {
+            System.out.println(product);
+        }
     }
 
+    // Thêm method để lấy product theo ID
+    public Product getProductById(int productId) {
+        String sql = "SELECT p.*, c.cate_name FROM Product p " +
+                    "JOIN Cate_Product c ON p.product_cate_id = c.product_cate_id " +
+                    "WHERE p.product_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setProductCateId(rs.getInt("product_cate_id"));
+                p.setProductName(rs.getString("product_name"));
+                p.setProductPrice(rs.getDouble("product_price"));
+                p.setProductImage(rs.getString("product_image"));
+                p.setProductDescription(rs.getString("product_description"));
+                p.setProductStatus(rs.getString("product_status"));
+
+                CateProduct c = new CateProduct();
+                c.setProductCateId(rs.getInt("product_cate_id"));
+                c.setCateName(rs.getString("cate_name"));
+                p.setCateProduct(c);
+
+                return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Thêm method để thêm product mới
+    public boolean addProduct(Product product) {
+        String sql = "INSERT INTO Product (product_cate_id, product_name, product_price, product_image, product_description, product_status) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, product.getProductCateId());
+            ps.setString(2, product.getProductName());
+            ps.setDouble(3, product.getProductPrice());
+            ps.setString(4, product.getProductImage());
+            ps.setString(5, product.getProductDescription());
+            ps.setString(6, product.getProductStatus());
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Thêm method để cập nhật product
+    public boolean updateProduct1(Product product) {
+        String sql = "UPDATE Product SET product_cate_id = ?, product_name = ?, product_price = ?, product_image = ?, product_description = ?, product_status = ? WHERE product_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, product.getProductCateId());
+            ps.setString(2, product.getProductName());
+            ps.setDouble(3, product.getProductPrice());
+            ps.setString(4, product.getProductImage());
+            ps.setString(5, product.getProductDescription());
+            ps.setString(6, product.getProductStatus());
+            ps.setInt(7, product.getProductId());
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Thêm method để xóa product
+    public boolean deleteProduct(int productId) {
+        String sql = "DELETE FROM Product WHERE product_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Thêm method để cập nhật trạng thái product
+    public boolean updateProductStatus(int productId, String status) {
+        String sql = "UPDATE Product SET product_status = ? WHERE product_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, productId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Thêm method để lấy products theo category
+    public List<Product> getProductsByCategory(int categoryId) {
+        String sql = "SELECT p.*, c.cate_name FROM Product p " +
+                    "JOIN Cate_Product c ON p.product_cate_id = c.product_cate_id " +
+                    "WHERE p.product_cate_id = ?";
+        
+        List<Product> listProduct = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setProductCateId(rs.getInt("product_cate_id"));
+                p.setProductName(rs.getString("product_name"));
+                p.setProductPrice(rs.getDouble("product_price"));
+                p.setProductImage(rs.getString("product_image"));
+                p.setProductDescription(rs.getString("product_description"));
+                p.setProductStatus(rs.getString("product_status"));
+
+                CateProduct c = new CateProduct();
+                c.setProductCateId(rs.getInt("product_cate_id"));
+                c.setCateName(rs.getString("cate_name"));
+                p.setCateProduct(c);
+
+                listProduct.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listProduct;
+    }
+
+    // Thêm method để đếm tổng số products
+    public int countAllProducts() {
+        String sql = "SELECT COUNT(*) FROM Product";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
