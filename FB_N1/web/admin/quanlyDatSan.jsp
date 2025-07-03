@@ -185,6 +185,28 @@
         }
     </style>
 
+    <style>
+        .payment-status-select {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 8px 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #495057;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .payment-status-select:focus {
+            border-color: #0d6efd; /* Bootstrap primary */
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            outline: none;
+        }
+    </style>
 
     <body>
 
@@ -339,8 +361,6 @@
                                                 </div>
                                             </form>
 
-
-
                                             <!-- 🔹 Bảng ca đã chọn -->
                                             <div class="table-responsive mb-3">
                                                 <table id="selectedSlotsTable" class="table table-bordered table-hover align-middle text-center shadow-sm" style="display: none;">
@@ -362,12 +382,24 @@
                                                 Tổng tiền: 0₫
                                             </div>
 
+                                            <!-- 🔹 Trạng thái thanh toán -->
+                                            <div id="statusPayGroup" class="mb-3" style="display: none;">
+                                                <label for="statusPayInput" class="form-label fw-bold text-primary">
+                                                    <i class="bi bi-cash-coin me-1"></i> Hình thức thanh toán
+                                                </label>
+                                                <select id="statusPayInput" class="form-select shadow-sm rounded">
+                                                    <option value="2">Thanh toán tại quầy</option>
+                                                    <option value="0">Chuyển khoản QR</option>
+                                                </select>
+                                            </div>
+
                                             <!-- 🔹 Nút đặt sân -->
                                             <div class="text-center">
                                                 <button id="bookNowBtn" class="btn btn-success btn-lg w-100" style="display: none;">
                                                     <i class="bi bi-check-circle-fill me-2"></i>Đặt sân
                                                 </button>
                                             </div>
+
 
                                         </div> <!-- end card-body -->
                                     </div> <!-- end card -->
