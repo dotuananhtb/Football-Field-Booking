@@ -214,26 +214,42 @@ function handleBookingSubmit() {
 
 
 function updateSlotStatus(slotId, slotDate, statusId) {
+    if (!slotId || !slotDate) {
+        showToast("error", "❌ Thiếu thông tin ca để cập nhật.");
+        return;
+    }
+
+    // Tạo payload gửi servlet
+    const payload = {
+        slotFieldId: slotId,
+        slotDate: slotDate,
+        status: statusId
+    };
+
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({
-            slotFieldId: slotId,
-            slotDate: slotDate,
-            status: statusId
-        }),
-        success: function () {
-            const msg =
-                    statusId === 1 ? "✅ Đã xác nhận ca!" :
-                    statusId === 2 ? "⌛ Đã chuyển ca sang trạng thái xử lí!" :
-                    "🚫 Đã huỷ ca!";
-            showToast("success", msg);
+        data: JSON.stringify(payload),
+        success: function (response) {
+            showToast("success", response.message ||
+                    (statusId === 1 ? "✅ Đã xác nhận ca!" :
+                            statusId === 2 ? "⌛ Đã chuyển ca sang trạng thái chờ xử lý!" :
+                            "🚫 Đã huỷ ca!"));
             $('#event-modal').modal('hide');
             calendar.refetchEvents();
         },
         error: function (xhr) {
-            showToast("error", "❌ Lỗi cập nhật: " + (xhr.responseText || "Không xác định"));
+            let msg = "❌ Lỗi cập nhật: ";
+            if (xhr.responseJSON?.message) {
+                msg += xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                msg += xhr.responseText;
+            } else {
+                msg += "Không xác định.";
+            }
+            showToast("error", msg);
         }
     });
 }
+

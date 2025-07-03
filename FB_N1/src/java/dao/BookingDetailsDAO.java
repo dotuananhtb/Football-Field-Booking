@@ -145,6 +145,34 @@ public class BookingDetailsDAO extends DBContext {
         return list;
     }
 
+    public BookingDetails getByCode(String bookingDetailsCode) {
+        String sql = "SELECT * FROM BookingDetails WHERE booking_details_code = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bookingDetailsCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new BookingDetails(
+                            rs.getInt("booking_details_id"),
+                            rs.getInt("booking_id"),
+                            rs.getString("booking_details_code"),
+                            rs.getInt("slot_field_id"),
+                            rs.getBigDecimal("slot_field_price"),
+                            rs.getInt("extra_minutes"),
+                            rs.getBigDecimal("extra_fee"),
+                            rs.getString("slot_date"),
+                            rs.getString("start_time"),
+                            rs.getString("end_time"),
+                            rs.getString("note"),
+                            rs.getInt("status_checking_id")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hoặc log.warn nếu bạn muốn hạn chế in stacktrace
+        }
+        return null; // Không tìm thấy
+    }
+
     public BigDecimal totalBookingDetails(int bookingDetailsId) {
         String sql = "SELECT slot_field_price, extra_fee FROM BookingDetails WHERE booking_details_id = ?";
         BigDecimal total = BigDecimal.ZERO;
