@@ -173,6 +173,21 @@ public class BookingDetailsDAO extends DBContext {
         return null; // Không tìm thấy
     }
 
+    public boolean isSlotAlreadyBooked(int slotFieldId, String slotDate) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM BookingDetails "
+                + "WHERE slot_field_id = ? AND slot_date = ? AND status_checking_id = 1";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            ps.setString(2, slotDate);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
     public BigDecimal totalBookingDetails(int bookingDetailsId) {
         String sql = "SELECT slot_field_price, extra_fee FROM BookingDetails WHERE booking_details_id = ?";
         BigDecimal total = BigDecimal.ZERO;

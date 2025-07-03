@@ -4,11 +4,18 @@ import model.Payment;
 import util.DBContext;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PaymentDAO extends DBContext {
+
     public void insert(Payment p) throws SQLException {
-        String sql = "INSERT INTO Payments (booking_id, transaction_code, transfer_amount, pay_time, confirmed_time, pay_status, gateway, content, description, raw_data) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Payments (booking_id, transaction_code, transfer_amount, pay_time, confirmed_time, pay_status, gateway, content, description, raw_data) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setObject(1, p.getBookingId()); // Nullable
             ps.setString(2, p.getTransactionCode());
@@ -23,4 +30,78 @@ public class PaymentDAO extends DBContext {
             ps.executeUpdate();
         }
     }
+
+    public List<Map<String, Object>> getPendingPaymentsWithoutBooking() throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT transaction_code, transfer_amount, pay_time, content, gateway, pay_status, description "
+                + "FROM Payments WHERE booking_id IS NULL";
+
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("transaction_code", rs.getString("transaction_code"));
+                map.put("transfer_amount", rs.getBigDecimal("transfer_amount"));
+                map.put("pay_time", rs.getString("pay_time"));
+                map.put("content", rs.getString("content"));
+                map.put("gateway", rs.getString("gateway"));
+                map.put("pay_status", rs.getString("pay_status"));
+                map.put("description", rs.getString("description"));
+                list.add(map);
+
+            }
+        }
+        return list;
+    }
+
+    public boolean matchPaymentToBooking(String transactionCode, String bookingCode, String confirmedBy, String description) throws SQLException {
+        String sqlGetBookingId = "SELECT booking_id FROM Booking WHERE booking_code = ?";
+        String sqlUpdatePayment = "UPDATE Payments SET pay_status = 'success', confirmed_time = ?, description = ?, booking_id = ? WHERE transaction_code = ?";
+        String sqlUpdateSlotStatus = "UPDATE BookingDetails SET status_checking_id = 1 WHERE booking_id = ?";
+
+        // Tạo thời gian hiện tại định dạng yyyy-MM-dd HH:mm:ss
+        String confirmedTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        try (Connection conn = DBContext.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (
+                    PreparedStatement psGetBookingId = conn.prepareStatement(sqlGetBookingId); PreparedStatement psUpdatePayment = conn.prepareStatement(sqlUpdatePayment); PreparedStatement psUpdateSlotStatus = conn.prepareStatement(sqlUpdateSlotStatus)) {
+                // Lấy booking_id
+                psGetBookingId.setString(1, bookingCode);
+                ResultSet rs = psGetBookingId.executeQuery();
+
+                int bookingId = -1;
+                if (rs.next()) {
+                    bookingId = rs.getInt("booking_id");
+                } else {
+                    conn.rollback();
+                    return false; // Không tìm thấy booking_code
+                }
+
+                // Cập nhật Payment
+                psUpdatePayment.setString(1, confirmedTime);
+                psUpdatePayment.setString(2, description + " (Xác nhận bởi: " + confirmedBy + ")");
+                psUpdatePayment.setInt(3, bookingId);
+                psUpdatePayment.setString(4, transactionCode);
+                int updated = psUpdatePayment.executeUpdate();
+
+                if (updated == 0) {
+                    conn.rollback();
+                    return false; // Không tìm thấy transaction_code
+                }
+
+                // Cập nhật BookingDetails
+                psUpdateSlotStatus.setInt(1, bookingId);
+                psUpdateSlotStatus.executeUpdate();
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+    }
+
 }
