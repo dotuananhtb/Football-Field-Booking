@@ -91,18 +91,25 @@
                                                                                         <div class="col-md-12">
                                                                                             <div class="input-wrap">
                                                                                                 <label>Mật khẩu</label>
-                                                                                                <input type="password" name="password" placeholder=" Mật khẩu mới" required>
+                                                                                                <input type="password" id="password"  name="password" placeholder=" Mật khẩu mới" required>
+                                                                                                    <a  style="font-family: DM Sans, sans-serif;;
+                                                                                                        font-weight: 400;
+                                                                                                        font-size: 16px;"  href ="javascript:void(0);" onclick="daoTT()" > <span>Hiển thị mật khẩu</span></a>
                                                                                             </div>
                                                                                         </div>
-
                                                                                         <!-- Nhập lại mật khẩu -->
                                                                                         <div class="col-md-12">
                                                                                             <div class="input-wrap">
                                                                                                 <label>Nhập lại mật khẩu</label>
-                                                                                                <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                                                                                                <input type="password" id="confirmpassword"  name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                                                                                                    <a  style="font-family: DM Sans, sans-serif;;
+                                                                                                        font-weight: 400;
+                                                                                                        font-size: 16px;"  href ="javascript:void(0);" onclick="daoT()" > <span>Hiển thị mật khẩu</span></a>
                                                                                             </div>
                                                                                         </div>
-
+                                                                                        <c:if test="${not empty mess}">
+                                                                                            <p class="text-danger text-left">${mess}</p>
+                                                                                        </c:if>
                                                                                         <!-- Xác nhận điều khoản -->
                                                                                         <div class="col-lg-12 mb-30">
                                                                                             <div class="checkbox">
@@ -110,46 +117,43 @@
                                                                                                     <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</label>
                                                                                             </div>
                                                                                         </div>
-
                                                                                         <!-- Nút Đăng ký -->
                                                                                         <div class="col-lg-12 mb-30">
                                                                                             <button type="submit" class="btn-submit">Xác Nhận</button>
                                                                                         </div>
 
-                                                                                        <!-- thông báo -->
-                                                                                        <div class="col-md-12">
-                                                                                            <c:if test="${not empty mess}">
-                                                                                                <p class="text-danger text-center">${mess}</p>
-                                                                                            </c:if>
-                                                                                        </div>
                                                                                     </div>
                                                                                 </form>
-
-
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </section>
-
-
                                                     </main>
-
                                                     <jsp:include page="footer.jsp" />
-
                                                     <!-- Bottom -->
                                                 </div>
                                                 <!-- /#page -->
                                             </div>
-
                                             <!-- Modal Popup Bid -->
-
                                             <a id="scroll-top" class="button-go"></a>
-
-
                                             <!-- Javascript -->
+                                            <script>
+                                                // Ẩn/hiện mật khẩu
+                                                function daoTT() {
+                                                    const mk = document.getElementById("password");
+                                                    if (mk) {
+                                                        mk.type = (mk.type === "password") ? "text" : "password";
+                                                    }
+                                                }
+                                                function daoT() {
+                                                    const mk = document.getElementById("confirmpassword");
+                                                    if (mk) {
+                                                        mk.type = (mk.type === "password") ? "text" : "password";
+                                                    }
+                                                }
+                                            </script>
                                             <script src="app/js/jquery.min.js"></script>
                                             <script src="app/js/jquery.nice-select.min.js"></script>
                                             <script src="app/js/bootstrap.min.js"></script>
@@ -159,7 +163,5 @@
                                             <script src="app/js/jquery.fancybox.js"></script>
                                             <script src="app/js/shortcodes.js"></script>
                                             <script src="app/js/main.js"></script>
-
                                         </body>
-
                                         </html>

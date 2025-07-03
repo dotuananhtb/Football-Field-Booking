@@ -192,6 +192,25 @@
                             </div><!-- end col-->
                         </div> <!-- end row-->
 
+                        <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content shadow">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateStatusModalLabel">Cập nhật trạng thái ca</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="modal-slot-info" class="fw-bold text-primary"></p>
+                                        <div class="d-grid gap-2">
+                                            <button id="btn-status-1" class="btn btn-success">Xác nhận ca</button>
+                                            <button id="btn-status-2" class="btn btn-warning">Chuyển chờ xử lý huỷ</button>
+                                            <button id="btn-status-3" class="btn btn-danger">Huỷ ca</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
 
 

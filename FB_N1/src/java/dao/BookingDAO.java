@@ -6,7 +6,9 @@ import util.DBContext;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import websocket.AppWebSocket;
 
 public class BookingDAO extends DBContext {
@@ -15,7 +17,7 @@ public class BookingDAO extends DBContext {
         String selectExpiredBookingIdsSQL = """
             SELECT booking_id FROM Booking
             WHERE status_pay = 0
-              AND DATEDIFF(MINUTE, booking_date, GETDATE()) >= 15
+              AND DATEDIFF(MINUTE, booking_date, GETDATE()) >= 1
         """;
         String cancelBookingSQL = """
             UPDATE Booking
@@ -82,6 +84,66 @@ public class BookingDAO extends DBContext {
                 } catch (SQLException e) {
                     System.err.println("❌ Không thể reset AutoCommit: " + e.getMessage());
                 }
+            }
+        }
+    }
+
+    public boolean bookingExists(String bookingCode) throws SQLException {
+        String sql = "SELECT 1 FROM Booking WHERE booking_code = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    public List<Map<String, Object>> getBookingSlotStatus(String bookingCode) throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT bd.booking_details_id, bd.slot_date, bd.start_time, bd.end_time, "
+                + "bd.status_checking_id, s.status_name, bd.slot_field_id, f.field_name, b.status_pay "
+                + "FROM BookingDetails bd "
+                + "JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "JOIN StatusCheckingSlot s ON bd.status_checking_id = s.status_checking_id "
+                + "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id "
+                + "JOIN Field f ON sf.field_id = f.field_id "
+                + "WHERE b.booking_code = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("booking_details_id", rs.getInt("booking_details_id"));
+                    row.put("slot_date", rs.getString("slot_date"));
+                    row.put("start_time", rs.getString("start_time"));
+                    row.put("end_time", rs.getString("end_time"));
+                    row.put("status_checking_id", rs.getInt("status_checking_id"));
+                    row.put("status_name", rs.getString("status_name"));
+                    row.put("slot_field_id", rs.getInt("slot_field_id"));
+                    row.put("field_name", rs.getString("field_name"));
+                    row.put("status_pay", rs.getInt("status_pay"));
+                    list.add(row);
+                }
+            }
+        }
+        return list;
+    }
+
+    public boolean checkSlotConflictWithOtherBooking(int slotFieldId, String slotDate, String startTime, String endTime, String currentBookingCode) throws SQLException {
+        String sql = "SELECT 1 FROM BookingDetails bd "
+                + "JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "WHERE bd.slot_field_id = ? AND bd.slot_date = ? AND bd.start_time = ? AND bd.end_time = ? "
+                + "AND bd.status_checking_id = 1 AND b.booking_code <> ?";
+
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            ps.setString(2, slotDate);
+            ps.setString(3, startTime);
+            ps.setString(4, endTime);
+            ps.setString(5, currentBookingCode);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
             }
         }
     }

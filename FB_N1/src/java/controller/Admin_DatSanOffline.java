@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import java.io.IOException;
@@ -16,27 +12,20 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import dao.OfflineUserDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Account;
 import model.BookingDetails;
 import service.BookingService;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import model.OfflineUser;
 
-/**
- *
- * @author Đỗ Tuấn Anh
- */
 @WebServlet(name = "Admin_DatSanOffline", urlPatterns = {"/admin/dat-san-offline"})
 public class Admin_DatSanOffline extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -72,8 +61,14 @@ public class Admin_DatSanOffline extends HttpServlet {
                 : null;
 
         // ✅ Parse danh sách booking
-        Type listType = new TypeToken<List<BookingDetails>>() {}.getType();
+        Type listType = new TypeToken<List<BookingDetails>>() {
+        }.getType();
         List<BookingDetails> detailsList = gson.fromJson(jsonObj.get("details"), listType);
+
+        // ✅ Lấy statusPay từ request
+        int statusPay = jsonObj.has("statusPay") && !jsonObj.get("statusPay").isJsonNull()
+                ? jsonObj.get("statusPay").getAsInt()
+                : 0; // Mặc định = 0 nếu không gửi
 
         // ✅ Kiểm tra offline user
         OfflineUserDAO offlineUserDAO = new OfflineUserDAO();
@@ -98,9 +93,9 @@ public class Admin_DatSanOffline extends HttpServlet {
             offlineUser.setOfflineUserId(newId);
         }
 
-        // ✅ Gọi BookingService
+        // ✅ Gọi BookingService với statusPay
         BookingService service = new BookingService();
-        String bookingCode = service.createOfflineBooking(offlineUser, account.getAccountId(), detailsList);
+        String bookingCode = service.createOfflineBooking(offlineUser, account.getAccountId(), detailsList, statusPay);
 
         if (bookingCode != null) {
             result.addProperty("success", true);

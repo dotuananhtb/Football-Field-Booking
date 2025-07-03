@@ -27,7 +27,23 @@
                                 <!-- Favicon and Touch Icons  -->
                                 <link rel="shortcut icon" href="assets/images/favico.png">
                                     <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                        <style>
+                                            .login {
+                                                display: flex;
+                                                justify-content: center;
+                                                align-items: center;
+                                                min-height: 100vh; /* Chiều cao full màn hình */
+                                            }
 
+                                            .login-wrap {
+                                                display: flex;
+                                                flex-direction: row;
+                                                justify-content: center;
+                                                align-items: center;
+                                                width: 100%;
+                                            }
+
+                                        </style>
                                         </head>
 
                                         <body class="body header-fixed ">
@@ -68,7 +84,7 @@
                                                         <section class="login">
                                                             <div class="tf-container">
                                                                 <div class="row">
-                                                                    <div class="col-lg-12">
+                                                                    <div class="col-lg-12 ">
                                                                         <div class="login-wrap flex">
                                                                             <div class="image">
                                                                                 <img src="./assets/images/page/sign-up.jpg" alt="image">
@@ -86,33 +102,16 @@
                                                                                             <input type="email" name="email" placeholder="name@example.com" required>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <!-- Xác nhận điều khoản -->
-                                                                                    <div class="col-lg-12 mb-30">
-                                                                                        <div class="checkbox">
-                                                                                            <input id="check-policy" type="checkbox" name="check" value="check" required>
-                                                                                                <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</label>
-                                                                                        </div>
-                                                                                    </div>
-
                                                                                     <!-- Nút gửi -->
                                                                                     <div class="col-lg-12 mb-30">
                                                                                         <button type="submit" class="btn-submit">Gửi</button>
                                                                                     </div>
-                                                                                    <c:if test="${not empty mess}">
-                                                                                        <p class="text-danger text-center">${mess}</p>
-                                                                                    </c:if>
                                                                             </div>
-                                                                            </form>
-
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            </div>
                                                         </section>
-
-
                                                     </main>
 
                                                     <jsp:include page="footer.jsp" />
@@ -136,9 +135,8 @@
                                             <script src="app/js/jquery.fancybox.js"></script>
                                             <script src="app/js/shortcodes.js"></script>
                                             <script src="app/js/main.js"></script>
-                            
+
                                         </body>
 
                                         </html>
 
-                                            
