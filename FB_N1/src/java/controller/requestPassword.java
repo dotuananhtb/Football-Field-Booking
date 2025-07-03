@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mailverify.SendMail;
 import model.Account;
+import util.ToastUtil;
 
 /**
  *
@@ -79,20 +80,20 @@ public class requestPassword extends HttpServlet {
         AccountDAO dao = new AccountDAO();
         if (dao.checkTonTaiEmail(email) && dao.getStatusIdByEmail(email) == 1) {
             if (!dao.resetPass(email)) {
-                request.setAttribute("mess", "Gửi yêu cầu không thành công");
+                ToastUtil.setErrorToast(request, "Gửi yêu cầu không thành công");
                 request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
                 return;
-            }else {
-                request.setAttribute("mess", "Yêu cầu đã được gửi thành công");
+            } else {
+                ToastUtil.setSuccessToast(request, "Yêu cầu đã được gửi thành công");
                 request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
                 return;
             }
-        } else if(email.isEmpty()) {
-            request.setAttribute("mess", "Vui lòng điền Email");
+        } else if (email.isEmpty()) {
+            ToastUtil.setErrorToast(request, "Vui lòng điền Email");
             request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
             return;
-        }else {
-            request.setAttribute("mess", "Email Không tồn tại");
+        } else {
+            ToastUtil.setErrorToast(request, "Email Không tồn tại");
             request.getRequestDispatcher("UI/requestPassword.jsp").forward(request, response);
             return;
         }

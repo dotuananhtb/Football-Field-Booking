@@ -19,6 +19,7 @@ import java.time.ZoneOffset;
 import model.Account;
 import model.EmailVerificationToken;
 import util.PasswordUtil;
+import util.ToastUtil;
 
 /**
  *
@@ -163,7 +164,8 @@ public class resetPassword extends HttpServlet {
         tokenDAO.markTokenAsUsed(evt.getToken());
 
         //Xác minh thành công: chuyển hướng về trang chủ
-        response.sendRedirect("UI/homePage.jsp");
+        ToastUtil.setSuccessToast(request, "Đổi Mật khẩu Thành Công!");
+        response.sendRedirect(request.getContextPath() + "/home");
     }
 
     /**
