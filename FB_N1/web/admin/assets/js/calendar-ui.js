@@ -71,7 +71,7 @@ function renderSelectedTable() {
         if (rowIndex !== undefined) {
             restoreSlotAppearance(selectedSlots[rowIndex]);
             selectedSlots.splice(rowIndex, 1);
-            renderSelectedTable(); 
+            renderSelectedTable();
         }
     });
 
@@ -88,11 +88,11 @@ function restoreSlotAppearance(removedSlot) {
     calendar.getEvents().forEach(event => {
         const props = event.extendedProps;
         if (
-            String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
-            props.slot_date === removedSlot.slot_date &&
-            event.startStr === removedSlot.start &&
-            event.endStr === removedSlot.end
-        ) {
+                String(props.slot_field_id) === String(removedSlot.slot_field_id) &&
+                props.slot_date === removedSlot.slot_date &&
+                event.startStr === removedSlot.start &&
+                event.endStr === removedSlot.end
+                ) {
             event.setProp('classNames', ['bg-success', 'text-white']);
         }
     });
@@ -117,15 +117,15 @@ function openSlotInfoModal(slot) {
 
     const isOffline = user.isOffline === true || user.isOffline === "true";
     $('#ci-is-offline').html(
-        isOffline
+            isOffline
             ? '<span class="badge bg-secondary">Offline</span>'
             : '<span class="badge bg-success">Online</span>'
-    );
+            );
 
     $('#modal-confirm-btn, #modal-pending-btn, #modal-cancel-btn, #modal-confirm-cancel-btn, #modal-cancel-request-btn')
-        .data('slotId', slot.slot_field_id)
-        .data('slotDate', slot.slot_date)
-        .addClass('d-none');
+            .data('slotId', slot.slot_field_id)
+            .data('slotDate', slot.slot_date)
+            .addClass('d-none');
 
     const slotDateTimeStr = `${slot.slot_date}T${slot.start_time}`;
     const now = new Date();
@@ -139,6 +139,10 @@ function openSlotInfoModal(slot) {
         } else if (slot.status === 2) {
             $('#modal-confirm-cancel-btn').removeClass('d-none');
             $('#modal-cancel-request-btn').removeClass('d-none');
+        } else if (slot.status === 4) {
+            // ✅ Đang chờ thanh toán: Hiện nút xác nhận + huỷ
+            $('#modal-confirm-btn').removeClass('d-none');  // Xác nhận ca -> 1
+            $('#modal-cancel-btn').removeClass('d-none');   // Huỷ ca -> 3
         }
     }
 
@@ -147,12 +151,18 @@ function openSlotInfoModal(slot) {
 
 function getStatusText(status) {
     switch (status) {
-        case 0: return `<span class="badge bg-success">Có thể đặt</span>`;
-        case 1: return `<span class="badge bg-primary">Đã đặt</span>`;
-        case 2: return `<span class="badge bg-warning">Yêu cầu huỷ</span>`;
-        case 3: return `<span class="badge bg-danger">Đã huỷ</span>`;
-        case 4: return `<span class="badge bg-warning bg-opacity-25 text-dark border border-primary">Đang chờ thanh toán</span>`;
-        default: return `<span class="badge bg-muted">---</span>`;
+        case 0:
+            return `<span class="badge bg-success">Có thể đặt</span>`;
+        case 1:
+            return `<span class="badge bg-primary">Đã đặt</span>`;
+        case 2:
+            return `<span class="badge bg-warning">Yêu cầu huỷ</span>`;
+        case 3:
+            return `<span class="badge bg-danger">Đã huỷ</span>`;
+        case 4:
+            return `<span class="badge bg-warning bg-opacity-25 text-dark border border-primary">Đang chờ thanh toán</span>`;
+        default:
+            return `<span class="badge bg-muted">---</span>`;
     }
 }
 
