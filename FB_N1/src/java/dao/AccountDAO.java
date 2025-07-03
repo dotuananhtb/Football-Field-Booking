@@ -93,7 +93,7 @@ public class AccountDAO extends DBContext {
         if (acc == null) {
             return false;
         }
-        return acc.getPassword().equals(newPassword);
+        return PasswordUtil.checkPassword(newPassword,acc.getPassword());
     }
 
     public boolean isStrongPassword(String password) {
