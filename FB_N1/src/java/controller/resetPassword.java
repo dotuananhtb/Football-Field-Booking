@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import model.Account;
 import model.EmailVerificationToken;
+import util.PasswordUtil;
 
 /**
  *
@@ -156,15 +157,13 @@ public class resetPassword extends HttpServlet {
         }
         EmailVerificationToken evt = new EmailVerificationToken();
         evt.setToken((String) session.getAttribute("token"));
-
         evt.setUsed(true);
-        dao.updatePassword(email, password);
+        dao.updatePassword(email, PasswordUtil.hashPassword(password));
         // Cập nhật trạng thái tài khoản và token
-
         tokenDAO.markTokenAsUsed(evt.getToken());
 
         //Xác minh thành công: chuyển hướng về trang chủ
-        response.sendRedirect("UI/home.jsp");
+        response.sendRedirect("UI/homePage.jsp");
     }
 
     /**
