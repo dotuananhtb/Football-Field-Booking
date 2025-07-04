@@ -48,6 +48,14 @@ public class AdminCancelBookingServlet extends HttpServlet {
                 return;
             }
 
+            // Check còn ca nào chưa đá
+            int futureSlotCount = detailsDAO.countFutureSlotsByBooking(booking.getBookingId());
+            if (futureSlotCount == 0) {
+                conn.rollback();
+                resp.getWriter().write("{\"success\":false,\"message\":\"Tất cả ca đã qua, không thể huỷ booking\"}");
+                return;
+            }
+
             boolean bookingUpdated = bookingDAO.updateBookingStatusPay(booking.getBookingId(), -2);
             boolean slotsUpdated = detailsDAO.updateSlotsStatusByBooking(booking.getBookingId(), 3);
 
@@ -59,11 +67,10 @@ public class AdminCancelBookingServlet extends HttpServlet {
 
             conn.commit();
 
-            // Gửi socket cập nhật lịch
+            // Gửi socket
             Set<String> fieldIds = detailsDAO.getFieldIdsByBooking(booking.getBookingId());
             AppWebSocket.broadcastCalendarUpdates(fieldIds);
 
-            // Gửi socket thông báo rõ cho người dùng
             JsonObject msg = new JsonObject();
             msg.addProperty("type", "booking_cancelled");
             msg.addProperty("bookingCode", booking.getBookingCode());

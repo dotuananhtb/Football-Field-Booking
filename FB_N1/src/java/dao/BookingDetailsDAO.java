@@ -23,6 +23,25 @@ public class BookingDetailsDAO extends DBContext {
         }
     }
 
+    public int countFutureSlotsByBooking(int bookingId) throws SQLException {
+        String sql = """
+        SELECT COUNT(*)
+        FROM BookingDetails
+        WHERE booking_id = ?
+          AND TRY_CAST(slot_date + ' ' + start_time AS DATETIME) > GETDATE()
+          AND status_checking_id != 3
+    """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
 // Lấy field_id của các ca trong booking
     public Set<String> getFieldIdsByBooking(int bookingId) throws SQLException {
         Set<String> fieldIds = new HashSet<>();
@@ -419,4 +438,19 @@ public class BookingDetailsDAO extends DBContext {
         return list;
     }
 
+    public static void main(String[] args) {
+        try (Connection conn = DBContext.getConnection()) {
+            BookingDetailsDAO dao = new BookingDetailsDAO();
+            dao.setConnection(conn);
+
+            // Ví dụ bookingId để test
+            int bookingId = 1;  // Bạn thay bằng bookingId thực tế cần kiểm tra
+
+            int futureSlotCount = dao.countFutureSlotsByBooking(bookingId);
+            System.out.println("Số ca chưa đá của booking " + bookingId + ": " + futureSlotCount);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

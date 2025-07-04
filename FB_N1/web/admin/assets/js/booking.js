@@ -191,7 +191,7 @@ function loadBookingDetails(bookingCode) {
                         </div>
                         <div class="mb-1">
                             <i class="bi bi-info-circle"></i> Trạng thái:
-                            ${renderSlotStatusBadge(slot.status_id, safeText(slot.status_name))}
+                            ${renderSlotStatusBadge(slot.status_name)}
                         </div>
                         <div>
                             <i class="bi bi-card-text"></i> Ghi chú: <span class="fst-italic">${safeText(slot.note)}</span>
@@ -208,15 +208,18 @@ function loadBookingDetails(bookingCode) {
     });
 }
 
-function renderSlotStatusBadge(statusId, statusName) {
-    let color = 'secondary';
-    switch (parseInt(statusId, 10)) {
-        case 1: color = 'success'; break; // Đã đặt
-        case 2: color = 'warning'; break; // Chờ xử lý
-        case 3: color = 'danger'; break;  // Đã huỷ
-        default: color = 'secondary';
-    }
-    return `<span class="badge bg-${color}">${statusName}</span>`;
+function renderSlotStatusBadge(statusName) {
+    const map = {
+        'đã đặt': 'success',
+        'đang chờ xử lí': 'warning',
+        'đã huỷ': 'danger',
+        'chờ thanh toán': 'info'
+    };
+
+    const key = (statusName || '').toLowerCase().trim();
+    const color = map[key] || 'secondary';
+
+    return `<span class="badge bg-${color}">${safeText(statusName)}</span>`;
 }
 
 function renderPayStatus(data) {
