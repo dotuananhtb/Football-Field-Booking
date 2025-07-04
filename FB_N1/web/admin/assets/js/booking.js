@@ -138,8 +138,8 @@ function loadBookingDetails(bookingCode) {
         </div>
         <div class="mb-1">
             <i class="bi bi-cash-stack"></i>
-            Giá: <span class="text-success">${formatPrice(slot.price)}</span> |
-            Extra: ${safeText(slot.extra_minutes, 0)} phút (+${formatPrice(slot.extra_fee)})
+            Giá: <span class="text-success">${formatPrice(slot.price)}</span> 
+
         </div>
         <div class="mb-1">
             <i class="bi bi-info-circle"></i> Trạng thái: 
