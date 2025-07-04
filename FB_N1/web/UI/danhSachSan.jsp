@@ -428,6 +428,66 @@
                                                     color: white;
                                                     border-color: #4CAF50;
                                                 }
+                                                /* Mặc định */
+                                                .flex.wd-search {
+                                                    display: grid;
+                                                    grid-template-columns: 1.5fr 1.2fr 1.2fr 1.2fr 1.4fr 1fr;
+                                                    gap: 12px;
+                                                    align-items: end;
+                                                }
+
+                                                .wd-search .form-group .search-bar-group .nice-select {
+                                                    padding: 35px 20px 8px 0px;
+                                                    border: unset !important;
+                                                    width: 100%;
+                                                    min-width: 140px;
+                                                    max-width: 180px;
+                                                    box-sizing: border-box;
+                                                }
+
+                                                /* Cho Tablet: giảm số cột (ví dụ màn hình dưới 1024px) */
+                                                @media (max-width: 1024px) {
+                                                    .flex.wd-search {
+                                                        /* Có thể chuyển sang 3 cột hoặc 2 cột tùy theo số trường bạn muốn hiển thị */
+                                                        grid-template-columns: 1fr 1fr 1fr;
+                                                        gap: 12px;
+                                                    }
+
+                                                    /* Đặt lại kích thước cho select khi không gian thu hẹp */
+                                                    .wd-search .form-group .search-bar-group .nice-select {
+                                                        min-width: unset;
+                                                        max-width: unset;
+                                                        width: 100%;
+                                                    }
+                                                }
+
+                                                /* Cho Mobile: chuyển sang hiển thị dạng cột (mỗi ô nằm độc lập) */
+                                                @media (max-width: 768px) {
+                                                    .flex.wd-search {
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        gap: 16px;
+                                                    }
+
+                                                    .wd-search .form-group {
+                                                        width: 100%;
+                                                    }
+
+                                                    .wd-search .form-group .search-bar-group .nice-select,
+                                                    .wd-search .form-group .search-bar-group input {
+                                                        width: 100% !important;
+                                                        min-width: unset;
+                                                        max-width: unset;
+                                                        box-sizing: border-box;
+                                                    }
+
+                                                    /* Nếu có nút search thì căn chỉnh cho chiếm trọn chiều ngang */
+                                                    .wd-search .form-group .btn-search {
+                                                        width: 100%;
+                                                        text-align: center;
+                                                    }
+                                                }
+
 
                                             </style>
                                             </head>
@@ -478,7 +538,7 @@
                                                                                         <div class="form-group flex">
                                                                                             <i class="icon-18"></i>
                                                                                             <div class="search-bar-group">
-                                                                                                <label>Destination</label>
+                                                                                                <label>Địa điểm</label>
                                                                                                 <div class="nice-select" tabindex="0">
                                                                                                     <span class="current">
                                                                                                         <c:choose>
@@ -500,6 +560,22 @@
                                                                                                                 </a>
                                                                                                             </li>
                                                                                                         </c:forEach>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group flex">
+                                                                                            <i class="icon-Layer-19"></i>
+                                                                                            <div class="search-bar-group">
+                                                                                                <label>Khu Vực</label>
+                                                                                                <div class="nice-select" tabindex="0">
+                                                                                                    <span class="current">Thanh Xuân</span>
+                                                                                                    <ul class="list">
+                                                                                                        <li data-value="san5" class="option">Sân 5 người</li>
+                                                                                                        <li data-value="san7" class="option selected">Sân 7 người
+                                                                                                        </li>
+                                                                                                        <li data-value="san11" class="option">Sân 11 người</li>
+                                                                                                        <li data-value="futsal" class="option">Sân Futsal</li>
                                                                                                     </ul>
                                                                                                 </div>
                                                                                             </div>
@@ -635,7 +711,7 @@
                                                                                                 </div>
                                                                                             </fieldset>
                                                                                             <fieldset class="group-select relative mb-22">
-                                                                                                <i class="icon-Group-111"></i>
+                                                                                                <i class="icon-time-left"></i>
                                                                                                 <div class="search-bar-group relative">
                                                                                                     <label> Các loại ca </label>
                                                                                                     <div class="nice-select" tabindex="0">
@@ -832,23 +908,34 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-12 ">
                                                                                         <ul class="tf-pagination flex-three">
+                                                                                            <!-- Previous Button -->
                                                                                             <li>
-                                                                                                <c:if test="${param.index > 1}">
-                                                                                                    <button type="button" class="pages-link" onclick="goToPage(${param.index - 1})"><i class="icon-29"></i></button>
-                                                                                                    </c:if>
+                                                                                                <c:if test="${page > 1}">
+                                                                                                    <button type="button" class="pages-link" onclick="goToPage(${page - 1})">
+                                                                                                        <i class="icon-29"></i>
+                                                                                                    </button>
+                                                                                                </c:if>
                                                                                             </li>
+
+                                                                                            <!-- Page Numbers -->
                                                                                             <c:forEach begin="1" end="${endP}" var="p">
                                                                                                 <li>
-                                                                                                    <button type="button" class="pages-link" class="${p == page ? 'active' : ''}"  onclick="goToPage(${p})" >${p}</button>
+                                                                                                    <button type="button" class="pages-link ${p == page ? 'active' : ''}" onclick="goToPage(${p})">
+                                                                                                        ${p}
+                                                                                                    </button>
                                                                                                 </li>
                                                                                             </c:forEach>
+
+                                                                                            <!-- Next Button -->
                                                                                             <li>
-                                                                                                <c:if test="${param.index * 6 < total}">
-                                                                                                    <button class="pages-link" onclick="goToPage(${param.index + 1})"><i class=" icon--1"></i></button>
-                                                                                                    </c:if>
+                                                                                                <c:if test="${page < endP}">
+                                                                                                    <button type="button" class="pages-link" onclick="goToPage(${page + 1})">
+                                                                                                        <i class="icon--1"></i>
+                                                                                                    </button>
+                                                                                                </c:if>
                                                                                             </li>
                                                                                         </ul>
-                                                                                        <input type="hidden" name="index" id="pageIndexInput" value="${param.index}" />
+                                                                                        <input type="hidden" name="index" id="pageIndexInput" value="${page}" />
                                                                                     </div>
                                                                                 </div>
 

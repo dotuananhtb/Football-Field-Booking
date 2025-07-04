@@ -80,7 +80,6 @@
 
                                                             </div>
                                                         </section>
-
                                                         <section class="login">
                                                             <div class="tf-container">
                                                                 <div class="row">

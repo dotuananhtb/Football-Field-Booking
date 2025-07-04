@@ -215,6 +215,64 @@ public class SlotsOfFieldDAO extends DBContext {
 
         return null;
     }
+    // lọc slot
+    public List<SlotsOfField> getFieldSlotsBySession(int fieldId, String session) {
+        List<SlotsOfField> allSlots = getFieldSlotsWithDetails(fieldId);
+        List<SlotsOfField> filteredSlots = new ArrayList<>();
+
+        for (SlotsOfField slot : allSlots) {
+            String startTime = slot.getSlotInfo().getStartTime(); // VD: "06:00"
+
+            if (session == null || session.isEmpty()) {
+                filteredSlots.add(slot); // không lọc
+            } else if (session.equalsIgnoreCase("morning")
+                    && startTime.compareTo("06:00") >= 0 && startTime.compareTo("11:59") <= 0) {
+                filteredSlots.add(slot);
+            } else if (session.equalsIgnoreCase("afternoon")
+                    && startTime.compareTo("12:00") >= 0 && startTime.compareTo("17:59") <= 0) {
+                filteredSlots.add(slot);
+            } else if (session.equalsIgnoreCase("evening")
+                    && startTime.compareTo("18:00") >= 0 && startTime.compareTo("23:59") <= 0) {
+                filteredSlots.add(slot);
+            }
+        }
+        return filteredSlots;
+    }
+
+    //chi tiết khung giờ và giá
+    public List<SlotsOfField> getFieldSlotsWithDetails(int fieldId) {
+        List<SlotsOfField> slots = new ArrayList<>();
+        String sql = "SELECT sof.slot_field_id, sof.slot_field_price, "
+                + "sod.slot_id, sod.start_time, sod.end_time, "
+                + "f.field_id, f.field_name "
+                + "FROM SlotsOfField sof "
+                + "INNER JOIN SlotsOfDay sod ON sof.slot_id = sod.slot_id "
+                + "INNER JOIN Field f ON sof.field_id = f.field_id "
+                + "WHERE f.field_id = ? "
+                + "ORDER BY sod.start_time";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, fieldId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SlotsOfField slot = new SlotsOfField();
+                slot.setSlotFieldId(rs.getInt("slot_field_id"));
+                slot.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
+
+//                 Bạn có thể set thêm thông tin slot time vào đây
+                SlotsOfDay sod = new SlotsOfDay();
+                sod.setStartTime(rs.getString("start_time"));
+                sod.setEndTime(rs.getString("end_time"));
+                slot.setSlotInfo(sod);
+
+                slots.add(slot);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return slots;
+    }
 
     public static void main(String[] args) {
         // Tạo DAO, giả sử constructor DAO có tự set connection
