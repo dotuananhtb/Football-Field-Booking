@@ -48,12 +48,12 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-title">Main</li>
+            <li class="side-nav-title">Tổng quan</li>
 
             <li class="side-nav-item">
                 <a href="index.html" class="side-nav-link">
                     <i class="ri-dashboard-2-fill"></i>
-                    <span> Dashboard </span>
+                    <span> Thống kê tổng quan </span>
                 </a>
             </li>
 
@@ -61,28 +61,12 @@
 
             <li class="side-nav-item">
                 <a href="apps-chat.html" class="side-nav-link">
-                    <i class="ri-message-3-fill"></i>
-                    <span> Chat </span>
+                    <i class="ri-table-fill"></i>
+                    <span> Báo cáo chi tiết </span>
                 </a>
             </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                    <i class="ri-mail-fill"></i>
-                    <span> Email </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarEmail">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="apps-email-inbox.html">Inbox</a>
-                        </li>
-                        <li>
-                            <a href="apps-email-read.html">Read Email</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+
 
             <li class="side-nav-title">Quản lí đặt sân</li>
 
@@ -93,33 +77,28 @@
                 </a>
             </li>
 
-
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/chi-tiet-dat-san" class="side-nav-link">
                     <i class="ri-survey-fill"></i>
-                    <span> Bảng chi tiết đặt sân </span>
+
+                    <span> Các đơn đặt sân </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/FB_N1/admin/chi-tiet-dat-san" class="side-nav-link">
+                    <i class="bi bi-card-checklist "></i>
+                    <span> Chi tiết các ca </span>
                 </a>
             </li>
 
+            <li class="side-nav-title">Hỗ trợ thanh toán</li>
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons" class="side-nav-link">
-                    <i class="ri-service-fill"></i>
-                    <span> Quản lý sân </span>
-                    <span class="menu-arrow"></span>
+                <a href="/FB_N1/admin/ho-tro-thanh-toan" class="side-nav-link">
+                    <i class="ri-qr-code-line"></i>
+                    <span> Đối soát thanh toán </span>
                 </a>
-                <div class="collapse" id="sidebarIcons">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="icons-remixicons.html">Remix Icons</a>
-                        </li>
-                        <li>
-                            <a href="icons-bootstrap.html">Bootstrap Icons</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
-
 
 
             <li class="side-nav-title">Chung</li>

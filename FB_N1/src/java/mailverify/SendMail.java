@@ -114,7 +114,7 @@ public class SendMail {
     }
 
     public boolean guiMailDangKyGoogle(String email, String fullName, String username, String password) {
-        String subject = "Tài khoản Google đã được tạo thành công - Football Star";
+        String subject = "Tài khoản đã được tạo thành công - Football Star";
 
         String content = "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
                 + "<style>"

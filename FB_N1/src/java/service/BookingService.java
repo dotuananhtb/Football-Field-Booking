@@ -165,7 +165,7 @@ public class BookingService extends DBContext {
     }
 //
 
-    public String createOfflineBooking(OfflineUser offlineUser, int createdByAccountId, List<BookingDetails> detailsList) {
+    public String createOfflineBooking(OfflineUser offlineUser, int createdByAccountId, List<BookingDetails> detailsList, int statusPay) {
         Connection conn = null;
         try {
             conn = DBContext.getConnection();
@@ -193,7 +193,7 @@ public class BookingService extends DBContext {
             // 2. Sinh booking_code duy nhất
             String bookingCode;
             do {
-                bookingCode = "OFF" + CodeUtil.generateBookingCode(); // Viết trong CodeUtil
+                bookingCode = "OFF" + CodeUtil.generateBookingCode();
             } while (bookingDAO.isBookingCodeExists(bookingCode));
 
             // 3. Tạo Booking (người tạo là nhân viên)
@@ -203,7 +203,7 @@ public class BookingService extends DBContext {
             booking.setSaleId(saleId);
             booking.setTotalAmount(totalAmount);
             booking.setBookingCode(bookingCode);
-            booking.setStatusPay(0);
+            booking.setStatusPay(statusPay);  // ✅ Sử dụng statusPay được truyền vào
 
             int bookingId = bookingDAO.insertBooking(booking);
             if (bookingId == -1) {
@@ -253,7 +253,7 @@ public class BookingService extends DBContext {
             }
             AppWebSocket.broadcastCalendarUpdates(affectedFieldIds);
 
-            return bookingCode; // ✅ Trả về bookingCode nếu thành công
+            return bookingCode;
 
         } catch (Exception e) {
             e.printStackTrace();

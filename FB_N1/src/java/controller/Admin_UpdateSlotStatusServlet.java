@@ -27,10 +27,10 @@ public class Admin_UpdateSlotStatusServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     static class SlotStatusRequest {
-
-        int slotFieldId;
+        String bookingDetailsCode;
+        Integer slotFieldId;
         String slotDate;
-        int status;
+        Integer status;
     }
 
     @Override
@@ -38,63 +38,77 @@ public class Admin_UpdateSlotStatusServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Map<String, Object> result = new HashMap<>();
         try {
             SlotStatusRequest data = gson.fromJson(request.getReader(), SlotStatusRequest.class);
-            int slotFieldId = data.slotFieldId;
-            String slotDate = data.slotDate;
-            int newStatusId = data.status;
+
+            if (data == null || data.status == null) {
+                throw new IllegalArgumentException("Thiếu thông tin trạng thái.");
+            }
+
+            BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+            BookingDetails bd = null;
+
+            if (data.bookingDetailsCode != null && !data.bookingDetailsCode.trim().isEmpty()) {
+                bd = bookingDetailsDAO.getByCode(data.bookingDetailsCode.trim());
+            } else if (data.slotFieldId != null && data.slotDate != null && !data.slotDate.trim().isEmpty()) {
+                bd = bookingDetailsDAO.getBySlotFieldAndDate(data.slotFieldId, data.slotDate.trim());
+            }
+
+            if (bd == null) {
+                throw new IllegalArgumentException("Không tìm thấy ca đặt phù hợp.");
+            }
 
             BookingService bookingService = new BookingService();
-            BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
-            BookingDetails bd = bookingDetailsDAO.getBySlotFieldAndDate(slotFieldId, slotDate);
+            boolean updated = bookingService.updateStatus(bd.getBookingDetailsId(), data.status);
 
-            boolean updated = bookingService.updateStatus(bd.getBookingDetailsId(), newStatusId);
-
-            Map<String, Object> result = new HashMap<>();
             result.put("success", updated);
             result.put("message", updated ? "Cập nhật thành công!" : "Không thể cập nhật ca.");
 
             if (updated && bd.getBookingId() > 0) {
-                int accid = bookingDetailsDAO.getAccountIdByBookingDetailId(bd.getBookingDetailsId());
-                String accountId = String.valueOf(accid);
-
-                try {
-                    SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
-                    SlotsOfField slot = slotDAO.getSlotOfFieldById(bd.getSlotFieldId());
-
-                    if (slot != null && slot.getSlotInfo() != null && slot.getField() != null) {
-                        String timeRange = slot.getSlotInfo().getStartTime() + " - " + slot.getSlotInfo().getEndTime();
-                        String fieldName = slot.getField().getFieldName();
-                        String dateStr = new SimpleDateFormat("dd/MM/yyyy")
-                                .format(new SimpleDateFormat("yyyy-MM-dd").parse(bd.getSlotDate()));
-
-                        String msg = switch (newStatusId) {
-                            case 1 ->
-                                "✅ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được xác nhận.";
-                            case 2 ->
-                                "⌛ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã chuyển về trạng thái chờ xử lý.";
-                            case 3 ->
-                                "❌ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã bị huỷ bởi quản lý.";
-                            default ->
-                                "⚠️ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được cập nhật.";
-                        };
-
-                        AppWebSocket.sendToAccount(accountId, "userMessage", msg);
-                    }
-                } catch (Exception e) {
-                    // Log nhẹ, không in stacktrace để tránh lộ thông tin
-                    System.err.println("Lỗi khi gửi thông báo socket.");
-                }
+                sendSocketMessage(bd, data.status, bookingDetailsDAO);
             }
 
             response.getWriter().write(gson.toJson(result));
 
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            response.getWriter().write(gson.toJson(result));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            Map<String, Object> error = new HashMap<>();
-            error.put("success", false);
-            error.put("message", "Lỗi xử lý dữ liệu.");
-            response.getWriter().write(gson.toJson(error));
+            result.put("success", false);
+            result.put("message", "Lỗi xử lý dữ liệu.");
+            response.getWriter().write(gson.toJson(result));
+        }
+    }
+
+    private void sendSocketMessage(BookingDetails bd, int newStatusId, BookingDetailsDAO bookingDetailsDAO) {
+        try {
+            int accid = bookingDetailsDAO.getAccountIdByBookingDetailId(bd.getBookingDetailsId());
+            String accountId = String.valueOf(accid);
+
+            SlotsOfFieldDAO slotDAO = new SlotsOfFieldDAO();
+            SlotsOfField slot = slotDAO.getSlotOfFieldById(bd.getSlotFieldId());
+
+            if (slot != null && slot.getSlotInfo() != null && slot.getField() != null) {
+                String timeRange = slot.getSlotInfo().getStartTime() + " - " + slot.getSlotInfo().getEndTime();
+                String fieldName = slot.getField().getFieldName();
+                String dateStr = new SimpleDateFormat("dd/MM/yyyy")
+                        .format(new SimpleDateFormat("yyyy-MM-dd").parse(bd.getSlotDate()));
+
+                String msg = switch (newStatusId) {
+                    case 1 -> "✅ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được xác nhận.";
+                    case 2 -> "⌛ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã chuyển về trạng thái chờ xử lý.";
+                    case 3 -> "❌ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã bị huỷ bởi quản lý.";
+                    default -> "⚠️ Ca " + timeRange + " tại sân " + fieldName + " ngày " + dateStr + " của bạn đã được cập nhật.";
+                };
+
+                AppWebSocket.sendToAccount(accountId, "userMessage", msg);
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi gửi thông báo socket.");
         }
     }
 }

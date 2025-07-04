@@ -79,6 +79,7 @@ function toggleSlotSelection(info) {
         info.event.setProp('classNames', ['bg-info', 'text-white']);
     }
 }
+
 function handleBookingSubmit() {
     if (selectedSlots.length === 0) {
         showToast("error", "⚠️ Bạn chưa chọn ca nào để đặt.");
@@ -89,11 +90,11 @@ function handleBookingSubmit() {
     const fullNameInput = document.getElementById('offlineFullName');
     const phoneInput = document.getElementById('offlinePhone');
     const emailInput = document.getElementById('offlineEmail');
+    const statusPayInput = document.getElementById('statusPayInput');
 
     if (!form)
         return;
 
-    // ✅ Nếu form không hợp lệ thì hiển thị từng lỗi
     if (!form.checkValidity()) {
         form.classList.add('was-validated');
 
@@ -124,12 +125,18 @@ function handleBookingSubmit() {
         return;
     }
 
-    // ✅ Thu thập dữ liệu
     const fullName = fullNameInput.value.trim();
     const phone = phoneInput.value.trim();
     const email = emailInput.value.trim();
+    const statusPay = statusPayInput ? parseInt(statusPayInput.value) : 0;
 
-    // ✅ Ghi chú từng slot
+    // Ghi chú trạng thái thanh toán
+    const payNote = (statusPay === 0)
+            ? "Chuyển khoản QR"
+            : (statusPay === 2)
+            ? "Thanh toán tại quầy"
+            : "Khác";
+
     $("#selectedSlotsTable tbody tr").each(function () {
         const noteInput = $(this).find(".slot-note-input");
         const i = noteInput.data("index");
@@ -147,7 +154,7 @@ function handleBookingSubmit() {
             extraMinutes: 0,
             extraFee: 0,
             slotDate: slot.slot_date,
-            note: `NV ${currentUsername} đặt sân offline: ${slot.note || ""}`,
+            note: `NV ${currentUsername} đặt sân offline: ${slot.note || ""} | ${payNote}`,
             statusCheckingId: 4
         }));
 
@@ -155,10 +162,10 @@ function handleBookingSubmit() {
         fullName: fullName,
         phone: phone,
         email: email || null,
+        statusPay: statusPay,
         details: bookingDetailsList
     };
 
-    // ✅ Gửi dữ liệu
     $.ajax({
         url: '/FB_N1/admin/dat-san-offline',
         method: 'POST',
@@ -168,12 +175,15 @@ function handleBookingSubmit() {
             if (response && response.success) {
                 showToast("success", response.message || "✅ Đặt sân thành công!");
 
-                // 👉 Redirect sang trang thanh toán với bookingCode
-                const bookingCode = response.bookingCode;
-                if (bookingCode) {
-                    setTimeout(() => {
-                        window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
-                    }, 1000);
+                if (statusPay === 0) {
+                    const bookingCode = response.bookingCode;
+                    if (bookingCode) {
+                        setTimeout(() => {
+                            window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
+                        }, 1000);
+                    }
+                } else if (statusPay === 2) {
+                    showToast("success", "💵 Đã lưu với trạng thái: Thanh toán sau.");
                 }
 
                 selectedSlots = [];
@@ -183,6 +193,8 @@ function handleBookingSubmit() {
                 phoneInput.value = '';
                 emailInput.value = '';
                 form.classList.remove('was-validated');
+                if (statusPayInput)
+                    statusPayInput.value = '0';
             } else {
                 showToast("error", response.message || "❌ Không rõ nguyên nhân!");
             }
@@ -201,28 +213,43 @@ function handleBookingSubmit() {
 
 
 
-
 function updateSlotStatus(slotId, slotDate, statusId) {
+    if (!slotId || !slotDate) {
+        showToast("error", "❌ Thiếu thông tin ca để cập nhật.");
+        return;
+    }
+
+    // Tạo payload gửi servlet
+    const payload = {
+        slotFieldId: slotId,
+        slotDate: slotDate,
+        status: statusId
+    };
+
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({
-            slotFieldId: slotId,
-            slotDate: slotDate,
-            status: statusId
-        }),
-        success: function () {
-            const msg =
-                    statusId === 1 ? "✅ Đã xác nhận ca!" :
-                    statusId === 2 ? "⌛ Đã chuyển ca sang trạng thái xử lí!" :
-                    "🚫 Đã huỷ ca!";
-            showToast("success", msg);
+        data: JSON.stringify(payload),
+        success: function (response) {
+            showToast("success", response.message ||
+                    (statusId === 1 ? "✅ Đã xác nhận ca!" :
+                            statusId === 2 ? "⌛ Đã chuyển ca sang trạng thái chờ xử lý!" :
+                            "🚫 Đã huỷ ca!"));
             $('#event-modal').modal('hide');
             calendar.refetchEvents();
         },
         error: function (xhr) {
-            showToast("error", "❌ Lỗi cập nhật: " + (xhr.responseText || "Không xác định"));
+            let msg = "❌ Lỗi cập nhật: ";
+            if (xhr.responseJSON?.message) {
+                msg += xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                msg += xhr.responseText;
+            } else {
+                msg += "Không xác định.";
+            }
+            showToast("error", msg);
         }
     });
 }
+

@@ -33,31 +33,8 @@ public class ManagerProductServlet extends HttpServlet {
         return account.getUserProfile().getRoleId() == 1;
     }
 
-    // Helper method để lấy ảnh chính cho danh sách products
-    private void loadProductImages(List<Product> products) {
-        if (products == null || products.isEmpty()) {
-            return;
-        }
-        
-        ImageStorageDAO imageDAO = new ImageStorageDAO();
-        for (Product product : products) {
-            List<ImageStorage> images = imageDAO.getImages("product", product.getProductId());
-            if (!images.isEmpty()) {
-                // Tìm ảnh chính hoặc lấy ảnh đầu tiên
-                String mainImageUrl = null;
-                for (ImageStorage img : images) {
-                    if (img.isIsMain()) {
-                        mainImageUrl = img.getImageUrl();
-                        break;
-                    }
-                }
-                if (mainImageUrl == null && !images.isEmpty()) {
-                    mainImageUrl = images.get(0).getImageUrl();
-                }
-                product.setProductImage(mainImageUrl);
-            }
-        }
-    }
+   
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -83,7 +60,7 @@ public class ManagerProductServlet extends HttpServlet {
         if ("search".equals(action) && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
             // Tìm kiếm product
             List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
-            loadProductImages(products); // Load ảnh cho products
+            
             request.setAttribute("products", products);
             request.setAttribute("searchKeyword", searchKeyword);
         } else if ("filter".equals(action)) {
@@ -110,11 +87,11 @@ public class ManagerProductServlet extends HttpServlet {
                     1000, // pageSize (hiện tất cả)
                     "new" // sortBy
                 );
-                loadProductImages(products); // Load ảnh cho products
+                
                 request.setAttribute("selectedCategory", categoryId);
             } else {
                 products = productDAO.getAllProducts();
-                loadProductImages(products); // Load ảnh cho products
+                
             }
             request.setAttribute("products", products);
             request.setAttribute("minPrice", minPriceStr);
@@ -122,7 +99,7 @@ public class ManagerProductServlet extends HttpServlet {
         } else {
             // Hiển thị tất cả product
             List<Product> products = productDAO.getAllProducts();
-            loadProductImages(products); // Load ảnh cho products
+            
             request.setAttribute("products", products);
         }
 
@@ -159,6 +136,33 @@ public class ManagerProductServlet extends HttpServlet {
                     ToastUtil.setSuccessToast(request, "Thêm sản phẩm thành công!");
                 } else {
                     ToastUtil.setErrorToast(request, "Thêm sản phẩm thất bại!");
+                }
+            } catch (Exception e) {
+                ToastUtil.setErrorToast(request, "Lỗi: " + e.getMessage());
+            }
+        } else if ("addCategory".equals(action)) {
+            // Thêm loại sản phẩm mới
+            try {
+                String cateName = request.getParameter("categoryName");
+                CateProduct_DAO cateDAO = new CateProduct_DAO();
+                // Kiểm tra trùng tên
+                CateProduct existed = cateDAO.searchCategoriesByName(cateName);
+                if (existed != null) {
+                    ToastUtil.setErrorToast(request, "Tên loại sản phẩm đã tồn tại!");
+                } else {
+                    // Tạo id mới (tăng tự động hoặc lấy max+1)
+                    List<CateProduct> all = cateDAO.getAllCategory();
+                    int newId = 1;
+                    for (CateProduct c : all) {
+                        if (c.getProductCateId() >= newId) newId = c.getProductCateId() + 1;
+                    }
+                    CateProduct newCate = new CateProduct(newId, cateName);
+                    int result = cateDAO.insertCategories(newCate);
+                    if (result > 0) {
+                        ToastUtil.setSuccessToast(request, "Thêm loại sản phẩm thành công!");
+                    } else {
+                        ToastUtil.setErrorToast(request, "Thêm loại sản phẩm thất bại!");
+                    }
                 }
             } catch (Exception e) {
                 ToastUtil.setErrorToast(request, "Lỗi: " + e.getMessage());
@@ -211,6 +215,38 @@ public class ManagerProductServlet extends HttpServlet {
                     ToastUtil.setSuccessToast(request, "Cập nhật trạng thái sản phẩm thành công!");
                 } else {
                     ToastUtil.setErrorToast(request, "Cập nhật trạng thái sản phẩm thất bại!");
+                }
+            } catch (Exception e) {
+                ToastUtil.setErrorToast(request, "Lỗi: " + e.getMessage());
+            }
+        } else if ("deleteCategory".equals(action)) {
+            // Xoá loại sản phẩm
+            try {
+                int cateId = Integer.parseInt(request.getParameter("categoryId"));
+                CateProduct_DAO cateDAO = new CateProduct_DAO();
+                int result = cateDAO.deleteCategories(cateId);
+                if (result > 0) {
+                    ToastUtil.setSuccessToast(request, "Xoá loại sản phẩm thành công!");
+                } else {
+                    ToastUtil.setErrorToast(request, "Xoá loại sản phẩm thất bại! (Có thể còn sản phẩm thuộc loại này)");
+                }
+            } catch (Exception e) {
+                ToastUtil.setErrorToast(request, "Lỗi: " + e.getMessage());
+            }
+        } else if ("editCategory".equals(action)) {
+            // Chỉnh sửa loại sản phẩm
+            try {
+                int cateId = Integer.parseInt(request.getParameter("categoryId"));
+                String cateName = request.getParameter("categoryName");
+                CateProduct_DAO cateDAO = new CateProduct_DAO();
+                // Kiểm tra trùng tên (trừ chính nó)
+                CateProduct existed = cateDAO.searchCategoriesByName(cateName);
+                if (existed != null && existed.getProductCateId() != cateId) {
+                    ToastUtil.setErrorToast(request, "Tên loại sản phẩm đã tồn tại!");
+                } else {
+                    CateProduct cate = new CateProduct(cateId, cateName);
+                    cateDAO.updateCategories(cate);
+                    ToastUtil.setSuccessToast(request, "Cập nhật loại sản phẩm thành công!");
                 }
             } catch (Exception e) {
                 ToastUtil.setErrorToast(request, "Lỗi: " + e.getMessage());
