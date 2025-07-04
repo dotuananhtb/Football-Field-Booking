@@ -7,9 +7,61 @@ import model.BookingDetailsDTO;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BookingDetailsDAO extends DBContext {
+// Update ca về trạng thái huỷ (3)
+
+    public boolean updateSlotsStatusByBooking(int bookingId, int statusCheckingId) throws SQLException {
+        String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, statusCheckingId);
+            ps.setInt(2, bookingId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public int countFutureSlotsByBooking(int bookingId) throws SQLException {
+        String sql = """
+        SELECT COUNT(*)
+        FROM BookingDetails
+        WHERE booking_id = ?
+          AND TRY_CAST(slot_date + ' ' + start_time AS DATETIME) > GETDATE()
+          AND status_checking_id != 3
+    """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
+// Lấy field_id của các ca trong booking
+    public Set<String> getFieldIdsByBooking(int bookingId) throws SQLException {
+        Set<String> fieldIds = new HashSet<>();
+        String sql = """
+        SELECT DISTINCT f.field_id
+        FROM BookingDetails bd
+        JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id
+        JOIN Field f ON sf.field_id = f.field_id
+        WHERE bd.booking_id = ?
+    """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    fieldIds.add(String.valueOf(rs.getInt("field_id")));
+                }
+            }
+        }
+        return fieldIds;
+    }
 
     public boolean insertBookingDetail(BookingDetails detail) {
         String sql = "INSERT INTO BookingDetails "
@@ -286,7 +338,7 @@ public class BookingDetailsDAO extends DBContext {
 
     public BookingDetails getBookingDetailsById(int bookingDetailsId) {
         String sql = """
-        SELECT booking_details_id, booking_id, slot_field_id,
+        SELECT booking_details_id, booking_id,booking_details_code, slot_field_id,
                slot_field_price, extra_minutes, extra_fee,
                slot_date, start_time, end_time, note, status_checking_id
         FROM BookingDetails
@@ -386,4 +438,19 @@ public class BookingDetailsDAO extends DBContext {
         return list;
     }
 
+    public static void main(String[] args) {
+        try (Connection conn = DBContext.getConnection()) {
+            BookingDetailsDAO dao = new BookingDetailsDAO();
+            dao.setConnection(conn);
+
+            // Ví dụ bookingId để test
+            int bookingId = 1;  // Bạn thay bằng bookingId thực tế cần kiểm tra
+
+            int futureSlotCount = dao.countFutureSlotsByBooking(bookingId);
+            System.out.println("Số ca chưa đá của booking " + bookingId + ": " + futureSlotCount);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
