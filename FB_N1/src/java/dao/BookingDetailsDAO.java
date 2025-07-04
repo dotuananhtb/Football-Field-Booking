@@ -286,7 +286,7 @@ public class BookingDetailsDAO extends DBContext {
 
     public BookingDetails getBookingDetailsById(int bookingDetailsId) {
         String sql = """
-        SELECT booking_details_id, booking_id, slot_field_id,
+        SELECT booking_details_id, booking_id,booking_details_code, slot_field_id,
                slot_field_price, extra_minutes, extra_fee,
                slot_date, start_time, end_time, note, status_checking_id
         FROM BookingDetails

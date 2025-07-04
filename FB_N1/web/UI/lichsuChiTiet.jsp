@@ -38,8 +38,8 @@
                                             <main id="main">
                                                 <section class="profile-dashboard">
                                                     <div class="inner-header mb-40">
-                                                        <h3 class="title">Lịch sử chi tiết của Mã đặt sân: #${booking_code}</h3>
-                                                        <p class="des">Dưới đây là danh sách chi tiết của mã đơn #${booking_code}</p>
+                                                        <h3 class="title">Lịch sử chi tiết của Mã đơn đặt: #${booking_code}</h3>
+                                                        <p class="des">Dưới đây là danh sách chi tiết các ca của mã đơn #${booking_code}</p>
                                                     </div>
                                                     <div class="my-booking-wrap ">
                                                         <ul class="booking-table-title flex-three">
@@ -49,9 +49,9 @@
                                                             <li>
                                                                 <p>Ngày đặt</p>
                                                             </li>
-                                                            <li>
+<!--                                                            <li>
                                                                 <p>Thêm giờ</p>
-                                                            </li>
+                                                            </li>-->
                                                             <li>
                                                                 <p>Trạng thái</p>
                                                             </li>
@@ -84,12 +84,12 @@
                                                                     <div class="booking-list-table">
                                                                         <p class="date-gues">${item.slotDate}</p>
                                                                     </div>
-                                                                    <div class="booking-list-table">
+<!--                                                                    <div class="booking-list-table">
                                                                         <div class="content">
                                                                             <h6 class="title-booking"><a href="#">${item.extraMinutes} phút</a></h6>
                                                                             <p class="price">${item.extraFee} vnđ</p>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>-->
                                                                     <div class="booking-list-table">
                                                                         <p class="status"
                                                                            style="font-weight: bold;

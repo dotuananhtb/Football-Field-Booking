@@ -11,9 +11,9 @@ $(document).ready(function () {
             dataSrc: ''
         },
         columns: [
-            { data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1 },
-            { data: 'extendedProps.booking_details_code' },
-            { data: 'extendedProps.slot_date' },
+            {data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1},
+            {data: 'extendedProps.booking_details_code'},
+            {data: 'extendedProps.slot_date'},
             {
                 data: null,
                 render: (data, type, row) => {
@@ -21,18 +21,27 @@ $(document).ready(function () {
                     return (ep.start_time || '-') + ' - ' + (ep.end_time || '-');
                 }
             },
-            { data: 'extendedProps.field_name' },
-            { data: 'extendedProps.field_type_name' },
+            {data: 'extendedProps.field_name'},
+            {data: 'extendedProps.field_type_name'},
             {
                 data: 'extendedProps.status',
                 render: function (data, type, row) {
                     let badge = '';
                     switch (data) {
-                        case 1: badge = '<span class="badge bg-success">Đã đặt</span>'; break;
-                        case 2: badge = '<span class="badge bg-warning text-dark">Chờ huỷ</span>'; break;
-                        case 3: badge = '<span class="badge bg-danger">Đã huỷ</span>'; break;
-                        case 4: badge = '<span class="badge bg-primary">Chờ thanh toán</span>'; break;
-                        default: badge = '<span class="badge bg-secondary">Không xác định</span>';
+                        case 1:
+                            badge = '<span class="badge bg-success">Đã đặt</span>';
+                            break;
+                        case 2:
+                            badge = '<span class="badge bg-warning text-dark">Chờ huỷ</span>';
+                            break;
+                        case 3:
+                            badge = '<span class="badge bg-danger">Đã huỷ</span>';
+                            break;
+                        case 4:
+                            badge = '<span class="badge bg-primary">Chờ thanh toán</span>';
+                            break;
+                        default:
+                            badge = '<span class="badge bg-secondary">Không xác định</span>';
                     }
 
                     // Kiểm tra nếu ca đã qua thì không hiện nút cập nhật
@@ -50,19 +59,19 @@ $(document).ready(function () {
                     }
 
                     const updateBtn = showUpdateBtn
-                        ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
+                            ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
                                 data-slot-field-id="${row.extendedProps.slot_field_id}"
                                 data-slot-date="${row.extendedProps.slot_date}"
                                 data-booking-details-code="${row.extendedProps.booking_details_code}"
                                 data-status="${data}">
                                 <i class="bi bi-pencil-square"></i>
                            </button>`
-                        : '';
+                            : '';
 
                     return `${badge} ${updateBtn}`;
                 }
             },
-            { data: 'extendedProps.userInfo.name' },
+            {data: 'extendedProps.userInfo.name'},
             {
                 data: null,
                 render: (data, type, row) => row?.extendedProps?.userInfo?.phone || '-',
@@ -71,14 +80,14 @@ $(document).ready(function () {
                     td.style.fontWeight = phone ? 'bold' : 'normal';
                 }
             },
-            { data: 'extendedProps.userInfo.email' },
-            { data: 'extendedProps.booking_date' },
+            {data: 'extendedProps.userInfo.email'},
+            {data: 'extendedProps.booking_date'},
             {
                 data: 'extendedProps.price',
                 render: (data) => data != null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-'
             },
-            { 
-                data: null, 
+            {
+                data: null,
                 title: 'Ghi chú',
                 render: (data, type, row) => row?.extendedProps?.note || '-'
             }
@@ -107,9 +116,9 @@ $(document).ready(function () {
         currentBookingDetailsCode = $(this).data('bookingDetailsCode');
         const currentStatus = parseInt($(this).data('status'));
 
-        const infoText = currentBookingDetailsCode 
-            ? `Cập nhật ca: ${currentBookingDetailsCode}`
-            : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
+        const infoText = currentBookingDetailsCode
+                ? `Cập nhật ca: ${currentBookingDetailsCode}`
+                : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
         $('#modal-slot-info').text(infoText);
 
         // Reset nút
@@ -129,14 +138,20 @@ $(document).ready(function () {
         const modal = new bootstrap.Modal(document.getElementById('updateStatusModal'));
         modal.show();
     });
-
-    $('#btn-status-1').click(() => updateSlotStatus(1));
-    $('#btn-status-2').click(() => updateSlotStatus(2));
-    $('#btn-status-3').click(() => updateSlotStatus(3));
+    $('#btn-status-1').click(() => {
+        showConfirmDialog("Bạn muốn cập nhật trạng thái thành 'Đã đặt'?", () => updateSlotStatus(1));
+    });
+    $('#btn-status-2').click(() => {
+        showConfirmDialog("Bạn muốn cập nhật trạng thái thành 'Chờ huỷ'?", () => updateSlotStatus(2));
+    });
+    $('#btn-status-3').click(() => {
+        showConfirmDialog("Bạn muốn cập nhật trạng thái thành 'Đã huỷ'?", () => updateSlotStatus(3));
+    });
 });
 
+
 function updateSlotStatus(statusId) {
-    const payload = { status: statusId };
+    const payload = {status: statusId};
 
     if (currentBookingDetailsCode) {
         payload.bookingDetailsCode = currentBookingDetailsCode;

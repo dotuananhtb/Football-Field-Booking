@@ -1,4 +1,10 @@
 <%-- 
+    Document   : booking
+    Created on : Jul 4, 2025, 8:01:24 AM
+    Author     : Đỗ Tuấn Anh
+--%>
+
+<%-- 
     Document   : chitietdatsan_staff
     Created on : Jun 18, 2025, 4:56:35 AM
     Author     : Đỗ Tuấn Anh
@@ -10,7 +16,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Bảng chi tiết các ca đã đặt </title>
+        <title>Các đơn đặt sân</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -78,7 +84,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h2>Bảng hiển thị chi tiết của tất cả các ca</h2>
+                                    <h2>Bảng hiển thị các đơn đặt sân của khánh hàng</h2>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +96,7 @@
                             <div class="col-12">
                                 <div class="mb-4">
                                     <p class="text-muted fs-14">
-                                        Bảng dữ liệu hiển thị danh sách các ca sân đã được khách hàng đặt, với thông tin đầy đủ như thời gian, sân, giá tiền và trạng thái.  
+                                       //
                                     </p>
 
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
@@ -254,7 +260,7 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
         <!-- Datatable Demo Aapp js -->
-        <script src="assets/js/booking-details-table.js"></script>
+        <script src="assets/js/booking-table.js"></script>
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
 
