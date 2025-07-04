@@ -13,6 +13,16 @@ import websocket.AppWebSocket;
 
 public class BookingDAO extends DBContext {
 
+// Update status_pay
+    public boolean updateBookingStatusPay(int bookingId, int statusPay) throws SQLException {
+        String sql = "UPDATE Booking SET status_pay = ? WHERE booking_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, statusPay);
+            ps.setInt(2, bookingId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     public void autoCancelExpiredBookings() throws SQLException {
         String selectExpiredBookingIdsSQL = """
             SELECT booking_id FROM Booking
@@ -107,7 +117,7 @@ public class BookingDAO extends DBContext {
             ORDER BY b.booking_date DESC
         """;
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("booking_code", rs.getString("booking_code"));
