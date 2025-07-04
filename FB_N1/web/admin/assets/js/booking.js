@@ -129,23 +129,28 @@ function loadBookingDetails(bookingCode) {
         } else {
             data.forEach((slot, index) => {
                 container.append(`
-                    <div class="border rounded p-2 mb-2 bg-light">
-                        <div class="fw-bold mb-1">
-                            #${index + 1} | ${safeText(slot.slot_date)} ${safeText(slot.start_time)} - ${safeText(slot.end_time)}
-                        </div>
-                        <div class="mb-1">
-                            <i class="bi bi-geo-alt-fill"></i> ${safeText(slot.field_name)} (${safeText(slot.field_type_name)})
-                        </div>
-                        <div class="mb-1">
-                            <i class="bi bi-cash-stack"></i>
-                            Giá: <span class="text-success">${formatPrice(slot.price)}</span> |
-                            Extra: ${safeText(slot.extra_minutes, 0)} phút (+${formatPrice(slot.extra_fee)})
-                        </div>
-                        <div>
-                            Ghi chú: <span class="fst-italic">${safeText(slot.note)}</span>
-                        </div>
-                    </div>
-                `);
+    <div class="border rounded p-2 mb-2 bg-light">
+        <div class="fw-bold mb-1">
+            #${index + 1} | ${safeText(slot.slot_date)} ${safeText(slot.start_time)} - ${safeText(slot.end_time)}
+        </div>
+        <div class="mb-1">
+            <i class="bi bi-geo-alt-fill"></i> ${safeText(slot.field_name)} (${safeText(slot.field_type_name)})
+        </div>
+        <div class="mb-1">
+            <i class="bi bi-cash-stack"></i>
+            Giá: <span class="text-success">${formatPrice(slot.price)}</span> |
+            Extra: ${safeText(slot.extra_minutes, 0)} phút (+${formatPrice(slot.extra_fee)})
+        </div>
+        <div class="mb-1">
+            <i class="bi bi-info-circle"></i> Trạng thái: 
+            <span class="badge bg-info">${safeText(slot.status_name)}</span>
+        </div>
+        <div>
+            <i class="bi bi-card-text"></i> Ghi chú: <span class="fst-italic">${safeText(slot.note)}</span>
+        </div>
+    </div>
+`);
+
             });
         }
 
