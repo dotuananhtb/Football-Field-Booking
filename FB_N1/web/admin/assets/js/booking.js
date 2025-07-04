@@ -37,12 +37,38 @@ $(document).ready(function () {
             {
                 data: null,
                 orderable: false,
-                render: (data, type, row) => `
-                    <button class="btn btn-sm btn-outline-primary btn-view-slots" 
-                        data-booking-code="${safeText(row.booking_code)}">
-                        <i class="bi bi-eye"></i> Xem ca
-                    </button>`
+                render: (data, type, row) => {
+                    // Tùy điều kiện status_pay để hiển thị QR
+                    const qrButton = (row.status_pay === 0 || row.status_pay === 2) ? `
+            <li>
+                <a class="dropdown-item d-flex align-items-center gap-2"
+                   target="_blank"
+                   href="http://localhost:9999/FB_N1/thanh-toan?code=${safeText(row.booking_code)}">
+                    <i class="bi bi-qr-code"></i> Mã QR thanh toán
+                </a>
+            </li>
+        ` : '';
+
+                    return `
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-list"></i> Hành động
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width: 180px;">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2 btn-view-slots"
+                           href="#" data-booking-code="${safeText(row.booking_code)}">
+                            <i class="bi bi-eye"></i> Xem ca
+                        </a>
+                    </li>
+                    ${qrButton}
+                </ul>
+            </div>
+        `;
+                }
             }
+
         ],
         pageLength: 10,
         language: {
