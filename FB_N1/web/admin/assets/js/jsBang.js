@@ -41,7 +41,7 @@ $(document).ready(function () {
 
     // Multi-select table
     $("#selection-datatable").DataTable({
-        select: { style: "multi" },
+        select: {style: "multi"},
         language: viLanguage,
         drawCallback: addRounded
     });
@@ -68,10 +68,16 @@ $(document).ready(function () {
         language: viLanguage,
         drawCallback: addRounded
     });
+    $("#booking-datatable").DataTable({
+        scrollX: true,
+        language: viLanguage,
+        drawCallback: addRounded
+    });
+
 
     // Complex header
     $("#complex-header-datatable").DataTable({
-        columnDefs: [{ visible: false, targets: -1 }],
+        columnDefs: [{visible: false, targets: -1}],
         language: viLanguage,
         drawCallback: addRounded
     });

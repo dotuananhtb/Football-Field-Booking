@@ -96,127 +96,73 @@
                             <div class="col-12">
                                 <div class="mb-4">
                                     <p class="text-muted fs-14">
-                                       //
+                                        Danh sách đơn đặt sân
                                     </p>
 
-                                    <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
-
+                                    <table id="booking-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Mã đặt ca(BDC)</th>                                             
-                                                <th>Ngày đá</th>
-                                                <th>Khung giờ</th>
-                                                <th>Sân</th>
-                                                <th>Loại sân</th>
-                                                <th>Trạng thái</th>
-                                                <th>Người đặt</th>
-                                                <th>SĐT</th>
-                                                <th>Email</th>
+                                                <th>Mã đơn</th>
                                                 <th>Ngày đặt</th>
-                                                <th>Giá</th>
-                                                <th>Ghi chú</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Khách hàng</th>
+                                                <th>SĐT</th>
+                                                <th>Loại KH</th>
+                                                <th>Trạng thái ca</th>
+                                                <th>Hành động</th>
                                             </tr>
                                             <tr id="filter-row">
                                                 <th>
                                                     <button id="reset-filters" class="btn btn-secondary btn-sm mt-2">Đặt lại</button>
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm mã ca"
-                                                           style="min-width: 120px; max-width: 200px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Mã đơn" style="min-width: 80px;">
                                                 </th>
                                                 <th>
-                                                    <input type="date" class="form-control form-control-sm mb-1"
-                                                           id="slotDateFrom"
-                                                           style="min-width: 90px; max-width: 120px;">
-                                                    <input type="date" class="form-control form-control-sm"
-                                                           id="slotDateTo"
-                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm mb-1" id="bookingDateFrom" style="min-width: 90px; max-width: 120px;">
+                                                    <input type="date" class="form-control form-control-sm" id="bookingDateTo" style="min-width: 90px; max-width: 120px;">
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm giờ"
-                                                           style="min-width: 85px; max-width: 90px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Tổng tiền" style="min-width: 80px;">
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Sân"
-                                                           style="min-width: 55px; max-width: 70px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Tên KH" style="min-width: 100px;">
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Loại sân"
-                                                           style="min-width: 80px; max-width: 100px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="SĐT" style="min-width: 90px;">
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Trạng thái"
-                                                           style="min-width: 90px; max-width: 120px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Loại KH" style="min-width: 80px;">
                                                 </th>
                                                 <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm người đặt"
-                                                           style="min-width: 115px; max-width: 140px;">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Trạng thái " style="min-width: 90px;">
                                                 </th>
-                                                <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm SĐT"
-                                                           style="min-width: 100px; max-width: 140px;">
-                                                </th>
-                                                <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm email"
-                                                           style="min-width: 150px; max-width: 220px;">
-                                                </th>
-                                                <th>
-                                                    <input type="date" class="form-control form-control-sm mb-1"
-                                                           id="bookingDateFrom"
-                                                           style="min-width: 90px; max-width: 120px;">
-                                                    <input type="date" class="form-control form-control-sm"
-                                                           id="bookingDateTo"
-                                                           style="min-width: 90px; max-width: 120px;">
-                                                </th>
-                                                <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm giá"
-                                                           style="min-width: 100px; max-width: 140px;">
-                                                </th>
-                                                <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm ghi chú"
-                                                           style="min-width: 130px; max-width: 200px;">
-                                                </th>
+
+
+                                                <th></th> <!-- Hành động không cần filter input -->
                                             </tr>
 
                                         </thead>
                                         <tbody></tbody>
                                     </table>
-
-
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div> <!-- end row-->
 
-                        <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content shadow">
+                        <div class="modal fade" id="bookingSlotModal" tabindex="-1" aria-labelledby="bookingSlotModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="updateStatusModalLabel">Cập nhật trạng thái ca</h5>
+                                        <h5 class="modal-title" id="bookingSlotModalLabel">Chi tiết các ca trong đơn</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p id="modal-slot-info" class="fw-bold text-primary"></p>
-                                        <div class="d-grid gap-2">
-                                            <button id="btn-status-1" class="btn btn-success">Xác nhận ca</button>
-                                            <button id="btn-status-2" class="btn btn-warning">Chuyển chờ xử lý huỷ</button>
-                                            <button id="btn-status-3" class="btn btn-danger">Huỷ ca</button>
-                                        </div>
+                                        <div id="booking-slots-container"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
 
 
 
@@ -260,7 +206,7 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
         <!-- Datatable Demo Aapp js -->
-        <script src="assets/js/booking-table.js"></script>
+        <script src="assets/js/booking.js"></script>
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
 
