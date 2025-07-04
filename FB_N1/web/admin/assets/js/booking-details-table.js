@@ -1,3 +1,5 @@
+/* global bootstrap */
+
 let currentSlotFieldId = null;
 let currentSlotDate = null;
 let currentBookingDetailsCode = null;
@@ -11,9 +13,9 @@ $(document).ready(function () {
             dataSrc: ''
         },
         columns: [
-            {data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1},
-            {data: 'extendedProps.booking_details_code'},
-            {data: 'extendedProps.slot_date'},
+            { data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1 },
+            { data: 'extendedProps.booking_details_code' },
+            { data: 'extendedProps.slot_date' },
             {
                 data: null,
                 render: (data, type, row) => {
@@ -21,8 +23,8 @@ $(document).ready(function () {
                     return (ep.start_time || '-') + ' - ' + (ep.end_time || '-');
                 }
             },
-            {data: 'extendedProps.field_name'},
-            {data: 'extendedProps.field_type_name'},
+            { data: 'extendedProps.field_name' },
+            { data: 'extendedProps.field_type_name' },
             {
                 data: 'extendedProps.status',
                 render: function (data, type, row) {
@@ -44,7 +46,6 @@ $(document).ready(function () {
                             badge = '<span class="badge bg-secondary">Không xác định</span>';
                     }
 
-                    // Kiểm tra nếu ca đã qua thì không hiện nút cập nhật
                     const now = new Date();
                     const slotDate = row.extendedProps.slot_date;
                     const endTime = row.extendedProps.end_time;
@@ -59,19 +60,19 @@ $(document).ready(function () {
                     }
 
                     const updateBtn = showUpdateBtn
-                            ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
+                        ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
                                 data-slot-field-id="${row.extendedProps.slot_field_id}"
                                 data-slot-date="${row.extendedProps.slot_date}"
                                 data-booking-details-code="${row.extendedProps.booking_details_code}"
                                 data-status="${data}">
                                 <i class="bi bi-pencil-square"></i>
                            </button>`
-                            : '';
+                        : '';
 
                     return `${badge} ${updateBtn}`;
                 }
             },
-            {data: 'extendedProps.userInfo.name'},
+            { data: 'extendedProps.userInfo.name' },
             {
                 data: null,
                 render: (data, type, row) => row?.extendedProps?.userInfo?.phone || '-',
@@ -80,8 +81,8 @@ $(document).ready(function () {
                     td.style.fontWeight = phone ? 'bold' : 'normal';
                 }
             },
-            {data: 'extendedProps.userInfo.email'},
-            {data: 'extendedProps.booking_date'},
+            { data: 'extendedProps.userInfo.email' },
+            { data: 'extendedProps.booking_date' },
             {
                 data: 'extendedProps.price',
                 render: (data) => data != null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-'
@@ -107,9 +108,58 @@ $(document).ready(function () {
         },
         drawCallback: () => {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+        initComplete: function () {
+            const api = this.api();
+
+            // Áp dụng tìm kiếm cho từng ô input text
+            api.columns().every(function (colIdx) {
+                const input = $('#filter-row th').eq(colIdx).find('input[type="text"]');
+                if (input.length) {
+                    input.on('keyup change', function () {
+                        api.column(colIdx).search(this.value).draw();
+                    });
+                }
+            });
+
+            // Tìm kiếm theo ngày
+            $('#slotDateFrom, #slotDateTo, #bookingDateFrom, #bookingDateTo').on('change', function () {
+                api.draw();
+            });
+
+            // Custom search cho khoảng ngày
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                const slotDate = data[2];
+                const bookingDate = data[10];
+
+                const fromSlot = $('#slotDateFrom').val();
+                const toSlot = $('#slotDateTo').val();
+                const fromBook = $('#bookingDateFrom').val();
+                const toBook = $('#bookingDateTo').val();
+
+                let isSlotInRange = true;
+                let isBookingInRange = true;
+
+                if (fromSlot && slotDate < fromSlot) isSlotInRange = false;
+                if (toSlot && slotDate > toSlot) isSlotInRange = false;
+
+                if (fromBook && bookingDate < fromBook) isBookingInRange = false;
+                if (toBook && bookingDate > toBook) isBookingInRange = false;
+
+                return isSlotInRange && isBookingInRange;
+            });
+
+            // Đặt lại filter
+            $('#reset-filters').on('click', function () {
+                $('#filter-row input').val('');
+                $('#filter-row input[type="date"]').val('');
+                api.columns().search('');
+                api.draw();
+            });
         }
     });
 
+    // Xử lý cập nhật trạng thái
     $(document).on('click', '.btn-update-status', function () {
         currentSlotFieldId = $(this).data('slotFieldId');
         currentSlotDate = $(this).data('slotDate');
@@ -117,27 +167,22 @@ $(document).ready(function () {
         const currentStatus = parseInt($(this).data('status'));
 
         const infoText = currentBookingDetailsCode
-                ? `Cập nhật ca: ${currentBookingDetailsCode}`
-                : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
+            ? `Cập nhật ca: ${currentBookingDetailsCode}`
+            : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
         $('#modal-slot-info').text(infoText);
 
-        // Reset nút
         $('#btn-status-1').show();
         $('#btn-status-2').show();
         $('#btn-status-3').show();
 
-        // Ẩn nút tương ứng với trạng thái hiện tại
-        if (currentStatus === 1) {
-            $('#btn-status-1').hide();
-        } else if (currentStatus === 2) {
-            $('#btn-status-2').hide();
-        } else if (currentStatus === 3) {
-            $('#btn-status-3').hide();
-        }
+        if (currentStatus === 1) $('#btn-status-1').hide();
+        else if (currentStatus === 2) $('#btn-status-2').hide();
+        else if (currentStatus === 3) $('#btn-status-3').hide();
 
         const modal = new bootstrap.Modal(document.getElementById('updateStatusModal'));
         modal.show();
     });
+
     $('#btn-status-1').click(() => {
         showConfirmDialog("Bạn muốn cập nhật trạng thái thành 'Đã đặt'?", () => updateSlotStatus(1));
     });
@@ -149,9 +194,8 @@ $(document).ready(function () {
     });
 });
 
-
 function updateSlotStatus(statusId) {
-    const payload = {status: statusId};
+    const payload = { status: statusId };
 
     if (currentBookingDetailsCode) {
         payload.bookingDetailsCode = currentBookingDetailsCode;
@@ -163,7 +207,7 @@ function updateSlotStatus(statusId) {
         return;
     }
 
-    console.log("Payload gửi:", payload); // Debug
+    console.log("Payload gửi:", payload);
 
     $.ajax({
         url: '/FB_N1/admin/update-slot-status',
