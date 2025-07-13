@@ -4,7 +4,7 @@
  */
 package model;
 
-
+import java.util.List;
 
 public class Product {
     private int productId;
@@ -15,6 +15,7 @@ public class Product {
     private String productDescription;
     private String productStatus;
     private CateProduct CateProduct;
+    private List<ProductDetails> productDetailsList;
 
     public Product() {
     }
@@ -102,6 +103,13 @@ public class Product {
 
     public void setCateProduct(CateProduct CateProduct) {
         this.CateProduct = CateProduct;
+    }
+
+    public List<ProductDetails> getProductDetailsList() {
+        return productDetailsList;
+    }
+    public void setProductDetailsList(List<ProductDetails> productDetailsList) {
+        this.productDetailsList = productDetailsList;
     }
 
     @Override
