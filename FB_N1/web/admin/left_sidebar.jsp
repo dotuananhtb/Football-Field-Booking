@@ -114,9 +114,6 @@
                             <a href="/FB_N1/admin/Admin_San">Quản Lý Sân Bóng</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/Admin_LoaiSan">Quản lý Loại sân</a>
-                        </li>
-                        <li>
                             <a href="/FB_N1/admin/Admin_CaTheoLoaiSan">Quản Lý Lịch các ca</a>
                         </li>
                         <li>

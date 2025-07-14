@@ -109,7 +109,7 @@ public class Admin_LoaiSan extends HttpServlet {
                 }
                 break;
         }
-        response.sendRedirect(request.getContextPath() + "/admin/Admin_LoaiSan");
+        response.sendRedirect(request.getContextPath() + "/admin/Admin_San");
     }
 
     /**

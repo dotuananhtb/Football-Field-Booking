@@ -115,7 +115,7 @@
 
                                     <h2>Danh sách sân bóng</h2>
 
-                                    <table id="field-table" class="table table-striped w-100 nowrap">
+                                    <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -178,6 +178,90 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
+                        
+                        
+
+
+                        <!--quản lý loại sân-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h1 class="page-title">Quản Lý Sân Bóng</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            
+                            <form method="post" action="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
+                                  style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                                <input type="hidden" name="action" value="${type != null ? 'update' : 'add'}" />
+                                <c:if test="${type != null}">
+                                    <input type="hidden" name="field_type_id" value="${type.fieldTypeId}" />
+                                </c:if>
+
+                                <div class="mb-3">
+                                    <label for="fieldTypeName" class="form-label">Tên loại sân</label>
+                                    <input type="text" name="field_type_name" id="fieldTypeName"
+                                           class="form-control" required placeholder="Nhập tên loại sân"
+                                           value="${type != null ? type.fieldTypeName : ''}" />
+                                </div>
+
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        ${type != null ? ' Cập nhật' : 'Thêm'}
+                                    </button>
+                                    <c:if test="${type != null}">
+                                        <a href="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
+                                           class="btn btn-secondary ms-2"> Huỷ</a>
+                                    </c:if>
+                                </div>
+                            </form>
+
+
+                            <div class="col-12">
+                                <div class="mb-4">
+
+
+
+                                    <h2>Danh sách Loại Sân</h2>
+
+                                    <!-- DANH SÁCH LOẠI SÂN -->
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên Loại Sân</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="t" items="${types}">
+                                                <tr>
+                                                    <td>${t.fieldTypeId}</td>
+                                                    <td>${t.fieldTypeName}</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-warning"
+                                                           href="${pageContext.request.contextPath}/admin/Admin_LoaiSan?editId=${t.fieldTypeId}">Sửa</a>
+                                                        <form method="post"
+                                                              action="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
+                                                              style="display:inline;">
+                                                            <input type="hidden" name="action" value="delete" />
+                                                            <input type="hidden" name="field_type_id"
+                                                                   value="${t.fieldTypeId}" />
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                    onclick="return confirm('Xác nhận xoá?')">Xoá</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div> <!-- end card -->
+                            </div><!-- end col-->
+                        </div>
+
+
 
 
 
@@ -355,45 +439,45 @@
 
         <script src="assets/js/app.min.js"></script>
         <script>
-                                            function editField(id, name, image, typeId, zoneId, status, description) {
-                                                document.getElementById("formAction").value = "update";
-                                                document.getElementById("fieldId").value = id;
-                                                document.getElementById("fieldName").value = name;
-                                                document.getElementById("fieldImage").value = image;
-                                                document.getElementById("typeId").value = typeId;
-                                                document.getElementById("zoneId").value = zoneId;
+                                                                            function editField(id, name, image, typeId, zoneId, status, description) {
+                                                                                document.getElementById("formAction").value = "update";
+                                                                                document.getElementById("fieldId").value = id;
+                                                                                document.getElementById("fieldName").value = name;
+                                                                                document.getElementById("fieldImage").value = image;
+                                                                                document.getElementById("typeId").value = typeId;
+                                                                                document.getElementById("zoneId").value = zoneId;
 
-                                                // Đảm bảo status khớp với option trong <select>
-                                                document.getElementById("fieldstatus").value = status.trim();
+                                                                                // Đảm bảo status khớp với option trong <select>
+                                                                                document.getElementById("fieldstatus").value = status.trim();
 
-                                                document.getElementById("description").value = description;
+                                                                                document.getElementById("description").value = description;
 
-                                                // Chuyển sang chế độ cập nhật
-                                                document.getElementById("btnAdd").style.display = "none";
-                                                document.getElementById("btnUpdate").style.display = "inline-block";
-                                                document.getElementById("btnCancel").style.display = "inline-block";
-                                                window.scrollTo({top: 0, behavior: 'smooth'});
-                                                
-                                                const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
-                                                modal.show();
-                                            }
+                                                                                // Chuyển sang chế độ cập nhật
+                                                                                document.getElementById("btnAdd").style.display = "none";
+                                                                                document.getElementById("btnUpdate").style.display = "inline-block";
+                                                                                document.getElementById("btnCancel").style.display = "inline-block";
+                                                                                window.scrollTo({top: 0, behavior: 'smooth'});
 
-                                            function cancelEdit() {
-                                                document.getElementById("formAction").value = "add";
-                                                document.getElementById("fieldId").value = "";
-                                                document.getElementById("fieldName").value = "";
-                                                document.getElementById("fieldImage").value = "";
-                                                document.getElementById("typeId").selectedIndex = 0;
-                                                document.getElementById("zoneId").selectedIndex = 0;
-                                                document.getElementById("fieldstatus").selectedIndex = 0;
-                                                document.getElementById("description").value = "";
+                                                                                const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
+                                                                                modal.show();
+                                                                            }
 
-                                                // Chuyển về chế độ thêm mới
-                                                document.getElementById("btnAdd").style.display = "inline-block";
-                                                document.getElementById("btnUpdate").style.display = "none";
-                                                document.getElementById("btnCancel").style.display = "none";
+                                                                            function cancelEdit() {
+                                                                                document.getElementById("formAction").value = "add";
+                                                                                document.getElementById("fieldId").value = "";
+                                                                                document.getElementById("fieldName").value = "";
+                                                                                document.getElementById("fieldImage").value = "";
+                                                                                document.getElementById("typeId").selectedIndex = 0;
+                                                                                document.getElementById("zoneId").selectedIndex = 0;
+                                                                                document.getElementById("fieldstatus").selectedIndex = 0;
+                                                                                document.getElementById("description").value = "";
 
-                                            }
+                                                                                // Chuyển về chế độ thêm mới
+                                                                                document.getElementById("btnAdd").style.display = "inline-block";
+                                                                                document.getElementById("btnUpdate").style.display = "none";
+                                                                                document.getElementById("btnCancel").style.display = "none";
+
+                                                                            }
         </script>
         <script>
             function resetFieldForm() {
