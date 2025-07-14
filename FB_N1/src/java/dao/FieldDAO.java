@@ -17,6 +17,8 @@ import model.SlotsOfField;
 import model.TypeOfField;
 import model.Zone;
 import dao.SlotsOfFieldDAO;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -41,7 +43,7 @@ public class FieldDAO extends DBContext {
 
                 Zone z = new Zone();
                 z.setZoneId(rs.getInt("zone_id"));
-                z.setZone_name("zone_name");
+                z.setZone_name(rs.getString("zone_name"));
                 z.setAddress(rs.getString("Address"));
                 f.setZone(z);
 
@@ -487,6 +489,61 @@ public class FieldDAO extends DBContext {
         return list;
     }
 
-    
+// quản lý sân
+    public void updateField(Field field) {
+        String sql = "UPDATE Field SET zone_id = ?, field_type_id = ?, field_name = ?, image = ?, status = ?, description = ? WHERE field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, field.getZone().getZoneId());
+            ps.setInt(2, field.getTypeOfField().getFieldTypeId());
+            ps.setString(3, field.getFieldName());
+            ps.setString(4, field.getImage());
+            ps.setString(5, field.getStatus());
+            ps.setString(6, field.getDescription());
+            ps.setInt(7, field.getFieldId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertField(Field field) {
+        String sql = "INSERT INTO Field (zone_id, field_type_id, field_name, image, status, description) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, field.getZone().getZoneId());
+            ps.setInt(2, field.getTypeOfField().getFieldTypeId());
+            ps.setString(3, field.getFieldName());
+            ps.setString(4, field.getImage());
+            ps.setString(5, field.getStatus());
+            ps.setString(6, field.getDescription());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean isFieldNameExistInZone(String fieldName, int zoneId, Integer excludeFieldId) {
+    String sql = "SELECT COUNT(*) FROM Field WHERE field_name = ? AND zone_id = ?";
+    if (excludeFieldId != null) {
+        sql += " AND field_id != ?";
+    }
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, fieldName);
+        ps.setInt(2, zoneId);
+        if (excludeFieldId != null) {
+            ps.setInt(3, excludeFieldId);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return false;
+}
+
 
 }

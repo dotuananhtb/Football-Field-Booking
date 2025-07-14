@@ -215,7 +215,8 @@ public class SlotsOfFieldDAO extends DBContext {
 
         return null;
     }
-    // lọc slot
+
+    // lọc slot( bình)
     public List<SlotsOfField> getFieldSlotsBySession(int fieldId, String session) {
         List<SlotsOfField> allSlots = getFieldSlotsWithDetails(fieldId);
         List<SlotsOfField> filteredSlots = new ArrayList<>();
@@ -273,7 +274,128 @@ public class SlotsOfFieldDAO extends DBContext {
         }
         return slots;
     }
+    // quản lý giá theo slot theo sân
 
+    public List<SlotsOfField> getAllSlotPricesWithDetails() {
+        List<SlotsOfField> list = new ArrayList<>();
+        String sql = "SELECT sof.slot_field_id, sof.slot_field_price, "
+                + "sod.slot_id, sod.start_time, sod.end_time, "
+                + "f.field_id, f.field_name, f.image "
+                + "FROM SlotsOfField sof "
+                + "JOIN SlotsOfDay sod ON sof.slot_id = sod.slot_id "
+                + "JOIN Field f ON sof.field_id = f.field_id "
+                + "ORDER BY f.field_id, sod.start_time";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                SlotsOfField sof = new SlotsOfField();
+                sof.setSlotFieldId(rs.getInt("slot_field_id"));
+                sof.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
+
+                SlotsOfDay sod = new SlotsOfDay();
+                sod.setSlotId(rs.getInt("slot_id"));
+                sod.setStartTime(rs.getString("start_time"));
+                sod.setEndTime(rs.getString("end_time"));
+                sof.setSlotInfo(sod);
+
+                Field f = new Field();
+                f.setFieldId(rs.getInt("field_id"));
+                f.setFieldName(rs.getString("field_name"));
+                f.setImage(rs.getString("image"));
+                sof.setField(f);
+
+                list.add(sof);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 1. Trả về Map<slot_id, price> cho sân
+    public Map<Integer, BigDecimal> getPricesByField(int fieldId) {
+        Map<Integer, BigDecimal> map = new HashMap<>();
+        String sql = "SELECT slot_id, slot_field_price FROM SlotsOfField WHERE field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, fieldId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                map.put(rs.getInt("slot_id"), rs.getBigDecimal("slot_field_price"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 2. Kiểm tra đã có giá cho (field, slot) chưa
+    public boolean existsSlotPrice(int fieldId, int slotId) {
+        String sql = "SELECT 1 FROM SlotsOfField WHERE field_id = ? AND slot_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, fieldId);
+            ps.setInt(2, slotId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // 3. Thêm mới giá cho ca của sân
+    public void insertSlotPrice(int fieldId, int slotId, BigDecimal price) {
+        String sql = "INSERT INTO SlotsOfField (slot_id, field_id, slot_field_price) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotId);
+            ps.setInt(2, fieldId);
+            ps.setBigDecimal(3, price);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 4. Cập nhật giá nếu đã tồn tại
+    public void updateSlotPrice(int fieldId, int slotId, BigDecimal price) {
+        String sql = "UPDATE SlotsOfField SET slot_field_price = ? WHERE field_id = ? AND slot_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setBigDecimal(1, price);
+            ps.setInt(2, fieldId);
+            ps.setInt(3, slotId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //check đã có giao dịch chưa
+    public boolean isSlotPriceUsedInBooking(int slotFieldId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM BookingDetails WHERE slot_field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+    // xóa
+
+    public boolean deleteSlotPriceById(int slotFieldId) {
+        String sql = "DELETE FROM SlotsOfField WHERE slot_field_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, slotFieldId);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+///
     public static void main(String[] args) {
         // Tạo DAO, giả sử constructor DAO có tự set connection
         SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();

@@ -102,6 +102,30 @@
 
 
             <li class="side-nav-title">Chung</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
+                    <i class="ri-stack-fill"></i>
+                    <span> Quản lý Sân </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarExtendedUI">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/FB_N1/admin/Admin_San">Quản Lý Sân Bóng</a>
+                        </li>
+                        <li>
+                            <a href="/FB_N1/admin/Admin_LoaiSan">Quản lý Loại sân</a>
+                        </li>
+                        <li>
+                            <a href="/FB_N1/admin/Admin_CaTheoLoaiSan">Quản Lý Lịch các ca</a>
+                        </li>
+                        <li>
+                            <a href="/FB_N1/admin/Admin_GiaTungCa">Quản lý Giá cả của sân</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
 
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
