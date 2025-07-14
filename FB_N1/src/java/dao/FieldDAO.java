@@ -57,8 +57,58 @@ public class FieldDAO extends DBContext {
         return list;
     }
 
+//    
     public List<Field> get6Field() {
-        String sql = "SELECT TOP 6 *\n"
+        String sql = "SELECT TOP 6 "
+                + "f.field_id, f.field_name, f.image, f.status, f.description, "
+                + "z.zone_id, z.zone_name, z.Address, "
+                + "t.field_type_id, t.field_type_name, "
+                + "MIN(s.slot_field_price) AS min_price "
+                + "FROM Field f "
+                + "JOIN Zone z ON f.zone_id = z.zone_id "
+                + "JOIN TypeOfField t ON t.field_type_id = f.field_type_id "
+                + "JOIN SlotsOfField s ON f.field_id = s.field_id "
+                + "WHERE f.status = N'hoạt động'"
+                + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, "
+                + "z.zone_id, z.zone_name, z.Address, "
+                + "t.field_type_id, t.field_type_name "
+                + "ORDER BY f.field_id DESC";
+
+        List<Field> list = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery();) {
+
+            while (rs.next()) {
+                Field f = new Field();
+                f.setFieldId(rs.getInt("field_id"));
+                f.setFieldName(rs.getString("field_name"));
+                f.setImage(rs.getString("image"));
+                f.setStatus(rs.getString("status"));
+                f.setDescription(rs.getString("description"));
+                f.setPrice(rs.getBigDecimal("min_price")); // <-- giá thấp nhất
+
+                Zone z = new Zone();
+                z.setZoneId(rs.getInt("zone_id"));
+                z.setZone_name(rs.getString("zone_name"));
+                z.setAddress(rs.getString("Address"));
+                f.setZone(z);
+
+                TypeOfField t = new TypeOfField();
+                t.setFieldTypeId(rs.getInt("field_type_id"));
+                t.setFieldTypeName(rs.getString("field_type_name"));
+                f.setTypeOfField(t);
+
+                list.add(f);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Field> get2Field() {
+        String sql = "SELECT TOP 2 *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Field]\n"
                 + "  where status =N'hoạt động'\n"
                 + "  order by field_id desc";
@@ -80,10 +130,20 @@ public class FieldDAO extends DBContext {
     }
 
     public List<Field> get6FieldByZoneId(String zoneId) {
-        String sql = "SELECT TOP 6 *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Field]\n"
-                + "  where status = N'hoạt động' and zone_id = ?\n"
-                + "  order by field_id desc";
+        String sql = "SELECT TOP 6 "
+                + "f.field_id, f.field_name, f.image, f.status, f.description, "
+                + "z.zone_id, z.zone_name, z.Address, "
+                + "t.field_type_id, t.field_type_name, "
+                + "MIN(s.slot_field_price) AS min_price "
+                + "FROM Field f "
+                + "JOIN Zone z ON f.zone_id = z.zone_id "
+                + "JOIN TypeOfField t ON t.field_type_id = f.field_type_id "
+                + "JOIN SlotsOfField s ON f.field_id = s.field_id "
+                + "WHERE f.status = N'hoạt động' AND z.zone_id = ? "
+                + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, "
+                + "z.zone_id, z.zone_name, z.Address, "
+                + "t.field_type_id, t.field_type_name "
+                + "ORDER BY f.field_id DESC";
         List<Field> list = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.setString(1, zoneId);
@@ -95,6 +155,19 @@ public class FieldDAO extends DBContext {
                 f.setImage(rs.getString("image"));
                 f.setStatus(rs.getString("status"));
                 f.setDescription(rs.getString("description"));
+                f.setPrice(rs.getBigDecimal("min_price")); // <-- giá thấp nhất
+
+                Zone z = new Zone();
+                z.setZoneId(rs.getInt("zone_id"));
+                z.setZone_name("zone_name");
+                z.setAddress(rs.getString("Address"));
+                f.setZone(z);
+
+                TypeOfField t = new TypeOfField();
+                t.setFieldTypeId(rs.getInt("field_type_id"));
+                t.setFieldTypeName(rs.getString("field_type_name"));
+                f.setTypeOfField(t);
+
                 list.add(f);
             }
         } catch (SQLException e) {
@@ -486,6 +559,21 @@ public class FieldDAO extends DBContext {
         return list;
     }
 
+    public int countField() {
+        String sql = "SELECT count(*)\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Field]";
+        try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
+
     // lọc slot
     public List<SlotsOfField> getFieldSlotsBySession(int fieldId, String session) {
         List<SlotsOfField> allSlots = getFieldSlotsWithDetails(fieldId);
@@ -543,6 +631,12 @@ public class FieldDAO extends DBContext {
             e.printStackTrace();
         }
         return slots;
+    }
+
+    public static void main(String[] args) {
+        FieldDAO fDao = new FieldDAO();
+        List<Field> listF = fDao.get6FieldByZoneId("1");
+        System.out.println(listF);
     }
 
 }

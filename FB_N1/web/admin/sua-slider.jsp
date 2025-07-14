@@ -87,7 +87,7 @@
 
     </head>
 
-    <body>
+      <body>
         <!-- Begin page -->
         <div class="wrapper">
 
@@ -126,37 +126,92 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Thay đổi chủ đề</h4>
+                                    <h4 class="page-title">Sửa Silder</h4>
                                 </div>
                             </div>
                         </div>
                         <!-- end page title -->
-                        <div class="row">
+                       <div class="row g-4">
 
-                            <div class="col-6 left">
-                                <div class="mb-4">
-                                    <h4 class="fs-16">Chọn chủ đề mà bạn muốn:</h4>
-                                    <p></p>
+                            <div class="mb-4">
+                                <h4 class="fs-16">Chọn Slider mà bạn muốn sửa</h4>
 
-                                    <div class="list-group">
-                                        <c:forEach items="${listE}" var="event">
-                                            <a href="javascript:void(0);" 
-                                               onclick="previewEvent(${event.eventID})" 
-                                               class="list-group-item list-group-item-action">
-                                                ${event.title_content}
-                                            </a>
+
+                                <div class="dropdown btn-group">
+                                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="animated-preview">
+                                        Chọn Slider
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-animated">
+                                        <c:forEach items="${ListSlider}" var="listSlide">
+                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/sua-slider?slider_id=${listSlide.slider_id}">${listSlide.slider_name}</a>
                                         </c:forEach>
-
                                     </div>
-                                </div> <!-- end card-->
-                            </div>
-                            <div class="col-6 right">
-                                <iframe id="previewFrame" src="/FB_N1/home?eventId=${listE[0].eventID}"
-                                        style="width: 100%; height: 600px; border: 1px solid #ccc; border-radius: 8px;"></iframe>
-
+                                </div>
                             </div>
 
-                        </div> <!-- container -->
+                            <div class="col-12">
+                                <div class="mb-4">
+
+                                    <form action="${pageContext.request.contextPath}/admin/sua-slider?slider_id=${slider.slider_id}" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="slider_id" value="${slider.slider_id}" />
+                                        <div class="row g-4">
+                                            <div class="col-lg-8">
+
+                                                <div class="mb-3">
+                                                    <label for="example-palaceholder" class="form-label">Tên slider</label>
+                                                    <input type="text" id="example-palaceholder" name="title_content" class="form-control" placeholder="Tên slider" value="${slider.slider_name}" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="example-palaceholder" class="form-label">Nội dung lớn</label>
+                                                    <input type="text" id="example-palaceholder" name="content1" class="form-control" placeholder="Nội dung lớn" value="${slider.content1_big}" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="example-palaceholder" class="form-label">Nội dung đặc biệt</label>
+                                                    <input type="text" id="example-palaceholder"name="content2" class="form-control" placeholder="Nội dung đặc biệt" value="${slider.content1_small}"required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="example-palaceholder" class="form-label">Nội dung nhỏ</label>
+                                                    <input type="text" id="example-palaceholder"name="content3" class="form-control" placeholder="Nội dung nhỏ" value="${slider.content2_small}"required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label for="imageBig">Chọn ảnh :</label>
+                                                    <input type="file" name="image1" id="imageBig" accept="image/*" class="form-control" >
+                                                    <input type="hidden" name="oldImage1" value="${slider.image}">
+                                                    <c:if test="${not empty slider.image}">
+                                                        <div style="margin-top:10px;">
+                                                            <strong>Ảnh hiện tại:</strong><br/>
+                                                            <img src="${slider.image}"  alt="Ảnh hiện tại" style="max-width: 100%; height: auto;" />
+                                                        </div>
+                                                    </c:if>
+                                                </div>
+                                               
+
+
+
+
+                                            </div> <!-- end col -->
+
+                                            
+
+                                            <!-- end col -->
+                                        </div>
+                                        <div class="row g-4">
+                                            <div class="col-3"></div>
+                                            <div class="col-2">
+                                                <input type="hidden" name="type" value="slider">
+                                                <button type="submit" class="btn btn-primary">Sửa Slider</button>
+                                            </div>
+                                            <div class="col-4"></div>
+                                            <div class="col-3"></div>
+                                        </div>
+                                    </form>
+                                    <!-- end row-->
+                                </div> <!-- end card -->
+                            </div><!-- end col -->
+                        </div><!-- end row --><!-- end row -->
 
                     </div> <!-- content -->
                     <%@include file="footer.jsp" %>
@@ -182,19 +237,19 @@
             <!-- Datatables js -->
 
             <script>
-                                                   function previewEvent(eventId) {
-                                                       // Lưu chủ đề mới qua fetch/POST
-                                                       fetch('/FB_N1/admin/luu-chu-de', {
-                                                           method: 'POST',
-                                                           headers: {
-                                                               'Content-Type': 'application/x-www-form-urlencoded'
-                                                           },
-                                                           body: 'eventId=' + eventId
-                                                       }).then(() => {
-                                                           // Sau khi lưu, load thử giao diện mới
-                                                           document.getElementById("previewFrame").src = "/FB_N1/home?eventId=" + eventId;
-                                                       });
-                                                   }
+                function previewEvent(eventId) {
+                    // Lưu chủ đề mới qua fetch/POST
+                    fetch('/FB_N1/admin/luu-chu-de', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'eventId=' + eventId
+                    }).then(() => {
+                        // Sau khi lưu, load thử giao diện mới
+                        document.getElementById("previewFrame").src = "/FB_N1/home?eventId=" + eventId;
+                    });
+                }
             </script>
             <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
             <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>

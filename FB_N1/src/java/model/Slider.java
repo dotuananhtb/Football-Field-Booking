@@ -10,20 +10,23 @@ package model;
  */
 public class Slider {
     private int  slider_id;
+    private String slider_name;
     private String image;
     private String content1_big;
     private String content1_small;
     private String content2_small;
 
-    public Slider(int slider_id, String image, String content1_big, String content1_small, String content2_small) {
+    public Slider(int slider_id, String slider_name, String image, String content1_big, String content1_small, String content2_small) {
         this.slider_id = slider_id;
+        this.slider_name = slider_name;
         this.image = image;
         this.content1_big = content1_big;
         this.content1_small = content1_small;
         this.content2_small = content2_small;
     }
 
-    public Slider(String image, String content1_big, String content1_small, String content2_small) {
+    public Slider(String slider_name, String image, String content1_big, String content1_small, String content2_small) {
+        this.slider_name = slider_name;
         this.image = image;
         this.content1_big = content1_big;
         this.content1_small = content1_small;
@@ -39,6 +42,14 @@ public class Slider {
 
     public void setSlider_id(int slider_id) {
         this.slider_id = slider_id;
+    }
+
+    public String getSlider_name() {
+        return slider_name;
+    }
+
+    public void setSlider_name(String slider_name) {
+        this.slider_name = slider_name;
     }
 
     public String getImage() {
@@ -75,8 +86,13 @@ public class Slider {
 
     @Override
     public String toString() {
-        return "Slider{" + "slider_id=" + slider_id + ", image=" + image + ", content1_big=" + content1_big + ", content1_small=" + content1_small + ", content2_small=" + content2_small + '}';
+        return "Slider{" + "slider_id=" + slider_id + ", slider_name=" + slider_name + ", image=" + image + ", content1_big=" + content1_big + ", content1_small=" + content1_small + ", content2_small=" + content2_small + '}';
     }
+
+   
+
+   
+
     
     
     

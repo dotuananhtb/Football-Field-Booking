@@ -17,6 +17,13 @@ public class Zone {
     public Zone() {
     }
 
+    public Zone(String zone_name, String address) {
+        this.zone_name = zone_name;
+        this.address = address;
+    }
+    
+    
+
     public Zone(int zoneId, String zone_name, String address) {
         this.zoneId = zoneId;
         this.zone_name = zone_name;
@@ -49,7 +56,9 @@ public class Zone {
 
     @Override
     public String toString() {
-        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return "Zone{" + "zoneId=" + zoneId + ", zone_name=" + zone_name + ", address=" + address + '}';
     }
+
+   
 
 }

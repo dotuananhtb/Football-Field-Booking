@@ -23,6 +23,7 @@ public class Field {
     private Zone zone;
     private TypeOfField typeOfField;
     private List<SlotsOfField> slots; // các ca tương ứng sân này
+    private BigDecimal price;
 
 
     public Field() {
@@ -45,6 +46,26 @@ public class Field {
         this.zone = zone;
         this.typeOfField = typeOfField;
         this.slots = slots;
+    }
+
+    public Field(int fieldId, String fieldName, String image, String status, String description, Zone zone, TypeOfField typeOfField, List<SlotsOfField> slots, BigDecimal price) {
+        this.fieldId = fieldId;
+        this.fieldName = fieldName;
+        this.image = image;
+        this.status = status;
+        this.description = description;
+        this.zone = zone;
+        this.typeOfField = typeOfField;
+        this.slots = slots;
+        this.price = price;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public int getFieldId() {
@@ -118,7 +139,8 @@ public class Field {
 
     @Override
     public String toString() {
-        return "Field{" + "fieldId=" + fieldId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + ", zone=" + zone + ", typeOfField=" + typeOfField + ", slots=" + slots + '}';
+        return "Field{" + "fieldId=" + fieldId + ", fieldName=" + fieldName + ", image=" + image + ", status=" + status + ", description=" + description + ", zone=" + zone + ", typeOfField=" + typeOfField + ", slots=" + slots + ", price=" + price + '}';
     }
 
+   
 }

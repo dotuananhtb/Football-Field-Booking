@@ -44,6 +44,31 @@ public class SaleDAO extends DBContext {
         return list;
     }
 
+    public Sale getSaleBySaleId(String saleId) {
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Sale]\n"
+                + "  where sale_id = ?";
+         try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, saleId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Sale(
+                        rs.getInt("sale_id"),
+                        rs.getInt("min_slot"),
+                        rs.getInt("max_slot"),
+                        rs.getInt("sale_percent"),
+                        rs.getString("description")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+        
+
+    }
+
     // 2. Lấy sale phù hợp theo số lượng ca (slot) đặt
     public Sale getSaleBySlotCount(int slotCount) {
         String sql = "SELECT TOP 1 * FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
@@ -160,6 +185,14 @@ public class SaleDAO extends DBContext {
             e.printStackTrace();
         }
         return null;
+    }
+    public static void main(String[] args) {
+        SaleDAO sDao = new SaleDAO();
+        
+        Sale s = sDao.getSaleBySaleId("1");
+        System.out.println(s);
+        
+        
     }
 
 }

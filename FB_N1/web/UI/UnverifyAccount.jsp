@@ -78,7 +78,7 @@
                                                         <div class="message-box">
                                                             <h1>Thông Báo</h1>
                                                             <p>Tài khoản của bạn đang trong thời gian chờ xác minh</p>
-                                                            <a href="homePage.jsp">Trang Chủ</a>
+                                                            <a href="/FB_N1/home">Trang Chủ</a>
                                                         </div>
 
                                                     <jsp:include page="footer.jsp"></jsp:include>

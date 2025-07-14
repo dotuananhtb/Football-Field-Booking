@@ -126,7 +126,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Tạo mới chủ đề</h4>
+                                    <h4 class="page-title">Tạo mới Silder</h4>
                                 </div>
                             </div>
                         </div>
@@ -137,69 +137,50 @@
 
                                     <form action="${pageContext.request.contextPath}/admin/tao-moi-slider" method="post" enctype="multipart/form-data">
                                         <div class="row g-4">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-8">
 
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tên chủ đề</label>
-                                                    <input type="text" id="example-palaceholder" name="title_content" class="form-control" placeholder="Tên chủ đề" required>
+                                                    <label for="example-palaceholder" class="form-label">Tên slider</label>
+                                                    <input type="text" id="example-palaceholder" name="title_content" class="form-control" placeholder="Tên slider" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Mô tả 1</label>
-                                                    <input type="text" id="example-palaceholder" name="content1" class="form-control" placeholder="Mô tả 1"required>
+                                                    <label for="example-palaceholder" class="form-label">Nội dung lớn</label>
+                                                    <input type="text" id="example-palaceholder" name="content1" class="form-control" placeholder="Nội dung lớn"required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Mô tả 2</label>
-                                                    <input type="text" id="example-palaceholder"name="content2" class="form-control" placeholder="Mô tả 2"required>
+                                                    <label for="example-palaceholder" class="form-label">Nội dung đặc biệt</label>
+                                                    <input type="text" id="example-palaceholder"name="content2" class="form-control" placeholder="Nội dung đặc biệt"required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="example-palaceholder" class="form-label">Nội dung nhỏ</label>
+                                                    <input type="text" id="example-palaceholder"name="content3" class="form-control" placeholder="Nội dung nhỏ"required>
                                                 </div>
                                                 
                                                 <div class="mb-3">
-                                                    <label for="imageBig">Chọn ảnh To:</label>
+                                                    <label for="imageBig">Chọn ảnh :</label>
                                                     <input type="file" name="image1" id="imageBig" accept="image/*" class="form-control" required>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="imageSmall">Chọn ảnh Nhỏ</label>
-                                                    <input type="file" name="image2" id="imageSmall" accept="image/*" class="form-control" required>
-                                                </div>
+                                               
 
 
 
 
                                             </div> <!-- end col -->
 
-                                            <div class="col-lg-6">
-
-
-                                                <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tiêu đề 1</label>
-                                                    <input type="text" id="example-palaceholder" name="title1" class="form-control" placeholder="Tiêu đề 1"required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tiêu đề 2</label>
-                                                    <input type="text" id="example-palaceholder" name="title2" class="form-control" placeholder="Tiêu đề 2"required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tiêu đề 3</label>
-                                                    <input type="text" id="example-palaceholder" name="title3" class="form-control" placeholder="Tiêu đề 3"required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tiêu đề 4</label>
-                                                    <input type="text" id="example-palaceholder" name="title4" class="form-control" placeholder="Tiêu đề 4"required>
-                                                </div>
-
-
-                                            </div>
+                                            
 
                                             <!-- end col -->
                                         </div>
                                         <div class="row g-4">
-                                            <div class="col-4"></div>
-                                            <div class="col-4">
-                                                <input type="hidden" name="type" value="event">
-                                                <button type="submit" class="btn btn-primary">Tạo Chủ Đề</button>
+                                            <div class="col-3"></div>
+                                            <div class="col-2">
+                                                <input type="hidden" name="type" value="slider">
+                                                <button type="submit" class="btn btn-primary">Tạo Slider</button>
                                             </div>
                                             <div class="col-4"></div>
+                                            <div class="col-3"></div>
                                         </div>
                                     </form>
                                     <!-- end row-->

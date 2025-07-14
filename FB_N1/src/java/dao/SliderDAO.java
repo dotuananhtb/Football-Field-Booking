@@ -32,8 +32,9 @@ public class SliderDAO extends DBContext {
                 Slider slide = new Slider(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getString(4), 
-                        rs.getString(5));
+                        rs.getString(4),
+                        rs.getString(5), 
+                        rs.getString(6));
                 listS.add(slide);
             }
         } catch (SQLException ex) {
@@ -41,37 +42,66 @@ public class SliderDAO extends DBContext {
         }    
         return listS;
     }
+     public Slider getAllSliderBySliderID(String slider_id) {
+
+        String sql = "SELECT *\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Slider] where slide_id =?";
+
+        try  {
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setString(1, slider_id);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                return new Slider(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5), 
+                        rs.getString(6));
+                 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SliderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        return null;
+    }
     
     
-    public void insertSlider(Slider slider) {
-    String sql = "INSERT INTO Slider (image, content_1_big, content_1_small, content_2_small) VALUES (?, ?, ?, ?)";
+    public boolean insertSlider(Slider slider) {
+    String sql = "INSERT INTO Slider (slider_name,image, content_1_big, content_1_small, content_2_small) VALUES (?,?, ?, ?, ?)";
     
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, slider.getImage());
-        ps.setString(2, slider.getContent1_big());
-        ps.setString(3, slider.getContent1_small());
-        ps.setString(4, slider.getContent2_small());
+        ps.setString(1, slider.getSlider_name());
+        ps.setString(2, slider.getImage());
+        ps.setString(3, slider.getContent1_big());
+        ps.setString(4, slider.getContent1_small());
+        ps.setString(5, slider.getContent2_small());
 
-        ps.executeUpdate();
+         int rowsInserted = ps.executeUpdate();
+        return rowsInserted > 0;
     } catch (Exception e) {
         e.printStackTrace();
     }
+    return false;
 }
     
-    public void updateSlider(Slider slider) {
-    String sql = "UPDATE Slider SET image = ?, content_1_big = ?, content_1_small = ?, content_2_small = ? WHERE slider_id = ?";
+    public boolean updateSlider(Slider slider) {
+    String sql = "UPDATE Slider SET slider_name = ?,image = ?, content_1_big = ?, content_1_small = ?, content_2_small = ? WHERE slide_id = ?";
 
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, slider.getImage());
-        ps.setString(2, slider.getContent1_big());
-        ps.setString(3, slider.getContent1_small());
-        ps.setString(4, slider.getContent2_small());
-        ps.setInt(5, slider.getSlider_id());
+        ps.setString(1, slider.getSlider_name());
+        ps.setString(2, slider.getImage());
+        ps.setString(3, slider.getContent1_big());
+        ps.setString(4, slider.getContent1_small());
+        ps.setString(5, slider.getContent2_small());
+        ps.setInt(6, slider.getSlider_id());
 
-        ps.executeUpdate();
+        int rowUpdated = ps.executeUpdate();
+        return rowUpdated > 0;
     } catch (Exception e) {
         e.printStackTrace();
     }
+    return false;
 }
     public int countSliders() {
     String sql = "SELECT COUNT(*) FROM Slider";
@@ -95,6 +125,26 @@ public class SliderDAO extends DBContext {
         for(Slider s : listS){
             System.out.println(s);
         }
+         Slider updatedSlider = new Slider(
+                    1, // ID của slider cần cập nhật (phải tồn tại trong DB)
+                    "Slider mới cập nhật",
+                    "https://res.cloudinary.com/.../image.jpg",
+                    "Tiêu đề lớn",
+                    "Tiêu đề nhỏ 1",
+                    "Tiêu đề nhỏ 2"
+            );
+
+            // 4. Gọi hàm update
+            boolean result = dao.updateSlider(updatedSlider);
+
+            // 5. In kết quả
+            if (result) {
+                System.out.println("✅ Cập nhật slider thành công.");
+            } else {
+                System.out.println("❌ Cập nhật slider thất bại.");
+            }
+        
+       
         
         
     }
