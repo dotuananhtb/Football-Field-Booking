@@ -203,12 +203,12 @@
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 " title="Tài khoản người dùng">Tài khoản người dùng</h5>
+                                                <h5 class="text-muted fw-normal mt-0" title="Tài khoản người dùng">Tài khoản người dùng</h5>
                                                 <h3 class="my-1 py-1">${totalUsers}</h3>
                                             </div>
                                             <div class="col-6">
                                                 <div class="text-end">
-                                                    <div id="user-chart" data-colors="#6da09c"></div>
+                                                    <i class="ri-user-line fs-2 text-success"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,12 +220,12 @@
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số nhân viên/admin">Admin</h5>
-                                                <h3 class="my-1 py-1">${totalStaff + totalAdmin}</h3>
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số nhân viên">Nhân viên</h5>
+                                                <h3 class="my-1 py-1">${totalStaff}</h3>
                                             </div>
                                             <div class="col-6">
                                                 <div class="text-end">
-                                                    <div id="staff-chart" data-colors="#87bf8a"></div>
+                                                    <i class="ri-user-settings-line fs-2 text-info"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,12 +237,12 @@
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tài khoản bị khóa">Tài khoản bị khóa</h5>
-                                                <h3 class="my-1 py-1">${lockedAccounts}</h3>
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số admin">Admin</h5>
+                                                <h3 class="my-1 py-1">${totalAdmin}</h3>
                                             </div>
                                             <div class="col-6">
                                                 <div class="text-end">
-                                                    <i class="ri-lock-line fs-2 text-danger"></i>
+                                                    <i class="ri-shield-user-line fs-2 text-primary"></i>
                                                 </div>
                                             </div>
                                         </div>
