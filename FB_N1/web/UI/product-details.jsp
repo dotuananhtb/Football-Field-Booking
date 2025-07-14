@@ -114,8 +114,7 @@
                     <h1 class="title">Cửa hàng</h1>
                     <ul class="breadcumb-list flex-five">
                         <li><a href="/FB_N1/home">Trang chủ</a></li>
-                        <li><span>Danh sách sản phẩm</span></li>
-                        <li><span>›</span></li>
+                        
                         <li><span>Chi tiết sản phẩm</span></li>
                     </ul>
                     <img class="bcrumb-ab" src="assets/images/page/mask-bcrumb.png" alt="">
@@ -145,7 +144,7 @@
                 <div class="product-title">${product.productName}</div>
             </div>
         </div>
-        <h3>Biến Thể Sản Phẩm</h3>
+        <h3>Chi tiết Sản Phẩm</h3>
         <table class="product-variant-list">
             <thead>
                 <tr>
