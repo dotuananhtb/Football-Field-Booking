@@ -78,7 +78,7 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="/FB_N1/admin/chi-tiet-dat-san" class="side-nav-link">
+                <a href="/FB_N1/admin/don-dat-san" class="side-nav-link">
                     <i class="ri-survey-fill"></i>
 
                     <span> Các đơn đặt sân </span>

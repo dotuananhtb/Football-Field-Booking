@@ -13,6 +13,16 @@ import websocket.AppWebSocket;
 
 public class BookingDAO extends DBContext {
 
+// Update status_pay
+    public boolean updateBookingStatusPay(int bookingId, int statusPay) throws SQLException {
+        String sql = "UPDATE Booking SET status_pay = ? WHERE booking_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, statusPay);
+            ps.setInt(2, bookingId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     public void autoCancelExpiredBookings() throws SQLException {
         String selectExpiredBookingIdsSQL = """
             SELECT booking_id FROM Booking
@@ -86,6 +96,85 @@ public class BookingDAO extends DBContext {
                 }
             }
         }
+    }
+
+    public List<Map<String, Object>> getAllBookingsForAdmin() {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = """
+            SELECT b.booking_code, b.booking_date, b.total_amount, b.status_pay,
+                   ISNULL(ou.full_name, CONCAT(up.first_name, ' ', up.last_name)) AS customer_name,
+                   ISNULL(ou.phone, up.phone) AS customer_phone,
+                   CASE WHEN ou.offline_user_id IS NOT NULL THEN 'offline' ELSE 'online' END AS customer_type,
+                   (SELECT COUNT(*) FROM BookingDetails bd WHERE bd.booking_id = b.booking_id) AS slot_count,
+                   (SELECT STRING_AGG(scs.status_name, '; ')
+                       FROM BookingDetails bd
+                       JOIN StatusCheckingSlot scs ON bd.status_checking_id = scs.status_checking_id
+                       WHERE bd.booking_id = b.booking_id) AS slot_status_summary
+            FROM Booking b
+            LEFT JOIN OfflineCustomer oc ON b.booking_id = oc.booking_id
+            LEFT JOIN OfflineUser ou ON oc.offline_user_id = ou.offline_user_id
+            LEFT JOIN UserProfile up ON b.account_id = up.account_id
+            ORDER BY b.booking_date DESC
+        """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("booking_code", rs.getString("booking_code"));
+                map.put("booking_date", rs.getString("booking_date"));
+                map.put("total_amount", rs.getBigDecimal("total_amount"));
+                map.put("status_pay", rs.getInt("status_pay"));
+                map.put("customer_name", rs.getString("customer_name"));
+                map.put("customer_phone", rs.getString("customer_phone"));
+                map.put("customer_type", rs.getString("customer_type"));
+                map.put("slot_count", rs.getInt("slot_count"));
+                map.put("slot_status_summary", rs.getString("slot_status_summary"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Map<String, Object>> getBookingSlots(String bookingCode) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = """
+            SELECT bd.slot_date, bd.start_time, bd.end_time, 
+                   bd.slot_field_price, bd.extra_minutes, bd.extra_fee,
+                   scs.status_name, bd.note,
+                   f.field_name, tf.field_type_name
+            FROM BookingDetails bd
+            JOIN Booking b ON bd.booking_id = b.booking_id
+            JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id
+            JOIN Field f ON sf.field_id = f.field_id
+            JOIN TypeOfField tf ON f.field_type_id = tf.field_type_id
+            JOIN StatusCheckingSlot scs ON bd.status_checking_id = scs.status_checking_id
+            WHERE b.booking_code = ?
+            ORDER BY bd.slot_date, bd.start_time
+        """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bookingCode);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("slot_date", rs.getString("slot_date"));
+                map.put("start_time", rs.getString("start_time"));
+                map.put("end_time", rs.getString("end_time"));
+                map.put("price", rs.getBigDecimal("slot_field_price"));
+                map.put("extra_minutes", rs.getInt("extra_minutes"));
+                map.put("extra_fee", rs.getBigDecimal("extra_fee"));
+                map.put("status_name", rs.getString("status_name"));
+                map.put("note", rs.getString("note"));
+                map.put("field_name", rs.getString("field_name"));
+                map.put("field_type_name", rs.getString("field_type_name"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public boolean bookingExists(String bookingCode) throws SQLException {
