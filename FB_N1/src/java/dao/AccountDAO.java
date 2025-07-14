@@ -734,6 +734,39 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public List<Account> getRecentRegisteredUsers(int limit) {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT TOP (?) a.account_id, a.username, a.status_id, a.password, a.email, a.created_at, u.address, u.avatar, u.dob, u.first_name, u.gender, u.last_name, u.phone, u.role_id " +
+                "FROM Account a JOIN UserProfile u ON a.account_id = u.account_id " +
+                "ORDER BY TRY_CAST(a.created_at AS DATETIME) DESC";
+        try (PreparedStatement ptm = connection.prepareStatement(sql)) {
+            ptm.setInt(1, limit);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                UserProfile u = new UserProfile(
+                        rs.getInt("account_id"),
+                        rs.getInt("role_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("address"),
+                        rs.getString("gender"),
+                        rs.getString("dob"),
+                        rs.getString("phone"),
+                        rs.getString("avatar")
+                );
+                Account a = new Account(rs.getInt("account_id"), rs.getInt("status_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("created_at"), u);
+                list.add(a);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 

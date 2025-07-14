@@ -60,7 +60,7 @@
 
 
             <li class="side-nav-item">
-                <a href="apps-chat.html" class="side-nav-link">
+                <a href="/FB_N1/admin/bao-cao-chi-tiet" class="side-nav-link">
                     <i class="ri-table-fill"></i>
                     <span> Báo cáo chi tiết </span>
                 </a>

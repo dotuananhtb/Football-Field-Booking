@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import util.DBContext;
 
 @WebServlet(name = "ThongKeServlet", urlPatterns = {"/admin/thong-ke"})
 public class ThongKeServlet extends HttpServlet {
@@ -33,58 +34,25 @@ public class ThongKeServlet extends HttpServlet {
 
             // Tổng số booking
             BookingDAO bookingDAO = new BookingDAO();
-            int totalBookings = bookingDAO.getAllBookingsForAdmin().size();
-
-            // Tổng số sự kiện
-            EventDAO eventDAO = new EventDAO();
-            int totalEvents = eventDAO.getAllEvent().size();
-
-            // Tổng số bài viết/blog
-            PostDAO postDAO = new PostDAO();
-            int totalPosts = postDAO.countAllPosts();
-
-            // Tổng số slider/banner
-            SliderDAO sliderDAO = new SliderDAO();
-            int totalSliders = sliderDAO.countSliders();
-
-            // Tổng doanh thu (booking đã thanh toán)
-            BigDecimal totalRevenue = BigDecimal.ZERO;
-            for (Map<String, Object> booking : bookingDAO.getAllBookingsForAdmin()) {
-                Integer statusPay = (Integer) booking.get("status_pay");
-                if (statusPay != null && statusPay == 1) { // 1: đã thanh toán
-                    BigDecimal amount = (BigDecimal) booking.get("total_amount");
-                    if (amount != null) totalRevenue = totalRevenue.add(amount);
-                }
-            }
-
-            // Doanh thu theo 1, 3, 6 tháng
-            LocalDate now = LocalDate.now();
-            BigDecimal revenue1Month = BigDecimal.ZERO;
-            BigDecimal revenue3Month = BigDecimal.ZERO;
-            BigDecimal revenue6Month = BigDecimal.ZERO;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            for (Map<String, Object> booking : bookingDAO.getAllBookingsForAdmin()) {
-                Integer statusPay = (Integer) booking.get("status_pay");
-                if (statusPay != null && statusPay == 1) {
-                    String dateStr = (String) booking.get("booking_date");
-                    LocalDate bookingDate = LocalDateTime.parse(dateStr, formatter).toLocalDate();
-                    BigDecimal amount = (BigDecimal) booking.get("total_amount");
-                    if (amount == null) continue;
-                    if (!bookingDate.isBefore(now.minusMonths(1))) revenue1Month = revenue1Month.add(amount);
-                    if (!bookingDate.isBefore(now.minusMonths(3))) revenue3Month = revenue3Month.add(amount);
-                    if (!bookingDate.isBefore(now.minusMonths(6))) revenue6Month = revenue6Month.add(amount);
-                }
-            }
+            BigDecimal totalRevenue = bookingDAO.getTotalRevenue();
+            BigDecimal revenue1Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(1));
+            BigDecimal revenue3Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(3));
+            BigDecimal revenue6Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(6));
+            request.setAttribute("totalRevenue", totalRevenue);
+            request.setAttribute("revenue1Month", revenue1Month);
+            request.setAttribute("revenue3Month", revenue3Month);
+            request.setAttribute("revenue6Month", revenue6Month);
 
             // Số booking mới trong ngày/tuần/tháng
             int newBookingToday = 0, newBookingWeek = 0, newBookingMonth = 0, cancelledBookings = 0;
-            LocalDate startOfWeek = now.minusDays(now.getDayOfWeek().getValue() - 1);
+            LocalDate startOfWeek = LocalDate.now().minusDays(LocalDate.now().getDayOfWeek().getValue() - 1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             for (Map<String, Object> booking : bookingDAO.getAllBookingsForAdmin()) {
                 String dateStr = (String) booking.get("booking_date");
                 LocalDate bookingDate = LocalDateTime.parse(dateStr, formatter).toLocalDate();
-                if (bookingDate.isEqual(now)) newBookingToday++;
+                if (bookingDate.isEqual(LocalDate.now())) newBookingToday++;
                 if (!bookingDate.isBefore(startOfWeek)) newBookingWeek++;
-                if (!bookingDate.isBefore(now.withDayOfMonth(1))) newBookingMonth++;
+                if (!bookingDate.isBefore(LocalDate.now().withDayOfMonth(1))) newBookingMonth++;
                 Integer statusPay = (Integer) booking.get("status_pay");
                 if (statusPay != null && statusPay == -1) cancelledBookings++;
             }
@@ -138,14 +106,10 @@ public class ThongKeServlet extends HttpServlet {
             request.setAttribute("totalStaff", totalStaff);
             request.setAttribute("totalAdmin", totalAdmin);
             request.setAttribute("lockedAccounts", lockedAccounts);
-            request.setAttribute("totalBookings", totalBookings);
-            request.setAttribute("totalEvents", totalEvents);
-            request.setAttribute("totalPosts", totalPosts);
-            request.setAttribute("totalSliders", totalSliders);
-            request.setAttribute("totalRevenue", totalRevenue);
-            request.setAttribute("revenue1Month", revenue1Month);
-            request.setAttribute("revenue3Month", revenue3Month);
-            request.setAttribute("revenue6Month", revenue6Month);
+            request.setAttribute("totalBookings", bookingDAO.getAllBookingsForAdmin().size()); // Use bookingDAO.getAllBookingsForAdmin().size()
+            request.setAttribute("totalEvents", new EventDAO().getAllEvent().size()); // Assuming EventDAO is available
+            request.setAttribute("totalPosts", new PostDAO().countAllPosts()); // Assuming PostDAO is available
+            request.setAttribute("totalSliders", new SliderDAO().countSliders()); // Assuming SliderDAO is available
             request.setAttribute("newBookingToday", newBookingToday);
             request.setAttribute("newBookingWeek", newBookingWeek);
             request.setAttribute("newBookingMonth", newBookingMonth);

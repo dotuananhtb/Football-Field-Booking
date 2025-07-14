@@ -216,6 +216,26 @@ public class EventDAO extends DBContext {
     }
 }
 
+//    public List<Event> getUpcomingEvents(int limit) {
+//        List<Event> list = new ArrayList<>();
+//        String sql = "SELECT TOP (?) * FROM Event_content WHERE event_date > GETDATE() ORDER BY event_date ASC";
+//        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setInt(1, limit);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Event event = new Event();
+//                event.setEventID(rs.getInt("event_id"));
+//                event.setTitle_content(rs.getString("content_1_big"));
+//                event.setEventDate(rs.getDate("event_date"));
+//                event.setLocation(rs.getString("location"));
+//                list.add(event);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
+
 
     public static void main(String[] args) {
         EventDAO eve = new EventDAO();
