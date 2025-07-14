@@ -103,12 +103,12 @@
 
             <li class="side-nav-title">Chung</li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#sidebarsan" aria-expanded="false" aria-controls="sidebarsan" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
                     <span> Quản lý Sân </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="sidebarExtendedUI">
+                <div class="collapse" id="sidebarsan">
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="/FB_N1/admin/Admin_San">Quản Lý Sân Bóng</a>
