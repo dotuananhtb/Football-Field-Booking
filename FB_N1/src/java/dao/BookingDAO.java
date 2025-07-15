@@ -100,6 +100,22 @@ public class BookingDAO extends DBContext {
         }
     }
 
+    public int countBooking() {
+        String sql = "SELECT count(*)\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Booking]\n"
+                + "  where status_pay = 1";
+        try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
+
     public List<Map<String, Object>> getAllBookingsForAdmin() {
         List<Map<String, Object>> list = new ArrayList<>();
         String sql = """

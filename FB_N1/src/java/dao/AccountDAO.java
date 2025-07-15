@@ -93,7 +93,7 @@ public class AccountDAO extends DBContext {
         if (acc == null) {
             return false;
         }
-        return PasswordUtil.checkPassword(newPassword,acc.getPassword());
+        return PasswordUtil.checkPassword(newPassword, acc.getPassword());
     }
 
     public boolean isStrongPassword(String password) {
@@ -662,6 +662,21 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    public int countAccount() {
+        String sql = "SELECT count(*)\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Account]";
+        try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
+
     public int getRoleIDbyAccount(String username, String password) {
         int roleID = 0;
         String sql = "SELECT u.role_id\n"
@@ -714,7 +729,6 @@ public class AccountDAO extends DBContext {
         }
         return statusID;
     }
-
 
     public Account getAccountByUsername(String username) {
         UserProfileDAO userProfileDAO = new UserProfileDAO();

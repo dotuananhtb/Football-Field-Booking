@@ -19,6 +19,16 @@ public class Sale {
     public Sale() {
     }
 
+    public Sale(int minSlot, int maxSlot, int salePercent, String description) {
+        this.minSlot = minSlot;
+        this.maxSlot = maxSlot;
+        this.salePercent = salePercent;
+        this.description = description;
+    }
+    
+    
+    
+
     public Sale(int saleId, int minSlot, int maxSlot, int salePercent, String description) {
         this.saleId = saleId;
         this.minSlot = minSlot;

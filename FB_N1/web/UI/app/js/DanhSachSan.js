@@ -150,18 +150,18 @@ function bookField(event) {
 
     // Lọc các slot đúng với sân hiện tại
     const bookingDetailsList = selectedSlots
-        .filter(slot => slot.courtId === courtId)
-        .map(slot => ({
-            bookingDetailsId: null,
-            bookingId: null,
-            slotFieldId: slot.slot_field_id,
-            slotFieldPrice: slot.price,
-            extraMinutes: 0,
-            extraFee: 0,
-            slotDate: slot.slot_date,
-            note: null,
-            statusCheckingId: 1
-        }));
+            .filter(slot => slot.courtId === courtId)
+            .map(slot => ({
+                    bookingDetailsId: null,
+                    bookingId: null,
+                    slotFieldId: slot.slot_field_id,
+                    slotFieldPrice: slot.price,
+                    extraMinutes: 0,
+                    extraFee: 0,
+                    slotDate: slot.slot_date,
+                    note: null,
+                    statusCheckingId: 1
+                }));
 
     if (bookingDetailsList.length === 0) {
         showToast("error", "Bạn chưa chọn ca nào để đặt cho sân này.");
@@ -176,7 +176,12 @@ function bookField(event) {
         success: function (response) {
             if (response && response.success) {
                 showToast("success", "Đặt sân thành công!");
-
+                const bookingCode = response.bookingCode;
+                if (bookingCode) {
+                    setTimeout(() => {
+                        window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
+                    }, 1000);
+                }
                 // Xoá slot đã đặt của sân đó
                 selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
                 selectedSlotPrices.delete(courtId);

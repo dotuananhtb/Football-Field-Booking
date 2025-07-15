@@ -75,9 +75,7 @@ public class AddEvent extends HttpServlet {
         Part filePart2 = request.getPart("image2");
         String type = request.getParameter("type");
         String title1 = request.getParameter("title1");
-        String title2 = request.getParameter("title2");
-        String title3 = request.getParameter("title3");
-        String title4 = request.getParameter("title4");
+        System.out.println(title1+"========");
 
         EventDAO eDao = new EventDAO();
 
@@ -93,7 +91,7 @@ public class AddEvent extends HttpServlet {
             switch (type.toLowerCase()) {
                 case "event":
 
-                    Title title = new Title(title1, title2, title3, title4);
+                    Title title = new Title(title1);
                     Event event = new Event(cloudinaryUrl, cloudinaryUrl2, title_content,content2 , content3, title);
 
                     boolean n = eDao.addEvent(event);

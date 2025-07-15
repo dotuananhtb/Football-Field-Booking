@@ -5,6 +5,7 @@
 package controller;
 
 import dao.FieldDAO;
+import dao.SlotsOfFieldDAO;
 import dao.TypeOfFieldDAO;
 import dao.Zone_DAO;
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class DanhSachSan extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FieldDAO dao = new FieldDAO();
+        SlotsOfFieldDAO sofDAO= new  SlotsOfFieldDAO();
         Zone_DAO zDAO = new Zone_DAO();
         TypeOfFieldDAO tDAO = new TypeOfFieldDAO();
 
@@ -111,7 +113,7 @@ public class DanhSachSan extends HttpServlet {
         Map<Integer, Integer> totalSlotMap = new HashMap<>();
 
         for (Field f : listP) {
-            List<SlotsOfField> Slots = dao.getFieldSlotsBySession(f.getFieldId(), time);
+            List<SlotsOfField> Slots = sofDAO.getFieldSlotsBySession(f.getFieldId(), time);
             f.setSlots(Slots);
 
             // Tính giá min/max
