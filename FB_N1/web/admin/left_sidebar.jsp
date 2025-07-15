@@ -51,7 +51,7 @@
             <li class="side-nav-title">Tổng quan</li>
 
             <li class="side-nav-item">
-                <a href="index.html" class="side-nav-link">
+                <a href="/FB_N1/admin/thong-ke" class="side-nav-link">
                     <i class="ri-dashboard-2-fill"></i>
                     <span> Thống kê tổng quan </span>
                 </a>
@@ -60,7 +60,7 @@
 
 
             <li class="side-nav-item">
-                <a href="apps-chat.html" class="side-nav-link">
+                <a href="/FB_N1/admin/bao-cao-chi-tiet" class="side-nav-link">
                     <i class="ri-table-fill"></i>
                     <span> Báo cáo chi tiết </span>
                 </a>
@@ -106,7 +106,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí bài viết và tin tức</span>
+                    <span> Quản lí bài viết</span>
 
 
                 </a>
@@ -163,18 +163,10 @@
 
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth" class="side-nav-link">
-                    <i class="ri-shield-user-fill"></i>
+                <a href="/FB_N1/admin/manager-product" class="side-nav-link">
+                    <i class="ri-store-2-line"></i>
                     <span> Quản lý sản phẩm </span>
-                    <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="sidebarPagesAuth">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="/FB_N1/admin/manager-product">Quản lý Sản phẩm</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
 
             <li class="side-nav-item">

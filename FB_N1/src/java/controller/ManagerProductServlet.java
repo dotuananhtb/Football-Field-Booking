@@ -57,10 +57,15 @@ public class ManagerProductServlet extends HttpServlet {
         List<CateProduct> categories = cateDAO.getAllCategory();
         request.setAttribute("categories", categories);
 
+        dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+
         if ("search".equals(action) && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
             // Tìm kiếm product
             List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
-            
+            for (Product p : products) {
+                List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                p.setProductDetailsList(details);
+            }
             request.setAttribute("products", products);
             request.setAttribute("searchKeyword", searchKeyword);
         } else if ("filter".equals(action)) {
@@ -87,11 +92,17 @@ public class ManagerProductServlet extends HttpServlet {
                     1000, // pageSize (hiện tất cả)
                     "new" // sortBy
                 );
-                
+                for (Product p : products) {
+                    List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    p.setProductDetailsList(details);
+                }
                 request.setAttribute("selectedCategory", categoryId);
             } else {
                 products = productDAO.getAllProducts();
-                
+                for (Product p : products) {
+                    List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    p.setProductDetailsList(details);
+                }
             }
             request.setAttribute("products", products);
             request.setAttribute("minPrice", minPriceStr);
@@ -99,7 +110,10 @@ public class ManagerProductServlet extends HttpServlet {
         } else {
             // Hiển thị tất cả product
             List<Product> products = productDAO.getAllProducts();
-            
+            for (Product p : products) {
+                List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                p.setProductDetailsList(details);
+            }
             request.setAttribute("products", products);
         }
 
@@ -132,7 +146,35 @@ public class ManagerProductServlet extends HttpServlet {
                 product.setProductDescription(request.getParameter("productDescription"));
                 product.setProductStatus("active");
 
-                if (productDAO.addProduct(product)) {
+                boolean addSuccess = productDAO.addProduct(product);
+                int productId = productDAO.getLastInsertedProductId();
+
+                // Lấy các biến thể từ request
+                String[] colors = request.getParameterValues("color[]");
+                String[] sizes = request.getParameterValues("size[]");
+                String[] materials = request.getParameterValues("material[]");
+                String[] weights = request.getParameterValues("weight[]");
+                String[] origins = request.getParameterValues("origin[]");
+                String[] warranties = request.getParameterValues("warranty[]");
+                String[] moreInfos = request.getParameterValues("moreInfo[]");
+
+                dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                if (colors != null) {
+                    for (int i = 0; i < colors.length; i++) {
+                        model.ProductDetails pd = new model.ProductDetails();
+                        pd.setProductId(productId);
+                        pd.setColor(colors[i]);
+                        pd.setSize(sizes != null ? sizes[i] : null);
+                        pd.setMaterial(materials != null ? materials[i] : null);
+                        pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                        pd.setOrigin(origins != null ? origins[i] : null);
+                        pd.setWarranty(warranties != null ? warranties[i] : null);
+                        pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                        detailsDAO.insertProductDetails(pd);
+                    }
+                }
+
+                if (addSuccess) {
                     ToastUtil.setSuccessToast(request, "Thêm sản phẩm thành công!");
                 } else {
                     ToastUtil.setErrorToast(request, "Thêm sản phẩm thất bại!");
@@ -182,6 +224,54 @@ public class ManagerProductServlet extends HttpServlet {
                     product.setProductStatus(request.getParameter("productStatus"));
 
                     if (productDAO.updateProduct1(product)) {
+                        // Xử lý biến thể
+                        String[] detailsIds = request.getParameterValues("productDetailsId[]");
+                        String[] colors = request.getParameterValues("color[]");
+                        String[] sizes = request.getParameterValues("size[]");
+                        String[] materials = request.getParameterValues("material[]");
+                        String[] weights = request.getParameterValues("weight[]");
+                        String[] origins = request.getParameterValues("origin[]");
+                        String[] warranties = request.getParameterValues("warranty[]");
+                        String[] moreInfos = request.getParameterValues("moreInfo[]");
+                        dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                        java.util.List<model.ProductDetails> oldDetails = detailsDAO.getDetailsByProductId(productId);
+                        java.util.Set<Integer> oldIds = new java.util.HashSet<>();
+                        for (model.ProductDetails d : oldDetails) oldIds.add(d.getProductDetailsId());
+                        java.util.Set<Integer> newIds = new java.util.HashSet<>();
+                        for (int i = 0; i < colors.length; i++) {
+                            String idStr = detailsIds[i];
+                            if (idStr != null && !idStr.isEmpty()) {
+                                int detailId = Integer.parseInt(idStr);
+                                newIds.add(detailId);
+                                model.ProductDetails pd = new model.ProductDetails();
+                                pd.setProductDetailsId(detailId);
+                                pd.setProductId(productId);
+                                pd.setColor(colors[i]);
+                                pd.setSize(sizes != null ? sizes[i] : null);
+                                pd.setMaterial(materials != null ? materials[i] : null);
+                                pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                                pd.setOrigin(origins != null ? origins[i] : null);
+                                pd.setWarranty(warranties != null ? warranties[i] : null);
+                                pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                                detailsDAO.updateProductDetails(pd);
+                            } else {
+                                model.ProductDetails pd = new model.ProductDetails();
+                                pd.setProductId(productId);
+                                pd.setColor(colors[i]);
+                                pd.setSize(sizes != null ? sizes[i] : null);
+                                pd.setMaterial(materials != null ? materials[i] : null);
+                                pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                                pd.setOrigin(origins != null ? origins[i] : null);
+                                pd.setWarranty(warranties != null ? warranties[i] : null);
+                                pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                                detailsDAO.insertProductDetails(pd);
+                            }
+                        }
+                        for (Integer oldId : oldIds) {
+                            if (!newIds.contains(oldId)) {
+                                detailsDAO.deleteProductDetails(oldId);
+                            }
+                        }
                         ToastUtil.setSuccessToast(request, "Cập nhật sản phẩm thành công!");
                     } else {
                         ToastUtil.setErrorToast(request, "Cập nhật sản phẩm thất bại!");

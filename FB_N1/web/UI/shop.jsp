@@ -319,23 +319,26 @@
                                                                         <c:forEach items="${ListP}" var="p">
                                                                             <div class="col-sm-6 col-xl-3 mb-32">
                                                                                 <div class="tour-listing box-sd">
-                                                                                    <a href="tour-single.html" class="tour-listing-image">
+                                                                                    <a href="/FB_N1/product-details?productId=${p.productId}" class="tour-listing-image">
                                                                                         <div class="badge-top flex-two">
-                                                                                            <span class="feature
-                                                                                                  <c:choose>
-                                                                                                      <c:when test="${p.productStatus == 'Sản phẩm mới'}">maintenance</c:when>
-                                                                                                      <c:when test="${p.productStatus == 'Hết hàng'}">broken</c:when>
-                                                                                                      <c:otherwise></c:otherwise>
-                                                                                                  </c:choose>">${p.productStatus}</span>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${p.productStatus == 'Sản phẩm mới'}">
+                                                                                                    <span class="feature maintenance">${p.productStatus}</span>
+                                                                                                </c:when>
+                                                                                                <c:when test="${p.productStatus == 'Hết hàng'}">
+                                                                                                    <span class="feature broken">${p.productStatus}</span>
+                                                                                                </c:when>
+                                                                                                <c:otherwise>
+                                                                                                    <span class="feature">${p.productStatus}</span>
+                                                                                                </c:otherwise>
+                                                                                            </c:choose>
                                                                                         </div>
                                                                                         <img src="${p.productImage}" alt="Image Listing">
                                                                                     </a>
 
                                                                                     <div class="tour-listing-content">
 
-                                                                                        <h3 class="title-tour-list"><a href="tour-single.html">${p.productName}
-                                                                                            </a>
-                                                                                        </h3>
+                                                                                        <h3 class="title-tour-list"><a href="/FB_N1/product-details?productId=${p.productId}">${p.productName}</a></h3>
                                                                                         <div class="icon-box flex-three">
                                                                                             <div class="icons flex-three">
                                                                                                 <i class="icon-time-left"></i>

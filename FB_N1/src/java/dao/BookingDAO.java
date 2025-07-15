@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import websocket.AppWebSocket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BookingDAO extends DBContext {
 
@@ -525,4 +527,258 @@ public class BookingDAO extends DBContext {
         return null;
     }
 
+    public List<Map<String, Object>> getRevenueByDay(int days) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT CAST(pay_time AS DATE) as date, SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success' AND pay_time >= CONVERT(NVARCHAR(50), DATEADD(DAY, -?, GETDATE()), 120) GROUP BY CAST(pay_time AS DATE) ORDER BY date DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, days);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("date", rs.getString("date"));
+                map.put("revenue", rs.getBigDecimal("revenue"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Map<String, Object>> getRevenueByMonth(int months) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT YEAR(CONVERT(datetime, pay_time, 120)) as year, MONTH(CONVERT(datetime, pay_time, 120)) as month, SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success' AND pay_time >= CONVERT(NVARCHAR(50), DATEADD(MONTH, -?, GETDATE()), 120) GROUP BY YEAR(CONVERT(datetime, pay_time, 120)), MONTH(CONVERT(datetime, pay_time, 120)) ORDER BY year DESC, month DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, months);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("year", rs.getInt("year"));
+                map.put("month", rs.getInt("month"));
+                map.put("revenue", rs.getBigDecimal("revenue"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Map<String, Object>> getTopRevenueDays(int top) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT TOP (?) CAST(pay_time AS DATE) as date, SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success' GROUP BY CAST(pay_time AS DATE) ORDER BY revenue DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, top);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("date", rs.getString("date"));
+                map.put("revenue", rs.getBigDecimal("revenue"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Map<String, Object>> getTopRevenueMonths(int top) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT TOP (?) YEAR(CONVERT(datetime, pay_time, 120)) as year, MONTH(CONVERT(datetime, pay_time, 120)) as month, SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success' GROUP BY YEAR(CONVERT(datetime, pay_time, 120)), MONTH(CONVERT(datetime, pay_time, 120)) ORDER BY revenue DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, top);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("year", rs.getInt("year"));
+                map.put("month", rs.getInt("month"));
+                map.put("revenue", rs.getBigDecimal("revenue"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Map<String, Object>> getRecentBookings(int limit) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT TOP (?) b.booking_code, b.booking_date, b.total_amount, b.status_pay, ISNULL(ou.full_name, CONCAT(up.first_name, ' ', up.last_name)) AS customer_name FROM Booking b LEFT JOIN OfflineCustomer oc ON b.booking_id = oc.booking_id LEFT JOIN OfflineUser ou ON oc.offline_user_id = ou.offline_user_id LEFT JOIN UserProfile up ON b.account_id = up.account_id ORDER BY b.booking_date DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("booking_code", rs.getString("booking_code"));
+                map.put("booking_date", rs.getString("booking_date"));
+                map.put("total_amount", rs.getBigDecimal("total_amount"));
+                map.put("status_pay", rs.getInt("status_pay"));
+                map.put("customer_name", rs.getString("customer_name"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public BigDecimal getTotalRevenue() {
+        String sql = "SELECT SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success'";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return BigDecimal.ZERO;
+    }
+
+    public BigDecimal getRevenueSince(LocalDateTime from) {
+        String sql = "SELECT SUM(transfer_amount) as revenue FROM Payments WHERE pay_status = 'success' AND CONVERT(datetime, pay_time, 120) >= ?";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, from.format(dtf));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                    return rs.getBigDecimal("revenue");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return BigDecimal.ZERO;
+    }
+
+    public java.math.BigDecimal getRevenueByDate(java.time.LocalDate date) {
+        String sql = "SELECT SUM(transfer_amount) as total_revenue FROM Payments WHERE pay_status = 'success' AND CONVERT(date, pay_time) = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, date.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal("total_revenue") != null ? rs.getBigDecimal("total_revenue") : java.math.BigDecimal.ZERO;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    public java.math.BigDecimal getRevenueByMonth(int year, int month) {
+        String sql = "SELECT SUM(transfer_amount) as total_revenue FROM Payments WHERE pay_status = 'success' AND YEAR(pay_time) = ? AND MONTH(pay_time) = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal("total_revenue") != null ? rs.getBigDecimal("total_revenue") : java.math.BigDecimal.ZERO;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    public java.util.List<java.util.Map<String, Object>> getBookingCountByField() {
+        java.util.List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
+        String sql = "SELECT f.field_name, COUNT(DISTINCT bd.booking_id) AS booking_count " +
+                     "FROM Field f " +
+                     "LEFT JOIN SlotsOfField sof ON f.field_id = sof.field_id " +
+                     "LEFT JOIN BookingDetails bd ON sof.slot_field_id = bd.slot_field_id " +
+                     "GROUP BY f.field_name";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("field_name", rs.getString("field_name"));
+                map.put("booking_count", rs.getInt("booking_count"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public java.util.List<java.util.Map<String, Object>> getAllFields() {
+        java.util.List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
+        String sql = "SELECT field_id, field_name FROM Field ORDER BY field_name";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("field_id", rs.getInt("field_id"));
+                map.put("field_name", rs.getString("field_name"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public java.math.BigDecimal getRevenueFiltered(String fromDate, String toDate, Integer fieldId, String payStatus) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT SUM(p.transfer_amount) as total_revenue " +
+            "FROM Payments p " +
+            "JOIN Booking b ON p.booking_id = b.booking_id " +
+            "JOIN BookingDetails bd ON b.booking_id = bd.booking_id " +
+            "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id " +
+            "WHERE 1=1 "
+        );
+        java.util.List<Object> params = new java.util.ArrayList<>();
+        if (fromDate != null && !fromDate.isEmpty()) {
+            sql.append("AND CONVERT(date, p.pay_time, 120) >= ? ");
+            params.add(fromDate);
+        }
+        if (toDate != null && !toDate.isEmpty()) {
+            sql.append("AND CONVERT(date, p.pay_time, 120) <= ? ");
+            params.add(toDate);
+        }
+        // Bỏ điều kiện fieldId
+        if (payStatus != null && !payStatus.isEmpty()) {
+            sql.append("AND p.pay_status = ? ");
+            params.add(payStatus);
+        }
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("total_revenue") != null ? rs.getBigDecimal("total_revenue") : java.math.BigDecimal.ZERO;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    public java.util.List<java.util.Map<String, Object>> getRevenueByField() {
+        java.util.List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
+        String sql = "SELECT f.field_name, SUM(p.transfer_amount) AS revenue " +
+                     "FROM Field f " +
+                     "LEFT JOIN SlotsOfField sof ON f.field_id = sof.field_id " +
+                     "LEFT JOIN BookingDetails bd ON sof.slot_field_id = bd.slot_field_id " +
+                     "LEFT JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "LEFT JOIN Payments p ON b.booking_id = p.booking_id AND p.pay_status = 'success' " +
+                     "GROUP BY f.field_name";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("field_name", rs.getString("field_name"));
+                map.put("revenue", rs.getBigDecimal("revenue") != null ? rs.getBigDecimal("revenue") : java.math.BigDecimal.ZERO);
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
