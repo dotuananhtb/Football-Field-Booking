@@ -25,179 +25,313 @@
                             </div>
                         </div>
                     </div>
-                    <form method="get" action="${pageContext.request.contextPath}/admin/bao-cao-chi-tiet" style="margin-bottom: 20px;">
-                        <label for="monthFilter">Chọn tháng:</label>
-                        <input type="month" id="monthFilter" name="monthFilter" value="${param.monthFilter}">
-                        <button type="submit">Lọc theo tháng</button>
-                    </form>
-                    <form method="get" action="${pageContext.request.contextPath}/admin/bao-cao-chi-tiet" style="margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-                        <label for="fromDate">Từ ngày:</label>
-                        <input type="date" id="fromDate" name="fromDate" value="${param.fromDate}">
-                        <label for="toDate">Đến ngày:</label>
-                        <input type="date" id="toDate" name="toDate" value="${param.toDate}">
-                        <label for="payStatus">Trạng thái:</label>
-                        <select id="payStatus" name="payStatus">
-                            <option value="">Tất cả</option>
-                            <option value="success" <c:if test="${param.payStatus == 'success'}">selected</c:if>>Đã thanh toán</option>
-                            <option value="pending" <c:if test="${param.payStatus == 'pending'}">selected</c:if>>Chờ thanh toán</option>
-                            <option value="failed" <c:if test="${param.payStatus == 'failed'}">selected</c:if>>Đã huỷ</option>
-                        </select>
-                        <button type="submit">Lọc</button>
-                    </form>
-                    <c:choose>
-                        <c:when test="${not empty selectedMonthFilter}">
-                            <div class="alert alert-info mt-2">
-                                Doanh thu theo tháng <strong>${selectedMonthFilter}</strong>: <strong>${revenueByMonthFilter}</strong>
-                            </div>
-                        </c:when>
-                        <c:when test="${not empty filteredRevenue}">
-                            <div class="alert alert-info mt-2">
-                                Doanh thu theo ngày: <strong>${filteredRevenue}</strong>
-                            </div>
-                        </c:when>
-                    </c:choose>
-                    <c:if test="${not empty selectedDate}">
-                        <div class="alert alert-info mt-2">
-                            Doanh thu ngày <strong>${selectedDate}</strong>: <strong>${revenueBySelectedDate}</strong>
-                        </div>
-                    </c:if>
-                    <c:if test="${not empty selectedMonth}">
-                        <div class="alert alert-info mt-2">
-                            Doanh thu tháng <strong>${selectedMonth}</strong>: <strong>${revenueBySelectedMonth}</strong>
-                        </div>
-                    </c:if>
-                    <c:if test="${empty selectedDate && empty selectedMonth}">
-                        <!-- 1. Thống kê doanh thu top tháng/ngày -->
-                        <div class="row mt-3">
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="header-title">1. Thống kê doanh thu</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="mt-4">Top 5 tháng doanh thu cao nhất</h5>
-                                        <table class="table table-bordered table-striped">
-                                            <thead><tr><th>Tháng</th><th>Doanh thu</th></tr></thead>
-                                            <tbody>
-                                            <c:forEach var="item" items="${topRevenueMonths}">
-                                                <tr>
-                                                    <td>${item.month}</td>
-                                                    <td>${item.revenue}</td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <h5 class="mt-4">Top 5 ngày doanh thu cao nhất</h5>
-                                        <table class="table table-bordered table-striped">
-                                            <thead><tr><th>Ngày</th><th>Doanh thu</th></tr></thead>
-                                            <tbody>
-                                            <c:forEach var="item" items="${topRevenueDays}">
-                                                <tr>
-                                                    <td>${item.date}</td>
-                                                    <td>${item.revenue}</td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-                    <!-- 2. Doanh thu theo từng sân -->
+                    <!-- Báo cáo chi tiết đơn đặt sân -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="header-title">2. Doanh thu theo từng sân</h4>
+                                    <h4 class="header-title">📋 1. Báo cáo chi tiết đơn đặt sân</h4>
                                 </div>
                                 <div class="card-body">
+                                    <form method="get" action="${pageContext.request.contextPath}/admin/bao-cao-chi-tiet" style="margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                                        <label for="detailFromDate">Từ ngày:</label>
+                                        <input type="date" id="detailFromDate" name="detailFromDate" value="${param.detailFromDate}">
+                                        <label for="detailToDate">Đến ngày:</label>
+                                        <input type="date" id="detailToDate" name="detailToDate" value="${param.detailToDate}">
+                                        <label for="detailFieldId">Sân:</label>
+                                        <select id="detailFieldId" name="detailFieldId">
+                                            <option value="">Tất cả</option>
+                                            <c:forEach var="f" items="${fields}">
+                                                <option value="${f.field_id}" <c:if test="${param.detailFieldId == f.field_id}">selected</c:if>>${f.field_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <label for="detailStatus">Trạng thái:</label>
+                                        <select id="detailStatus" name="detailStatus">
+                                            <option value="">Tất cả</option>
+                                            <option value="1" <c:if test="${param.detailStatus == '1'}">selected</c:if>>Đã thanh toán</option>
+                                            <option value="0" <c:if test="${param.detailStatus == '0'}">selected</c:if>>Chờ thanh toán</option>
+                                            <option value="-1" <c:if test="${param.detailStatus == '-1'}">selected</c:if>>Đã hủy</option>
+                                        </select>
+                                        <label for="detailUser">Người dùng:</label>
+                                        <input type="text" id="detailUser" name="detailUser" value="${param.detailUser}" placeholder="Tên hoặc mã đơn">
+                                        <button type="submit">Lọc</button>
+                                    </form>
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Tên sân</th><th>Doanh thu</th></tr></thead>
-                                        <tbody>
-                                        <c:forEach var="item" items="${revenueByField}">
+                                        <thead>
                                             <tr>
-                                                <td>${item.field_name}</td>
-                                                <td>${item.revenue}</td>
+                                                <th>STT</th>
+                                                <th>Tên người đặt</th>
+                                                <th>Sân</th>
+                                                <th>Ngày giờ đặt</th>
+                                                <th>Thời lượng (phút)</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Trạng thái</th>
                                             </tr>
-                                        </c:forEach>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="item" items="${bookingDetails}" varStatus="loop">
+                                                <tr>
+                                                    <td>${(page-1)*pageSize + loop.index + 1}</td>
+                                                    <td>${item.customer_name}</td>
+                                                    <td>${item.field_name}</td>
+                                                    <td>${item.slot_date} ${item.start_time} - ${item.end_time}</td>
+                                                    <td>${item.duration}</td>
+                                                    <td>${item.total_amount}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${item.status_pay == 1}">Đã thanh toán</c:when>
+                                                            <c:when test="${item.status_pay == 0}">Chờ thanh toán</c:when>
+                                                            <c:when test="${item.status_pay == -1}">Đã hủy</c:when>
+                                                            <c:otherwise>Khác</c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
+                                    <!-- Phân trang -->
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <c:if test="${page > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=${page-1}&pageSize=${pageSize}
+                                                        &detailFromDate=${param.detailFromDate}
+                                                        &detailToDate=${param.detailToDate}
+                                                        &detailFieldId=${param.detailFieldId}
+                                                        &detailStatus=${param.detailStatus}
+                                                        &detailUser=${param.detailUser}">Previous</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                <li class="page-item <c:if test='${i == page}'>active</c:if>'">
+                                                    <a class="page-link" href="?page=${i}&pageSize=${pageSize}
+                                                        &detailFromDate=${param.detailFromDate}
+                                                        &detailToDate=${param.detailToDate}
+                                                        &detailFieldId=${param.detailFieldId}
+                                                        &detailStatus=${param.detailStatus}
+                                                        &detailUser=${param.detailUser}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${page < totalPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=${page+1}&pageSize=${pageSize}
+                                                        &detailFromDate=${param.detailFromDate}
+                                                        &detailToDate=${param.detailToDate}
+                                                        &detailFieldId=${param.detailFieldId}
+                                                        &detailStatus=${param.detailStatus}
+                                                        &detailUser=${param.detailUser}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- 2. 10 booking gần nhất -->
+                    <!-- Báo cáo thông tin người dùng -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="header-title">3. 10 booking gần nhất</h4>
+                                    <h4 class="header-title">👤 2. Báo cáo thông tin người dùng</h4>
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Tên user</th><th>Ngày đặt</th><th>Trạng thái</th><th>Số tiền</th></tr></thead>
-                                        <tbody>
-                                        <c:forEach var="b" items="${recentBookings}">
+                                        <thead>
                                             <tr>
-                                                <td>${b.customer_name}</td>
-                                                <td>${b.booking_date}</td>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${b.status_pay == 1}">Đã thanh toán</c:when>
-                                                        <c:when test="${b.status_pay == 0}">Chờ thanh toán</c:when>
-                                                        <c:when test="${b.status_pay == -1}">Đã hủy</c:when>
-                                                        <c:otherwise>Khác</c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td>${b.total_amount}</td>
+                                                <th>STT</th>
+                                                <th>Họ tên</th>
+                                                <th>Email/SĐT</th>
+                                                <th>Số lượt đặt</th>
+                                                <th>Tổng chi tiêu</th>
+                                                <th>Ngày đăng ký</th>
+                                                <th>Trạng thái tài khoản</th>
                                             </tr>
-                                        </c:forEach>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="u" items="${userReportList}" varStatus="loop">
+                                                <tr>
+                                                    <td>${(userPage-1)*userPageSize + loop.index + 1}</td>
+                                                    <td>${u.full_name}</td>
+                                                    <td>${u.email}<br/>${u.phone}</td>
+                                                    <td>${u.booking_count}</td>
+                                                    <td>${u.total_spent}</td>
+                                                    <td>${u.created_at}</td>
+                                                    <td>${u.status_name}</td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
+                                    <!-- Phân trang người dùng -->
+                                    <nav aria-label="User page navigation">
+                                        <ul class="pagination">
+                                            <c:if test="${userPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?userPage=${userPage-1}&userPageSize=${userPageSize}">Previous</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach var="i" begin="1" end="${totalUserPages}">
+                                                <li class="page-item <c:if test='${i == userPage}'>active</c:if>'">
+                                                    <a class="page-link" href="?userPage=${i}&userPageSize=${userPageSize}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${userPage < totalUserPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?userPage=${userPage+1}&userPageSize=${userPageSize}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- 3. Thống kê booking theo từng sân -->
+                    <!-- Báo cáo tình trạng sử dụng từng sân -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="header-title">4. Thống kê booking theo từng sân</h4>
+                                    <h4 class="header-title">⚽ 3. Báo cáo tình trạng sử dụng từng sân</h4>
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Tên sân</th><th>Số booking</th></tr></thead>
-                                        <tbody>
-                                        <c:forEach var="item" items="${bookingCountByField}">
+                                        <thead>
                                             <tr>
-                                                <td>${item.field_name}</td>
+                                                <th>STT</th>
+                                                <th>Mã sân</th>
+                                                <th>Tên sân</th>
+                                                <th>Loại sân</th>
+                                                <th>Số lượt đặt</th>
+                                                <th>Tổng doanh thu</th>
+                                                <th>Trạng thái sân</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="f" items="${fieldUsageReportList}" varStatus="loop">
+                                                <tr>
+                                                    <td>${(fieldPage-1)*fieldPageSize + loop.index + 1}</td>
+                                                    <td>${f.field_id}</td>
+                                                    <td>${f.field_name}</td>
+                                                    <td>${f.field_type_name}</td>
+                                                    <td>${f.booking_count}</td>
+                                                    <td>${f.total_revenue}</td>
+                                                    <td>${f.status}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <!-- Phân trang sân -->
+                                    <nav aria-label="Field page navigation">
+                                        <ul class="pagination">
+                                            <c:if test="${fieldPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?fieldPage=${fieldPage-1}&fieldPageSize=${fieldPageSize}">Previous</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach var="i" begin="1" end="${totalFieldPages}">
+                                                <li class="page-item <c:if test='${i == fieldPage}'>active</c:if>'">
+                                                    <a class="page-link" href="?fieldPage=${i}&fieldPageSize=${fieldPageSize}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${fieldPage < totalFieldPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?fieldPage=${fieldPage+1}&fieldPageSize=${fieldPageSize}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Báo cáo doanh thu chi tiết -->
+                    <div class="row mt-3">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="header-title">💵 4. Báo cáo doanh thu chi tiết</h4>
+                                    <div class="text-muted small">Mục đích: Theo dõi tiền thu được từ từng đơn, từ người dùng nào, theo thời gian</div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Mã giao dịch</th>
+                                                <th>Người thanh toán</th>
+                                                <th>Ngày giờ</th>
+                                                <th>Số tiền</th>
+                                                <th>Phương thức thanh toán</th>
+                                                <th>Ghi chú</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="item" items="${detailedPayments}" varStatus="loop">
+                                                <tr>
+                                                    <td>${(detailedPaymentsPage-1)*detailedPaymentsPageSize + loop.index + 1}</td>
+                                                    <td>${item.transaction_code}</td>
+                                                    <td>${item.payer_name}</td>
+                                                    <td>${item.pay_time}</td>
+                                                    <td>${item.transfer_amount}</td>
+                                                    <td>${item.gateway}</td>
+                                                    <td>${item.description}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <!-- Phân trang doanh thu chi tiết -->
+                                    <nav aria-label="Detailed payments page navigation">
+                                        <ul class="pagination">
+                                            <c:if test="${detailedPaymentsPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?detailedPaymentsPage=${detailedPaymentsPage-1}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">Previous</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach var="i" begin="1" end="${detailedPaymentsTotalPages}">
+                                                <li class="page-item <c:if test='${i == detailedPaymentsPage}'>active</c:if>'">
+                                                    <a class="page-link" href="?detailedPaymentsPage=${i}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${detailedPaymentsPage < detailedPaymentsTotalPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?detailedPaymentsPage=${detailedPaymentsPage+1}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Báo cáo đặt sân theo thời gian -->
+                    <div class="row mt-3">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="header-title">📅 5. Báo cáo đặt sân theo thời gian</h4>
+                                    <div class="text-muted small">Thống kê hoạt động trong từng mốc thời gian cụ thể (7 ngày gần nhất)</div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="mt-3">Tổng số đơn đặt theo từng ngày</h5>
+                                    <table class="table table-bordered table-striped">
+                                        <thead><tr><th>Ngày</th><th>Số đơn đặt</th></tr></thead>
+                                        <tbody>
+                                        <c:forEach var="item" items="${bookingCountByDay7}">
+                                            <tr>
+                                                <td>${item.day}</td>
                                                 <td>${item.booking_count}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 5. 10 user mới đăng ký gần đây -->
-                    <div class="row mt-3">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="header-title">5. 10 user mới đăng ký gần đây</h4>
-                                </div>
-                                <div class="card-body">
+                                    <h5 class="mt-4">Tổng doanh thu theo từng ngày</h5>
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Tên user</th><th>Email</th><th>Ngày đăng ký</th></tr></thead>
+                                        <thead><tr><th>Ngày</th><th>Doanh thu</th></tr></thead>
                                         <tbody>
-                                        <c:forEach var="user" items="${recentUsers}">
+                                        <c:forEach var="item" items="${revenueByDay7}">
                                             <tr>
-                                                <td>${user.userProfile.firstName} ${user.userProfile.lastName}</td>
-                                                <td>${user.email}</td>
-                                                <td>${user.createdAt}</td>
+                                                <td>${item.day}</td>
+                                                <td>${item.revenue}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
