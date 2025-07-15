@@ -7,6 +7,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page import="com.google.gson.Gson" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+    String revenueDataJson = new Gson().toJson(request.getAttribute("revenueByMonth"));
+    String monthLabelsJson = new Gson().toJson(request.getAttribute("monthLabels"));
+    String weekDayLabelsJson = new Gson().toJson(request.getAttribute("weekDayLabels"));
+    String weekDayRevenueJson = new Gson().toJson(request.getAttribute("weekDayRevenue"));
+    String fieldLabelsJson = new Gson().toJson(request.getAttribute("fieldLabels"));
+    String fieldRevenueJson = new Gson().toJson(request.getAttribute("fieldRevenue"));
+    String typeOfFieldLabelsJson = new Gson().toJson(request.getAttribute("typeOfFieldLabels"));
+    String typeOfFieldCountsJson = new Gson().toJson(request.getAttribute("typeOfFieldCounts"));
+    String bookingHourLabelsJson = new Gson().toJson(request.getAttribute("bookingHourLabels"));
+    String bookingHourCountsJson = new Gson().toJson(request.getAttribute("bookingHourCounts"));
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -337,14 +351,79 @@
                                     <div class="card-body">
                                         <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tỷ lệ booking thành công/hủy">Tỷ lệ thành công/hủy</h5>
                                         <ul class="list-unstyled mb-0">
-                                            <li>Thành công: <b>${bookingSuccessRate}%</b></li>
-                                            <li>Hủy: <b>${bookingCancelRate}%</b></li>
+                                            <li>Thành công: <b><fmt:formatNumber value="${bookingSuccessRate}" type="number" minFractionDigits="2" maxFractionDigits="2"/>%</b></li>
+                                            <li>Hủy: <b><fmt:formatNumber value="${bookingCancelRate}" type="number" minFractionDigits="2" maxFractionDigits="2"/>%</b></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Bảng doanh thu -->
+                        <!-- Biểu đồ doanh thu các tháng (1 hàng) -->
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Biểu đồ doanh thu các tháng</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="revenue-month-chart" class="apex-charts" style="min-height: 350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biểu đồ doanh thu 7 ngày gần nhất (1 hàng) -->
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Biểu đồ doanh thu 7 ngày gần nhất</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="revenue-week-chart" class="apex-charts" style="min-height: 350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biểu đồ doanh thu theo sân (1 hàng) -->
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Biểu đồ doanh thu theo sân</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="revenue-field-chart" class="apex-charts" style="min-height: 350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biểu đồ tỷ lệ loại sân được đặt (pie chart) -->
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Biểu đồ tỷ lệ loại sân được đặt</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="type-of-field-pie-chart" class="apex-charts" style="min-height: 350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biểu đồ khung giờ đặt sân phổ biến (column chart) -->
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Biểu đồ khung giờ đặt sân phổ biến</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="popular-booking-hour-chart" class="apex-charts" style="min-height: 350px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bảng doanh thu tổng hợp -->
                         <div class="row mt-4">
                             <div class="col-lg-6">
                                 <div class="card">
@@ -430,5 +509,112 @@
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
+        <!-- ApexCharts JS -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script>
+            var revenueData = <%= revenueDataJson %>;
+            var monthLabels = <%= monthLabelsJson %>;
+            var weekDayLabels = <%= weekDayLabelsJson %>;
+            var weekDayRevenue = <%= weekDayRevenueJson %>;
+            var fieldLabels = <%= fieldLabelsJson %>;
+            var fieldRevenue = <%= fieldRevenueJson %>;
+            var typeOfFieldLabels = <%= typeOfFieldLabelsJson %>;
+            var typeOfFieldCounts = <%= typeOfFieldCountsJson %>;
+            var bookingHourLabels = <%= bookingHourLabelsJson %>;
+            var bookingHourCounts = <%= bookingHourCountsJson %>;
+            document.addEventListener("DOMContentLoaded", function() {
+                // Biểu đồ doanh thu các tháng
+                var options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        toolbar: { show: false }
+                    },
+                    series: [{
+                        name: 'Doanh thu',
+                        data: revenueData
+                    }],
+                    xaxis: { categories: monthLabels },
+                    colors: ['#47ad77'],
+                    dataLabels: { enabled: true },
+                    title: { text: 'So sánh doanh thu các tháng', align: 'center' }
+                };
+                var chart = new ApexCharts(document.querySelector("#revenue-month-chart"), options);
+                chart.render();
+
+                // Biểu đồ doanh thu 7 ngày gần nhất
+                var weekOptions = {
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        toolbar: { show: false }
+                    },
+                    series: [{
+                        name: 'Doanh thu',
+                        data: weekDayRevenue
+                    }],
+                    xaxis: { categories: weekDayLabels },
+                    colors: ['#e7607b'],
+                    dataLabels: { enabled: true },
+                    title: { text: 'Doanh thu 7 ngày gần nhất', align: 'center' }
+                };
+                var weekChart = new ApexCharts(document.querySelector("#revenue-week-chart"), weekOptions);
+                weekChart.render();
+
+                // Biểu đồ doanh thu theo sân
+                var fieldOptions = {
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        toolbar: { show: false }
+                    },
+                    series: [{
+                        name: 'Doanh thu',
+                        data: fieldRevenue
+                    }],
+                    xaxis: { categories: fieldLabels },
+                    colors: ['#008ffb'],
+                    dataLabels: { enabled: true },
+                    title: { text: 'Doanh thu theo sân', align: 'center' }
+                };
+                var fieldChart = new ApexCharts(document.querySelector("#revenue-field-chart"), fieldOptions);
+                fieldChart.render();
+
+                // Biểu đồ tỷ lệ loại sân được đặt (pie chart)
+                var typePieOptions = {
+                    chart: {
+                        type: 'pie',
+                        height: 350,
+                        toolbar: { show: false }
+                    },
+                    series: typeOfFieldCounts,
+                    labels: typeOfFieldLabels,
+                    title: { text: 'Tỷ lệ loại sân được đặt', align: 'center' },
+                    dataLabels: { enabled: true },
+                    legend: { position: 'bottom' }
+                };
+                var typePieChart = new ApexCharts(document.querySelector("#type-of-field-pie-chart"), typePieOptions);
+                typePieChart.render();
+
+                // Biểu đồ khung giờ đặt sân phổ biến (column chart)
+                var hourOptions = {
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        toolbar: { show: false }
+                    },
+                    series: [{
+                        name: 'Số lượt đặt',
+                        data: bookingHourCounts
+                    }],
+                    xaxis: { categories: bookingHourLabels, title: { text: 'Khung giờ bắt đầu' } },
+                    colors: ['#feb019'],
+                    dataLabels: { enabled: true },
+                    title: { text: 'Khung giờ đặt sân phổ biến', align: 'center' }
+                };
+                var hourChart = new ApexCharts(document.querySelector("#popular-booking-hour-chart"), hourOptions);
+                hourChart.render();
+            });
+        </script>
     </body>
 </html> 
