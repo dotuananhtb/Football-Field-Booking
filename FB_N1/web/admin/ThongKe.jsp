@@ -452,6 +452,10 @@
                                                     <td>${revenue6Month}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td><b>Tổng doanh thu năm nay</b></td>
+                                                    <td><b>${totalRevenueYear}</b></td>
+                                                </tr>
+                                                <tr>
                                                     <td><b>Tổng doanh thu toàn hệ thống</b></td>
                                                     <td><b>${totalRevenue}</b></td>
                                                 </tr>

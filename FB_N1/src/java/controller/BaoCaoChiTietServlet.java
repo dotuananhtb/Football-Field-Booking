@@ -18,14 +18,14 @@ import model.Post;
 
 @WebServlet(name = "BaoCaoChiTietServlet", urlPatterns = {"/admin/bao-cao-chi-tiet"})
 public class BaoCaoChiTietServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
 
-
             BookingDAO bookingDAO = new BookingDAO();
-AccountDAO accountDAO = new AccountDAO();
+            AccountDAO accountDAO = new AccountDAO();
             // Lấy bộ lọc chi tiết đơn đặt sân
             String detailFromDate = request.getParameter("detailFromDate");
             String detailToDate = request.getParameter("detailToDate");
@@ -36,14 +36,20 @@ AccountDAO accountDAO = new AccountDAO();
             // Phân trang cho báo cáo chi tiết đơn đặt sân
             int page = 1;
             int pageSize = 10;
-            try { page = Integer.parseInt(request.getParameter("page")); } catch (Exception ignored) {}
-            try { pageSize = Integer.parseInt(request.getParameter("pageSize")); } catch (Exception ignored) {}
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (Exception ignored) {
+            }
+            try {
+                pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            } catch (Exception ignored) {
+            }
             int totalBookingDetails = bookingDAO.countBookingDetailsWithFilters(
-                detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser
+                    detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser
             );
             int totalPages = (int) Math.ceil((double) totalBookingDetails / pageSize);
             java.util.List<java.util.Map<String, Object>> bookingDetails = bookingDAO.getBookingDetailsWithFilters(
-                detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser, page, pageSize
+                    detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser, page, pageSize
             );
             request.setAttribute("bookingDetails", bookingDetails);
             request.setAttribute("page", page);
@@ -54,8 +60,14 @@ AccountDAO accountDAO = new AccountDAO();
             // Phân trang cho báo cáo người dùng
             int userPage = 1;
             int userPageSize = 10;
-            try { userPage = Integer.parseInt(request.getParameter("userPage")); } catch (Exception ignored) {}
-            try { userPageSize = Integer.parseInt(request.getParameter("userPageSize")); } catch (Exception ignored) {}
+            try {
+                userPage = Integer.parseInt(request.getParameter("userPage"));
+            } catch (Exception ignored) {
+            }
+            try {
+                userPageSize = Integer.parseInt(request.getParameter("userPageSize"));
+            } catch (Exception ignored) {
+            }
             int totalUserReport = accountDAO.countUserReportList();
             int totalUserPages = (int) Math.ceil((double) totalUserReport / userPageSize);
             java.util.List<java.util.Map<String, Object>> userReportListPaging = accountDAO.getUserReportListPaging(userPage, userPageSize);
@@ -69,8 +81,14 @@ AccountDAO accountDAO = new AccountDAO();
             FieldDAO fieldDAO = new FieldDAO();
             int fieldPage = 1;
             int fieldPageSize = 10;
-            try { fieldPage = Integer.parseInt(request.getParameter("fieldPage")); } catch (Exception ignored) {}
-            try { fieldPageSize = Integer.parseInt(request.getParameter("fieldPageSize")); } catch (Exception ignored) {}
+            try {
+                fieldPage = Integer.parseInt(request.getParameter("fieldPage"));
+            } catch (Exception ignored) {
+            }
+            try {
+                fieldPageSize = Integer.parseInt(request.getParameter("fieldPageSize"));
+            } catch (Exception ignored) {
+            }
             int totalFieldReport = fieldDAO.countFieldUsageReport();
             int totalFieldPages = (int) Math.ceil((double) totalFieldReport / fieldPageSize);
             java.util.List<java.util.Map<String, Object>> fieldUsageReportList = fieldDAO.getFieldUsageReportPaging(fieldPage, fieldPageSize);
@@ -84,8 +102,14 @@ AccountDAO accountDAO = new AccountDAO();
             dao.PaymentDAO paymentDAO = new dao.PaymentDAO();
             int detailedPaymentsPage = 1;
             int detailedPaymentsPageSize = 10;
-            try { detailedPaymentsPage = Integer.parseInt(request.getParameter("detailedPaymentsPage")); } catch (Exception ignored) {}
-            try { detailedPaymentsPageSize = Integer.parseInt(request.getParameter("detailedPaymentsPageSize")); } catch (Exception ignored) {}
+            try {
+                detailedPaymentsPage = Integer.parseInt(request.getParameter("detailedPaymentsPage"));
+            } catch (Exception ignored) {
+            }
+            try {
+                detailedPaymentsPageSize = Integer.parseInt(request.getParameter("detailedPaymentsPageSize"));
+            } catch (Exception ignored) {
+            }
             int detailedPaymentsTotal = paymentDAO.countDetailedPayments();
             int detailedPaymentsTotalPages = (int) Math.ceil((double) detailedPaymentsTotal / detailedPaymentsPageSize);
             java.util.List<java.util.Map<String, Object>> detailedPayments = paymentDAO.getDetailedPaymentsPaging(detailedPaymentsPage, detailedPaymentsPageSize);
@@ -103,11 +127,10 @@ AccountDAO accountDAO = new AccountDAO();
 
             // Sau khi lấy dữ liệu, setAttribute cho request
             // request.setAttribute("tenDuLieu", duLieu);
-
             request.getRequestDispatcher("/admin/BaoCaoChiTiet.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server: " + e.getMessage());
         }
     }
-} 
+}

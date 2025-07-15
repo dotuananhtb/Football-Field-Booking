@@ -109,8 +109,11 @@ public class ThongKeServlet extends HttpServlet {
             List<Double> revenueByMonth = paymentDAO.getRevenueByMonth(year);
             List<String> monthLabels = new ArrayList<>();
             for (int i = 1; i <= 12; i++) monthLabels.add("Tháng " + i);
+            double totalRevenueYear = 0;
+            for (Double d : revenueByMonth) totalRevenueYear += d;
             request.setAttribute("revenueByMonth", revenueByMonth);
             request.setAttribute("monthLabels", monthLabels);
+            request.setAttribute("totalRevenueYear", totalRevenueYear);
 
             // --- Thêm: Lấy doanh thu từng ngày trong 1 tuần gần nhất ---
             Map<String, Double> revenueByDayMap = paymentDAO.getRevenueByDayInLastWeek();
