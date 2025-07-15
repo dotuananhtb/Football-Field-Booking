@@ -163,12 +163,14 @@
                                                         <section class="our-blog pd-main">
                                                             <div class="tf-container">
                                                                 <div class="row">
-                                                                    <div class="col-lg-8 col-12">
+                                                                    <div class="col-lg-1"></div>
+                                                                    <div class="col-lg-10 col-12">
                                                                         <!-- Search and Filter Section -->
                                                                         <div class="ql-editor">
                                                                             ${event.title.title1}
                                                                         </div>
                                                                     </div>
+                                                                        <div class="col-lg-1"></div>
 
                                                                 </div>
                                                             </div>
