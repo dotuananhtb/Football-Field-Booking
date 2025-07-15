@@ -9,11 +9,13 @@ import java.util.List;
 import model.TypeOfField;
 import java.sql.*;
 import util.DBContext;
+
 /**
  *
  * @author Đỗ Tuấn Anh
  */
 public class TypeOfFieldDAO extends DBContext {
+
     public List<TypeOfField> getAllFieldTypes() {
         List<TypeOfField> list = new ArrayList<>();
         String sql = "SELECT * FROM TypeOfField";
@@ -46,4 +48,85 @@ public class TypeOfFieldDAO extends DBContext {
         }
         return "";
     }
+
+//CRUD loại sân
+    public TypeOfField getFieldTypeById(int id) {
+        String sql = "SELECT * FROM TypeOfField WHERE field_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new TypeOfField(
+                        rs.getInt("field_type_id"),
+                        rs.getString("field_type_name")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void insertFieldType(String name) {
+        String sql = "INSERT INTO TypeOfField(field_type_name) VALUES (?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFieldType(int id, String name) {
+        String sql = "UPDATE TypeOfField SET field_type_name = ? WHERE field_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.setInt(2, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isTypeInUse(int typeId) {
+        String sqlField = "SELECT COUNT(*) FROM Field WHERE field_type_id = ?";
+        String sqlSlot = "SELECT COUNT(*) FROM SlotsOfDay WHERE field_type_id = ?";
+        try {
+            PreparedStatement ps1 = connection.prepareStatement(sqlField);
+            ps1.setInt(1, typeId);
+            ResultSet rs1 = ps1.executeQuery();
+
+            PreparedStatement ps2 = connection.prepareStatement(sqlSlot);
+            ps2.setInt(1, typeId);
+            ResultSet rs2 = ps2.executeQuery();
+
+            int countField = 0, countSlot = 0;
+            if (rs1.next()) {
+                countField = rs1.getInt(1);
+            }
+            if (rs2.next()) {
+                countSlot = rs2.getInt(1);
+            }
+
+            return (countField > 0 || countSlot > 0); // đang được sử dụng
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true; 
+    }
+
+    public void deleteFieldType(int id) {
+        String sql = "DELETE FROM TypeOfField WHERE field_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
