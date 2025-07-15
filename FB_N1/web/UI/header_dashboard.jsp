@@ -199,8 +199,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li><a  href="/FB_N1/userProfile">Hồ sơ</a></li>
-                                                        <li><a  href="/FB_N1/logout">Setting</a></li>
-                                                        <li><a  href="/FB_N1/logout">Đổi mật khẩu</a></li>
+                                                        <li><a  href="/FB_N1/changePassword">Đổi mật khẩu</a></li>
                                                         <li><a  href="/FB_N1/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </div>                                                                                         

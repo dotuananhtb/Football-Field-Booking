@@ -58,7 +58,7 @@
                                                                                 <div class="col-lg-12 center z-index1">
                                                                                     <h1 class="title">Đăng nhập tài khoản</h1>
                                                                                     <ul class="breadcumb-list flex-five">
-                                                                                        <li><a href="homePage.jsp">Trang chủ</a></li>
+                                                                                        <li><a href="/FB_N1/home">Trang chủ</a></li>
                                                                                         <li><span>Đăng nhập </span></li>
                                                                                     </ul>
                                                                                     <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">

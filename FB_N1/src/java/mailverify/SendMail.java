@@ -142,6 +142,8 @@ public class SendMail {
 
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
+    
+     
 
     // ✅ Test nhanh
     public static void main(String[] args) {

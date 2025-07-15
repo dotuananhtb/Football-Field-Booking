@@ -22,6 +22,23 @@
                 disableOnInteraction: false
         }
  });
-
+new Swiper(".fieldSwiper2", {
+        loop: true,
+        spaceBetween: 30,
+        slidesPerView: 1,
+        breakpoints: {
+        576: {
+        slidesPerView: 2
+        },
+                992: {
+                slidesPerView: 2
+                }
+        },
+       
+        autoplay: {
+        delay: 2500,
+                disableOnInteraction: false
+        }
+ });
 
 

@@ -1,351 +1,159 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- 
+    Document   : hoSoNguoiDung
+    Created on : 31 thg 5, 2025, 15:21:16
+    Author     : Asus
+--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Thay đổi mật khẩu - Football Booking</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #00bcd4;
-            --secondary-color: #4caf50;
-            --accent-color: #ff9800;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-        }
-        
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                        url('assets/images/football-stadium.jpg') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.2), rgba(255, 152, 0, 0.2));
-            pointer-events: none;
-        }
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
-        .change-password-container {
-            background: rgba(255, 255, 255, 0.95);
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 188, 212, 0.3);
-            border: 2px solid var(--primary-color);
-            position: relative;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+    <head>
+        <base href="${pageContext.request.contextPath}/UI/">
+            <meta charset="utf-8">
+                <title>Hồ sơ người dùng - FootballStar</title>
 
-        .page-title {
-            color: var(--primary-color);
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--accent-color);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
+                <meta name="author" content="themesflat.com">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        .page-title::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
-        }
+                        <link rel="stylesheet" href="app/css/app.css">
+                            <link rel="stylesheet" href="app/css/bootstrap-select.min.css">
+                                <link rel="stylesheet" href="app/css/map.min.css">
 
-        .form-label {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
+                                    <!-- Favicon and Touch Icons  -->
+                                    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+                                            </head>
+                                            <style>
+                                                .avatar-upload-wrapper {
+                                                    max-width: 400px;
+                                                    margin: 0 auto;
+                                                    background-color: #fff;
+                                                    border-radius: 12px;
+                                                    padding: 20px;
+                                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                                                }
 
-        .form-control {
-            border-radius: 10px;
-            padding: 12px;
-            border: 2px solid var(--light-color);
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
+                                                .avatar-preview {
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    margin-bottom: 20px;
+                                                }
 
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
-            background: white;
-        }
+                                                .avatar-preview img {
+                                                    max-width: 150px;
+                                                    max-height: 150px;
+                                                    border-radius: 50%;
+                                                    object-fit: cover;
+                                                    border: 3px solid #0d6efd;
+                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                                                }
 
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), #00e5ff);
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
-        }
+                                                .form-label {
+                                                    font-weight: 600;
+                                                }
+                                            </style>
+                                            <body class="body header-fixed">
+                                                <jsp:include page="toast.jsp"/>
+                                                <jsp:include page="header_dashboard.jsp" />
+                                                <!-- End Main Header -->
+                                                <main id="main">
+                                                    <section class="profile-dashboard">
 
-        .btn-primary:hover {
-            background: linear-gradient(45deg, #00e5ff, var(--primary-color));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4);
-        }
 
-        .btn-secondary {
-            background: linear-gradient(45deg, var(--dark-color), #34495e);
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
-        }
+                                                        <form action="${pageContext.request.contextPath}/changePassword" method="post" class="edit-profile">
+                                                            <c:set value="${sessionScope.userProfile}" var="u"></c:set>
+                                                            <c:set value="${sessionScope.account}" var="a"></c:set>
+                                                            <div class="infomation-dashboard mb-70">
+                                                                <h4 class="title">Đổi Mật Khẩu </h4>
+                                                                <div class="widget-dash-board">
 
-        .btn-secondary:hover {
-            background: linear-gradient(45deg, #34495e, var(--dark-color));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.4);
-        }
+                                                                    <div class="grid-input-2">
+                                                                        <div class="input-wrap">
+                                                                            <label>Mật Khẩu Mới</label>
+                                                                            <input type="password" name="pass" placeholder="Nhập mật khẩu" 
+                                                                                    pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                                    title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt" 
+                                                                                    minlength="8" maxlength="100" required>
+                                                                        </div>
+                                                                        <div class="input-wrap">
+                                                                            <label>Nhập Lại Mật Khẩu Mới</label>
+                                                                            <input type="password" name="re-pass" placeholder="Nhập lại mật khẩu" 
+                                                                                    pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                                    title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt" 
+                                                                                    minlength="8" maxlength="100" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="mt-20 text-danger" >*Chú ý: Mật khẩu phải từ 8 ký tự trở lên, có số, chữ cái viết thường, hoa và ký tự đặc biệt</p>
+                                                                    <br>
 
-        .alert {
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+                                                                        <div class="otp-dashboard">
 
-        .alert-danger {
-            background: linear-gradient(45deg, #ff5252, #ff1744);
-            color: white;
-        }
+                                                                            <div class="flex-three">
+                                                                                <div class="button-wrap">
+                                                                                    <button type="submit" class="save"><i class="icon-Vector-221"></i>Lưu thay đổi</button>
+                                                                                    <button type="reset" class="reset"><i class="icon-reply-all"></i>Đặt lại
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
 
-        .alert-success {
-            background: linear-gradient(45deg, #4caf50, #00e676);
-            color: white;
-        }
+                                                            </div>
 
-        .password-requirements {
-            font-size: 0.9rem;
-            color: var(--dark-color);
-            margin-top: 5px;
-            padding: 8px;
-            background-color: rgba(236, 240, 241, 0.9);
-            border-radius: 8px;
-        }
 
-        .input-group-text {
-            background-color: rgba(236, 240, 241, 0.9);
-            border: 2px solid var(--light-color);
-            border-left: none;
-            border-radius: 0 10px 10px 0;
-        }
 
-        .nav-icon {
-            font-size: 32px;
-            color: var(--accent-color);
-            margin-right: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
+                                                        </form>
 
-        .password-toggle {
-            color: var(--primary-color);
-            transition: all 0.3s ease;
-        }
+                                                        <script src="app/js/validateRegister.js"></script>
+                                                    </section>
 
-        .password-toggle:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
+                                                </main>
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
 
-        .change-password-container {
-            animation: fadeIn 0.5s ease-out;
-        }
+                                                <!-- Bottom -->
+                                                </div>
 
-        /* Thêm hiệu ứng cho container */
-        .change-password-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            border-radius: 22px;
-            z-index: -1;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
+                                                </div>
+                                                <!-- /#page -->
+                                                </div>
 
-        .change-password-container:hover::before {
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="change-password-container">
-            <div class="text-center mb-4">
-                <i class="fas fa-futbol nav-icon"></i>
-                <h2 class="page-title">Thay đổi mật khẩu</h2>
-            </div>
-            
-            <%
-            // Kiểm tra người dùng đã đăng nhập
-            //String username = (String) session.getAttribute("username");
-            //if(username == null) {
-            //    response.sendRedirect("login.jsp");
-            //    return;
-            //}
-            %>
-            
-            <% if(request.getAttribute("error") != null) { %>
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <%= request.getAttribute("error") %>
-                </div>
-            <% } %>
-            <% if(request.getAttribute("success") != null) { %>
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle me-2"></i>
-                    <%= request.getAttribute("success") %>
-                </div>
-            <% } %>
-            
-            <form method="post" action="changePassword" class="needs-validation" novalidate>
-                <div class="mb-4">
-                    <label for="currentPassword" class="form-label">
-                        <i class="fas fa-lock me-2"></i>Mật khẩu hiện tại
-                    </label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
-                        <span class="input-group-text">
-                            <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('currentPassword')"></i>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="newPassword" class="form-label">
-                        <i class="fas fa-key me-2"></i>Mật khẩu mới
-                    </label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="newPassword" name="newPassword" required 
-                               pattern=".{6,}" title="Mật khẩu phải có ít nhất 6 ký tự">
-                        <span class="input-group-text">
-                            <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('newPassword')"></i>
-                        </span>
-                    </div>
-                    <div class="password-requirements">
-                        <i class="fas fa-info-circle me-1"></i>Mật khẩu phải có ít nhất 6 ký tự
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="confirmPassword" class="form-label">
-                        <i class="fas fa-check-double me-2"></i>Xác nhận mật khẩu mới
-                    </label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                        <span class="input-group-text">
-                            <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('confirmPassword')"></i>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i>Thay đổi mật khẩu
-                    </button>
-                    <a href="http://localhost:8081/FB_N1/UI/home.jsp" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-2"></i>Quay lại
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
+                                                <!-- Modal Popup Bid -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Form validation
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
+                                                <a id="scroll-top" class="button-go"></a>
+                                                <!-- Modal search-->
 
-        // Kiểm tra mật khẩu xác nhận
-        document.getElementById('confirmPassword').addEventListener('input', function() {
-            if(this.value !== document.getElementById('newPassword').value) {
-                this.setCustomValidity('Mật khẩu xác nhận không khớp');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
 
-        // Toggle password visibility
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = input.nextElementSibling.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            }
-        }
 
-        // Add hover effect to password toggle icons
-        document.querySelectorAll('.password-toggle').forEach(icon => {
-            icon.style.cursor = 'pointer';
-            icon.addEventListener('mouseover', function() {
-                this.style.color = '#ff9800';
-            });
-            icon.addEventListener('mouseout', function() {
-                this.style.color = '#00bcd4';
-            });
-        });
-    </script>
-</body>
-</html> 
+                                                <!-- Javascript -->
+                                                <script src="app/js/jquery.min.js"></script>
+                                                <script src="app/js/jquery.nice-select.min.js"></script>
+                                                <script src="app/js/bootstrap.min.js"></script>
+                                                <script src="app/js/swiper-bundle.min.js"></script>
+                                                <script src="app/js/swiper.js"></script>
+                                                <script src="app/js/plugin.js"></script>
+                                                <script src="app/js/shortcodes.js"></script>
+                                                <script src="app/js/main.js"></script>
+                                                <script>
+                                                    function previewAvatar(event) {
+                                                        const input = event.target;
+                                                        const preview = document.getElementById('avatar-preview');
+
+                                                        if (input.files && input.files[0]) {
+                                                            const reader = new FileReader();
+
+                                                            reader.onload = function (e) {
+                                                                preview.src = e.target.result;
+                                                            };
+
+                                                            reader.readAsDataURL(input.files[0]);
+                                                        }
+                                                    }
+                                                </script>
+
+                                            </body>
+
+                                            </html>

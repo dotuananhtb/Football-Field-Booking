@@ -22,7 +22,7 @@ public class EventDAO extends DBContext {
 
     public List<Event> getAllEvent() {
         List<Event> listE = new ArrayList<>();
-        String sql = "SELECT e.*,t.title_id,t.title1,t.title2,t.title3,t.title4 \n"
+        String sql = "SELECT e.*,t.title_id,t.title1 \n"
                 + "  FROM [FootballFieldBooking].[dbo].[Event_content] e join title_content t on e.title_id = t.title_id";
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -38,9 +38,6 @@ public class EventDAO extends DBContext {
                 Title title = new Title();
                 title.setTitleID(rs.getInt("title_id"));
                 title.setTitle1(rs.getString("title1"));
-                title.setTitle2(rs.getString("title2"));
-                title.setTitle3(rs.getString("title3"));
-                title.setTitle4(rs.getString("title4"));
 
                 // Gán title vào Event
                 event.setTitle(title);
@@ -55,7 +52,7 @@ public class EventDAO extends DBContext {
 
     public Event getFirstEvent() {
         Event event = null;
-        String sql = "SELECT TOP 1 e.*, t.title1, t.title2, t.title3, t.title4 "
+        String sql = "SELECT TOP 1 e.*, t.title1"
                 + "FROM Event_content e "
                 + "JOIN title_content t ON e.title_id = t.title_id "
                 + "ORDER BY e.event_id ASC";  // hoặc DESC tùy bạn muốn cái đầu tiên theo chiều nào
@@ -75,9 +72,6 @@ public class EventDAO extends DBContext {
                 Title title = new Title();
                 title.setTitleID(rs.getInt("title_id"));
                 title.setTitle1(rs.getString("title1"));
-                title.setTitle2(rs.getString("title2"));
-                title.setTitle3(rs.getString("title3"));
-                title.setTitle4(rs.getString("title4"));
 
                 event.setTitle(title);
             }
@@ -115,7 +109,10 @@ public class EventDAO extends DBContext {
     public boolean addEvent(Event eve) {
         boolean success = false;
 
-        String sqlInsertTitle = "INSERT INTO [dbo].[title_content] (title1, title2, title3, title4) VALUES (?, ?, ?, ?)";
+        String sqlInsertTitle = "INSERT INTO [dbo].[title_content]\n"
+                + "           ([title1])\n"
+                + "     VALUES\n"
+                + "           (?)";
         String sqlInsertEvent = "INSERT INTO [dbo].[Event_content] "
                 + "(image1_video, image2, content_1_big, content_2_big, content_2_small, title_id) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -128,9 +125,6 @@ public class EventDAO extends DBContext {
             try (PreparedStatement psTitle = connection.prepareStatement(sqlInsertTitle, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 Title title = eve.getTitle();
                 psTitle.setString(1, title.getTitle1());
-                psTitle.setString(2, title.getTitle2());
-                psTitle.setString(3, title.getTitle3());
-                psTitle.setString(4, title.getTitle4());
 
                 int rows = psTitle.executeUpdate();
                 if (rows == 0) {
@@ -185,7 +179,9 @@ public class EventDAO extends DBContext {
 
    public boolean updateEventAndTitle(Event event) {
     String updateEventSQL = "UPDATE Event_content SET image1_video = ?, image2 = ?, content_1_big = ?, content_2_big = ?, content_2_small = ? WHERE event_id = ?";
-    String updateTitleSQL = "UPDATE title_content SET title1 = ?, title2 = ?, title3 = ?, title4 = ? WHERE title_id = ?";
+    String updateTitleSQL = "UPDATE [dbo].[title_content]\n"
+                + "   SET [title1] = ?\n"
+                + " WHERE title_id = ?";
 
     try (
          PreparedStatement psEvent = connection.prepareStatement(updateEventSQL);
@@ -203,10 +199,7 @@ public class EventDAO extends DBContext {
         // Cập nhật bảng title_content
         Title title = event.getTitle();
         psTitle.setString(1, title.getTitle1());
-        psTitle.setString(2, title.getTitle2());
-        psTitle.setString(3, title.getTitle3());
-        psTitle.setString(4, title.getTitle4());
-        psTitle.setInt(5, title.getTitleID());
+        psTitle.setInt(2, title.getTitleID());
         int updatedTitle = psTitle.executeUpdate();
 
         return updatedEvent > 0 && updatedTitle > 0;
@@ -240,7 +233,7 @@ public class EventDAO extends DBContext {
     public static void main(String[] args) {
         EventDAO eve = new EventDAO();
 
-        Title title = new Title("ABC", "XYZ", "BCD", "TYZ");
+        Title title = new Title("ABC");
         Event listE = new Event("abc.png", "xyz.jpg", "ABC ", "XYZ", "MKL", title);
 
         boolean a = eve.addEvent(listE);
