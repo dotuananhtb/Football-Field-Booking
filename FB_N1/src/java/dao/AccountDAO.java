@@ -20,6 +20,8 @@ import util.AccountCredentialsGenerator;
 import util.DBContext;
 import util.PasswordUtil;
 
+import java.util.HashMap;
+
 public class AccountDAO extends DBContext {
 
     public List<Account> getAccountByRoleId(int roleId) {
@@ -748,37 +750,86 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    public List<Account> getRecentRegisteredUsers(int limit) {
-        List<Account> list = new ArrayList<>();
-        String sql = "SELECT TOP (?) a.account_id, a.username, a.status_id, a.password, a.email, a.created_at, u.address, u.avatar, u.dob, u.first_name, u.gender, u.last_name, u.phone, u.role_id " +
-                "FROM Account a JOIN UserProfile u ON a.account_id = u.account_id " +
-                "ORDER BY TRY_CAST(a.created_at AS DATETIME) DESC";
-        try (PreparedStatement ptm = connection.prepareStatement(sql)) {
-            ptm.setInt(1, limit);
-            ResultSet rs = ptm.executeQuery();
+    // Lấy danh sách người dùng kèm số lượt đặt, tổng chi tiêu, ngày đăng ký, trạng thái tài khoản
+    public List<Map<String, Object>> getUserReportList() throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql =
+            "SELECT a.account_id, " +
+            "ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS full_name, " +
+            "a.email, up.phone, a.created_at, sa.status_name, " +
+            "COUNT(b.booking_id) AS booking_count, ISNULL(SUM(b.total_amount), 0) AS total_spent " +
+            "FROM Account a " +
+            "LEFT JOIN UserProfile up ON a.account_id = up.account_id " +
+            "LEFT JOIN StatusAccount sa ON a.status_id = sa.status_id " +
+            "LEFT JOIN Booking b ON a.account_id = b.account_id " +
+            "GROUP BY a.account_id, up.first_name, up.last_name, a.email, up.phone, a.created_at, sa.status_name " +
+            "ORDER BY a.account_id DESC";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                UserProfile u = new UserProfile(
-                        rs.getInt("account_id"),
-                        rs.getInt("role_id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("address"),
-                        rs.getString("gender"),
-                        rs.getString("dob"),
-                        rs.getString("phone"),
-                        rs.getString("avatar")
-                );
-                Account a = new Account(rs.getInt("account_id"), rs.getInt("status_id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("email"),
-                        rs.getString("created_at"), u);
-                list.add(a);
+                Map<String, Object> map = new HashMap<>();
+                map.put("account_id", rs.getInt("account_id"));
+                map.put("full_name", rs.getString("full_name"));
+                map.put("email", rs.getString("email"));
+                map.put("phone", rs.getString("phone"));
+                map.put("created_at", rs.getString("created_at"));
+                map.put("status_name", rs.getString("status_name"));
+                map.put("booking_count", rs.getInt("booking_count"));
+                map.put("total_spent", rs.getBigDecimal("total_spent"));
+                list.add(map);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return list;
+    }
+
+    // Lấy danh sách người dùng kèm số lượt đặt, tổng chi tiêu, ngày đăng ký, trạng thái tài khoản (có phân trang)
+    public List<Map<String, Object>> getUserReportListPaging(int page, int pageSize) throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql =
+            "SELECT a.account_id, " +
+            "ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS full_name, " +
+            "a.email, up.phone, a.created_at, sa.status_name, " +
+            "COUNT(b.booking_id) AS booking_count, ISNULL(SUM(b.total_amount), 0) AS total_spent " +
+            "FROM Account a " +
+            "LEFT JOIN UserProfile up ON a.account_id = up.account_id " +
+            "LEFT JOIN StatusAccount sa ON a.status_id = sa.status_id " +
+            "LEFT JOIN Booking b ON a.account_id = b.account_id " +
+            "GROUP BY a.account_id, up.first_name, up.last_name, a.email, up.phone, a.created_at, sa.status_name " +
+            "ORDER BY a.account_id DESC " +
+            "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, (page - 1) * pageSize);
+            ps.setInt(2, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("account_id", rs.getInt("account_id"));
+                map.put("full_name", rs.getString("full_name"));
+                map.put("email", rs.getString("email"));
+                map.put("phone", rs.getString("phone"));
+                map.put("created_at", rs.getString("created_at"));
+                map.put("status_name", rs.getString("status_name"));
+                map.put("booking_count", rs.getInt("booking_count"));
+                map.put("total_spent", rs.getBigDecimal("total_spent"));
+                list.add(map);
+            }
+        }
+        return list;
+    }
+
+    // Đếm tổng số user cho báo cáo người dùng (phục vụ phân trang)
+    public int countUserReportList() throws SQLException {
+        String sql = "SELECT COUNT(*) as total FROM Account";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
     }
 
     public static void main(String[] args) {
