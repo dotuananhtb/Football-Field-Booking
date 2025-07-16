@@ -478,7 +478,7 @@
                                                                                                                                                                 </c:if>
                                                                                                                                                                 <div class="row wow fadeInUp">
                                                                                                                                                                     <div class="col-lg-12 center mt-44">
-                                                                                                                                                                        <a href="/FB_N1/DanhSachSan" class="btn-main">
+                                                                                                                                                                        <a href="/FB_N1/Shop" class="btn-main">
                                                                                                                                                                             <p class="btn-main-text">Xem tất cả</p>
                                                                                                                                                                             <p class="iconer">
                                                                                                                                                                                 <i class="icon-13"></i>
@@ -815,11 +815,11 @@
                                                                                                                                                                     </div>
                                                                                                                                                                 </div>
                                                                                                                                                                 <div class="row">
-                                                                                                                                                                    <c:forEach items="${listPost}" var="post">
+                                                                                                                                                                    <c:forEach items="${listB1}" var="post">
                                                                                                                                                                         <div class="col-md-4 wow fadeInUp animated " data-wow-delay="0.1s">
                                                                                                                                                                             <div class="tf-widget-blog blog-style">
                                                                                                                                                                                 <a href="blog-details.html" class="blog-image">
-                                                                                                                                                                                    <img src="./assets/images/blog/bl1.jpg" alt="">
+                                                                                                                                                                                    <img src="${post.thumbnailUrl}" alt="">
 
                                                                                                                                                                                 </a>
                                                                                                                                                                                 <div class="blog-content">
@@ -828,7 +828,7 @@
 
                                                                                                                                                                                     </ul>
                                                                                                                                                                                     <h3 class="entry-title"><a href="/FB_N1/blogdetails">${post.title}</a></h3>
-                                                                                                                                                                                    <p class="des">${post.contentPost}
+                                                                                                                                                                                    <p class="des">${post.summary}
                                                                                                                                                                                     </p>
                                                                                                                                                                                     <a href="/FB_N1/blogdetails" class="btn-read-more">Đọc thêm <i
                                                                                                                                                                                             class="icon-Vector-4"></i></a>

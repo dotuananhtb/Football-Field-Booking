@@ -69,6 +69,7 @@ public class HomeControl extends HttpServlet {
         String pageStr = request.getParameter("page");
 
         // khoi tao DAO
+        blogDAO blogDao = new blogDAO();
         AccountDAO aDao = new AccountDAO();
         BookingDAO bDao = new BookingDAO();
         SliderDAO sDao = new SliderDAO();
@@ -77,7 +78,7 @@ public class HomeControl extends HttpServlet {
         Zone_DAO zDao = new Zone_DAO();
         EventDAO eDao = new EventDAO();
         TypeOfFieldDAO tDao = new TypeOfFieldDAO();
-        PostDAO postDao = new PostDAO();
+        
         CateProduct_DAO cDao = new CateProduct_DAO();
         ProductDAO pDao = new ProductDAO();
         SelectDAO selectDao = new SelectDAO();
@@ -88,12 +89,13 @@ public class HomeControl extends HttpServlet {
         Sale currentObjectSale = saleDao.getSaleBySaleId(currentSale);
         System.out.println(currentObjectSale);
         // lay du lieu tu dao
+        List<Blog> listB1 = blogDao.getLatest3Blogs();
         List<Slider> listS = sDao.getAllSlider();
         List<Zone> listZ = zDao.getAllZone();
         
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = (Vector<CateProduct>) cDao.getAllCategory2();
-        Vector<Post> listPost = postDao.get3LastestPost();
+        
         List<Field> listF2 = fDao.get2Field();
 
         Event event = eDao.getAllEventByEventId(eventId);
@@ -142,9 +144,10 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("currentSale", currentObjectSale);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPage", totalPage);
-        request.setAttribute("listPost", listPost);
+        
 
         // end paging product 
+        request.setAttribute("listB1", listB1);
         request.setAttribute("listT", listT);
         request.setAttribute("event", event);
         request.setAttribute("listP", listP);

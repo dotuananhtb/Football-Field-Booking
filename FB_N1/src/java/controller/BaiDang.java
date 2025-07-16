@@ -79,7 +79,11 @@ public class BaiDang extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        processRequest(request, response);
+        String title = request.getParameter("title");
+        String tag = request.getParameter("tag");
+        
+        
+        
 
     }
 
