@@ -945,5 +945,19 @@ public class PostDAO extends DBContext {
         return list;
     }
 
+    public int countAllPostsOfUserRole3() {
+        String query = "SELECT COUNT(*) FROM Post p JOIN Account a ON p.account_id = a.account_id JOIN UserProfile up ON a.account_id = up.account_id WHERE p.status_post = 'active' AND up.role_id = 3";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     
 }

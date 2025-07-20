@@ -277,6 +277,16 @@ public class blogDAO extends DBContext {
     return tagsSet;
 }
 
-    
+    public int countAllBlogs() {
+        String sql = "SELECT COUNT(*) FROM Blog";
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

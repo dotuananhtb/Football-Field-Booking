@@ -131,38 +131,38 @@
                                                         </div>
                                                         
                                                         <!-- Pagination -->
-                                                        <div class="row mt-40">
-                                                            <div class="col-md-12">
-                                                                <nav aria-label="Post pagination">
-                                                                    <ul class="pagination justify-content-center" style="gap: 5px;">
-                                                                        <c:if test="${currentPage > 1}">
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
-                                                                                    <i class="icon-29"></i> Trước
-                                                                                </a>
-                                                                            </li>
-                                                                        </c:if>
-                                                                        
-                                                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                                                <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}&search=${search != null ? search : ''}" 
-                                                                                   style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
-                                                                                    ${i}
-                                                                                </a>
-                                                                            </li>
-                                                                        </c:forEach>
-                                                                        
-                                                                        <c:if test="${currentPage < totalPages}">
-                                                                            <li class="page-item">
-                                                                                <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
-                                                                                    Sau <i class="icon--1"></i>
-                                                                                </a>
-                                                                            </li>
-                                                                        </c:if>
-                                                                    </ul>
-                                                                </nav>
+                                                            <div class="row mt-40">
+                                                                <div class="col-md-12">
+                                                                    <nav aria-label="Post pagination">
+                                                                        <ul class="pagination justify-content-center" style="gap: 5px;">
+                                                                            <c:if test="${currentPage > 1}">
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                        <i class="icon-29"></i> Trước
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                            
+                                                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}&search=${search != null ? search : ''}" 
+                                                                                       style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
+                                                                                        ${i}
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:forEach>
+                                                                            
+                                                                            <c:if test="${currentPage < totalPages}">
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                        Sau <i class="icon--1"></i>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                        </ul>
+                                                                    </nav>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                     </section>
                                                 </main>
 
