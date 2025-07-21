@@ -284,7 +284,7 @@ function renderPayStatus(data) {
     const map = {
         [-2]: '<span class="badge bg-danger">Đã huỷ bởi admin</span>',
         [-1]: '<span class="badge bg-danger">Đã huỷ do quá hạn</span>',
-        [0]: '<span class="badge bg-warning text-dark">Chờ thanh toán online</span>',
+        [0]: '<span class="badge bg-warning text-dark">Chờ thanhtoán online</span>',
         [1]: '<span class="badge bg-success">Đã thanh toán</span>',
         [2]: '<span class="badge bg-secondary">Thanh toán sau</span>'
     };
