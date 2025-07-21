@@ -70,13 +70,13 @@ public class SlotEventDTODAO extends DBContext {
                     color = "#28a745";
                 } else if (detail.getStatusCheckingId() == 2) {
                     status = "Pending";
-                    color = "#ffc107";
+                    color = "#6c757d";
                 } else if (detail.getStatusCheckingId() == 4) {
                     status = "Wait";
-                    color = "#9900FF";
+                    color = "#6c757d";
                 } else {
                     status = "Booked";
-                    color = "#dc3545";
+                    color = "#6c757d";
                 }
 
                 String title = fieldName + " ca " + startTime + " - " + endTime;
