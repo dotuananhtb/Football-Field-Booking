@@ -61,7 +61,7 @@ public class UserManagementServlet extends HttpServlet {
         if(a){
             ToastUtil.setSuccessToast(request, "Đổi trạng thái thành công!");
         }
-          doGet(request, response); 
+          response.sendRedirect(request.getContextPath() + "/admin/quan-li-tai-khoan");
     }
     
     
