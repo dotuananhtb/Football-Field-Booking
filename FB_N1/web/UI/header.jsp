@@ -61,7 +61,7 @@
                                             <li class="dropdown2 "><a href="/FB_N1/blog">Diễn Đàn</a>
                                                 <ul>
                                                     <li><a href="/FB_N1/blog">Diễn Đàn Tìm Đối Thủ</a></li>
-                                                    <li><a href="/FB_N1/tin-tuc">Diễn Đàn Tin Tức</a></li>
+                                                    <li><a href="/FB_N1/bai-dang">Diễn Đàn Tin Tức</a></li>
                                                 </ul>
                                                 <div class="dropdown2-btn"></div></li>
 
@@ -100,10 +100,10 @@
 
                                                     <ul>
                                                         <li><a href="/FB_N1/userProfile"><i class="icon-user"></i> Trang cá nhân</a></li>
-                                                        <li><a href="/FB_N1/managerPostUser"><i class="icon-user"></i> Bài Viết</a></li>
-
+                                                        <c:if test="${sessionScope.account.userProfile.roleId == 3}">
+                                                            <li><a href="/FB_N1/managerPostUser"><i class="icon-Group-81"></i> Bài Viết</a></li>
+                                                        </c:if>
                                                         <li><a href="/FB_N1/lich-su-dat-san"><i class="icon-day"></i> Lịch sử đặt sân của tôi</a></li>
-
                                                         <li>
                                                             <a href="${pageContext.request.contextPath}/logout" class="me-3">
                                                                 <i class="icon-turn-off-1"></i> Đăng Xuất

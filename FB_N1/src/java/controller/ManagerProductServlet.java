@@ -5,16 +5,19 @@ import dao.ImageStorageDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.*;
 import model.CateProduct;
 import model.ImageStorage;
 import model.Product;
+import model.ProductDetails;
 import util.ToastUtil;
 
 /**
@@ -43,10 +46,7 @@ public class ManagerProductServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Account account = (session != null) ? (Account) session.getAttribute("account") : null;
 
-        if (!isAdmin(account)) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
+       
 
         ProductDAO productDAO = new ProductDAO();
         CateProduct_DAO cateDAO = new CateProduct_DAO();
@@ -57,10 +57,15 @@ public class ManagerProductServlet extends HttpServlet {
         List<CateProduct> categories = cateDAO.getAllCategory();
         request.setAttribute("categories", categories);
 
+        dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+
         if ("search".equals(action) && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
             // Tìm kiếm product
             List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
-            
+            for (Product p : products) {
+                List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                p.setProductDetailsList(details);
+            }
             request.setAttribute("products", products);
             request.setAttribute("searchKeyword", searchKeyword);
         } else if ("filter".equals(action)) {
@@ -87,11 +92,17 @@ public class ManagerProductServlet extends HttpServlet {
                     1000, // pageSize (hiện tất cả)
                     "new" // sortBy
                 );
-                
+                for (Product p : products) {
+                    List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    p.setProductDetailsList(details);
+                }
                 request.setAttribute("selectedCategory", categoryId);
             } else {
                 products = productDAO.getAllProducts();
-                
+                for (Product p : products) {
+                    List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    p.setProductDetailsList(details);
+                }
             }
             request.setAttribute("products", products);
             request.setAttribute("minPrice", minPriceStr);
@@ -99,7 +110,10 @@ public class ManagerProductServlet extends HttpServlet {
         } else {
             // Hiển thị tất cả product
             List<Product> products = productDAO.getAllProducts();
-            
+            for (Product p : products) {
+                List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                p.setProductDetailsList(details);
+            }
             request.setAttribute("products", products);
         }
 
@@ -132,7 +146,35 @@ public class ManagerProductServlet extends HttpServlet {
                 product.setProductDescription(request.getParameter("productDescription"));
                 product.setProductStatus("active");
 
-                if (productDAO.addProduct(product)) {
+                boolean addSuccess = productDAO.addProduct(product);
+                int productId = productDAO.getLastInsertedProductId();
+
+                // Lấy các biến thể từ request
+                String[] colors = request.getParameterValues("color[]");
+                String[] sizes = request.getParameterValues("size[]");
+                String[] materials = request.getParameterValues("material[]");
+                String[] weights = request.getParameterValues("weight[]");
+                String[] origins = request.getParameterValues("origin[]");
+                String[] warranties = request.getParameterValues("warranty[]");
+                String[] moreInfos = request.getParameterValues("moreInfo[]");
+
+                dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                if (colors != null) {
+                    for (int i = 0; i < colors.length; i++) {
+                        ProductDetails pd = new ProductDetails();
+                        pd.setProductId(productId);
+                        pd.setColor(colors[i]);
+                        pd.setSize(sizes != null ? sizes[i] : null);
+                        pd.setMaterial(materials != null ? materials[i] : null);
+                        pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                        pd.setOrigin(origins != null ? origins[i] : null);
+                        pd.setWarranty(warranties != null ? warranties[i] : null);
+                        pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                        detailsDAO.insertProductDetails(pd);
+                    }
+                }
+
+                if (addSuccess) {
                     ToastUtil.setSuccessToast(request, "Thêm sản phẩm thành công!");
                 } else {
                     ToastUtil.setErrorToast(request, "Thêm sản phẩm thất bại!");
@@ -182,6 +224,54 @@ public class ManagerProductServlet extends HttpServlet {
                     product.setProductStatus(request.getParameter("productStatus"));
 
                     if (productDAO.updateProduct1(product)) {
+                        // Xử lý biến thể
+                        String[] detailsIds = request.getParameterValues("productDetailsId[]");
+                        String[] colors = request.getParameterValues("color[]");
+                        String[] sizes = request.getParameterValues("size[]");
+                        String[] materials = request.getParameterValues("material[]");
+                        String[] weights = request.getParameterValues("weight[]");
+                        String[] origins = request.getParameterValues("origin[]");
+                        String[] warranties = request.getParameterValues("warranty[]");
+                        String[] moreInfos = request.getParameterValues("moreInfo[]");
+                        dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                        List<ProductDetails> oldDetails = detailsDAO.getDetailsByProductId(productId);
+                        Set<Integer> oldIds = new HashSet<>();
+                        for (ProductDetails d : oldDetails) oldIds.add(d.getProductDetailsId());
+                        Set<Integer> newIds = new HashSet<>();
+                        for (int i = 0; i < colors.length; i++) {
+                            String idStr = detailsIds[i];
+                            if (idStr != null && !idStr.isEmpty()) {
+                                int detailId = Integer.parseInt(idStr);
+                                newIds.add(detailId);
+                                ProductDetails pd = new ProductDetails();
+                                pd.setProductDetailsId(detailId);
+                                pd.setProductId(productId);
+                                pd.setColor(colors[i]);
+                                pd.setSize(sizes != null ? sizes[i] : null);
+                                pd.setMaterial(materials != null ? materials[i] : null);
+                                pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                                pd.setOrigin(origins != null ? origins[i] : null);
+                                pd.setWarranty(warranties != null ? warranties[i] : null);
+                                pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                                detailsDAO.updateProductDetails(pd);
+                            } else {
+                                ProductDetails pd = new ProductDetails();
+                                pd.setProductId(productId);
+                                pd.setColor(colors[i]);
+                                pd.setSize(sizes != null ? sizes[i] : null);
+                                pd.setMaterial(materials != null ? materials[i] : null);
+                                pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
+                                pd.setOrigin(origins != null ? origins[i] : null);
+                                pd.setWarranty(warranties != null ? warranties[i] : null);
+                                pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
+                                detailsDAO.insertProductDetails(pd);
+                            }
+                        }
+                        for (Integer oldId : oldIds) {
+                            if (!newIds.contains(oldId)) {
+                                detailsDAO.deleteProductDetails(oldId);
+                            }
+                        }
                         ToastUtil.setSuccessToast(request, "Cập nhật sản phẩm thành công!");
                     } else {
                         ToastUtil.setErrorToast(request, "Cập nhật sản phẩm thất bại!");

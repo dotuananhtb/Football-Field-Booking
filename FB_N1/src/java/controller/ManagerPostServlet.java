@@ -20,7 +20,8 @@ public class ManagerPostServlet extends HttpServlet {
             throws ServletException, IOException {
         PostDAO postDAO = new PostDAO();
         CommentDAO commentDAO = new CommentDAO();
-        List<Post> posts = postDAO.getAllPosts();
+        // List<Post> posts = postDAO.getAllPosts();
+        List<Post> posts = postDAO.getAllPostsByUserRole(3);
         Map<Integer, Integer> commentCounts = new HashMap<>();
         for (Post post : posts) {
             int count = commentDAO.countCommentsByPostId(post.getPostId());

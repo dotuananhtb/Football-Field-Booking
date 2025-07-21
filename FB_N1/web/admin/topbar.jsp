@@ -118,7 +118,7 @@
                 </a>
             </li>
 
-            <li class="dropdown notification-list">
+<!--            <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="ri-notification-3-line fs-22"></i>
                     <span class="noti-icon-badge"></span>
@@ -140,7 +140,7 @@
                     <div style="max-height: 300px;" data-simplebar>
 
                         <h5 class="text-muted fs-12 fw-bold p-2 text-uppercase mb-0">Today</h5>
-                        <!-- item-->
+                         item
 
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item unread-noti card m-0 shadow-none">
                             <div class="card-body">
@@ -158,7 +158,7 @@
                             </div>
                         </a>
 
-                        <!-- item-->
+                         item
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -177,7 +177,7 @@
 
                         <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">Yesterday</h5>
 
-                        <!-- item-->
+                         item
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -196,7 +196,7 @@
 
                         <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">31 Jan 2023</h5>
 
-                        <!-- item-->
+                         item
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -213,7 +213,7 @@
                             </div>
                         </a>
 
-                        <!-- item-->
+                         item
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -231,15 +231,15 @@
                         </a>
                     </div>
 
-                    <!-- All-->
+                     All
                     <a href="javascript:void(0);" class="dropdown-item text-center text-primary text-decoration-underline fw-bold notify-item border-top border-light py-2">
                         View All
                     </a>
 
                 </div>
-            </li>
+            </li>-->
 
-            <li class="dropdown d-none d-sm-inline-block">
+<!--            <li class="dropdown d-none d-sm-inline-block">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="ri-apps-2-line fs-22"></i>
                 </a>
@@ -286,11 +286,11 @@
                                     <span>Behance</span>
                                 </a>
                             </div>
-                        </div> <!-- end row-->
+                        </div>  end row
                     </div>
 
                 </div>
-            </li>
+            </li>-->
 
             <li class="d-none d-sm-inline-block">
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">

@@ -1,8 +1,4 @@
-<%-- 
-    Document   : hoSoNguoiDung
-    Created on : 31 thg 5, 2025, 15:21:16
-    Author     : Asus
---%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.time.LocalDate" %>
@@ -135,7 +131,6 @@
                                                         </div>
                                                         
                                                         <!-- Pagination -->
-                                                        <c:if test="${totalPages > 1}">
                                                             <div class="row mt-40">
                                                                 <div class="col-md-12">
                                                                     <nav aria-label="Post pagination">
@@ -168,7 +163,6 @@
                                                                     </nav>
                                                                 </div>
                                                             </div>
-                                                        </c:if>
                                                     </section>
                                                 </main>
 

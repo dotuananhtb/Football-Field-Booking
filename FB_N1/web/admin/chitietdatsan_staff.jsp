@@ -106,7 +106,6 @@
                                                 <th>Trạng thái</th>
                                                 <th>Người đặt</th>
                                                 <th>SĐT</th>
-                                                <th>Email</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Giá</th>
                                                 <th>Ghi chú</th>
@@ -158,11 +157,7 @@
                                                            placeholder="Tìm SĐT"
                                                            style="min-width: 100px; max-width: 140px;">
                                                 </th>
-                                                <th>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           placeholder="Tìm email"
-                                                           style="min-width: 150px; max-width: 220px;">
-                                                </th>
+                                                
                                                 <th>
                                                     <input type="date" class="form-control form-control-sm mb-1"
                                                            id="bookingDateFrom"

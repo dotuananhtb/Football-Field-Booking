@@ -69,27 +69,49 @@ public class HomeControl extends HttpServlet {
         String pageStr = request.getParameter("page");
 
         // khoi tao DAO
+        blogDAO blogDao = new blogDAO();
+        AccountDAO aDao = new AccountDAO();
+        BookingDAO bDao = new BookingDAO();
         SliderDAO sDao = new SliderDAO();
+        SaleDAO saleDao = new SaleDAO();
         FieldDAO fDao = new FieldDAO();
         Zone_DAO zDao = new Zone_DAO();
         EventDAO eDao = new EventDAO();
         TypeOfFieldDAO tDao = new TypeOfFieldDAO();
-        PostDAO postDao = new PostDAO();
+        
         CateProduct_DAO cDao = new CateProduct_DAO();
         ProductDAO pDao = new ProductDAO();
         SelectDAO selectDao = new SelectDAO();
+        SelectSaleDao selectSale = new SelectSaleDao();
         String eventId = selectDao.getSelectedThemeEventId();
-
+        String currentSale = selectSale.getSaleBySaleID();
+        System.out.println(currentSale+"abcxyz");
+        Sale currentObjectSale = saleDao.getSaleBySaleId(currentSale);
+        System.out.println(currentObjectSale);
         // lay du lieu tu dao
+        List<Blog> listB1 = blogDao.getLatest3Blogs();
         List<Slider> listS = sDao.getAllSlider();
         List<Zone> listZ = zDao.getAllZone();
         
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = (Vector<CateProduct>) cDao.getAllCategory2();
-        Vector<Post> listPost = postDao.get3LastestPost();
         
+        List<Field> listF2 = fDao.get2Field();
 
         Event event = eDao.getAllEventByEventId(eventId);
+        
+        // lay so luong 
+        
+        int countA = aDao.countAccount();
+        int countB = bDao.countBooking();
+        int countF = fDao.countField();
+        int countZ = zDao.countZone();
+        
+        request.setAttribute("countA", countA);
+        request.setAttribute("countB", countB);
+        request.setAttribute("countF", countF);
+        request.setAttribute("countZ", countZ);
+        
         
 
         // slider field 
@@ -119,15 +141,18 @@ public class HomeControl extends HttpServlet {
         totalPage = (int) Math.ceil((double) totalProduct / pageSize);
 
         // set thuoc tinh de ban sang jsp
+        request.setAttribute("currentSale", currentObjectSale);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPage", totalPage);
-        request.setAttribute("listPost", listPost);
+        
 
         // end paging product 
+        request.setAttribute("listB1", listB1);
         request.setAttribute("listT", listT);
         request.setAttribute("event", event);
         request.setAttribute("listP", listP);
         request.setAttribute("listC", listC);
+        request.setAttribute("field2", listF2);
         request.setAttribute("field", listF1);
         request.setAttribute("zone", listZ);
         request.setAttribute("listS", listS);

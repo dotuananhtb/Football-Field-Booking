@@ -30,8 +30,7 @@ public class TitleDAO extends DBContext {
             ptm.setString(1, eventID);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
-                return new Title(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5));
+                return new Title(rs.getInt(1), rs.getString(2));
             }
 
         } catch (SQLException ex) {
@@ -45,16 +44,12 @@ public class TitleDAO extends DBContext {
 
         String sql = "SELECT  [title_id]\n"
                 + "      ,[title1]\n"
-                + "      ,[title2]\n"
-                + "      ,[title3]\n"
-                + "      ,[title4]\n"
                 + "  FROM [FootballFieldBooking].[dbo].[title_content]";
         List<Title> list = new ArrayList<>();
 
         try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
             while (rs.next()) {
-                Title t = new Title(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5));
+                Title t = new Title(rs.getInt(1), rs.getString(2));
 
                 list.add(t);
 
@@ -71,17 +66,11 @@ public class TitleDAO extends DBContext {
     public int insertTitle(Title t) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[title_content]\n"
-                + "           ([title1]\n"
-                + "           ,[title2]\n"
-                + "           ,[title3]\n"
-                + "           ,[title4])\n"
+                + "           ([title1])\n"
                 + "     VALUES\n"
-                + "           (?,?,?,?)";
+                + "           (?)";
         try (PreparedStatement ptm = connection.prepareStatement(sql);) {
             ptm.setString(1, t.getTitle1());
-            ptm.setString(2, t.getTitle2());
-            ptm.setString(3, t.getTitle3());
-            ptm.setString(4, t.getTitle4());
 
             n = ptm.executeUpdate();
 
@@ -95,16 +84,10 @@ public class TitleDAO extends DBContext {
     public void updateTitle(Title t) {
         String sql = "UPDATE [dbo].[title_content]\n"
                 + "   SET [title1] = ?\n"
-                + "      ,[title2] = ?\n"
-                + "      ,[title3] = ?\n"
-                + "      ,[title4] = ?\n"
                 + " WHERE title_id = ?";
         try (PreparedStatement ptm = connection.prepareStatement(sql);) {
             ptm.setString(1, t.getTitle1());
-            ptm.setString(2, t.getTitle2());
-            ptm.setString(3, t.getTitle3());
-            ptm.setString(4, t.getTitle4());
-            ptm.setInt(5, t.getTitleID());
+            ptm.setInt(2, t.getTitleID());
 
             ptm.executeUpdate();
 

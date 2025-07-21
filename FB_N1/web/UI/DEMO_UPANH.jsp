@@ -35,7 +35,7 @@
     <h2>Upload nhiều ảnh (ảnh sân, sản phẩm...)</h2>
     <form action="${pageContext.request.contextPath}/upload-cloud-image" method="post" enctype="multipart/form-data" id="formMultiple">
         <input type="file" name="images" accept="image/*" multiple id="multiImageInput" required>
-        <input type="hidden" name="type" value="field">
+        <input type="hidden" name="type" value="field"> <!-- thay value bằng tên thư mục (loại của ảnh sân , bài viết, đều lưu trên thư mục riêng biệt trên clouddinary để dễ quản lí??) -->
         <input type="hidden" name="relatedId" value="1"> <!-- ID sân hoặc bài viết -->
         <div id="multiPreview"></div>
         <button type="submit">Tải lên</button>

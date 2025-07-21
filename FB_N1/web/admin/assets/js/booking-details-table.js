@@ -1,5 +1,5 @@
 /* global bootstrap */
-
+//booking-details-table.js
 let currentSlotFieldId = null;
 let currentSlotDate = null;
 let currentBookingDetailsCode = null;
@@ -13,9 +13,9 @@ $(document).ready(function () {
             dataSrc: ''
         },
         columns: [
-            { data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1 },
-            { data: 'extendedProps.booking_details_code' },
-            { data: 'extendedProps.slot_date' },
+            {data: null, title: 'STT', render: (data, type, row, meta) => meta.row + 1},
+            {data: 'extendedProps.booking_details_code'},
+            {data: 'extendedProps.slot_date'},
             {
                 data: null,
                 render: (data, type, row) => {
@@ -23,8 +23,8 @@ $(document).ready(function () {
                     return (ep.start_time || '-') + ' - ' + (ep.end_time || '-');
                 }
             },
-            { data: 'extendedProps.field_name' },
-            { data: 'extendedProps.field_type_name' },
+            {data: 'extendedProps.field_name'},
+            {data: 'extendedProps.field_type_name'},
             {
                 data: 'extendedProps.status',
                 render: function (data, type, row) {
@@ -59,20 +59,21 @@ $(document).ready(function () {
                         }
                     }
 
-                    const updateBtn = showUpdateBtn
-                        ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
-                                data-slot-field-id="${row.extendedProps.slot_field_id}"
-                                data-slot-date="${row.extendedProps.slot_date}"
-                                data-booking-details-code="${row.extendedProps.booking_details_code}"
-                                data-status="${data}">
-                                <i class="bi bi-pencil-square"></i>
-                           </button>`
-                        : '';
+                    const updateBtn = (showUpdateBtn && data !== 3) // 👈 Chặn nút nếu trạng thái là "Đã huỷ"
+                            ? `<button class="btn btn-sm btn-outline-primary btn-update-status ms-1"
+        data-slot-field-id="${row.extendedProps.slot_field_id}"
+        data-slot-date="${row.extendedProps.slot_date}"
+        data-booking-details-code="${row.extendedProps.booking_details_code}"
+        data-status="${data}">
+        <i class="bi bi-pencil-square"></i>
+    </button>`
+                            : '';
+
 
                     return `${badge} ${updateBtn}`;
                 }
             },
-            { data: 'extendedProps.userInfo.name' },
+            {data: 'extendedProps.userInfo.name'},
             {
                 data: null,
                 render: (data, type, row) => row?.extendedProps?.userInfo?.phone || '-',
@@ -81,11 +82,11 @@ $(document).ready(function () {
                     td.style.fontWeight = phone ? 'bold' : 'normal';
                 }
             },
-            { data: 'extendedProps.userInfo.email' },
-            { data: 'extendedProps.booking_date' },
+
+            {data: 'extendedProps.booking_date'},
             {
                 data: 'extendedProps.price',
-                render: (data) => data != null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-'
+                render: (data) => data !== null ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(data) : '-'
             },
             {
                 data: null,
@@ -127,10 +128,10 @@ $(document).ready(function () {
                 api.draw();
             });
 
-            // Custom search cho khoảng ngày
+            // Custom search theo khoảng ngày
             $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-                const slotDate = data[2];
-                const bookingDate = data[10];
+                const slotDateStr = data[2];       // cột "Ngày đá"
+                const bookingDateStr = data[9];    // cột "Ngày đặt" (đúng với bảng bạn gửi)
 
                 const fromSlot = $('#slotDateFrom').val();
                 const toSlot = $('#slotDateTo').val();
@@ -140,16 +141,30 @@ $(document).ready(function () {
                 let isSlotInRange = true;
                 let isBookingInRange = true;
 
-                if (fromSlot && slotDate < fromSlot) isSlotInRange = false;
-                if (toSlot && slotDate > toSlot) isSlotInRange = false;
+                if (slotDateStr) {
+                    const slotDate = new Date(slotDateStr);
+                    const from = fromSlot ? new Date(fromSlot + 'T00:00:00') : null;
+                    const to = toSlot ? new Date(toSlot + 'T23:59:59') : null;
 
-                if (fromBook && bookingDate < fromBook) isBookingInRange = false;
-                if (toBook && bookingDate > toBook) isBookingInRange = false;
+                    if ((from && slotDate < from) || (to && slotDate > to)) {
+                        isSlotInRange = false;
+                    }
+                }
+
+                if (bookingDateStr) {
+                    const bookingDate = new Date(bookingDateStr);
+                    const from = fromBook ? new Date(fromBook + 'T00:00:00') : null;
+                    const to = toBook ? new Date(toBook + 'T23:59:59') : null;
+
+                    if ((from && bookingDate < from) || (to && bookingDate > to)) {
+                        isBookingInRange = false;
+                    }
+                }
 
                 return isSlotInRange && isBookingInRange;
             });
 
-            // Đặt lại filter
+            // Đặt lại bộ lọc
             $('#reset-filters').on('click', function () {
                 $('#filter-row input').val('');
                 $('#filter-row input[type="date"]').val('');
@@ -157,6 +172,7 @@ $(document).ready(function () {
                 api.draw();
             });
         }
+
     });
 
     // Xử lý cập nhật trạng thái
@@ -167,17 +183,20 @@ $(document).ready(function () {
         const currentStatus = parseInt($(this).data('status'));
 
         const infoText = currentBookingDetailsCode
-            ? `Cập nhật ca: ${currentBookingDetailsCode}`
-            : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
+                ? `Cập nhật ca: ${currentBookingDetailsCode}`
+                : `Cập nhật ca: ${currentSlotFieldId} - ${currentSlotDate}`;
         $('#modal-slot-info').text(infoText);
 
         $('#btn-status-1').show();
         $('#btn-status-2').show();
         $('#btn-status-3').show();
 
-        if (currentStatus === 1) $('#btn-status-1').hide();
-        else if (currentStatus === 2) $('#btn-status-2').hide();
-        else if (currentStatus === 3) $('#btn-status-3').hide();
+        if (currentStatus === 1)
+            $('#btn-status-1').hide();
+        else if (currentStatus === 2)
+            $('#btn-status-2').hide();
+        else if (currentStatus === 3)
+            $('#btn-status-3').hide();
 
         const modal = new bootstrap.Modal(document.getElementById('updateStatusModal'));
         modal.show();
@@ -195,7 +214,7 @@ $(document).ready(function () {
 });
 
 function updateSlotStatus(statusId) {
-    const payload = { status: statusId };
+    const payload = {status: statusId};
 
     if (currentBookingDetailsCode) {
         payload.bookingDetailsCode = currentBookingDetailsCode;

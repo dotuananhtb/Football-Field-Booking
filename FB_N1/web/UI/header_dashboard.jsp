@@ -7,6 +7,7 @@
 <%@page import="model.UserProfile"%>
 <%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,31 +62,33 @@
                                 <span>Lịch sử đặt sân</span>
                             </a>
                         </li>
-                        <li>
+<!--                        <li>
                             <a href="dashboard.html">
                                 <i class="icon-Vector-9"></i>
                                 <span>Dashboard</span>
                             </a>
-                        </li>
+                        </li>-->
 
-                        <li>
-                            <a href="/FB_N1/managerPostUser">
-                                <i class="icon-Group-81"></i>
-                                <span>Bài viết</span>
-                            </a>
-                        </li>
-                        <li>
+                        <c:if test="${account.userProfile.roleId==3}">
+                            <li>
+                                <a href="/FB_N1/managerPostUser">
+                                    <i class="icon-Group-81"></i>
+                                    <span>Bài viết</span>
+                                </a>
+                            </li>
+                        </c:if>
+<!--                        <li>
                             <a href="add-tour.html">
                                 <i class="icon-Group-91"></i>
                                 <span>Add Tour</span>
                             </a>
-                        </li>
-                        <li>
+                        </li>-->
+<!--                        <li>
                             <a href="my-favorite.html">
                                 <i class="icon-Vector-10"></i>
                                 <span>My Favorites</span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <li>
                             <a href="/FB_N1/logout">
@@ -126,7 +129,7 @@
                                                          id="navbarSupportedContent">
                                                         <ul class="navigation clearfix">
                                                             <li><a href="/FB_N1/home">Trang chủ</a></li>
-                                                            <li class="dropdown2">
+<!--                                                            <li class="dropdown2">
                                                                 <a href="#">Tour</a>
                                                                 <ul>
                                                                     <li><a href="archieve-tour.html">Archieve tour</a>
@@ -144,7 +147,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </li>
-                                                            <li><a href="contact-us.html">Contact</a></li>
+                                                            <li><a href="contact-us.html">Contact</a></li>-->
                                                         </ul>
                                                     </div>
                                                 </nav>
@@ -152,7 +155,7 @@
                                             </div>
                                             <div class="header-account flex align-center">                                              
 
-                                                <div class="dropdown notification">
+<!--                                                <div class="dropdown notification">
                                                     <a class="icon-notification" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="icon-notification-1"></i>
                                                     </a>
@@ -192,15 +195,14 @@
                                                         </li>
 
                                                     </ul>
-                                                </div> 
+                                                </div> -->
                                                 <div class="dropdown account">
                                                     <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <img src="${sessionScope.userProfile.avatar}" alt="image">
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li><a  href="/FB_N1/userProfile">Hồ sơ</a></li>
-                                                        <li><a  href="/FB_N1/logout">Setting</a></li>
-                                                        <li><a  href="/FB_N1/logout">Đổi mật khẩu</a></li>
+                                                        <li><a  href="/FB_N1/changePassword">Đổi mật khẩu</a></li>
                                                         <li><a  href="/FB_N1/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </div>                                                                                         
