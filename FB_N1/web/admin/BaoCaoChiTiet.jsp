@@ -10,6 +10,13 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- DataTables css -->
+    <link href="assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="wrapper">
@@ -25,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Báo cáo chi tiết đơn đặt sân -->
+                    <!-- 📋 1. Báo cáo chi tiết đơn đặt sân -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <div class="card">
@@ -56,7 +63,7 @@
                                         <input type="text" id="detailUser" name="detailUser" value="${param.detailUser}" placeholder="Tên hoặc mã đơn">
                                         <button type="submit">Lọc</button>
                                     </form>
-                                    <table class="table table-bordered table-striped">
+                                    <table id="booking-details-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -71,7 +78,7 @@
                                         <tbody>
                                             <c:forEach var="item" items="${bookingDetails}" varStatus="loop">
                                                 <tr>
-                                                    <td>${(page-1)*pageSize + loop.index + 1}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${item.customer_name}</td>
                                                     <td>${item.field_name}</td>
                                                     <td>${item.slot_date} ${item.start_time} - ${item.end_time}</td>
@@ -89,41 +96,6 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <!-- Phân trang -->
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <c:if test="${page > 1}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=${page-1}&pageSize=${pageSize}
-                                                        &detailFromDate=${param.detailFromDate}
-                                                        &detailToDate=${param.detailToDate}
-                                                        &detailFieldId=${param.detailFieldId}
-                                                        &detailStatus=${param.detailStatus}
-                                                        &detailUser=${param.detailUser}">Previous</a>
-                                                </li>
-                                            </c:if>
-                                            <c:forEach var="i" begin="1" end="${totalPages}">
-                                                <li class="page-item <c:if test='${i == page}'>active</c:if>'">
-                                                    <a class="page-link" href="?page=${i}&pageSize=${pageSize}
-                                                        &detailFromDate=${param.detailFromDate}
-                                                        &detailToDate=${param.detailToDate}
-                                                        &detailFieldId=${param.detailFieldId}
-                                                        &detailStatus=${param.detailStatus}
-                                                        &detailUser=${param.detailUser}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <c:if test="${page < totalPages}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=${page+1}&pageSize=${pageSize}
-                                                        &detailFromDate=${param.detailFromDate}
-                                                        &detailToDate=${param.detailToDate}
-                                                        &detailFieldId=${param.detailFieldId}
-                                                        &detailStatus=${param.detailStatus}
-                                                        &detailUser=${param.detailUser}">Next</a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +108,7 @@
                                     <h4 class="header-title">👤 2. Báo cáo thông tin người dùng</h4>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-striped">
+                                    <table id="user-report-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -151,7 +123,7 @@
                                         <tbody>
                                             <c:forEach var="u" items="${userReportList}" varStatus="loop">
                                                 <tr>
-                                                    <td>${(userPage-1)*userPageSize + loop.index + 1}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${u.full_name}</td>
                                                     <td>${u.email}<br/>${u.phone}</td>
                                                     <td>${u.booking_count}</td>
@@ -162,26 +134,6 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <!-- Phân trang người dùng -->
-                                    <nav aria-label="User page navigation">
-                                        <ul class="pagination">
-                                            <c:if test="${userPage > 1}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?userPage=${userPage-1}&userPageSize=${userPageSize}">Previous</a>
-                                                </li>
-                                            </c:if>
-                                            <c:forEach var="i" begin="1" end="${totalUserPages}">
-                                                <li class="page-item <c:if test='${i == userPage}'>active</c:if>'">
-                                                    <a class="page-link" href="?userPage=${i}&userPageSize=${userPageSize}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <c:if test="${userPage < totalUserPages}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?userPage=${userPage+1}&userPageSize=${userPageSize}">Next</a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +146,7 @@
                                     <h4 class="header-title">⚽ 3. Báo cáo tình trạng sử dụng từng sân</h4>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-striped">
+                                    <table id="field-usage-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -209,7 +161,7 @@
                                         <tbody>
                                             <c:forEach var="f" items="${fieldUsageReportList}" varStatus="loop">
                                                 <tr>
-                                                    <td>${(fieldPage-1)*fieldPageSize + loop.index + 1}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${f.field_id}</td>
                                                     <td>${f.field_name}</td>
                                                     <td>${f.field_type_name}</td>
@@ -220,31 +172,11 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <!-- Phân trang sân -->
-                                    <nav aria-label="Field page navigation">
-                                        <ul class="pagination">
-                                            <c:if test="${fieldPage > 1}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?fieldPage=${fieldPage-1}&fieldPageSize=${fieldPageSize}">Previous</a>
-                                                </li>
-                                            </c:if>
-                                            <c:forEach var="i" begin="1" end="${totalFieldPages}">
-                                                <li class="page-item <c:if test='${i == fieldPage}'>active</c:if>'">
-                                                    <a class="page-link" href="?fieldPage=${i}&fieldPageSize=${fieldPageSize}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <c:if test="${fieldPage < totalFieldPages}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?fieldPage=${fieldPage+1}&fieldPageSize=${fieldPageSize}">Next</a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Báo cáo doanh thu chi tiết -->
+                    <!-- Báo cáo doanh thu chi tiết (giao dịch) -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <div class="card">
@@ -253,7 +185,7 @@
                                     <div class="text-muted small">Mục đích: Theo dõi tiền thu được từ từng đơn, từ người dùng nào, theo thời gian</div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-striped">
+                                    <table id="detailed-payments-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -268,7 +200,7 @@
                                         <tbody>
                                             <c:forEach var="item" items="${detailedPayments}" varStatus="loop">
                                                 <tr>
-                                                    <td>${(detailedPaymentsPage-1)*detailedPaymentsPageSize + loop.index + 1}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${item.transaction_code}</td>
                                                     <td>${item.payer_name}</td>
                                                     <td>${item.pay_time}</td>
@@ -279,26 +211,6 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <!-- Phân trang doanh thu chi tiết -->
-                                    <nav aria-label="Detailed payments page navigation">
-                                        <ul class="pagination">
-                                            <c:if test="${detailedPaymentsPage > 1}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?detailedPaymentsPage=${detailedPaymentsPage-1}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">Previous</a>
-                                                </li>
-                                            </c:if>
-                                            <c:forEach var="i" begin="1" end="${detailedPaymentsTotalPages}">
-                                                <li class="page-item <c:if test='${i == detailedPaymentsPage}'>active</c:if>'">
-                                                    <a class="page-link" href="?detailedPaymentsPage=${i}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <c:if test="${detailedPaymentsPage < detailedPaymentsTotalPages}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?detailedPaymentsPage=${detailedPaymentsPage+1}&detailedPaymentsPageSize=${detailedPaymentsPageSize}">Next</a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -348,5 +260,59 @@
     <jsp:include page="themesetting.jsp" />
     <script src="assets/js/vendor.min.js"></script>
     <script src="assets/js/app.min.js"></script>
+    <!-- DataTables js -->
+    <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
+    <script src="assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script>
+$(document).ready(function() {
+    $('#booking-details-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+    $('#user-report-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+    $('#field-usage-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+    $('#detailed-payments-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+});
+</script>
 </body>
 </html> 
