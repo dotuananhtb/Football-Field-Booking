@@ -337,120 +337,129 @@ public class FieldDAO extends DBContext {
     // phân trang sân và sắp xếp
     // by Binh
     public List<Field> pagingField(String zoneId, String typeId, String timeRange,
-            BigDecimal minPrice, BigDecimal maxPrice,
-            int pageIndex, int pageSize,
-            String sortBy) {
+        BigDecimal minPrice, BigDecimal maxPrice,
+        int pageIndex, int pageSize,
+        String sortBy,
+        String keyword) {
 
-        List<Field> list = new ArrayList<>();
-        String sortClause = "f.field_id"; // mặc định
+    List<Field> list = new ArrayList<>();
+    String sortClause = "f.field_id"; // mặc định
 
-        switch (sortBy) {
-            case "new":
-                sortClause = "f.created_at DESC";
-                break;
-            case "recent":
-                sortClause = "f.updated_at DESC";
-                break;
-            case "price_low":
-                sortClause = "min_price ASC";
-                break;
-            case "price_high":
-                sortClause = "min_price DESC";
-                break;
-            case "name":
-                sortClause = "f.field_name ASC";
-                break;
-        }
+    switch (sortBy) {
+        case "new":
+            sortClause = "f.created_at DESC";
+            break;
+        case "recent":
+            sortClause = "f.updated_at DESC";
+            break;
+        case "price_low":
+            sortClause = "min_price ASC";
+            break;
+        case "price_high":
+            sortClause = "min_price DESC";
+            break;
+        case "name":
+            sortClause = "f.field_name ASC";
+            break;
+    }
 
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("z.zone_id,z.zone_name,z.Address, ")
-                .append("t.field_type_id, t.field_type_name, ")
-                .append("MIN(sof.slot_field_price) as min_price, ")
-                .append("MAX(sof.slot_field_price) as max_price ")
-                .append("FROM Field f ")
-                .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
-                .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
-                .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
-                .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
-                .append("WHERE f.status = N'Hoạt động' ");
+    StringBuilder sql = new StringBuilder();
+    sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
+        .append("z.zone_id, z.zone_name, z.Address, ")
+        .append("t.field_type_id, t.field_type_name, ")
+        .append("MIN(sof.slot_field_price) as min_price, ")
+        .append("MAX(sof.slot_field_price) as max_price ")
+        .append("FROM Field f ")
+        .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
+        .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
+        .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
+        .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
+        .append("WHERE f.status = N'Hoạt động' ");
+
+    if (zoneId != null && !zoneId.isEmpty()) {
+        sql.append("AND z.zone_id = ? ");
+    }
+    if (typeId != null && !typeId.isEmpty()) {
+        sql.append("AND t.field_type_id = ? ");
+    }
+    if (minPrice != null) {
+        sql.append("AND sof.slot_field_price >= ? ");
+    }
+    if (maxPrice != null) {
+        sql.append("AND sof.slot_field_price <= ? ");
+    }
+    if (timeRange != null && !timeRange.isEmpty()) {
+        sql.append("AND (")
+            .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
+            .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
+            .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
+            .append(") ");
+    }
+    if (keyword != null && !keyword.isEmpty()) {
+        sql.append("AND f.field_name LIKE ? ");
+    }
+
+    sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
+        .append("f.created_at, f.updated_at, z.zone_id, z.zone_name, z.Address, t.field_type_id, t.field_type_name ")
+        .append("ORDER BY ").append(sortClause).append(" ")
+        .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+    try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+        int i = 1;
 
         if (zoneId != null && !zoneId.isEmpty()) {
-            sql.append("AND z.zone_id = ? ");
+            ps.setString(i++, zoneId);
         }
         if (typeId != null && !typeId.isEmpty()) {
-            sql.append("AND t.field_type_id = ? ");
+            ps.setString(i++, typeId);
         }
         if (minPrice != null) {
-            sql.append("AND sof.slot_field_price >= ? ");
+            ps.setBigDecimal(i++, minPrice);
         }
         if (maxPrice != null) {
-            sql.append("AND sof.slot_field_price <= ? ");
+            ps.setBigDecimal(i++, maxPrice);
         }
         if (timeRange != null && !timeRange.isEmpty()) {
-            sql.append("AND (")
-                    .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
-                    .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
-                    .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
-                    .append(") ");
+            ps.setString(i++, timeRange);
+            ps.setString(i++, timeRange);
+            ps.setString(i++, timeRange);
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            ps.setString(i++, "%" + keyword + "%");
         }
 
-        sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("f.created_at, f.updated_at, z.zone_id,z.zone_name,z.Address, t.field_type_id, t.field_type_name ")
-                .append("ORDER BY ").append(sortClause).append(" ")
-                .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        ps.setInt(i++, (pageIndex - 1) * pageSize);
+        ps.setInt(i, pageSize);
 
-        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-            int i = 1;
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Field f = new Field();
+            f.setFieldId(rs.getInt("field_id"));
+            f.setFieldName(rs.getString("field_name"));
+            f.setImage(rs.getString("image"));
+            f.setStatus(rs.getString("status"));
+            f.setDescription(rs.getString("description"));
 
-            if (zoneId != null && !zoneId.isEmpty()) {
-                ps.setString(i++, zoneId);
-            }
-            if (typeId != null && !typeId.isEmpty()) {
-                ps.setString(i++, typeId);
-            }
-            if (minPrice != null) {
-                ps.setBigDecimal(i++, minPrice);
-            }
-            if (maxPrice != null) {
-                ps.setBigDecimal(i++, maxPrice);
-            }
-            if (timeRange != null && !timeRange.isEmpty()) {
-                ps.setString(i++, timeRange);
-                ps.setString(i++, timeRange);
-                ps.setString(i++, timeRange);
-            }
+            Zone z = new Zone();
+            z.setZoneId(rs.getInt("zone_id"));
+            z.setZone_name(rs.getString("zone_name"));
+            z.setAddress(rs.getString("Address"));
+            f.setZone(z);
 
-            ps.setInt(i++, (pageIndex - 1) * pageSize);
-            ps.setInt(i, pageSize);
+            TypeOfField type = new TypeOfField();
+            type.setFieldTypeId(rs.getInt("field_type_id"));
+            type.setFieldTypeName(rs.getString("field_type_name"));
+            f.setTypeOfField(type);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Field f = new Field();
-                f.setFieldId(rs.getInt("field_id"));
-                f.setFieldName(rs.getString("field_name"));
-                f.setImage(rs.getString("image"));
-                f.setStatus(rs.getString("status"));
-                f.setDescription(rs.getString("description"));
-
-                Zone z = new Zone();
-                z.setZoneId(rs.getInt("zone_id"));
-                z.setZone_name("zone_name");
-                z.setAddress(rs.getString("Address"));
-                f.setZone(z);
-
-                TypeOfField type = new TypeOfField();
-                type.setFieldTypeId(rs.getInt("field_type_id"));
-                type.setFieldTypeName(rs.getString("field_type_name"));
-                f.setTypeOfField(type);
-
-                list.add(f);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            list.add(f);
         }
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return list;
+}
+
 
     public int countFields(String zoneId, String typeId, String timeRange,
             BigDecimal minPrice, BigDecimal maxPrice) {
