@@ -327,27 +327,29 @@ $(document).on('click', '.btn-update-status', function () {
                 status: newStatus
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showToast('success', `✅ ${data.message}`);
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('success', `✅ ${data.message}`);
 
-                // Gọi lại hàm load chi tiết ca nếu có
-                if (typeof loadBookingDetails === 'function') {
-                    loadBookingDetails(currentBookingCode);
-                }
-            } else {
-                showToast('error', `❌ ${data.message || 'Cập nhật thất bại.'}`);
-            }
-        })
-        .catch((err) => {
-            console.error("Lỗi gửi yêu cầu:", err);
-            showToast('error', "❌ Lỗi khi gửi yêu cầu cập nhật.");
-        })
-        .finally(() => {
-            // Bật lại nút
-            $btn.prop('disabled', false).text("Cập nhật");
-        });
+                        // Gọi lại hàm load chi tiết ca nếu có
+                        if (typeof loadBookingDetails === 'function') {
+                            loadBookingDetails(currentBookingCode);
+                        }
+                        // ✅ Reload lại bảng booking chính
+                        $('#booking-datatable').DataTable().ajax.reload(null, false);
+                    } else {
+                        showToast('error', `❌ ${data.message || 'Cập nhật thất bại.'}`);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Lỗi gửi yêu cầu:", err);
+                    showToast('error', "❌ Lỗi khi gửi yêu cầu cập nhật.");
+                })
+                .finally(() => {
+                    // Bật lại nút
+                    $btn.prop('disabled', false).text("Cập nhật");
+                });
     });
 });
 
