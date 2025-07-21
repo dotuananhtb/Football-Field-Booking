@@ -110,13 +110,50 @@ public class BookingDetailsDAO extends DBContext {
     }
 
     public boolean updateStatus(int bookingDetailsId, int newStatus) {
-        String sql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_details_id = ?";
+        String updateSlotSql = "UPDATE BookingDetails SET status_checking_id = ? WHERE booking_details_id = ?";
+        String getBookingIdSql = "SELECT booking_id FROM BookingDetails WHERE booking_details_id = ?";
+        String checkAllCancelledSql = "SELECT COUNT(*) AS total, SUM(CASE WHEN status_checking_id = 3 THEN 1 ELSE 0 END) AS cancelled "
+                + "FROM BookingDetails WHERE booking_id = ?";
+        String updateBookingSql = "UPDATE Booking SET status_pay = -2 WHERE booking_id = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, newStatus);
-            ps.setInt(2, bookingDetailsId);
+        try (PreparedStatement updatePs = connection.prepareStatement(updateSlotSql); PreparedStatement getBookingIdPs = connection.prepareStatement(getBookingIdSql)) {
 
-            return ps.executeUpdate() > 0;
+            // Cập nhật trạng thái của 1 bookingDetails
+            updatePs.setInt(1, newStatus);
+            updatePs.setInt(2, bookingDetailsId);
+            int updated = updatePs.executeUpdate();
+
+            if (updated == 0) {
+                return false;
+            }
+
+            // Lấy booking_id từ bookingDetailsId
+            getBookingIdPs.setInt(1, bookingDetailsId);
+            ResultSet rs = getBookingIdPs.executeQuery();
+            if (!rs.next()) {
+                return true;
+            }
+
+            int bookingId = rs.getInt("booking_id");
+
+            // Kiểm tra xem tất cả các ca của booking này có bị huỷ hết không
+            try (PreparedStatement checkAllPs = connection.prepareStatement(checkAllCancelledSql)) {
+                checkAllPs.setInt(1, bookingId);
+                ResultSet checkRs = checkAllPs.executeQuery();
+                if (checkRs.next()) {
+                    int total = checkRs.getInt("total");
+                    int cancelled = checkRs.getInt("cancelled");
+                    if (total > 0 && total == cancelled) {
+                        // Tất cả ca đã huỷ → cập nhật status_pay = -2
+                        try (PreparedStatement updateBookingPs = connection.prepareStatement(updateBookingSql)) {
+                            updateBookingPs.setInt(1, bookingId);
+                            updateBookingPs.executeUpdate();
+                        }
+                    }
+                }
+            }
+
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
