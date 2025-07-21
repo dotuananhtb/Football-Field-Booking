@@ -41,8 +41,8 @@ public class DeleteCommentServlet extends HttpServlet {
                 return;
             }
 
-            // Chỉ cho phép xóa nếu là chủ comment hoặc là staff/admin
-            if (comment.getAccountId() == userId || roleId == 1 || roleId == 2) {
+            // Chỉ cho phép xóa nếu là chủ comment 
+            if (comment.getAccountId() == userId ) {
                 commentDAO.deleteComment(commentId);
                 ToastUtil.setSuccessToast(request, "xoá thành công!");
                 // Chuyển hướng hoặc thông báo thành công

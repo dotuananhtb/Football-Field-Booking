@@ -175,12 +175,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Tổng số bài viết của user thường (roleId = 3) -->
                             <div class="col-sm-6 col-xxl-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số bài viết/blog">Bài viết</h5>
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số bài viết/blog">Bài viết </h5>
                                                 <h3 class="my-1 py-1">${totalPosts}</h3>
                                             </div>
                                             <div class="col-6">
@@ -203,6 +204,23 @@
                                             <div class="col-6">
                                                 <div class="text-end">
                                                     <i class="ri-slideshow-2-line fs-2 text-warning"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xxl-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số blog">Blog</h5>
+                                                <h3 class="my-1 py-1">${totalBlogs}</h3>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="text-end">
+                                                    <i class="ri-book-2-line fs-2 text-primary"></i>
                                                 </div>
                                             </div>
                                         </div>

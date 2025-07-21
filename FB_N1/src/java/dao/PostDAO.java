@@ -904,5 +904,60 @@ public class PostDAO extends DBContext {
         return list;
     }
 
+    /**
+     * Lấy tất cả bài viết của user theo role_id (ví dụ: 3 = user thường)
+     */
+    public List<Post> getAllPostsByUserRole(int roleId) {
+        List<Post> list = new ArrayList<>();
+        String query = "SELECT p.*, a.username FROM Post p " +
+                       "JOIN Account a ON p.account_id = a.account_id " +
+                       "JOIN UserProfile u ON a.account_id = u.account_id " +
+                       "WHERE p.status_post = 'active' AND u.role_id = ? " +
+                       "ORDER BY p.post_date DESC";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setInt(1, roleId);
+            ResultSet rs = ptm.executeQuery();
+            PostDetailsDAO postDetailsDAO = new PostDetailsDAO();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setPostId(rs.getInt("post_id"));
+                post.setAccountId(rs.getInt("account_id"));
+                post.setTitle(rs.getString("title"));
+                post.setContentPost(rs.getString("content_post"));
+                post.setPostDate(rs.getString("post_date"));
+                post.setStatusPost(rs.getString("status_post"));
+                Account account = new Account();
+                account.setUsername(rs.getString("username"));
+                post.setAccount(account);
+                // Lấy PostDetails cho từng post
+                try {
+                    PostDetails details = postDetailsDAO.getByPostId(post.getPostId());
+                    post.setPostDetails(details);
+                } catch (Exception e) {
+                    post.setPostDetails(null);
+                }
+                list.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countAllPostsOfUserRole3() {
+        String query = "SELECT COUNT(*) FROM Post p JOIN Account a ON p.account_id = a.account_id JOIN UserProfile up ON a.account_id = up.account_id WHERE p.status_post = 'active' AND up.role_id = 3";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ResultSet rs = ptm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     
 }
