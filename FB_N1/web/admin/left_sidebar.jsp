@@ -47,24 +47,26 @@
 
         <!--- Sidemenu -->
         <ul class="side-nav">
+            <c:if test="${account.userProfile.roleId==1}">
+                <li class="side-nav-title">Tổng quan</li>
 
-            <li class="side-nav-title">Tổng quan</li>
-
-            <li class="side-nav-item">
-                <a href="/FB_N1/admin/thong-ke" class="side-nav-link">
-                    <i class="ri-dashboard-2-fill"></i>
-                    <span> Thống kê tổng quan </span>
-                </a>
-            </li>
+                <li class="side-nav-item">
+                    <a href="/FB_N1/admin/thong-ke" class="side-nav-link">
+                        <i class="ri-dashboard-2-fill"></i>
+                        <span> Thống kê tổng quan </span>
+                    </a>
+                </li>
 
 
 
-            <li class="side-nav-item">
-                <a href="/FB_N1/admin/bao-cao-chi-tiet" class="side-nav-link">
-                    <i class="ri-table-fill"></i>
-                    <span> Báo cáo chi tiết </span>
-                </a>
-            </li>
+                <li class="side-nav-item">
+                    <a href="/FB_N1/admin/bao-cao-chi-tiet" class="side-nav-link">
+                        <i class="ri-table-fill"></i>
+                        <span> Báo cáo chi tiết </span>
+                    </a>
+                </li>
+            </c:if>
+
 
 
 
@@ -189,7 +191,7 @@
 
                 </a>
             </li>
-            
+
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-uu-dai"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
@@ -198,7 +200,7 @@
 
                 </a>
             </li>
-            
+
 
 
             <li class="side-nav-item">
