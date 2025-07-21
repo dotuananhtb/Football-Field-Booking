@@ -5,16 +5,19 @@ import dao.ImageStorageDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.*;
 import model.CateProduct;
 import model.ImageStorage;
 import model.Product;
+import model.ProductDetails;
 import util.ToastUtil;
 
 /**
@@ -63,7 +66,7 @@ public class ManagerProductServlet extends HttpServlet {
             // Tìm kiếm product
             List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
             for (Product p : products) {
-                List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                 p.setProductDetailsList(details);
             }
             request.setAttribute("products", products);
@@ -93,14 +96,14 @@ public class ManagerProductServlet extends HttpServlet {
                     "new" // sortBy
                 );
                 for (Product p : products) {
-                    List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                     p.setProductDetailsList(details);
                 }
                 request.setAttribute("selectedCategory", categoryId);
             } else {
                 products = productDAO.getAllProducts();
                 for (Product p : products) {
-                    List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                    List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                     p.setProductDetailsList(details);
                 }
             }
@@ -111,7 +114,7 @@ public class ManagerProductServlet extends HttpServlet {
             // Hiển thị tất cả product
             List<Product> products = productDAO.getAllProducts();
             for (Product p : products) {
-                List<model.ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
+                List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                 p.setProductDetailsList(details);
             }
             request.setAttribute("products", products);
@@ -161,7 +164,7 @@ public class ManagerProductServlet extends HttpServlet {
                 dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
                 if (colors != null) {
                     for (int i = 0; i < colors.length; i++) {
-                        model.ProductDetails pd = new model.ProductDetails();
+                        ProductDetails pd = new ProductDetails();
                         pd.setProductId(productId);
                         pd.setColor(colors[i]);
                         pd.setSize(sizes != null ? sizes[i] : null);
@@ -234,16 +237,16 @@ public class ManagerProductServlet extends HttpServlet {
                         String[] warranties = request.getParameterValues("warranty[]");
                         String[] moreInfos = request.getParameterValues("moreInfo[]");
                         dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
-                        java.util.List<model.ProductDetails> oldDetails = detailsDAO.getDetailsByProductId(productId);
-                        java.util.Set<Integer> oldIds = new java.util.HashSet<>();
-                        for (model.ProductDetails d : oldDetails) oldIds.add(d.getProductDetailsId());
-                        java.util.Set<Integer> newIds = new java.util.HashSet<>();
+                        List<ProductDetails> oldDetails = detailsDAO.getDetailsByProductId(productId);
+                        Set<Integer> oldIds = new HashSet<>();
+                        for (ProductDetails d : oldDetails) oldIds.add(d.getProductDetailsId());
+                        Set<Integer> newIds = new HashSet<>();
                         for (int i = 0; i < colors.length; i++) {
                             String idStr = detailsIds[i];
                             if (idStr != null && !idStr.isEmpty()) {
                                 int detailId = Integer.parseInt(idStr);
                                 newIds.add(detailId);
-                                model.ProductDetails pd = new model.ProductDetails();
+                                ProductDetails pd = new ProductDetails();
                                 pd.setProductDetailsId(detailId);
                                 pd.setProductId(productId);
                                 pd.setColor(colors[i]);
@@ -255,7 +258,7 @@ public class ManagerProductServlet extends HttpServlet {
                                 pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
                                 detailsDAO.updateProductDetails(pd);
                             } else {
-                                model.ProductDetails pd = new model.ProductDetails();
+                                ProductDetails pd = new ProductDetails();
                                 pd.setProductId(productId);
                                 pd.setColor(colors[i]);
                                 pd.setSize(sizes != null ? sizes[i] : null);

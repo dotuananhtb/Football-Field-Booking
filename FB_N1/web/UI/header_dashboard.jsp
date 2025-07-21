@@ -7,6 +7,7 @@
 <%@page import="model.UserProfile"%>
 <%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,31 +62,33 @@
                                 <span>Lịch sử đặt sân</span>
                             </a>
                         </li>
-                        <li>
+<!--                        <li>
                             <a href="dashboard.html">
                                 <i class="icon-Vector-9"></i>
                                 <span>Dashboard</span>
                             </a>
-                        </li>
+                        </li>-->
 
-                        <li>
-                            <a href="/FB_N1/managerPostUser">
-                                <i class="icon-Group-81"></i>
-                                <span>Bài viết</span>
-                            </a>
-                        </li>
-                        <li>
+                        <c:if test="${account.userProfile.roleId==3}">
+                            <li>
+                                <a href="/FB_N1/managerPostUser">
+                                    <i class="icon-Group-81"></i>
+                                    <span>Bài viết</span>
+                                </a>
+                            </li>
+                        </c:if>
+<!--                        <li>
                             <a href="add-tour.html">
                                 <i class="icon-Group-91"></i>
                                 <span>Add Tour</span>
                             </a>
-                        </li>
-                        <li>
+                        </li>-->
+<!--                        <li>
                             <a href="my-favorite.html">
                                 <i class="icon-Vector-10"></i>
                                 <span>My Favorites</span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <li>
                             <a href="/FB_N1/logout">

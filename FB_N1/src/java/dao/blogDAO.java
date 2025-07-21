@@ -350,14 +350,23 @@ public class blogDAO extends DBContext {
 
         return tagsSet;
     }
-    public static void main(String[] args) {
-        blogDAO bDao = new blogDAO();
-        List<Blog> list = bDao.getAllBlogStatus();
-        for (Blog blog : list) {
-            System.out.println(blog);
-        }
-        Blog b = bDao.getBlogBySlug("blog-2");
-        System.out.println(b);
-    }
+ 
 
+
+
+
+    public int countAllBlogs() {
+        String sql = "SELECT COUNT(*) FROM Blog";
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
+
+
+

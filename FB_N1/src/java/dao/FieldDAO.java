@@ -19,6 +19,9 @@ import model.Zone;
 import dao.SlotsOfFieldDAO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.HashMap;
+import java.sql.Connection;
 
 /**
  *
@@ -633,6 +636,51 @@ public class FieldDAO extends DBContext {
         }
 
         return false;
+    }
+
+    // Báo cáo tình trạng sử dụng từng sân (có phân trang)
+    public List<Map<String, Object>> getFieldUsageReportPaging(int page, int pageSize) throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql =
+            "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, " +
+            "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price), 0) AS total_revenue " +
+            "FROM Field f " +
+            "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
+            "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id " +
+            "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id " +
+            "GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status " +
+            "ORDER BY f.field_id DESC " +
+            "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, (page - 1) * pageSize);
+            ps.setInt(2, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("field_id", rs.getInt("field_id"));
+                map.put("field_name", rs.getString("field_name"));
+                map.put("field_type_name", rs.getString("field_type_name"));
+                map.put("status", rs.getString("status"));
+                map.put("booking_count", rs.getInt("booking_count"));
+                map.put("total_revenue", rs.getBigDecimal("total_revenue"));
+                list.add(map);
+            }
+        }
+        return list;
+    }
+
+    // Đếm tổng số sân cho báo cáo tình trạng sử dụng (phục vụ phân trang)
+    public int countFieldUsageReport() throws SQLException {
+        String sql = "SELECT COUNT(*) as total FROM Field";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
     }
 
 }

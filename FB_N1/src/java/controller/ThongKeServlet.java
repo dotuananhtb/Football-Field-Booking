@@ -1,6 +1,10 @@
 package controller;
 
 import dao.*;
+import dao.Zone_DAO;
+import dao.TypeOfFieldDAO;
+import dao.CateProduct_DAO;
+import dao.ProductDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +15,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import util.DBContext;
 
@@ -79,7 +85,7 @@ public class ThongKeServlet extends HttpServlet {
             
 
             // Tổng số sản phẩm
-            dao.ProductDAO productDAO = new dao.ProductDAO();
+            ProductDAO productDAO = new ProductDAO();
             int totalProducts = productDAO.getTotalProduct();
             request.setAttribute("totalProducts", totalProducts);
 
@@ -89,27 +95,67 @@ public class ThongKeServlet extends HttpServlet {
             request.setAttribute("totalFields", totalFields);
 
             // Tổng số khu vực
-            dao.Zone_DAO zoneDAO = new dao.Zone_DAO();
+            Zone_DAO zoneDAO = new Zone_DAO();
             int totalZones = zoneDAO.getAllZone().size();
             request.setAttribute("totalZones", totalZones);
             // Tổng số loại sân
-            dao.TypeOfFieldDAO typeOfFieldDAO = new dao.TypeOfFieldDAO();
+            TypeOfFieldDAO typeOfFieldDAO = new TypeOfFieldDAO();
             int totalFieldTypes = typeOfFieldDAO.getAllFieldTypes().size();
             request.setAttribute("totalFieldTypes", totalFieldTypes);
             // Tổng số loại sản phẩm
-            dao.CateProduct_DAO cateProductDAO = new dao.CateProduct_DAO();
+            CateProduct_DAO cateProductDAO = new CateProduct_DAO();
             int totalProductCategories = cateProductDAO.getAllCategory().size();
             request.setAttribute("totalProductCategories", totalProductCategories);
+
+            // --- Thêm: Lấy doanh thu từng tháng ---
+            int year = java.time.LocalDate.now().getYear();
+            PaymentDAO paymentDAO = new PaymentDAO();
+            List<Double> revenueByMonth = paymentDAO.getRevenueByMonth(year);
+            List<String> monthLabels = new ArrayList<>();
+            for (int i = 1; i <= 12; i++) monthLabels.add("Tháng " + i);
+            double totalRevenueYear = 0;
+            for (Double d : revenueByMonth) totalRevenueYear += d;
+            request.setAttribute("revenueByMonth", revenueByMonth);
+            request.setAttribute("monthLabels", monthLabels);
+            request.setAttribute("totalRevenueYear", totalRevenueYear);
+
+            // --- Thêm: Lấy doanh thu từng ngày trong 1 tuần gần nhất ---
+            Map<String, Double> revenueByDayMap = paymentDAO.getRevenueByDayInLastWeek();
+            List<String> weekDayLabels = new ArrayList<>(revenueByDayMap.keySet());
+            List<Double> weekDayRevenue = new ArrayList<>(revenueByDayMap.values());
+            request.setAttribute("weekDayLabels", weekDayLabels);
+            request.setAttribute("weekDayRevenue", weekDayRevenue);
+
+            // --- Thêm: Lấy doanh thu từng sân ---
+            Map<String, Double> revenueByFieldMap = paymentDAO.getRevenueByField();
+            List<String> fieldLabels = new ArrayList<>(revenueByFieldMap.keySet());
+            List<Double> fieldRevenue = new ArrayList<>(revenueByFieldMap.values());
+            request.setAttribute("fieldLabels", fieldLabels);
+            request.setAttribute("fieldRevenue", fieldRevenue);
+
+            // --- Thêm: Thống kê tỷ lệ loại sân được đặt ---
+            Map<String, Integer> typeOfFieldRatioMap = paymentDAO.getBookingTypeOfFieldRatio();
+            List<String> typeOfFieldLabels = new ArrayList<>(typeOfFieldRatioMap.keySet());
+            List<Integer> typeOfFieldCounts = new ArrayList<>(typeOfFieldRatioMap.values());
+            request.setAttribute("typeOfFieldLabels", typeOfFieldLabels);
+            request.setAttribute("typeOfFieldCounts", typeOfFieldCounts);
+
+            // --- Thêm: Thống kê khung giờ đặt sân phổ biến ---
+            Map<String, Integer> popularBookingHoursMap = paymentDAO.getPopularBookingHours();
+            List<String> bookingHourLabels = new ArrayList<>(popularBookingHoursMap.keySet());
+            List<Integer> bookingHourCounts = new ArrayList<>(popularBookingHoursMap.values());
+            request.setAttribute("bookingHourLabels", bookingHourLabels);
+            request.setAttribute("bookingHourCounts", bookingHourCounts);
 
             // Set attribute cho JSP
             request.setAttribute("totalUsers", totalUsers);
             request.setAttribute("totalStaff", totalStaff);
             request.setAttribute("totalAdmin", totalAdmin);
             request.setAttribute("lockedAccounts", lockedAccounts);
-            request.setAttribute("totalBookings", bookingDAO.getAllBookingsForAdmin().size()); // Use bookingDAO.getAllBookingsForAdmin().size()
-            request.setAttribute("totalEvents", new EventDAO().getAllEvent().size()); // Assuming EventDAO is available
-            request.setAttribute("totalPosts", new PostDAO().countAllPosts()); // Assuming PostDAO is available
-            request.setAttribute("totalSliders", new SliderDAO().countSliders()); // Assuming SliderDAO is available
+            request.setAttribute("totalBookings", bookingDAO.getAllBookingsForAdmin().size()); 
+            request.setAttribute("totalEvents", new EventDAO().getAllEvent().size()); 
+            request.setAttribute("totalPosts", new PostDAO().countAllPostsOfUserRole3()); 
+            request.setAttribute("totalSliders", new SliderDAO().countSliders()); 
             request.setAttribute("newBookingToday", newBookingToday);
             request.setAttribute("newBookingWeek", newBookingWeek);
             request.setAttribute("newBookingMonth", newBookingMonth);
@@ -118,7 +164,7 @@ public class ThongKeServlet extends HttpServlet {
             request.setAttribute("totalCompletedBookings", totalCompletedBookings);
             request.setAttribute("bookingSuccessRate", bookingSuccessRate);
             request.setAttribute("bookingCancelRate", bookingCancelRate);
-            
+            request.setAttribute("totalBlogs", new dao.blogDAO().countAllBlogs());
 
             request.getRequestDispatcher("/admin/ThongKe.jsp").forward(request, response);
         } catch (Exception e) {
