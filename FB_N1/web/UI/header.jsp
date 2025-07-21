@@ -67,7 +67,7 @@
 
 
 
-                                            <li><a href="contact-us.html">Liên Hệ</a></li>
+                                            <li><a href="/FB_N1/UI/lienHe.jsp">Liên Hệ</a></li>
 
 
 

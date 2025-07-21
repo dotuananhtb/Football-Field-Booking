@@ -93,14 +93,14 @@
 
                                                                                                     <div class="btn-group">
 
-                                                                                                        <a href="/FB_N1/UI/home2.jsp" class="btn-main fadeInDown wow">
+                                                                                                        <a href="/FB_N1/UI/lienHe.jsp" class="btn-main fadeInDown wow">
                                                                                                             <p class="btn-main-text">Tìm hiểu thêm</p>
                                                                                                             <p class="iconer">
                                                                                                                 <i class="icon-arrow-right"></i>
                                                                                                             </p>
                                                                                                         </a>
 
-                                                                                                        <a href="#" class="btn-w-wa fadeInDown wow">Về Chúng tôi<i
+                                                                                                        <a href="/FB_N1/UI/teamMember.jsp" class="btn-w-wa fadeInDown wow">Về Chúng tôi<i
                                                                                                                 class="icon-Group-13"></i></a>
 
                                                                                                     </div>
