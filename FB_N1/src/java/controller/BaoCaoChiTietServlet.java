@@ -17,6 +17,7 @@ import model.Event;
 import model.Post;
 import java.util.List;
 import java.util.Map;
+import model.Field;
 
 @WebServlet(name = "BaoCaoChiTietServlet", urlPatterns = {"/admin/bao-cao-chi-tiet"})
 public class BaoCaoChiTietServlet extends HttpServlet {
@@ -39,6 +40,7 @@ public class BaoCaoChiTietServlet extends HttpServlet {
             String detailFieldIdStr = request.getParameter("detailFieldId");
             String detailStatus = request.getParameter("detailStatus");
             String detailUser = request.getParameter("detailUser");
+            if (detailUser != null) detailUser = detailUser.trim().toLowerCase();
             Integer detailFieldId = (detailFieldIdStr != null && !detailFieldIdStr.isEmpty()) ? Integer.parseInt(detailFieldIdStr) : null;
             // 1. Báo cáo chi tiết đơn đặt sân (bỏ phân trang)
             List<Map<String, Object>> bookingDetails = bookingDAO.getBookingDetailsWithFilters(
@@ -71,6 +73,8 @@ public class BaoCaoChiTietServlet extends HttpServlet {
             // =============================
             // Sau khi lấy dữ liệu, forward sang trang JSP để hiển thị tất cả các báo cáo trên
             // =============================
+            List<Field> fields = fieldDAO.getAllFields();
+            request.setAttribute("fields", fields);
             request.getRequestDispatcher("/admin/BaoCaoChiTiet.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

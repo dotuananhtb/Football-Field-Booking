@@ -609,7 +609,9 @@ public class BookingDAO extends DBContext {
             if (toDate != null && !toDate.isEmpty()) sql.append(" AND bd.slot_date <= ? ");
             if (fieldId != null) sql.append(" AND f.field_id = ? ");
             if (status != null && !status.isEmpty()) sql.append(" AND b.status_pay = ? ");
-            if (userKeyword != null && !userKeyword.isEmpty()) sql.append(" AND (up.first_name LIKE ? OR up.last_name LIKE ? OR b.booking_code LIKE ?) ");
+            if (userKeyword != null && !userKeyword.isEmpty()) {
+                sql.append(" AND (LOWER(LTRIM(RTRIM(ISNULL(up.first_name, ''))) + ' ' + LTRIM(RTRIM(ISNULL(up.last_name, '')))) LIKE ? OR LOWER(LTRIM(RTRIM(up.first_name))) LIKE ? OR LOWER(LTRIM(RTRIM(up.last_name))) LIKE ? OR LOWER(b.booking_code) LIKE ?) ");
+            }
             sql.append("ORDER BY bd.slot_date DESC, bd.start_time DESC ");
             try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
                 int idx = 1;
@@ -618,9 +620,10 @@ public class BookingDAO extends DBContext {
                 if (fieldId != null) ps.setInt(idx++, fieldId);
                 if (status != null && !status.isEmpty()) ps.setString(idx++, status);
                 if (userKeyword != null && !userKeyword.isEmpty()) {
-                    ps.setString(idx++, "%" + userKeyword + "%");
-                    ps.setString(idx++, "%" + userKeyword + "%");
-                    ps.setString(idx++, "%" + userKeyword + "%");
+                    ps.setString(idx++, "%" + userKeyword + "%"); // full name
+                    ps.setString(idx++, "%" + userKeyword + "%"); // first name
+                    ps.setString(idx++, "%" + userKeyword + "%"); // last name
+                    ps.setString(idx++, "%" + userKeyword + "%"); // booking code
                 }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -667,7 +670,8 @@ public class BookingDAO extends DBContext {
             sql.append(" AND b.status_pay = ? ");
         }
         if (userKeyword != null && !userKeyword.isEmpty()) {
-            sql.append(" AND (up.first_name LIKE ? OR up.last_name LIKE ? OR b.booking_code LIKE ?) ");
+            String keyword = userKeyword.trim().toLowerCase();
+            sql.append(" AND ((ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '')) LIKE ? OR up.first_name LIKE ? OR up.last_name LIKE ? OR b.booking_code LIKE ?) ");
         }
         try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int idx = 1;
@@ -684,9 +688,11 @@ public class BookingDAO extends DBContext {
                 ps.setString(idx++, status);
             }
             if (userKeyword != null && !userKeyword.isEmpty()) {
-                ps.setString(idx++, "%" + userKeyword + "%");
-                ps.setString(idx++, "%" + userKeyword + "%");
-                ps.setString(idx++, "%" + userKeyword + "%");
+                String keyword = userKeyword.trim().toLowerCase();
+                ps.setString(idx++, "%" + keyword + "%"); // full name
+                ps.setString(idx++, "%" + keyword + "%"); // first name
+                ps.setString(idx++, "%" + keyword + "%"); // last name
+                ps.setString(idx++, "%" + keyword + "%"); // booking code
             }
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

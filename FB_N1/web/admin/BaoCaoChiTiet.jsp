@@ -49,7 +49,7 @@
                                         <select id="detailFieldId" name="detailFieldId">
                                             <option value="">Tất cả</option>
                                             <c:forEach var="f" items="${fields}">
-                                                <option value="${f.field_id}" <c:if test="${param.detailFieldId == f.field_id}">selected</c:if>>${f.field_name}</option>
+                                                <option value="${f.fieldId}" <c:if test="${param.detailFieldId == f.fieldId}">selected</c:if>>${f.fieldName}</option>
                                             </c:forEach>
                                         </select>
                                         <label for="detailStatus">Trạng thái:</label>
