@@ -129,7 +129,7 @@
                                                          id="navbarSupportedContent">
                                                         <ul class="navigation clearfix">
                                                             <li><a href="/FB_N1/home">Trang chủ</a></li>
-                                                            <li class="dropdown2">
+<!--                                                            <li class="dropdown2">
                                                                 <a href="#">Tour</a>
                                                                 <ul>
                                                                     <li><a href="archieve-tour.html">Archieve tour</a>
@@ -147,7 +147,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </li>
-                                                            <li><a href="contact-us.html">Contact</a></li>
+                                                            <li><a href="contact-us.html">Contact</a></li>-->
                                                         </ul>
                                                     </div>
                                                 </nav>
@@ -155,7 +155,7 @@
                                             </div>
                                             <div class="header-account flex align-center">                                              
 
-                                                <div class="dropdown notification">
+<!--                                                <div class="dropdown notification">
                                                     <a class="icon-notification" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="icon-notification-1"></i>
                                                     </a>
@@ -195,7 +195,7 @@
                                                         </li>
 
                                                     </ul>
-                                                </div> 
+                                                </div> -->
                                                 <div class="dropdown account">
                                                     <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <img src="${sessionScope.userProfile.avatar}" alt="image">

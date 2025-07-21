@@ -627,13 +627,13 @@
                                                                                     <span style="color: green; font-weight: bold;">Đã thanh toán</span>
                                                                                 </c:when>
                                                                                 <c:when test="${booking.statusPay == 2}">
-                                                                                    <span style="color: orange; font-weight: bold;">Thanh toán sau</span>
+                                                                                    <span style="color: gray; font-weight: bold;">Thanh toán sau</span>
                                                                                 </c:when>
                                                                                 <c:when test="${booking.statusPay == -1}">
-                                                                                    <span style="color: gray; font-weight: bold;">Đã hủy (quá hạn t.toán)</span>
+                                                                                    <span style="color: gray; font-weight: bold;">Đã hủy (quá hạn)</span>
                                                                                 </c:when>
                                                                                 <c:when test="${booking.statusPay == -2}">
-                                                                                    <span style="color: orange; font-weight: bold;">Đã huỷ</span>
+                                                                                    <span style="color: gray; font-weight: bold;">Đã huỷ bới admin</span>
                                                                                 </c:when>
                                                                                 <c:otherwise>
                                                                                     <span style="color: gray;">Không xác định</span>
