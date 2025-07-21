@@ -98,7 +98,7 @@
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>STT</th>
                                                 <th>Tiêu đề</th>
                                                 <th>Nội dung</th>
                                                 <th>Người đăng</th>
@@ -110,9 +110,9 @@
                                         </thead>
 
                                         <tbody>
-                                            <c:forEach var="post" items="${posts}">
+                                            <c:forEach var="post" items="${posts}" varStatus="loop">
                                                 <tr>
-                                                    <td>${post.postId}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${post.title}</td>
                                                     <td>${post.contentPost}</td>
                                                     <td>${post.account.username}</td>

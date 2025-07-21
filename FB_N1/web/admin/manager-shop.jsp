@@ -115,7 +115,7 @@
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>STT</th>
                                                 <th>Tên sản phẩm</th>
                                                 <th>Danh mục</th>
                                                 <th>Giá</th>
@@ -125,9 +125,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="product" items="${products}">
+                                            <c:forEach var="product" items="${products}" varStatus="status">
                                                 <tr>
-                                                    <td>${product.productId}</td>
+                                                    <td>${status.index + 1}</td>
                                                     <td>${product.productName}</td>
                                                     <td>${product.cateProduct.cateName}</td>
                                                     <td>${product.productPrice}</td>
@@ -191,18 +191,18 @@
                                         <h5 class="card-title mb-0">Danh sách Loại Sản phẩm</h5>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table table-bordered">
+                                        <table id="category-datatable" class="table table-striped w-100 nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                                    <th>STT</th>
                                                     <th>Tên loại</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="cate" items="${categories}">
+                                                <c:forEach var="cate" items="${categories}" varStatus="status">
                                                     <tr>
-                                                        <td>${cate.productCateId}</td>
+                                                        <td>${status.index + 1}</td>
                                                         <td>${cate.cateName}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-sm btn-outline-primary edit-cate-btn"
@@ -601,6 +601,22 @@ $(document).ready(function() {
         $('#scroll-horizontal-datatable').DataTable().destroy();
     }
     $('#scroll-horizontal-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    if ($.fn.DataTable.isDataTable('#category-datatable')) {
+        $('#category-datatable').DataTable().destroy();
+    }
+    $('#category-datatable').DataTable({
         responsive: true,
         fixedHeader: true,
         pageLength: 10,
