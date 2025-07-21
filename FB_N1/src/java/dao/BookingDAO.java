@@ -590,73 +590,56 @@ public class BookingDAO extends DBContext {
     }
 
     // Lấy danh sách booking chi tiết với các bộ lọc và phân trang
-    public List<Map<String, Object>> getBookingDetailsWithFilters(String fromDate, String toDate, Integer fieldId, String status, String userKeyword, int page, int pageSize) throws SQLException {
+    public List<Map<String, Object>> getBookingDetailsWithFilters(String fromDate, String toDate, Integer fieldId, String status, String userKeyword) {
         List<Map<String, Object>> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT b.booking_id, b.booking_code, ");
-        sql.append("ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS customer_name, ");
-        sql.append("f.field_name, bd.slot_date, bd.start_time, bd.end_time, ");
-        sql.append("DATEDIFF(MINUTE, bd.start_time, bd.end_time) AS duration, ");
-        sql.append("b.total_amount, b.status_pay ");
-        sql.append("FROM Booking b ");
-        sql.append("JOIN BookingDetails bd ON b.booking_id = bd.booking_id ");
-        sql.append("JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id ");
-        sql.append("JOIN Field f ON sf.field_id = f.field_id ");
-        sql.append("LEFT JOIN UserProfile up ON b.account_id = up.account_id ");
-        sql.append("WHERE 1=1 ");
-        if (fromDate != null && !fromDate.isEmpty()) {
-            sql.append(" AND bd.slot_date >= ? ");
-        }
-        if (toDate != null && !toDate.isEmpty()) {
-            sql.append(" AND bd.slot_date <= ? ");
-        }
-        if (fieldId != null) {
-            sql.append(" AND f.field_id = ? ");
-        }
-        if (status != null && !status.isEmpty()) {
-            sql.append(" AND b.status_pay = ? ");
-        }
-        if (userKeyword != null && !userKeyword.isEmpty()) {
-            sql.append(" AND (up.first_name LIKE ? OR up.last_name LIKE ? OR b.booking_code LIKE ?) ");
-        }
-        sql.append("ORDER BY bd.slot_date DESC, bd.start_time DESC ");
-        sql.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
-            int idx = 1;
-            if (fromDate != null && !fromDate.isEmpty()) {
-                ps.setString(idx++, fromDate);
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT b.booking_id, b.booking_code, ");
+            sql.append("ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS customer_name, ");
+            sql.append("f.field_name, bd.slot_date, bd.start_time, bd.end_time, ");
+            sql.append("DATEDIFF(MINUTE, bd.start_time, bd.end_time) AS duration, ");
+            sql.append("b.total_amount, b.status_pay ");
+            sql.append("FROM Booking b ");
+            sql.append("JOIN BookingDetails bd ON b.booking_id = bd.booking_id ");
+            sql.append("JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id ");
+            sql.append("JOIN Field f ON sf.field_id = f.field_id ");
+            sql.append("LEFT JOIN UserProfile up ON b.account_id = up.account_id ");
+            sql.append("WHERE 1=1 ");
+            if (fromDate != null && !fromDate.isEmpty()) sql.append(" AND bd.slot_date >= ? ");
+            if (toDate != null && !toDate.isEmpty()) sql.append(" AND bd.slot_date <= ? ");
+            if (fieldId != null) sql.append(" AND f.field_id = ? ");
+            if (status != null && !status.isEmpty()) sql.append(" AND b.status_pay = ? ");
+            if (userKeyword != null && !userKeyword.isEmpty()) sql.append(" AND (up.first_name LIKE ? OR up.last_name LIKE ? OR b.booking_code LIKE ?) ");
+            sql.append("ORDER BY bd.slot_date DESC, bd.start_time DESC ");
+            try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                int idx = 1;
+                if (fromDate != null && !fromDate.isEmpty()) ps.setString(idx++, fromDate);
+                if (toDate != null && !toDate.isEmpty()) ps.setString(idx++, toDate);
+                if (fieldId != null) ps.setInt(idx++, fieldId);
+                if (status != null && !status.isEmpty()) ps.setString(idx++, status);
+                if (userKeyword != null && !userKeyword.isEmpty()) {
+                    ps.setString(idx++, "%" + userKeyword + "%");
+                    ps.setString(idx++, "%" + userKeyword + "%");
+                    ps.setString(idx++, "%" + userKeyword + "%");
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("booking_id", rs.getInt("booking_id"));
+                    map.put("booking_code", rs.getString("booking_code"));
+                    map.put("customer_name", rs.getString("customer_name"));
+                    map.put("field_name", rs.getString("field_name"));
+                    map.put("slot_date", rs.getString("slot_date"));
+                    map.put("start_time", rs.getString("start_time"));
+                    map.put("end_time", rs.getString("end_time"));
+                    map.put("duration", rs.getInt("duration"));
+                    map.put("total_amount", rs.getBigDecimal("total_amount"));
+                    map.put("status_pay", rs.getInt("status_pay"));
+                    list.add(map);
+                }
             }
-            if (toDate != null && !toDate.isEmpty()) {
-                ps.setString(idx++, toDate);
-            }
-            if (fieldId != null) {
-                ps.setInt(idx++, fieldId);
-            }
-            if (status != null && !status.isEmpty()) {
-                ps.setString(idx++, status);
-            }
-            if (userKeyword != null && !userKeyword.isEmpty()) {
-                ps.setString(idx++, "%" + userKeyword + "%");
-                ps.setString(idx++, "%" + userKeyword + "%");
-                ps.setString(idx++, "%" + userKeyword + "%");
-            }
-            ps.setInt(idx++, (page - 1) * pageSize);
-            ps.setInt(idx++, pageSize);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("booking_id", rs.getInt("booking_id"));
-                map.put("booking_code", rs.getString("booking_code"));
-                map.put("customer_name", rs.getString("customer_name"));
-                map.put("field_name", rs.getString("field_name"));
-                map.put("slot_date", rs.getString("slot_date"));
-                map.put("start_time", rs.getString("start_time"));
-                map.put("end_time", rs.getString("end_time"));
-                map.put("duration", rs.getInt("duration"));
-                map.put("total_amount", rs.getBigDecimal("total_amount"));
-                map.put("status_pay", rs.getInt("status_pay"));
-                list.add(map);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
     }

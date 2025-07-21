@@ -42,21 +42,21 @@ public class BaoCaoChiTietServlet extends HttpServlet {
             Integer detailFieldId = (detailFieldIdStr != null && !detailFieldIdStr.isEmpty()) ? Integer.parseInt(detailFieldIdStr) : null;
             // 1. Báo cáo chi tiết đơn đặt sân (bỏ phân trang)
             List<Map<String, Object>> bookingDetails = bookingDAO.getBookingDetailsWithFilters(
-                detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser, 1, Integer.MAX_VALUE
+                detailFromDate, detailToDate, detailFieldId, detailStatus, detailUser
             );
             request.setAttribute("bookingDetails", bookingDetails);
 
             // =============================
             // 2. Báo cáo người dùng (bỏ phân trang)
-            List<Map<String, Object>> userReportListPaging = accountDAO.getUserReportListPaging(1, Integer.MAX_VALUE);
-            request.setAttribute("userReportList", userReportListPaging);
+            List<Map<String, Object>> userReportList = accountDAO.getUserReportList();
+            request.setAttribute("userReportList", userReportList);
             // 3. Báo cáo tình trạng sử dụng từng sân (bỏ phân trang)
             FieldDAO fieldDAO = new FieldDAO();
-            List<Map<String, Object>> fieldUsageReportList = fieldDAO.getFieldUsageReportPaging(1, Integer.MAX_VALUE);
+            List<Map<String, Object>> fieldUsageReportList = fieldDAO.getFieldUsageReport();
             request.setAttribute("fieldUsageReportList", fieldUsageReportList);
             // 4. Báo cáo doanh thu chi tiết (bỏ phân trang)
             PaymentDAO paymentDAO = new PaymentDAO();
-            List<Map<String, Object>> detailedPayments = paymentDAO.getDetailedPaymentsPaging(1, Integer.MAX_VALUE);
+            List<Map<String, Object>> detailedPayments = paymentDAO.getDetailedPayments();
             request.setAttribute("detailedPayments", detailedPayments);
 
             // =============================

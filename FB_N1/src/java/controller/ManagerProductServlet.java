@@ -51,24 +51,13 @@ public class ManagerProductServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         CateProduct_DAO cateDAO = new CateProduct_DAO();
         String action = request.getParameter("action");
-        String searchKeyword = request.getParameter("search");
-
         // Lấy danh sách category để hiển thị trong form
         List<CateProduct> categories = cateDAO.getAllCategory();
         request.setAttribute("categories", categories);
-
         dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
 
-        if ("search".equals(action) && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-            // Tìm kiếm product
-            List<Product> products = productDAO.searchProductByName(searchKeyword.trim());
-            for (Product p : products) {
-                List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
-                p.setProductDetailsList(details);
-            }
-            request.setAttribute("products", products);
-            request.setAttribute("searchKeyword", searchKeyword);
-        } else if ("filter".equals(action)) {
+        List<Product> products;
+        if ("filter".equals(action)) {
             // Lọc theo category và giá
             String categoryId = request.getParameter("categoryId");
             String minPriceStr = request.getParameter("minPrice");
@@ -80,7 +69,6 @@ public class ManagerProductServlet extends HttpServlet {
             if (maxPriceStr != null && !maxPriceStr.isEmpty()) {
                 try { maxPrice = Double.parseDouble(maxPriceStr); } catch (NumberFormatException e) { maxPrice = null; }
             }
-            List<Product> products;
             if ((categoryId != null && !categoryId.isEmpty()) || minPrice != null || maxPrice != null) {
                 // Sử dụng pagingProduct để lọc theo danh mục và giá
                 products = new ProductDAO().pagingProduct(
@@ -109,7 +97,7 @@ public class ManagerProductServlet extends HttpServlet {
             request.setAttribute("maxPrice", maxPriceStr);
         } else {
             // Hiển thị tất cả product
-            List<Product> products = productDAO.getAllProducts();
+            products = productDAO.getAllProducts();
             for (Product p : products) {
                 List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                 p.setProductDetailsList(details);

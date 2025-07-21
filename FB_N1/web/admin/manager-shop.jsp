@@ -91,13 +91,6 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <form action="${pageContext.request.contextPath}/admin/manager-product" method="GET" class="d-flex">
-                                    <input type="hidden" name="action" value="search">
-                                    <input type="text" name="search" class="form-control me-2" placeholder="Tìm kiếm sản phẩm..." value="${searchKeyword}">
-                                    <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
-                                <form action="${pageContext.request.contextPath}/admin/manager-product" method="GET" class="d-flex">
                                     <input type="hidden" name="action" value="filter">
                                     <select name="categoryId" class="form-select me-2">
                                         <option value="">Tất cả danh mục</option>
@@ -119,12 +112,11 @@
                                 <div class="mb-4">
                                     <h4 class="fs-16">Danh sách Sản phẩm</h4>
                                     <p class="text-muted fs-14">Quản lý thông tin các sản phẩm trong hệ thống</p>
-
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Sản phẩm</th>
+                                                <th>Tên sản phẩm</th>
                                                 <th>Danh mục</th>
                                                 <th>Giá</th>
                                                 <th>Mô tả</th>
@@ -132,19 +124,11 @@
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <c:forEach var="product" items="${products}">
                                                 <tr>
                                                     <td>${product.productId}</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <c:if test="${not empty product.productImage}">
-                                                                <img src="${product.productImage}" alt="${product.productName}" class="rounded me-2" width="40" height="40">
-                                                            </c:if>
-                                                            <span>${product.productName}</span>
-                                                        </div>
-                                                    </td>
+                                                    <td>${product.productName}</td>
                                                     <td>${product.cateProduct.cateName}</td>
                                                     <td>${product.productPrice}</td>
                                                     <td>
@@ -161,11 +145,6 @@
                                                         <span class="badge ${product.productStatus eq 'active' ? 'bg-success' : 'bg-danger'}">
                                                             ${product.productStatus eq 'active' ? 'Còn hàng' : 'Hết hàng'}
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#details${product.productId}">
-                                                            Xem chi tiết
-                                                        </button>
                                                     </td>
                                                     <td>
                                                         <div class="btn-group" role="group">
@@ -194,44 +173,6 @@
                                                                     <i class="ri-delete-bin-line"></i>
                                                                 </button>
                                                             </form>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr class="collapse" id="details${product.productId}">
-                                                    <td colspan="8">
-                                                        <div style="overflow-x:auto;">
-                                                            <table class="table table-bordered mt-2">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Màu</th><th>Size</th><th>Chất liệu</th><th>Trọng lượng</th><th>Xuất xứ</th><th>Bảo hành</th><th>Thông tin thêm</th><th>Lưu</th><th>Xóa</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <c:forEach var="detail" items="${product.productDetailsList}">
-                                                                        <tr>
-                                                                            <form action="update-product-details" method="post">
-                                                                                <input type="hidden" name="productDetailsId" value="${detail.productDetailsId}">
-                                                                                <td><input type="text" name="color" value="${detail.color}" class="form-control"></td>
-                                                                                <td><input type="text" name="size" value="${detail.size}" class="form-control"></td>
-                                                                                <td><input type="text" name="material" value="${detail.material}" class="form-control"></td>
-                                                                                <td><input type="number" step="0.01" name="weight" value="${detail.weight}" class="form-control"></td>
-                                                                                <td><input type="text" name="origin" value="${detail.origin}" class="form-control"></td>
-                                                                                <td><input type="text" name="warranty" value="${detail.warranty}" class="form-control"></td>
-                                                                                <td><input type="text" name="moreInfo" value="${detail.moreInfo}" class="form-control"></td>
-                                                                                <td>
-                                                                                    <button type="submit" class="btn btn-success btn-sm">Lưu</button>
-                                                                                </td>
-                                                                            </form>
-                                                                            <td>
-                                                                                <form action="delete-product-details" method="post" style="display:inline;">
-                                                                                    <input type="hidden" name="productDetailsId" value="${detail.productDetailsId}">
-                                                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xóa?')">Xóa</button>
-                                                                                </form>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </c:forEach>
-                                                                </tbody>
-                                                            </table>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -654,6 +595,22 @@
                 });
             });
         </script>
+        <script>
+$(document).ready(function() {
+    if ($.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
+        $('#scroll-horizontal-datatable').DataTable().destroy();
+    }
+    $('#scroll-horizontal-datatable').DataTable({
+        responsive: true,
+        fixedHeader: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 20, 50, 100],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+        }
+    });
+});
+</script>
    
     </body>
 
