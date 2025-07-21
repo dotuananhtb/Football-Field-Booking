@@ -82,7 +82,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Quản lí Khu Vực</h4>
+                                    <h4 class="page-title">Quản lí Ưu đãi</h4>
                                 </div>
                             </div>
                         </div>

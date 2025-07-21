@@ -11,7 +11,8 @@ import java.sql.Timestamp;
  * @author VAN NGUYEN
  */
 public class Blog {
-   private int blogId;
+
+    private int blogId;
     private String title;
     private String slug;
     private String summary;
@@ -23,6 +24,7 @@ public class Blog {
     private Timestamp updatedAt;
     private String tags;
     private Status_Blog status;
+    private String timeAgo;
 
     public Blog(int blogId, String title, String slug, String summary, String content, String thumbnailUrl, int accountId, int statusBlogId, Timestamp createdAt, Timestamp updatedAt, String tags, Status_Blog status) {
         this.blogId = blogId;
@@ -52,9 +54,33 @@ public class Blog {
         this.tags = tags;
         this.status = status;
     }
-    
 
-   
+    public Blog(int blogId, String title, String slug, String summary, String content, String thumbnailUrl, int accountId, int statusBlogId, Timestamp createdAt, Timestamp updatedAt, String tags) {
+        this.blogId = blogId;
+        this.title = title;
+        this.slug = slug;
+        this.summary = summary;
+        this.content = content;
+        this.thumbnailUrl = thumbnailUrl;
+        this.accountId = accountId;
+        this.statusBlogId = statusBlogId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.tags = tags;
+    }
+
+    public Blog(String title, String slug, String summary, String content, String thumbnailUrl, int accountId, int statusBlogId, String tags) {
+        this.title = title;
+        this.slug = slug;
+        this.summary = summary;
+        this.content = content;
+        this.thumbnailUrl = thumbnailUrl;
+        this.accountId = accountId;
+        this.statusBlogId = statusBlogId;
+        this.tags = tags;
+    }
+    
+    
 
     public Blog() {
     }
@@ -155,22 +181,17 @@ public class Blog {
         this.status = status;
     }
 
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
     @Override
     public String toString() {
         return "Blog{" + "blogId=" + blogId + ", title=" + title + ", slug=" + slug + ", summary=" + summary + ", content=" + content + ", thumbnailUrl=" + thumbnailUrl + ", accountId=" + accountId + ", statusBlogId=" + statusBlogId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", tags=" + tags + ", status=" + status + '}';
     }
 
-    
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

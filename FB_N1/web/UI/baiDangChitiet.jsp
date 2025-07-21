@@ -44,93 +44,45 @@
                                                     <!-- End Main Header -->
                                                     <main id="main">
 
-                                                        <section class="breadcumb-section">
-                                                            <div class="tf-container">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12 center z-index1">
-                                                                        <h1 class="title">Diễn Đàn Tin Tức</h1>
-                                                                        <ul class="breadcumb-list flex-five">
-                                                                            <li><a href="/FB_N1/home">Trang Chủ</a></li>
-                                                                            <li><span>Diễn Đàn Tin Tức</span></li>
-                                                                        </ul>
-                                                                        <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </section>
+                                                     
 
                                                         <section class="our-blog pd-main">
                                                             <div class="tf-container">
                                                                 <div class="row">
-
                                                                     <div class="col-lg-8 col-12">
-                                                                        <c:forEach items="${listB}" var="c">
-                                                                            <article class="side-blog mb-56px">
-                                                                                <div class="blog-image">
 
-                                                                                    <a class="post-thumbnail" href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${c.slug}">
-                                                                                        <img src="${c.thumbnailUrl}" alt="Image blog">
-                                                                                    </a>
+                                                                        <article class="side-blog side-blog-single">
 
-                                                                                </div>
-                                                                                <div class="blog-content">
-                                                                                    <div class="top-detail-info">
-                                                                                        <ul class="flex-three">
+                                                                            <h2 class="entry-title">
+                                                                                ${blog.title} Nguyễn văn Nguyên đẹp trai
+                                                                            </h2>
 
-                                                                                            <li>
-                                                                                                <i class="icon-24"></i>
-                                                                                                <span class="date">${c.timeAgo}</span>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                    <h3 class="entry-title">
-                                                                                        <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${c.slug}">${c.title} </a>
-                                                                                    </h3>
-                                                                                    <p class="description">${c.summary}
-                                                                                    </p>
-                                                                                    <div class="button-main ">
-                                                                                        <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${c.slug}" class="button-link">Read More <i
-                                                                                                class="icon-Arrow-11"></i></a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </article>
-
-
-
-                                                                        </c:forEach>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12 ">
-                                                                                <ul class="tf-pagination flex-five mt-20">
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#"> <i class="icon-29"></i></a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#">1</a>
-                                                                                    </li>
-                                                                                    <li class="pages-item active" aria-current="page">
-                                                                                        <a class="pages-link" href="#">2</a>
-                                                                                    </li>
-                                                                                    <li><a class="pages-link" href="#">3</a></li>
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#"><i class=" icon--1"></i></a>
-                                                                                    </li>
-                                                                                </ul>
-
+                                                                            <div class="image">
+                                                                                <img src="${blog.thumbnailUrl}" alt="">
                                                                             </div>
-                                                                        </div>
+                                                                            <div class="top-detail-info">
+                                                                                <ul class="flex-three">
+                                                                                    <li>
+                                                                                        <i class="icon-4"></i>
+                                                                                        <span>${blog.timeAgo}</span>
+                                                                                    </li>
+
+                                                                                </ul>
+                                                                            </div><br>
+
+                                                                                <p class="des lh-32 mb-37">${blog.content}
+                                                                                </p>
+                                                                        </article>
+                                                                                <div class="flex-two share-blog">
+                                                                        
+
+                                                                                </div>           
+
                                                                     </div>
                                                                     <div class="col-lg-4 col-12">
                                                                         <div class="side-bar-right">
 
-                                                                            <div class="sidebar-widget">
-                                                                                <h4 class="block-heading">Tìm kiếm</h4>
-                                                                                <form action="${pageContext.request.contextPath}/bai-dang" id="search-bar-widget">
-                                                                                    <input type="text" name="title"  placeholder="Tìm kiếm..." >
-                                                                                        <button type="button"><i class="icon-search-2"></i></button>
-                                                                                </form>
 
-                                                                            </div>
                                                                             <div class="sidebar-widget">
                                                                                 <h4 class="block-heading">Bài viết gần đây</h4>
                                                                                 <div class="recent-post-list">

@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
+import com.google.gson.Gson;
 import dao.blogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,35 +25,44 @@ import util.TimeAgoUtil;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name = "BaiDang", urlPatterns = {"/bai-dang"})
-public class BaiDang extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="baiDangChiTiet", urlPatterns={"/bai-dang-chi-tiet"})
+public class baiDangChiTiet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    throws ServletException, IOException {
+      
+       
+    } 
 
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String tag1 = request.getParameter("tag");
-        String title = request.getParameter("title");
-        System.out.println("title = " + title);
+    throws ServletException, IOException {
+       
+          
+        String slug = request.getParameter("slug");
+        System.out.println("slug =" +slug);
         blogDAO bDao = new blogDAO();
-        List<Blog> listB;
+        Blog blog = bDao.getBlogBySlug(slug);
         List<Blog> listB1 = bDao.getLatest3Blogs();
-
+        for (Blog b : listB1) {
+            b.setTimeAgo(TimeAgoUtil.getTimeAgo(b.getCreatedAt()));
+        }
+        
         Set<String> rawTags = bDao.getAllTags();
         Set<String> individualTags = new HashSet<>();
 
@@ -67,39 +78,39 @@ public class BaiDang extends HttpServlet {
             }
         }
         List<String> listTag = new ArrayList<>(individualTags);
-        if (tag1 != null) {
-            listB = bDao.searchBlogsByTag(tag1);
-        } else if (title != null) {
-            listB = bDao.searchBlogsByTitle(title);
-        } else {
-            listB = bDao.getAllBlogStatus();
-        }
-        for (Blog b : listB) {
-            b.setTimeAgo(TimeAgoUtil.getTimeAgo(b.getCreatedAt()));
-        }
 
-        for (Blog b : listB1) {
-            b.setTimeAgo(TimeAgoUtil.getTimeAgo(b.getCreatedAt()));
-        }
+       
+
+            // Xử lý thời gian "X phút trước"
+            blog.setTimeAgo(TimeAgoUtil.getTimeAgo(blog.getCreatedAt()));
+            request.setAttribute("listB1", listB1);
+            request.setAttribute("listTag", listTag);
+            request.setAttribute("blog", blog);
+            
+            request.getRequestDispatcher("UI/baiDangChitiet.jsp").forward(request, response);
         
-
-        request.setAttribute("listB", listB);
-        request.setAttribute("listB1", listB1);
-
-        request.setAttribute("listTag", listTag);
-
-        request.getRequestDispatcher("UI/baiDang.jsp").forward(request, response);
-
     }
+        
+        
+     
 
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        
-
+    throws ServletException, IOException {
+        processRequest(request, response);
     }
 
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

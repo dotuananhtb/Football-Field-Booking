@@ -189,6 +189,14 @@
 
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="/FB_N1/admin/quan-li-bai-dang"" class="side-nav-link">
+                    <i class="ri-pages-fill"></i>
+                    <span> Quản lí Tin tức</span>
+
+
+                </a>
+            </li>
             
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-uu-dai"" class="side-nav-link">

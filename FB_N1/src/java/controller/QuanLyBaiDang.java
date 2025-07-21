@@ -5,9 +5,10 @@
 
 package controller;
 
-import com.google.gson.Gson;
+import dao.StatusBlogDAO;
 import dao.blogDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,13 +16,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Blog;
+import model.Status_Blog;
+import util.TimeAgoUtil;
+import util.ToastUtil;
 
 /**
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="DanhSachTag", urlPatterns={"/danh-sach-nhan"})
-public class DanhSachTag extends HttpServlet {
+@WebServlet(name="QuanLyBaiDang", urlPatterns={"/admin/quan-li-bai-dang"})
+public class QuanLyBaiDang extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,31 +36,45 @@ public class DanhSachTag extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        
+        response.setContentType("text/html;charset=UTF-8");
+       
     } 
 
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-          response.setContentType("application/json;charset=UTF-8");
-      String tag = request.getParameter("tag");
-      blogDAO bDao = new blogDAO();
-      
-      List<Blog> listB = bDao.searchBlogsByTag(tag);
-      response.getWriter().print(new Gson().toJson(listB));
-      
+        
+          blogDAO bDao = new blogDAO();
+          StatusBlogDAO s = new StatusBlogDAO();
+         List<Status_Blog> list = s.getAllStatus();
+        List<Blog> listB = bDao.getAllBlog();
+        for (Blog b : listB) {
+            b.setTimeAgo(TimeAgoUtil.formatDate(b.getCreatedAt()));
+        }
+        request.setAttribute("listS", list);
+        request.setAttribute("listB", listB);
+        request.getRequestDispatcher("QuanLyBaiDang.jsp").forward(request, response);
     } 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-    processRequest(request, response);
-      
+        
+        int blogId = Integer.parseInt(request.getParameter("bId"));
+        int statusId = Integer.parseInt(request.getParameter("sId"));
+        blogDAO bDao = new blogDAO();
+        
+        boolean a = bDao.changeStatus(blogId, statusId);
+        if(a){
+            ToastUtil.setSuccessToast(request, "Đổi trạng thái thành công!");
+        }
+          response.sendRedirect(request.getContextPath() + "/admin/quan-li-bai-dang");
+        
+        
     }
 
-   
     @Override
     public String getServletInfo() {
         return "Short description";
