@@ -59,15 +59,16 @@ public class blogDAO extends DBContext {
 
         return blogs;
     }
+
     public List<Blog> getAllBlogStatus() {
         List<Blog> blogs = new ArrayList<>();
-        String sql = "SELECT b.*, s.status_blog_name \n" +
-"                FROM Blog b \n" +
-"                JOIN Status_Blog s ON b.status_blog_id = s.status_blog_id\n" +
-"				where s.status_blog_id = 1";
+        String sql = "SELECT b.*, s.status_blog_name \n"
+                + "                FROM Blog b \n"
+                + "                JOIN Status_Blog s ON b.status_blog_id = s.status_blog_id\n"
+                + "				where s.status_blog_id = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            
+
             while (rs.next()) {
                 Blog blog = new Blog();
                 blog.setBlogId(rs.getInt("blog_id"));
@@ -117,6 +118,7 @@ public class blogDAO extends DBContext {
         }
         return blog;
     }
+
     public Blog getBlogById(int blogId) {
         Blog blog = null;
         String sql = "SELECT * FROM Blog WHERE blog_id = ?";
@@ -158,9 +160,6 @@ public class blogDAO extends DBContext {
 
         return false;
     }
-    
-    
-    
 
     public boolean updateBlog(Blog blog) {
         String sql = "UPDATE Blog SET title = ?, slug = ?, summary = ?, content = ?, thumbnail_url = ?, "
@@ -350,10 +349,6 @@ public class blogDAO extends DBContext {
 
         return tagsSet;
     }
- 
-
-
-
 
     public int countAllBlogs() {
         String sql = "SELECT COUNT(*) FROM Blog";
@@ -366,7 +361,46 @@ public class blogDAO extends DBContext {
         }
         return 0;
     }
+
+    public List<Blog> pagingBlog(int page, int pageSize) {
+        List<Blog> list = new ArrayList<>();
+        String query = "SELECT *\n"
+                + "                FROM [dbo].[Blog]\n"
+                + "				where status_blog_id = 1\n"
+                + "              order by blog_id\n"
+                + "                offset ? rows fetch next ? rows only";
+        try (PreparedStatement ptm = connection.prepareStatement(query)) {
+            ptm.setInt(1, (page - 1) * pageSize);
+            ptm.setInt(2, pageSize);
+            try (ResultSet rs = ptm.executeQuery()) {
+                while (rs.next()) {
+                    Blog blog = new Blog();
+                    blog.setBlogId(rs.getInt("blog_id"));
+                    blog.setTitle(rs.getString("title"));
+                    blog.setSlug(rs.getString("slug"));
+                    blog.setSummary(rs.getString("summary"));
+                    blog.setContent(rs.getString("content"));
+                    blog.setThumbnailUrl(rs.getString("thumbnail_url"));
+                    blog.setAccountId(rs.getInt("account_id"));
+                    blog.setStatusBlogId(rs.getInt("status_blog_id"));
+                    blog.setCreatedAt(rs.getTimestamp("created_at"));
+                    blog.setUpdatedAt(rs.getTimestamp("updated_at"));
+                    blog.setTags(rs.getString("tags"));
+                    list.add(blog);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        blogDAO b = new blogDAO();
+        List<Blog> bli = b.pagingBlog(1, 4);
+        for (Blog blog : bli) {
+            System.out.println(blog);
+        }
+    }
+
 }
-
-
-

@@ -277,12 +277,12 @@
                                                                                             aria-controls="pills-information" aria-selected="true"><i
                                                                                             class="icon-Vector-51"></i> Thông tin sân bóng</button>
                                                                                 </li>
-                                                                                <li class="nav-item" role="presentation">
+<!--                                                                                <li class="nav-item" role="presentation">
                                                                                     <button class="nav-link" id="pills-shot-gallery-tab" data-bs-toggle="pill"
                                                                                             data-bs-target="#pills-shot-gallery" type="button" role="tab"
                                                                                             aria-controls="pills-shot-gallery" aria-selected="false"><i
                                                                                             class="icon-image-gallery-1"></i> Ảnh sân bóng</button>
-                                                                                </li>
+                                                                                </li>-->
                                                                                 <li class="nav-item" role="presentation">
                                                                                     <button class="nav-link" id="pills-booking-tab" data-bs-toggle="pill"
                                                                                             data-bs-target="#pills-booking" type="button" role="tab"
@@ -391,7 +391,7 @@
                                                                                     </div>
 
                                                                                 </div>
-                                                                                <div class="tab-pane fade" id="pills-shot-gallery" role="tabpanel"
+<!--                                                                                <div class="tab-pane fade" id="pills-shot-gallery" role="tabpanel"
                                                                                      aria-labelledby="pills-shot-gallery-tab" tabindex="0">
                                                                                     <div class="row">
                                                                                         <div class="col-lg-8">
@@ -442,7 +442,7 @@
                                                                                         </div>
                                                                                     </div>
 
-                                                                                </div>
+                                                                                </div>-->
                                                                                 <div class="tab-pane fade" id="pills-booking" role="tabpanel" aria-labelledby="pills-booking-tab">
                                                                                     <div class="row">
                                                                                         <!-- Cột trái: Lịch -->

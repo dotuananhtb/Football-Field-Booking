@@ -99,26 +99,55 @@
 
 
                                                                         </c:forEach>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12 ">
-                                                                                <ul class="tf-pagination flex-five mt-20">
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#"> <i class="icon-29"></i></a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#">1</a>
-                                                                                    </li>
-                                                                                    <li class="pages-item active" aria-current="page">
-                                                                                        <a class="pages-link" href="#">2</a>
-                                                                                    </li>
-                                                                                    <li><a class="pages-link" href="#">3</a></li>
-                                                                                    <li>
-                                                                                        <a class="pages-link" href="#"><i class=" icon--1"></i></a>
-                                                                                    </li>
-                                                                                </ul>
+                                                                        <c:if test="${totalPage > 1}">
+                                                                            <c:set var="startPage" value="${currentPage - 2}" />
+                                                                            <c:set var="endPage" value="${currentPage + 2}" />
 
+                                                                            <c:if test="${startPage < 1}">
+                                                                                <c:set var="startPage" value="1" />
+                                                                            </c:if>
+                                                                            <c:if test="${endPage > totalPage}">
+                                                                                <c:set var="endPage" value="${totalPage}" />
+                                                                            </c:if>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <ul class="tf-pagination flex-five mt-20">
+
+                                                                                        <!-- Nút Prev -->
+                                                                                        <c:if test="${currentPage > 1}">
+                                                                                            <li class="pages-item">
+                                                                                                <a class="pages-link"
+                                                                                                   href="${pageContext.request.contextPath}/bai-dang?page=${currentPage - 1}">
+                                                                                                    « Prev
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </c:if>
+
+                                                                                        <!-- Số trang -->
+                                                                                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                                                                                            <li class="pages-item${i == currentPage ? ' active' : ''}">
+                                                                                                <a class="pages-link"
+                                                                                                   href="${pageContext.request.contextPath}/bai-dang?page=${i}">
+                                                                                                    ${i}
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </c:forEach>
+
+                                                                                        <!-- Nút Next -->
+                                                                                        <c:if test="${currentPage < totalPage}">
+                                                                                            <li class="pages-item">
+                                                                                                <a class="pages-link"
+                                                                                                   href="${pageContext.request.contextPath}/bai-dang?page=${currentPage + 1}">
+                                                                                                    Next »
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </c:if>
+
+                                                                                    </ul>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </c:if>
                                                                     </div>
                                                                     <div class="col-lg-4 col-12">
                                                                         <div class="side-bar-right">
@@ -163,7 +192,7 @@
                                                                                     </c:forEach>
 
                                                                                 </ul>
-                                                                                
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
