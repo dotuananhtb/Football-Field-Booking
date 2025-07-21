@@ -117,10 +117,7 @@ public class ManagerProductServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Account account = (session != null) ? (Account) session.getAttribute("account") : null;
 
-        if (!isAdmin(account)) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
+
 
         ProductDAO productDAO = new ProductDAO();
         String action = request.getParameter("action");
