@@ -228,7 +228,7 @@
                                                                                                                                                                     <c:forEach items="${field}" var="f">
                                                                                                                                                                         <div class="swiper-slide">
                                                                                                                                                                             <div class="tour-listing wow fadeInUp animated" data-wow-delay="0.1s">
-                                                                                                                                                                                <a href="tour-single.html" class="tour-listing-image">
+                                                                                                                                                                                <a href="/FB_N1/dat-san?field_id=${f.fieldId}" class="tour-listing-image">
                                                                                                                                                                                     <div class="badge-top flex-two">
 
 
@@ -240,7 +240,7 @@
                                                                                                                                                                                 <div class="tour-listing-content">
 
 
-                                                                                                                                                                                    <h3 class="title-tour-list"><a href="tour-single.html">${f.fieldName}</a>
+                                                                                                                                                                                    <h3 class="title-tour-list"><a href="/FB_N1/dat-san?field_id=${f.fieldId}">${f.fieldName}</a>
                                                                                                                                                                                     </h3>
                                                                                                                                                                                     <div class="review">
                                                                                                                                                                                         <i class="icon-Star"></i>
@@ -356,19 +356,19 @@
 
                                                                                                                                                                             <div class="tour-listing wow fadeInUp animated "
                                                                                                                                                                                  data-wow-delay="0.1s">
-                                                                                                                                                                                <a href="tour-single.html" class="tour-listing-image">
+                                                                                                                                                                                <a href="/FB_N1/product-details?productId=${f.productId}" class="tour-listing-image">
                                                                                                                                                                                     <div class="badge-top flex-two">
 
 
                                                                                                                                                                                     </div>
-                                                                                                                                                                                    <img src="./assets/images/travel-list/1.jpg"
+                                                                                                                                                                                    <img src="${f.productImage}"
                                                                                                                                                                                          alt="Image Listing">
 
                                                                                                                                                                                 </a>
                                                                                                                                                                                 <div class="tour-listing-content">
 
 
-                                                                                                                                                                                    <h3 class="title-tour-list"><a href="tour-single.html">${f.productName}</a>
+                                                                                                                                                                                    <h3 class="title-tour-list"><a href="/FB_N1/product-details?productId=${f.productId}">${f.productName}</a>
                                                                                                                                                                                     </h3>
                                                                                                                                                                                     <div class="review">
                                                                                                                                                                                         <i class="icon-Star"></i>
@@ -818,7 +818,7 @@
                                                                                                                                                                     <c:forEach items="${listB1}" var="post">
                                                                                                                                                                         <div class="col-md-4 wow fadeInUp animated " data-wow-delay="0.1s">
                                                                                                                                                                             <div class="tf-widget-blog blog-style">
-                                                                                                                                                                                <a href="blog-details.html" class="blog-image">
+                                                                                                                                                                                <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}" class="blog-image">
                                                                                                                                                                                     <img src="${post.thumbnailUrl}" alt="">
 
                                                                                                                                                                                 </a>
@@ -827,10 +827,10 @@
 
 
                                                                                                                                                                                     </ul>
-                                                                                                                                                                                    <h3 class="entry-title"><a href="/FB_N1/blogdetails">${post.title}</a></h3>
+                                                                                                                                                                                    <h3 class="entry-title"><a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}">${post.title}</a></h3>
                                                                                                                                                                                     <p class="des">${post.summary}
                                                                                                                                                                                     </p>
-                                                                                                                                                                                    <a href="/FB_N1/blogdetails" class="btn-read-more">Đọc thêm <i
+                                                                                                                                                                                    <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}" class="btn-read-more">Đọc thêm <i
                                                                                                                                                                                             class="icon-Vector-4"></i></a>
                                                                                                                                                                                 </div>
                                                                                                                                                                             </div>
