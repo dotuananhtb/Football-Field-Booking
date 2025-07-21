@@ -71,7 +71,7 @@ public class DanhSachSan extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FieldDAO dao = new FieldDAO();
-        SlotsOfFieldDAO sofDAO= new  SlotsOfFieldDAO();
+        SlotsOfFieldDAO sofDAO = new SlotsOfFieldDAO();
         Zone_DAO zDAO = new Zone_DAO();
         TypeOfFieldDAO tDAO = new TypeOfFieldDAO();
 
@@ -84,6 +84,7 @@ public class DanhSachSan extends HttpServlet {
         String time = request.getParameter("time");
         String minPriceStr = request.getParameter("minPrice");
         String maxPriceStr = request.getParameter("maxPrice");
+        String keyword = request.getParameter("keyword");
 
         // lấy fieldId phù hợp
         int index = 1;
@@ -100,14 +101,16 @@ public class DanhSachSan extends HttpServlet {
         if (maxPriceStr != null && !maxPriceStr.isEmpty()) {
             maxPrice = new BigDecimal(maxPriceStr);
         }
+        if (keyword != null) {
+            keyword = keyword.trim();
+        }
         int count = dao.countFields(zoneId, typeId, time, minPrice, maxPrice);
         int endPage = count / 6;
 
         if (count % 6 != 0) {
             endPage++;
         }
-
-        List<Field> listP = dao.pagingField(zoneId, typeId, time, minPrice, maxPrice, index, 6, sortBy);
+        List<Field> listP = dao.pagingField(zoneId, typeId, time, minPrice, maxPrice, index, 6, sortBy, keyword);
 
         Map<Integer, BigDecimal[]> priceMap = new HashMap<>();
         Map<Integer, Integer> totalSlotMap = new HashMap<>();
@@ -142,7 +145,7 @@ public class DanhSachSan extends HttpServlet {
         }
         request.setAttribute("globalMin", minPrice);
         request.setAttribute("globalMax", maxPrice);
-
+        request.setAttribute("keyword", keyword);
         request.setAttribute("listF", listP);
         request.setAttribute("endP", endPage);
         request.setAttribute("listZ", listZ);

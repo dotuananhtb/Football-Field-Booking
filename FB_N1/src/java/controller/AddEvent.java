@@ -111,6 +111,7 @@ public class AddEvent extends HttpServlet {
 
         redirectBack(request, response);
     }
+    
 
     private void redirectBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String referer = request.getHeader("referer");

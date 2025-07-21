@@ -183,39 +183,40 @@
 
                                                         <!-- Widget Select Form -->
                                                         <form mehtod="get" action="${pageContext.request.contextPath}/Shop">
+                                                            <!-- Widget Select Form -->
                                                             <div class="mt--82 z-index3 relative">
                                                                 <div class="tf-container">
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
                                                                             <div class="search-form-widget-slider relative">
-                                                                                <form action="/" id="search-form-slider">
-                                                                                    <div class="flex wd-search">
-                                                                                        <div class="form-group flex-five">
-                                                                                            <i class="icon-18"></i>
-                                                                                            <div class="search-bar-group">
-                                                                                                <label for="productName">Tên sản phẩm</label>
-                                                                                                <input type="text" 
-                                                                                                       id="productName" 
-                                                                                                       name="productName" 
-                                                                                                       placeholder="Nhập tên sản phẩm bạn muốn tìm..." 
-                                                                                                       required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group flex-two">
-                                                                                            <button type="submit" class="btn-search">
-                                                                                                <i class="icon-Vector5"></i>
-                                                                                                Tìm kiếm
-                                                                                            </button>
+                                                                                <div class="flex wd-search">
+                                                                                    <!-- Ô nhập tên sân -->
+                                                                                    <div class="form-group flex-five">
+                                                                                        <i class="icon-18"></i>
+                                                                                        <div class="search-bar-group">
+                                                                                            <label for="keyword">Tên sân</label>
+                                                                                            <input type="text"
+                                                                                                   id="keyword"
+                                                                                                   name="keyword"
+                                                                                                   placeholder="Nhập tên sân bạn muốn tìm..."
+                                                                                                   value="${fn:escapeXml(param.keyword)}"
+                                                                                                   required />
                                                                                         </div>
                                                                                     </div>
-
-
-                                                                                </form>
+                                                                                    <!-- Nút tìm kiếm -->
+                                                                                    <div class="form-group flex-two">
+                                                                                        <button type="submit" class="btn-search">
+                                                                                            <i class="icon-Vector5"></i>
+                                                                                            Tìm kiếm
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <!-- Widget Select Form -->
 
                                                             <!-- Widget archieve tour -->
@@ -418,56 +419,7 @@
 
                                             <a id="scroll-top" class="button-go"></a>
 
-                                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
-                                                <div class="offcanvas-header">
-                                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                                </div>
-                                                <div class="offcanvas-body">
-                                                    <div class="logo-canvas">
-                                                        <img src="./assets/images/logo.png" alt="image">
-                                                    </div>
-                                                    <p class="des">The world’s first and largest digital market
-                                                        for crypto collectibles and non-fungible
-                                                    </p>
-                                                    <ul class="canvas-info">
-                                                        <li class="flex-three">
-                                                            <i class="icon-noun-mail-5780740-1"></i>
-                                                            <p>Info@webmail.com</p>
-                                                        </li>
-                                                        <li class="flex-three">
-                                                            <i class="icon-Group-9"></i>
-                                                            <p>684 555-0102 490</p>
-                                                        </li>
-                                                        <li class="flex-three">
-                                                            <i class="icon-Layer-19"></i>
-                                                            <p>6391 Elgin St. Celina, NYC 10299</p>
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="social flex-three">
-                                                        <li>
-                                                            <a href="#">
-                                                                <i class="icon-icon-2"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i class="icon-x"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i class="icon-8"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i class="icon-6"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
 
-                                                </div>
-                                            </div>
 
                                             <!-- Javascript -->
                                             <script>
