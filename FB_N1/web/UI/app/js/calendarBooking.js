@@ -147,6 +147,18 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function (response) {
                 if (response && response.success) {
                     alert("✅ Đặt sân thành công!");
+
+                    const bookingCode = response.bookingCode;
+                    console.log("📦 bookingCode nhận được:", bookingCode);
+
+                    if (bookingCode) {
+                        setTimeout(() => {
+                            console.log("⏩ Đang chuyển trang đến:", `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`);
+                            window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
+                        }, 1000);
+                    } else {
+                        console.warn("⚠️ Không có bookingCode từ response!");
+                    }
                     selectedSlots = [];
                     calendar.refetchEvents();
                     renderSelectedTable();

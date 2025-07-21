@@ -285,6 +285,11 @@
                                                     color: white;
                                                     cursor: not-allowed;
                                                 }
+                                                .slot-btn.wait {
+                                                    background-color: #dc3545; /* đỏ */
+                                                    color: white;
+                                                    cursor: not-allowed;
+                                                }
 
                                                 .slot-btn.expired {
                                                     background-color: #6c757d; /* xám */
@@ -292,7 +297,7 @@
                                                     cursor: not-allowed;
                                                 }
                                                 .slot-btn.pending {
-                                                    background-color: #FCD34D; /* vàng */
+                                                    background-color: #dc3545; /* vàng */
                                                     color: white;
                                                     cursor: not-allowed;
                                                 }
@@ -822,7 +827,7 @@
                                                                                 <div class="listing-list-car-grid mb-60">
                                                                                     <c:forEach items="${listF}" var="o">
                                                                                         <div class="tour-listing box-sd">
-                                                                                            <a href="tour-single.html" class="tour-listing-image">
+                                                                                            <a href="${pageContext.request.contextPath}/dat-san?field_id=${o.fieldId}" class="tour-listing-image">
                                                                                                 <div class="badge-top flex-two">
                                                                                                     <span class="feature
                                                                                                           <c:choose>
@@ -835,7 +840,7 @@
                                                                                             </a>
                                                                                             <div class="tour-listing-content">
                                                                                                 <span class="map"><i class="icon-Vector4"></i>${o.zone.address}</span>
-                                                                                                <h3 class="title-tour-list"><a href="tour-single.html">${o.fieldName}</a>
+                                                                                                <h3 class="title-tour-list"><a href="${pageContext.request.contextPath}/dat-san?field_id=${o.fieldId}">${o.fieldName}</a>
                                                                                                 </h3>
                                                                                                 <div class="icon-box flex-three">
                                                                                                     <div class="icons flex-three">
@@ -852,12 +857,13 @@
                                                                                                     <div class="time-slots">
                                                                                                         <div class="slots-header">
                                                                                                             <div class="slots-title">Khung giờ có sẵn</div>
-                                                                                                            <button type="button" class="toggle-btn" onclick="toggleSlots()">
+                                                                                                            <button type="button" class="toggle-btn">
                                                                                                                 <span id="toggleText">Thu gọn</span>
                                                                                                                 <svg class="toggle-icon" id="toggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                                                                                                     <path d="M7 14l5-5 5 5z"/>
                                                                                                                 </svg>
                                                                                                             </button>
+
                                                                                                         </div>
 
                                                                                                         <div class="slots-container expanded" id="slotsContainer" data-field-id="${o.fieldId}">
@@ -950,16 +956,22 @@
                                                     </div>
                                                     <!-- /#page -->
                                                 </div>
-                                                <script src="app/js/DanhSachSan.js"></script>
-                                                <script src="app/js/jquery.min.js"></script>
-                                                <script src="app/js/jquery.nice-select.min.js"></script>
-                                                <script src="app/js/bootstrap.min.js"></script>
-                                                <script src="app/js/swiper-bundle.min.js"></script>
-                                                <script src="app/js/swiper.js"></script>
-                                                <script src="app/js/plugin.js"></script>
-                                                <script src="app/js/jquery.fancybox.js"></script>
-                                                <script src="app/js/price-ranger.js"></script>
-                                                <script src="app/js/shortcodes.js"></script>
-                                                <script src="app/js/main.js"></script>
+                                                <!-- CSS Flatpickr -->
+                                                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+                                                    <!-- JS Flatpickr -->
+                                                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+                                                    <script src="app/js/DanhSachSan.js"></script>
+                                                    <script src="app/js/jquery.min.js"></script>
+                                                    <script src="app/js/jquery.nice-select.min.js"></script>
+                                                    <script src="app/js/bootstrap.min.js"></script>
+                                                    <script src="app/js/swiper-bundle.min.js"></script>
+                                                    <script src="app/js/swiper.js"></script>
+                                                    <script src="app/js/plugin.js"></script>
+                                                    <script src="app/js/jquery.fancybox.js"></script>
+                                                    <!--<script src="app/js/price-ranger.js"></script>-->
+                                                    <script src="app/js/shortcodes.js"></script>
+                                                    <script src="app/js/main.js"></script>
                                             </body>
                                             </html>

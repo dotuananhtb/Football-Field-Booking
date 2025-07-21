@@ -36,6 +36,7 @@ public class SlotEventDTODAO extends DBContext {
         FieldDAO fieldDAO = new FieldDAO();
         SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO();
         BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+        BookingDAO bookingDAO = new BookingDAO();
 
         List<SlotsOfField> slots = slotsOfFieldDAO.getSlotsByField(fieldId);
         String fieldName = fieldDAO.getFieldByFieldID(fieldId).getFieldName();
@@ -86,6 +87,14 @@ public class SlotEventDTODAO extends DBContext {
                 extendedProps.put("slot_date", slotDate);
                 extendedProps.put("price", price);
                 extendedProps.put("status", status);
+
+                // ➕ Nếu có BookingDetails → Lấy bookingCode
+                if (detail != null) {
+                    Booking booking = bookingDAO.getBookingByBookingDetailId(detail.getBookingDetailsId());
+                    if (booking != null) {
+                        extendedProps.put("booking_code", booking.getBookingCode());
+                    }
+                }
 
                 // Build event
                 Map<String, Object> event = new HashMap<>();

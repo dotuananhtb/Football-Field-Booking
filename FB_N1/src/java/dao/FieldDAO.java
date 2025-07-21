@@ -242,7 +242,7 @@ public class FieldDAO extends DBContext {
                 // Gán Zone
                 Zone zone = new Zone();
                 zone.setZoneId(rs.getInt("zone_id"));
-                zone.setZone_name("zone_name");
+                zone.setZone_name(rs.getString("zone_name"));
                 zone.setAddress(rs.getString("Address"));
                 field.setZone(zone);
 
@@ -683,5 +683,4 @@ public class FieldDAO extends DBContext {
         }
         return 0;
     }
-
 }

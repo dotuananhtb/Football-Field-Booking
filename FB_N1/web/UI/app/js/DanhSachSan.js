@@ -1,3 +1,5 @@
+let socket;
+
 document.querySelectorAll(".nice-select .option").forEach(function (option) {
     option.addEventListener("click", function () {
         const value = this.getAttribute("data-value");
@@ -32,7 +34,7 @@ document.querySelectorAll(".slotDatePicker").forEach(input => {
 
         // ✅ Luôn reset UI khi date thay đổi (dù rỗng)
         fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
-            btn.classList.remove('booked', 'expired', 'pending', 'selected');
+            btn.classList.remove('booked', 'expired','wait' ,'pending', 'selected');
             btn.disabled = true;
             btn.removeAttribute('data-slot-date');
         });
@@ -78,7 +80,6 @@ document.querySelectorAll(".slotDatePicker").forEach(input => {
 let selectedSlotPrices = new Map(); // Lưu giá đã chọn cho mỗi sân
 let expandedStates = new Map(); // Lưu trạng thái mở/đóng của mỗi sân
 let selectedSlots = [];
-
 
 function selectSlot(button) {
     if (button.disabled || button.classList.contains('booked') || button.classList.contains('expired')) {
@@ -174,13 +175,21 @@ function bookField(event) {
         contentType: 'application/json',
         data: JSON.stringify(bookingDetailsList),
         success: function (response) {
+            console.log("✅ Server response:", response);
+
             if (response && response.success) {
                 showToast("success", "Đặt sân thành công!");
+
                 const bookingCode = response.bookingCode;
+                console.log("📦 bookingCode nhận được:", bookingCode);
+
                 if (bookingCode) {
                     setTimeout(() => {
+                        console.log("⏩ Đang chuyển trang đến:", `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`);
                         window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
                     }, 1000);
+                } else {
+                    console.warn("⚠️ Không có bookingCode từ response!");
                 }
                 // Xoá slot đã đặt của sân đó
                 selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
@@ -193,6 +202,7 @@ function bookField(event) {
             }
         },
         error: function (xhr) {
+            console.error("❌ AJAX Error:", xhr.status, xhr.responseText);
             if (xhr.status === 401 || xhr.status === 302) {
                 showToast("error", "Bạn cần đăng nhập để đặt sân.");
                 window.location.href = "/FB_N1/login";
@@ -330,7 +340,7 @@ function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
     const btns = fieldBlock.querySelectorAll('.slot-btn');
 
     btns.forEach(btn => {
-        const start = btn.getAttribute('data-start'); // vd: "12:00"
+        const start = btn.getAttribute('data-start');
         const end = btn.getAttribute('data-end');
         const slotId = btn.getAttribute('data-slot-id');
 
@@ -342,39 +352,79 @@ function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
         if (matchedSlot) {
             const status = matchedSlot.extendedProps?.status;
 
+            btn.classList.remove('booked', 'expired', 'wait', 'pending', 'selected');
+            btn.disabled = false;
+
             if (status === "Booked") {
                 btn.classList.add('booked');
                 btn.disabled = true;
             } else if (status === "Đã qua") {
                 btn.classList.add('expired');
                 btn.disabled = true;
+            } else if (status === "Wait") {
+                btn.classList.add('wait');
+                btn.disabled = true;
             } else if (status === "Pending") {
-                // Có thể xử lý riêng nếu cần
                 btn.classList.add('pending');
                 btn.disabled = true;
-            } else {
-                btn.classList.remove('booked', 'expired');
-                btn.disabled = false;
             }
-
-            console.log("Slot đã bị đặt:", {slotId, start, end, status});
         } else {
-            // Không match thì vẫn là slot trống, nhưng kiểm tra thêm ngày có đã qua chưa
+            // Nếu không match, kiểm tra ngày giờ slot đã qua chưa
             const slotDateTime = new Date(`${selectedDate}T${start}`);
             const now = new Date();
+
+            btn.classList.remove('booked', 'expired', 'wait', 'pending', 'selected');
+            btn.disabled = false;
 
             if (slotDateTime < now) {
                 btn.classList.add('expired');
                 btn.disabled = true;
-                console.log("Slot đã qua thời gian:", {slotId, start, end});
-            } else {
-                btn.classList.remove('booked', 'expired');
-                btn.disabled = false;
-                console.log(" Slot còn trống:", {slotId, start, end});
             }
         }
-
     });
+}
+
+// Hàm kết nối WebSocket để nhận cập nhật realtime slot
+function connectSlotWebSocket() {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+    }
+
+    socket = new WebSocket(`ws://${location.host}/FB_N1/ws/slot-updates`);
+
+    socket.onopen = () => console.log("✅ WebSocket for slots connected");
+
+    socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.type === "slotUpdate") {
+            console.log("Nhận cập nhật slot từ server", msg);
+
+            // Tự động gọi lại API cập nhật slot mới cho tất cả sân có chọn ngày
+            document.querySelectorAll(".slotDatePicker").forEach(input => {
+                const selectedDate = input.value;
+                const fieldId = input.getAttribute("data-field-id");
+                const fieldBlock = input.closest(".field-block");
+                if (!fieldBlock || !fieldId || !selectedDate) return;
+
+                $.ajax({
+                    url: '/FB_N1/checking-slots',
+                    method: 'GET',
+                    data: {
+                        fieldId: fieldId,
+                        start: selectedDate,
+                        end: selectedDate
+                    },
+                    dataType: 'json',
+                    success: function (bookedSlots) {
+                        updateSlotUI(bookedSlots, selectedDate, fieldBlock);
+                    }
+                });
+            });
+        }
+    };
+
+    socket.onclose = () => console.log("⚠️ WebSocket for slots disconnected");
+    socket.onerror = e => console.error("❌ WebSocket error", e);
 }
 
 
@@ -407,6 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.toggle-btn').forEach(btn => {
         btn.addEventListener('click', toggleSlots);
     });
+
 });
 
 // Utility functions

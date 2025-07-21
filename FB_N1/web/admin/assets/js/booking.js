@@ -135,6 +135,39 @@ $(document).ready(function () {
 
     // ✅ Các handler giữ nguyên như đã gửi ở trên (btn-view-slots, btn-cancel-booking, btn-update-status)
 });
+$(document).on('click', '.btn-view-slots', function () {
+    currentBookingCode = $(this).data('bookingCode');
+    loadBookingDetails(currentBookingCode);
+});
+$(document).on('click', '.btn-cancel-booking', function (e) {
+    e.preventDefault();
+    const bookingCode = $(this).data('bookingCode');
+    if (!bookingCode) {
+        showToast("error", "❌ Không xác định được mã booking.");
+        return;
+    }
+
+    showConfirmDialog(`Bạn có chắc chắn muốn huỷ booking [${bookingCode}]?`, () => {
+        $.ajax({
+            url: '/FB_N1/admin/cancel-booking',
+            type: 'POST',
+            data: {bookingCode},
+            success: function (res) {
+                if (res && res.success) {
+                    showToast("success", `✅ ${res.message}`);
+                    $('#booking-datatable').DataTable().ajax.reload(null, false);
+                } else {
+                    showToast("error", `❌ ${res.message || 'Huỷ booking thất bại'}`);
+                }
+            },
+            error: function () {
+                showToast("error", `❌ Lỗi khi huỷ booking [${bookingCode}]`);
+            }
+        });
+    });
+}
+);
+
 
 
 function loadBookingDetails(bookingCode) {
@@ -172,12 +205,13 @@ function loadBookingDetails(bookingCode) {
                 if (status_id !== 1 && status_id !== 4) {
                     statusButtons.push(`<button class="btn btn-sm btn-outline-success btn-update-status" data-code="${bookingDetailsCode}" data-status="1">Đã đặt</button>`);
                 }
-                if (status_id !== 2 && status_id !== 4) {
+                if (status_id !== 2) {
                     statusButtons.push(`<button class="btn btn-sm btn-outline-warning btn-update-status" data-code="${bookingDetailsCode}" data-status="2">Chờ huỷ</button>`);
                 }
-                if (status_id !== 3 && status_id !== 4) {
+                if (status_id !== 3) {
                     statusButtons.push(`<button class="btn btn-sm btn-outline-danger btn-update-status" data-code="${bookingDetailsCode}" data-status="3">Đã huỷ</button>`);
                 }
+
 
                 if (statusButtons.length > 0) {
                     buttons = `
@@ -213,6 +247,8 @@ function loadBookingDetails(bookingCode) {
         // ❌ Gỡ bỏ backdrop dư thừa nếu có
         $('.modal-backdrop').remove();
         $('body').removeClass('modal-open').css('padding-right', '');
+        document.body.style.overflow = 'auto';
+
 
         // ✅ Mở modal
         const modalEl = document.getElementById('bookingSlotModal');
@@ -248,7 +284,7 @@ function renderPayStatus(data) {
     const map = {
         [-2]: '<span class="badge bg-danger">Đã huỷ bởi admin</span>',
         [-1]: '<span class="badge bg-danger">Đã huỷ do quá hạn</span>',
-        [0]: '<span class="badge bg-warning text-dark">Chờ thanh toán online</span>',
+        [0]: '<span class="badge bg-warning text-dark">Chờ t.toán online</span>',
         [1]: '<span class="badge bg-success">Đã thanh toán</span>',
         [2]: '<span class="badge bg-secondary">Thanh toán sau</span>'
     };
@@ -264,3 +300,58 @@ function formatPrice(price) {
 function safeText(value, fallback = '-') {
     return value !== null && value !== undefined && value !== '' ? value : fallback;
 }
+// Gắn sự kiện cho nút cập nhật trạng thái trong chi tiết ca
+// Gắn sự kiện cho nút cập nhật trạng thái trong chi tiết ca
+$(document).on('click', '.btn-update-status', function () {
+    const $btn = $(this);
+    const bookingDetailsCode = $btn.data('code');
+    const newStatus = $btn.data('status');
+
+    if (!bookingDetailsCode || !newStatus) {
+        showToast('error', "❌ Thiếu thông tin cập nhật.");
+        return;
+    }
+
+    // Xác nhận trước khi gửi
+    showConfirmDialog(`Bạn có chắc chắn muốn cập nhật trạng thái booking [${bookingDetailsCode}] không?`, () => {
+        // Disable nút khi đang gửi yêu cầu
+        $btn.prop('disabled', true).text("Đang cập nhật...");
+
+        fetch('/FB_N1/admin/update-slot-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                bookingDetailsCode: bookingDetailsCode,
+                status: newStatus
+            })
+        })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('success', `✅ ${data.message}`);
+
+                        // Gọi lại hàm load chi tiết ca nếu có
+                        if (typeof loadBookingDetails === 'function') {
+                            loadBookingDetails(currentBookingCode);
+                        }
+                        // ✅ Reload lại bảng booking chính
+                        $('#booking-datatable').DataTable().ajax.reload(null, false);
+                    } else {
+                        showToast('error', `❌ ${data.message || 'Cập nhật thất bại.'}`);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Lỗi gửi yêu cầu:", err);
+                    showToast('error', "❌ Lỗi khi gửi yêu cầu cập nhật.");
+                })
+                .finally(() => {
+                    // Bật lại nút
+                    $btn.prop('disabled', false).text("Cập nhật");
+                });
+    });
+});
+
+
+

@@ -13,7 +13,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>FootBallStar - Tạo mới chủ đề</title>
+        <title>FootBallStar - Sửa chủ đề</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -121,71 +121,95 @@
                                 <div class="bg-flower-2">
                                     <img src="assets/images/flowers/img-1.png">
                                 </div>
+                                
 
                                 <div class="page-title-box">
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Tạo mới chủ đề</h4>
+                                    
+                                    <h4 class="page-title">Sửa bài đăng</h4>
+                                    
                                 </div>
+                                
                             </div>
+                            
+                            
                         </div>
                         <!-- end page title -->
+
+
                         <div class="row g-4">
+                            <div class="  d-flex flex-wrap gap-2 justify-content-end">
+
+                                    <a type="button" href="/FB_N1/admin/quan-li-bai-dang" class="btn btn-info" >Quay lại</a>
+
+
+                            </div>
+                            
+
                             <div class="col-12">
                                 <div class="mb-4">
+                                    <form id="eventForm" action="${pageContext.request.contextPath}/admin/sua-bai-dang?blogId=${blog.blogId}" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="blogId" value="${requestScope.blog.blogId}" />
+                                       
 
-                                    <form id="eventForm" action="${pageContext.request.contextPath}/admin/tao-moi-chu-de" method="post" enctype="multipart/form-data">
                                         <div class="row g-4 align-items-stretch">
+                                            <!-- Cột trái -->
                                             <div class="col-lg-4 d-flex flex-column">
-
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Tên chủ đề</label>
-                                                    <input type="text" id="example-palaceholder" name="title_content" class="form-control" placeholder="Tên chủ đề" required>
+                                                    <label class="form-label">Tiêu đề</label>
+                                                    <input type="text" name="title" class="form-control" placeholder="Tiêu đề" value="${requestScope.blog.title}" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Mô tả 1</label>
-                                                    <input type="text" id="example-palaceholder" name="content1" class="form-control" placeholder="Mô tả 1"required>
+                                                    <label class="form-label">Slug</label>
+                                                    <input type="text" name="slug" class="form-control" value="${requestScope.blog.slug}" placeholder="Slug" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="example-palaceholder" class="form-label">Mô tả 2</label>
-                                                    <input type="text" id="example-palaceholder"name="content2" class="form-control" placeholder="Mô tả 2">
+                                                    <label class="form-label">Tóm tắt</label>
+                                                    <input type="text" name="sum" class="form-control" value="${requestScope.blog.summary}" placeholder="Tóm tắt" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nhãn</label>
+                                                    <input type="text" name="tag" class="form-control" value="${requestScope.blog.tags}" placeholder="Tóm tắt" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="imageBig">Chọn ảnh To:</label>
-                                                    <input type="file" name="image1" id="imageBig" accept="image/*" class="form-control" required>
+                                                    <label for="imageBig">Chọn ảnh :</label>
+                                                    <input type="file" name="image1" id="imageBig" accept="image/*" class="form-control">
+                                                    <input type="hidden" name="oldImage1" value="${requestScope.blog.thumbnailUrl}">
+                                                    <c:if test="${not empty requestScope.blog.thumbnailUrl}">
+                                                        <div style="margin-top:10px;">
+                                                            <strong>Ảnh hiện tại:</strong><br/>
+                                                            <img src="${requestScope.blog.thumbnailUrl}" alt="Ảnh hiện tại" style="max-width: 100%; height: auto;" />
+                                                        </div>
+                                                    </c:if>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="imageSmall">Chọn ảnh Nhỏ</label>
-                                                    <input type="file" name="image2" id="imageSmall" accept="image/*" class="form-control" >
-                                                </div>
 
+                                                
+                                            </div>
 
-
-
-                                            </div> <!-- end col -->
-
+                                            <!-- Cột phải -->
                                             <div class="col-lg-8 d-flex flex-column">
 
-                                                <label for="editor-title1" class="form-label">Nội dung bài đăng sự kiện</label>
+                                                <label for="editor-title1" class="form-label">Nội dung bài đăng </label>
                                                 <div id="editor-title1" class="flex-grow-1" style="min-height: 250px; overflow-y: hidden;"></div>
                                                 <input type="hidden" name="title1" id="title1">
-                                                <div id="raw-title1" style="display:none;">${event.title.title1}</div>
+                                                <div id="raw-title1" style="display:none;">${blog.content}</div>
 
                                                 <!-- Nút submit đẩy xuống dưới cùng -->
                                                 <div class="d-flex justify-content-center mt-3">
-                                                    <input type="hidden" name="type" value="event">
-                                                    <button type="submit" class="btn btn-sm btn-primary px-4" style="width: 33%;">Tạo Chủ Đề</button>
+                                                    <input type="hidden" name="type" value="blog">
+                                                    <button type="submit" class="btn btn-sm btn-primary px-4" style="width: 33%;">Xác Nhận</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
-                                    <!-- end row-->
-                                </div> <!-- end card -->
-                            </div><!-- end col -->
+                                </div>
+                            </div>
+                            <!-- end col -->
                         </div><!-- end row -->
 
                     </div> <!-- content -->
@@ -208,12 +232,10 @@
 
             <!-- Vendor js -->
             <script src="assets/js/vendor.min.js"></script>
-
             <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
             <!-- Datatables js -->
 
             <script>
-
                 document.addEventListener("DOMContentLoaded", function () {
                     const quill1 = new Quill('#editor-title1', {
                         theme: 'snow',
@@ -232,16 +254,44 @@
                         }
                     });
 
-                    // Gán nội dung Quill vào hidden input trước khi submit
+                    const editorEl = document.querySelector('#editor-title1 .ql-editor');
+
+                    // Hàm resize chiều cao theo nội dung
+                    function autoResize() {
+                        editorEl.style.height = 'auto'; // reset
+                        editorEl.style.height = (editorEl.scrollHeight) + "px";
+                    }
+
+                    // Resize ban đầu
+                    autoResize();
+
+                    // Resize khi nội dung thay đổi
+                    quill1.on('text-change', function () {
+                        autoResize();
+                    });
+                    var initialContent = document.getElementById("raw-title1").innerHTML;
+                    quill1.clipboard.dangerouslyPasteHTML(initialContent);
+                    // Gán dữ liệu về form
                     const form = document.getElementById('eventForm');
                     form.onsubmit = function () {
-                        const title1Value = quill1.root.innerHTML;
-                        document.getElementById('title1').value = title1Value;
-                        console.log("Nội dung gửi đi:", title1Value); // ✅ Gỡ dòng này sau khi test
+                        document.getElementById('title1').value = quill1.root.innerHTML;
                     };
                 });
+                
+                form.onsubmit = function () {
+    const html = quill1.root.innerHTML;
+    document.getElementById('title1').value = html;
 
+    console.log("Tiêu đề:", document.querySelector('input[name=title]').value);
+    console.log("Slug:", document.querySelector('input[name=slug]').value);
+    console.log("Tóm tắt:", document.querySelector('input[name=sum]').value);
+    console.log("Tag:", document.querySelector('input[name=tag]').value);
+    console.log("Content:", html);
+};
             </script>
+
+
+
             <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
             <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
             <script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
