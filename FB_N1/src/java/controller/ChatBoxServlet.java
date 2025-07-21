@@ -91,7 +91,7 @@ public class ChatBoxServlet extends HttpServlet {
                 }
             }
 
-            System.out.println("🔁 Response JSON: " + result.toString());
+            System.out.println(" Response JSON: " + result.toString());
 
             if (responseCode >= 200 && responseCode < 300) {
                 // Phân tích JSON (dùng org.json hoặc thư viện tương đương)
@@ -101,7 +101,7 @@ public class ChatBoxServlet extends HttpServlet {
                 JSONArray parts = content.getJSONArray("parts");
                 botResponse = parts.getJSONObject(0).getString("text");
             } else {
-                botResponse = "⚠️ Lỗi từ Gemini API: " + result.toString();
+                botResponse = "️ Lỗi từ Gemini API: " + result.toString();
             }
             HttpSession session = request.getSession(false);
             Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
@@ -117,7 +117,7 @@ public class ChatBoxServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            botResponse = "❌ Lỗi gọi Gemini API: " + e.getMessage();
+            botResponse = " Lỗi gọi Gemini API: " + e.getMessage();
         }
 
         response.setContentType("text/plain");

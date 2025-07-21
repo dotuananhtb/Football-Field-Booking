@@ -47,6 +47,7 @@ public class BaiDang extends HttpServlet {
 
         String tag1 = request.getParameter("tag");
         String title = request.getParameter("title");
+        String pageStr = request.getParameter("page");
         System.out.println("title = " + title);
         blogDAO bDao = new blogDAO();
         List<Blog> listB;
@@ -54,6 +55,10 @@ public class BaiDang extends HttpServlet {
 
         Set<String> rawTags = bDao.getAllTags();
         Set<String> individualTags = new HashSet<>();
+        int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+        int pageSize = 4;
+        int totalBlog = 0;
+        int totalPage = 0;
 
         for (String tagGroup : rawTags) {
             if (tagGroup != null && !tagGroup.trim().isEmpty()) {
@@ -72,7 +77,9 @@ public class BaiDang extends HttpServlet {
         } else if (title != null) {
             listB = bDao.searchBlogsByTitle(title);
         } else {
-            listB = bDao.getAllBlogStatus();
+
+            listB = bDao.pagingBlog(page, pageSize);
+            totalBlog = bDao.countAllBlogs();
         }
         for (Blog b : listB) {
             b.setTimeAgo(TimeAgoUtil.getTimeAgo(b.getCreatedAt()));
@@ -81,8 +88,10 @@ public class BaiDang extends HttpServlet {
         for (Blog b : listB1) {
             b.setTimeAgo(TimeAgoUtil.getTimeAgo(b.getCreatedAt()));
         }
-        
+        totalPage = (int) Math.ceil((double) totalBlog / pageSize);
 
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPage", totalPage);
         request.setAttribute("listB", listB);
         request.setAttribute("listB1", listB1);
 
@@ -95,8 +104,6 @@ public class BaiDang extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        
 
     }
 

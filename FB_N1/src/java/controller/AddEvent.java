@@ -75,7 +75,7 @@ public class AddEvent extends HttpServlet {
         Part filePart2 = request.getPart("image2");
         String type = request.getParameter("type");
         String title1 = request.getParameter("title1");
-        System.out.println(title1+"========");
+        
 
         EventDAO eDao = new EventDAO();
 
