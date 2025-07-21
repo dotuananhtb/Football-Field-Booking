@@ -1,33 +1,30 @@
 /* global bootstrap */
-//booking.js
+
 let currentBookingCode = null;
 
 $(document).ready(function () {
     const table = $('#booking-datatable').DataTable({
         scrollX: true,
         orderCellsTop: true,
-        fixedHeader: true,
         ajax: {
             url: '/FB_N1/admin/booking',
             dataSrc: ''
         },
         columns: [
-            {data: null, render: (data, type, row, meta) => meta.row + 1},
-            {data: 'booking_code', render: data => safeText(data)},
-            {data: 'booking_date', render: data => safeText(data)},
+            { data: null, render: (data, type, row, meta) => meta.row + 1 },
+            { data: 'booking_code', render: data => safeText(data) },
+            { data: 'booking_date', render: data => safeText(data) },
             {
                 data: 'total_amount',
                 render: (data, type) => type === 'sort' ? data || 0 : formatPrice(data)
             },
-            {data: 'customer_name', render: data => safeText(data)},
-            {data: 'customer_phone', render: data => safeText(data)},
+            { data: 'customer_name', render: data => safeText(data) },
+            { data: 'customer_phone', render: data => safeText(data) },
             {
                 data: 'customer_type',
                 render: data => {
-                    if (data === 'online')
-                        return '<span class="badge bg-success">Online</span>';
-                    if (data === 'offline')
-                        return '<span class="badge bg-secondary">Offline</span>';
+                    if (data === 'online') return '<span class="badge bg-success">Online</span>';
+                    if (data === 'offline') return '<span class="badge bg-secondary">Offline</span>';
                     return '<span class="badge bg-secondary">-</span>';
                 }
             },
@@ -46,7 +43,8 @@ $(document).ready(function () {
                                href="http://localhost:9999/FB_N1/thanh-toan?code=${safeText(row.booking_code)}">
                                 <i class="bi bi-qr-code"></i> Mã QR thanh toán
                             </a>
-                        </li>` : '';
+                        </li>
+                    ` : '';
 
                     const cancelButton = (row.status_pay !== -1 && row.status_pay !== -2) ? `
                         <li>
@@ -54,7 +52,8 @@ $(document).ready(function () {
                                href="#" data-booking-code="${safeText(row.booking_code)}">
                                 <i class="bi bi-x-circle"></i> Huỷ booking
                             </a>
-                        </li>` : '';
+                        </li>
+                    ` : '';
 
                     return `
                         <div class="dropdown">
@@ -72,7 +71,8 @@ $(document).ready(function () {
                                 ${qrButton}
                                 ${cancelButton}
                             </ul>
-                        </div>`;
+                        </div>
+                    `;
                 }
             }
         ],
@@ -94,152 +94,131 @@ $(document).ready(function () {
         }
     });
 
-    // ✅ Filter theo text input
-    $('#filter-row input[type="text"]').on('keyup change', function () {
-        const colIndex = $(this).closest('th').index();
-        table.column(colIndex).search(this.value).draw();
+    $('#filter-row th').each(function (colIdx) {
+        const input = $(this).find('input[type="text"]');
+        if (input.length) {
+            input.on('keyup change', function () {
+                table.column(colIdx).search(this.value || '').draw();
+            });
+        }
     });
 
-    // ✅ Filter theo ngày (Từ - Đến)
+    $.fn.dataTable.ext.search.push(function (settings, data) {
+        const bookingDateStr = data[2];
+        const fromStr = $('#bookingDateFrom').val();
+        const toStr = $('#bookingDateTo').val();
+
+        if (!fromStr && !toStr) return true;
+        if (!bookingDateStr) return false;
+
+        const datePart = bookingDateStr.split(' ')[0];
+        const bookingDate = new Date(datePart).getTime();
+        const from = fromStr ? new Date(fromStr).getTime() : null;
+        const to = toStr ? new Date(toStr).getTime() : null;
+
+        if (from !== null && bookingDate < from) return false;
+        if (to !== null && bookingDate > to) return false;
+
+        return true;
+    });
+
     $('#bookingDateFrom, #bookingDateTo').on('change', function () {
-        const fromDate = $('#bookingDateFrom').val();
-        const toDate = $('#bookingDateTo').val();
-
-        $.fn.dataTable.ext.search.push(function (settings, data) {
-            const bookingDateStr = data[2]; // cột booking_date (dòng thứ 3)
-            if (!bookingDateStr)
-                return false;
-
-            const bookingDate = new Date(bookingDateStr);
-            const from = fromDate ? new Date(fromDate + 'T00:00:00') : null;
-            const to = toDate ? new Date(toDate + 'T23:59:59') : null;
-
-            if ((from && bookingDate < from) || (to && bookingDate > to)) {
-                return false;
-            }
-            return true;
-        });
-
         table.draw();
-        $.fn.dataTable.ext.search.pop(); // tránh bị stack filter nhiều lần
     });
 
-
-    // ✅ Đặt lại bộ lọc
     $('#reset-filters').on('click', function () {
         $('#filter-row input').val('');
+        $('#bookingDateFrom').val('');
+        $('#bookingDateTo').val('');
         table.columns().search('');
-        $('#bookingDateFrom, #bookingDateTo').val('');
         table.draw();
     });
 
-    // ✅ Các handler giữ nguyên như đã gửi ở trên (btn-view-slots, btn-cancel-booking, btn-update-status)
+    $(document).on('click', '.btn-view-slots', function () {
+        currentBookingCode = $(this).data('bookingCode');
+        loadBookingDetails(currentBookingCode);
+    });
+
+    $(document).on('click', '.btn-cancel-booking', function (e) {
+        e.preventDefault();
+        const bookingCode = $(this).data('bookingCode');
+        if (!bookingCode) {
+            showToast("error", "❌ Không xác định được mã booking.");
+            return;
+        }
+
+        showConfirmDialog(`Bạn có chắc chắn muốn huỷ booking [${bookingCode}]?`, () => {
+            $.ajax({
+                url: '/FB_N1/admin/cancel-booking',
+                type: 'POST',
+                data: { bookingCode },
+                success: function (res) {
+                    if (res && res.success) {
+                        showToast("success", `✅ ${res.message}`);
+                        $('#booking-datatable').DataTable().ajax.reload(null, false);
+                    } else {
+                        showToast("error", `❌ ${res.message || 'Huỷ booking thất bại'}`);
+                    }
+                },
+                error: function () {
+                    showToast("error", `❌ Lỗi khi huỷ booking [${bookingCode}]`);
+                }
+            });
+        });
+    });
 });
 
-
 function loadBookingDetails(bookingCode) {
-    $.get('/FB_N1/admin/booking/details', {bookingCode}, function (data) {
+    $.get('/FB_N1/admin/booking/details', { bookingCode }, function (data) {
         const container = $('#booking-slots-container');
         container.empty();
 
         if (!data || data.length === 0) {
             container.append(`<p class="text-center fst-italic">Không có ca nào trong đơn này</p>`);
-            return;
+        } else {
+            data.forEach((slot, index) => {
+                container.append(`
+                    <div class="border rounded p-2 mb-2 bg-light">
+                        <div class="fw-bold mb-1">
+                            #${index + 1} | ${safeText(slot.slot_date)} ${safeText(slot.start_time)} - ${safeText(slot.end_time)}
+                        </div>
+                        <div class="mb-1">
+                            <i class="bi bi-geo-alt-fill"></i> ${safeText(slot.field_name)} (${safeText(slot.field_type_name)})
+                        </div>
+                        <div class="mb-1">
+                            <i class="bi bi-cash-stack"></i>
+                            Giá: <span class="text-success">${formatPrice(slot.price)}</span>
+                        </div>
+                        <div class="mb-1">
+                            <i class="bi bi-info-circle"></i> Trạng thái:
+                            ${renderSlotStatusBadge(slot.status_name)}
+                        </div>
+                        <div>
+                            <i class="bi bi-card-text"></i> Ghi chú: <span class="fst-italic">${safeText(slot.note)}</span>
+                        </div>
+                    </div>
+                `);
+            });
         }
 
-        const now = new Date();
-
-        data.forEach((slot, index) => {
-            const {
-                bookingDetailsCode,
-                slot_date,
-                start_time,
-                end_time,
-                field_name,
-                field_type_name,
-                price,
-                status_id,
-                status_name,
-                note
-            } = slot;
-
-            const endDateTime = new Date(`${slot_date}T${end_time}`);
-            let buttons = '';
-
-            if (bookingDetailsCode && endDateTime > now && status_id !== 3) {
-                const statusButtons = [];
-
-                if (status_id !== 1 && status_id !== 4) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-success btn-update-status" data-code="${bookingDetailsCode}" data-status="1">Đã đặt</button>`);
-                }
-                if (status_id !== 2 && status_id !== 4) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-warning btn-update-status" data-code="${bookingDetailsCode}" data-status="2">Chờ huỷ</button>`);
-                }
-                if (status_id !== 3 && status_id !== 4) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-danger btn-update-status" data-code="${bookingDetailsCode}" data-status="3">Đã huỷ</button>`);
-                }
-
-                if (statusButtons.length > 0) {
-                    buttons = `
-                        <div class="mt-2">
-                            <span class="me-2">Cập nhật trạng thái:</span>
-                            ${statusButtons.join('\n')}
-                        </div>`;
-                }
-            }
-
-            container.append(`
-                <div class="border rounded p-2 mb-2 bg-light">
-                    <div class="fw-bold mb-1">
-                        #${index + 1} | ${safeText(slot_date)} ${safeText(start_time)} - ${safeText(end_time)}
-                    </div>
-                    <div class="mb-1">
-                        <i class="bi bi-geo-alt-fill"></i> ${safeText(field_name)} (${safeText(field_type_name)})
-                    </div>
-                    <div class="mb-1">
-                        <i class="bi bi-cash-stack"></i> Giá: <span class="text-success">${formatPrice(price)}</span>
-                    </div>
-                    <div class="mb-1">
-                        <i class="bi bi-info-circle"></i> Trạng thái: ${renderSlotStatusBadge(status_name)}
-                    </div>
-                    <div>
-                        <i class="bi bi-card-text"></i> Ghi chú: <span class="fst-italic">${safeText(note)}</span>
-                    </div>
-                    ${buttons}
-                </div>
-            `);
-        });
-
-        // ❌ Gỡ bỏ backdrop dư thừa nếu có
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open').css('padding-right', '');
-
-        // ✅ Mở modal
-        const modalEl = document.getElementById('bookingSlotModal');
-        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        const modal = new bootstrap.Modal(document.getElementById('bookingSlotModal'));
         modal.show();
-
-        // 🔁 Khi modal đóng, đảm bảo dọn dẹp giao diện
-        modalEl.addEventListener('hidden.bs.modal', function () {
-            $('.modal-backdrop').remove();
-            $('body').removeClass('modal-open').css('padding-right', '');
-        });
     }).fail(() => {
         showToast("error", "❌ Lỗi tải chi tiết ca!");
     });
 }
 
-
 function renderSlotStatusBadge(statusName) {
     const map = {
         'đã đặt': 'success',
         'đang chờ xử lí': 'warning',
-        'chờ huỷ': 'warning',
         'đã huỷ': 'danger',
         'chờ thanh toán': 'info'
     };
+
     const key = (statusName || '').toLowerCase().trim();
     const color = map[key] || 'secondary';
+
     return `<span class="badge bg-${color}">${safeText(statusName)}</span>`;
 }
 
@@ -257,8 +236,8 @@ function renderPayStatus(data) {
 
 function formatPrice(price) {
     return price !== null && price !== undefined
-            ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(price)
-            : '-';
+        ? $.fn.dataTable.render.number(',', '.', 0, '', ' đ').display(price)
+        : '-';
 }
 
 function safeText(value, fallback = '-') {
