@@ -202,7 +202,7 @@ function loadBookingDetails(bookingCode) {
             if (bookingDetailsCode && endDateTime > now && status_id !== 3) {
                 const statusButtons = [];
 
-                if (status_id !== 1) {
+                if (status_id !== 1 && status_id !== 4) {
                     statusButtons.push(`<button class="btn btn-sm btn-outline-success btn-update-status" data-code="${bookingDetailsCode}" data-status="1">Đã đặt</button>`);
                 }
                 if (status_id !== 2) {
@@ -284,7 +284,7 @@ function renderPayStatus(data) {
     const map = {
         [-2]: '<span class="badge bg-danger">Đã huỷ bởi admin</span>',
         [-1]: '<span class="badge bg-danger">Đã huỷ do quá hạn</span>',
-        [0]: '<span class="badge bg-warning text-dark">Chờ thanhtoán online</span>',
+        [0]: '<span class="badge bg-warning text-dark">Chờ t.toán online</span>',
         [1]: '<span class="badge bg-success">Đã thanh toán</span>',
         [2]: '<span class="badge bg-secondary">Thanh toán sau</span>'
     };
