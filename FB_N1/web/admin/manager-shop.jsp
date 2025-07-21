@@ -252,7 +252,7 @@
                         <h5 class="modal-title" id="addProductModalLabel">Thêm Sản phẩm Mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="add">
                         <div class="modal-body">
                             <div class="row">
@@ -283,8 +283,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="productImage" class="form-label">URL Hình ảnh</label>
-                                        <input type="url" class="form-control" id="productImage" name="productImage">
+                                        <label for="productImageFile" class="form-label">Ảnh sản phẩm</label>
+                                        <input type="file" class="form-control" id="productImageFile" name="productImageFile" accept="image/*" onchange="previewProductImage(event, 'addProductImagePreview')">
+                                        <img id="addProductImagePreview" src="#" alt="Preview" style="max-width: 200px; display: none; margin-top: 5px;"/>
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +345,7 @@
                         <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa Sản phẩm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="productId" id="editProductId">
                         <div class="modal-body">
@@ -376,8 +377,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="editProductImage" class="form-label">URL Hình ảnh</label>
-                                        <input type="url" class="form-control" id="editProductImage" name="productImage">
+                                        <label for="editProductImageFile" class="form-label">Ảnh sản phẩm</label>
+                                        <input type="file" class="form-control" id="editProductImageFile" name="productImageFile" accept="image/*" onchange="previewProductImage(event, 'editProductImagePreview')">
+                                        <img id="editProductImagePreview" src="#" alt="Preview" style="max-width: 200px; display: none; margin-top: 5px;"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -606,7 +608,18 @@ $(document).ready(function() {
         pageLength: 10,
         lengthMenu: [5, 10, 20, 50, 100],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+            paginate: {
+                previous: 'Trước',
+                next: 'Sau'
+            },
+            info: 'Hiển thị _START_ đến _END_ của _TOTAL_ sản phẩm',
+            infoEmpty: 'Không có dữ liệu',
+            lengthMenu: 'Hiển thị _MENU_ sản phẩm',
+            search: 'Tìm kiếm:',
+            zeroRecords: 'Không tìm thấy kết quả phù hợp',
+            infoFiltered: '(lọc từ _MAX_ sản phẩm)',
+            loadingRecords: 'Đang tải...',
+            processing: 'Đang xử lý...'
         }
     });
 });
@@ -622,7 +635,18 @@ $(document).ready(function() {
         pageLength: 10,
         lengthMenu: [5, 10, 20, 50, 100],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+            paginate: {
+                previous: 'Trước',
+                next: 'Sau'
+            },
+            info: 'Hiển thị _START_ đến _END_ của _TOTAL_ loại sản phẩm',
+            infoEmpty: 'Không có dữ liệu',
+            lengthMenu: 'Hiển thị _MENU_ loại sản phẩm',
+            search: 'Tìm kiếm:',
+            zeroRecords: 'Không tìm thấy kết quả phù hợp',
+            infoFiltered: '(lọc từ _MAX_ loại sản phẩm)',
+            loadingRecords: 'Đang tải...',
+            processing: 'Đang xử lý...'
         }
     });
 });

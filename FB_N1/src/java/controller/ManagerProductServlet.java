@@ -1,7 +1,6 @@
 package controller;
 
 import dao.CateProduct_DAO;
-import dao.ImageStorageDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.util.List;
@@ -15,16 +14,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.*;
 import model.CateProduct;
-import model.ImageStorage;
 import model.Product;
 import model.ProductDetails;
 import util.ToastUtil;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Part;
+import logic.CloudinaryUploader;
 
 /**
  *
  * @author Admin
  */
 @WebServlet(name = "ManagerProductServlet", urlPatterns = {"/admin/manager-product"})
+@MultipartConfig
 public class ManagerProductServlet extends HttpServlet {
 
     // Helper method để kiểm tra quyền admin
@@ -122,6 +124,7 @@ public class ManagerProductServlet extends HttpServlet {
 
         ProductDAO productDAO = new ProductDAO();
         String action = request.getParameter("action");
+        CloudinaryUploader uploader = new CloudinaryUploader();
 
         if ("add".equals(action)) {
             // Thêm product mới
@@ -130,7 +133,12 @@ public class ManagerProductServlet extends HttpServlet {
                 product.setProductName(request.getParameter("productName"));
                 product.setProductCateId(Integer.parseInt(request.getParameter("categoryId")));
                 product.setProductPrice(Double.parseDouble(request.getParameter("productPrice")));
-                product.setProductImage(request.getParameter("productImage"));
+                Part imagePart = request.getPart("productImageFile");
+                String imageUrl = null;
+                if (imagePart != null && imagePart.getSize() > 0) {
+                    imageUrl = uploader.uploadImage(imagePart, "products");
+                }
+                product.setProductImage(imageUrl != null ? imageUrl : "");
                 product.setProductDescription(request.getParameter("productDescription"));
                 product.setProductStatus("active");
 
@@ -207,9 +215,13 @@ public class ManagerProductServlet extends HttpServlet {
                     product.setProductName(request.getParameter("productName"));
                     product.setProductCateId(Integer.parseInt(request.getParameter("categoryId")));
                     product.setProductPrice(Double.parseDouble(request.getParameter("productPrice")));
-                    product.setProductImage(request.getParameter("productImage"));
-                    product.setProductDescription(request.getParameter("productDescription"));
-                    product.setProductStatus(request.getParameter("productStatus"));
+                    Part imagePart = request.getPart("productImageFile");
+                    if (imagePart != null && imagePart.getSize() > 0) {
+                        String imageUrl = uploader.uploadImage(imagePart, "products");
+                        product.setProductImage(imageUrl);
+                    }
+                    // Nếu không upload file mới thì giữ nguyên ảnh cũ
+                   
 
                     if (productDAO.updateProduct1(product)) {
                         // Xử lý biến thể

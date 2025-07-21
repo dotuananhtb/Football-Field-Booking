@@ -33,9 +33,11 @@ public class UploadCloudImageServlet extends HttpServlet {
             case "avatars":
                 handleAvatarUpload(request, response, account);
                 break;
+            case "product":
+                handleProductImageUpload(request, response, account);
+                break;
             case "field":
             case "article":
-            case "product":
             case "banner":
                 handleMultiImageUpload(request, response, type, relatedId);
                 break;
@@ -66,6 +68,19 @@ public class UploadCloudImageServlet extends HttpServlet {
             }
         } catch (Exception e) {
             ToastUtil.setErrorToast(request, "Lỗi khi upload ảnh: " + e.getMessage());
+        }
+        redirectBack(request, response);
+    }
+
+    private void handleProductImageUpload(HttpServletRequest request, HttpServletResponse response, Account account) throws IOException, ServletException {
+        Part part = request.getPart("image"); // name="image"
+        try {
+            String url = uploader.uploadImage(part, "products");
+            // Có thể lưu url vào DB nếu cần
+            ToastUtil.setSuccessToast(request, "Upload ảnh sản phẩm thành công!");
+            request.setAttribute("productImageUrl", url);
+        } catch (Exception e) {
+            ToastUtil.setErrorToast(request, "Lỗi khi upload ảnh sản phẩm: " + e.getMessage());
         }
         redirectBack(request, response);
     }
