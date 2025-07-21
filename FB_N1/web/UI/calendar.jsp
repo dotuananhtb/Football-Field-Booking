@@ -350,8 +350,33 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="row mb-40 image-gallery-single">
-                                                                                        <div class="col-12 col-sm-6">
+                                                                                        <div class="col-12 col-sm-8">
                                                                                             <img src="${field.image}" alt="Image Listing">
+                                                                                        </div>
+                                                                                        <div class="col-12 col-sm-4">
+                                                                                            <div class="side-bar-right">
+                                                                                                <div class="sidebar-widget">
+                                                                                                    <h6 class="block-heading">Đặt sân bóng với sự tự tin</h6>
+                                                                                                    <ul class="category-confidence">
+                                                                                                        <li class="flex-three">
+                                                                                                            <i class="icon-customer-service-1"></i>
+                                                                                                            <span>Hỗ trợ đặt sân 24/7</span>
+                                                                                                        </li>
+                                                                                                        <li class="flex-three">
+                                                                                                            <i class="icon-Vector-6"></i>
+                                                                                                            <span>Đảm bảo giá tốt nhất, không rắc rối</span>
+                                                                                                        </li>
+                                                                                                        <li class="flex-three">
+                                                                                                            <i class="icon-insurance-1"></i>
+                                                                                                            <span>Đặt sân an toàn, bảo đảm, uy tín</span>
+                                                                                                        </li>
+                                                                                                        <li class="flex-three">
+                                                                                                            <i class="icon-price-tag-1-1"></i>
+                                                                                                            <span>Sân bóng đạt tiêu chuẩn</span>
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="row">

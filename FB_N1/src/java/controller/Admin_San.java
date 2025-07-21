@@ -10,11 +10,14 @@ import dao.Zone_DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.util.List;
+import logic.CloudinaryUploader;
 import model.Field;
 import model.TypeOfField;
 import model.Zone;
@@ -24,10 +27,26 @@ import util.ToastUtil;
  *
  * @author Admin
  */
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 @WebServlet(name = "Admin_San", urlPatterns = {"/admin/Admin_San"})
 public class Admin_San extends HttpServlet {
 
+    private final CloudinaryUploader uploader = new CloudinaryUploader();
+
     private boolean isBlank(String s) {
+        // Null, rỗng, hoặc chỉ toàn khoảng trắng
+        if (s == null || s.trim().isEmpty()) {
+            return true;
+        }
+        // Regex cho phép chữ cái, số, khoảng trắng và dấu nháy đơn ('), gạch ngang (-)
+        return !s.matches("^[\\p{L}\\d\\s'-]+$");
+    }
+    
+        private boolean isBlank2(String s) {
         // Null, rỗng, hoặc chỉ toàn khoảng trắng
         if (s == null || s.trim().isEmpty()) {
             return true;
@@ -96,11 +115,15 @@ public class Admin_San extends HttpServlet {
         try {
             // Lấy dữ liệu từ form
             String fieldName = request.getParameter("field_name");
-            String image = request.getParameter("image");
             String status = request.getParameter("status");
             String description = request.getParameter("description");
             String zoneIdRaw = request.getParameter("zone_id");
             String typeIdRaw = request.getParameter("type_id");
+            String fieldIdRaw = request.getParameter("field_id");
+
+            Part filePart = request.getPart("image");
+            String imageUrl = null;
+            // Ảnh gửi từ form (input name="image")
 
             // Validate đầu vào
             if (isBlank(fieldName)) {
@@ -108,66 +131,90 @@ public class Admin_San extends HttpServlet {
                 response.sendRedirect("Admin_San");
                 return;
             }
-            if (isBlank(description)) {
-                ToastUtil.setErrorToast(request, "Mô tả sân không khả dụng!");
-                response.sendRedirect("Admin_San");
-                return;
-            }
-
             if (isBlank(status)) {
                 ToastUtil.setErrorToast(request, "Trạng thái không được để trống!");
                 response.sendRedirect("Admin_San");
                 return;
             }
-
             if (isBlank(zoneIdRaw) || isBlank(typeIdRaw)) {
                 ToastUtil.setErrorToast(request, "Khu vực và loại sân là bắt buộc!");
                 response.sendRedirect("Admin_San");
                 return;
             }
 
-            // Convert ID
             int zoneId = Integer.parseInt(zoneIdRaw);
             int typeId = Integer.parseInt(typeIdRaw);
 
+            if (filePart != null && filePart.getSize() > 0) {
+                imageUrl = uploader.uploadImage(filePart, "field");
+            } else {
+                if ("add".equals(action)) {
+                    ToastUtil.setErrorToast(request, "Vui lòng chọn ảnh hợp lệ (jpg, png, jpeg, gif, webp)!");
+                    response.sendRedirect("Admin_San");
+                    return;
+                } else if ("update".equals(action) && fieldIdRaw != null) {
+                    int fieldId = Integer.parseInt(fieldIdRaw);
+                    imageUrl = fieldDAO.getFieldByFieldID(fieldId).getImage(); // giữ ảnh cũ
+                }
+            }
+
+            // Tạo đối tượng Field
             Field field = new Field();
             field.setFieldName(fieldName);
-            field.setImage(image);
             field.setStatus(status);
             field.setDescription(description);
 
-            Zone z = new Zone();
-            z.setZoneId(zoneId);
-            field.setZone(z);
+            if (imageUrl != null) {
+                field.setImage(imageUrl); // Chỉ set khi có ảnh
+            }
 
-            TypeOfField t = new TypeOfField();
-            t.setFieldTypeId(typeId);
-            field.setTypeOfField(t);
+            Zone zone = new Zone();
+            zone.setZoneId(zoneId);
+            field.setZone(zone);
 
-            // check trùng tên 
+            TypeOfField type = new TypeOfField();
+            type.setFieldTypeId(typeId);
+            field.setTypeOfField(type);
+
             if ("add".equals(action)) {
-                if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, action.equals("update") ? field.getFieldId() : null)) {
+                // Kiểm tra trùng tên
+                if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, null)) {
                     ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
                     response.sendRedirect("Admin_San");
                     return;
                 }
+
                 fieldDAO.insertField(field);
                 ToastUtil.setSuccessToast(request, "Đã thêm sân thành công!");
+
             } else if ("update".equals(action)) {
-                String fieldIdRaw = request.getParameter("field_id");
-                if (fieldIdRaw != null && !fieldIdRaw.isEmpty()) {
-                    int fieldId = Integer.parseInt(fieldIdRaw);
-                    field.setFieldId(fieldId);
-                    fieldDAO.updateField(field);
-                    ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
-                } else {
+                if (isBlank(fieldIdRaw)) {
                     ToastUtil.setErrorToast(request, "Thiếu mã sân để cập nhật!");
+                    response.sendRedirect("Admin_San");
+                    return;
                 }
+
+                int fieldId = Integer.parseInt(fieldIdRaw);
+                field.setFieldId(fieldId);
+
+                if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, fieldId)) {
+                    ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
+                    response.sendRedirect("Admin_San");
+                    return;
+                }
+
+                fieldDAO.updateField(field);
+                ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
+            } else {
+                ToastUtil.setErrorToast(request, "Hành động không hợp lệ!");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("LOI CU THE: " + e.getMessage());
             ToastUtil.setErrorToast(request, "Có lỗi xảy ra khi xử lý dữ liệu!");
         }
+
         response.sendRedirect("Admin_San");
     }
 

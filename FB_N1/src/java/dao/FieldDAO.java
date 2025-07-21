@@ -339,7 +339,8 @@ public class FieldDAO extends DBContext {
     public List<Field> pagingField(String zoneId, String typeId, String timeRange,
             BigDecimal minPrice, BigDecimal maxPrice,
             int pageIndex, int pageSize,
-            String sortBy) {
+            String sortBy,
+            String keyword) {
 
         List<Field> list = new ArrayList<>();
         String sortClause = "f.field_id"; // mặc định
@@ -364,7 +365,7 @@ public class FieldDAO extends DBContext {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("z.zone_id,z.zone_name,z.Address, ")
+                .append("z.zone_id, z.zone_name, z.Address, ")
                 .append("t.field_type_id, t.field_type_name, ")
                 .append("MIN(sof.slot_field_price) as min_price, ")
                 .append("MAX(sof.slot_field_price) as max_price ")
@@ -394,9 +395,12 @@ public class FieldDAO extends DBContext {
                     .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
                     .append(") ");
         }
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append("AND f.field_name LIKE ? ");
+        }
 
         sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("f.created_at, f.updated_at, z.zone_id,z.zone_name,z.Address, t.field_type_id, t.field_type_name ")
+                .append("f.created_at, f.updated_at, z.zone_id, z.zone_name, z.Address, t.field_type_id, t.field_type_name ")
                 .append("ORDER BY ").append(sortClause).append(" ")
                 .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
@@ -420,6 +424,9 @@ public class FieldDAO extends DBContext {
                 ps.setString(i++, timeRange);
                 ps.setString(i++, timeRange);
             }
+            if (keyword != null && !keyword.isEmpty()) {
+                ps.setString(i++, "%" + keyword + "%");
+            }
 
             ps.setInt(i++, (pageIndex - 1) * pageSize);
             ps.setInt(i, pageSize);
@@ -435,7 +442,7 @@ public class FieldDAO extends DBContext {
 
                 Zone z = new Zone();
                 z.setZoneId(rs.getInt("zone_id"));
-                z.setZone_name("zone_name");
+                z.setZone_name(rs.getString("zone_name"));
                 z.setAddress(rs.getString("Address"));
                 f.setZone(z);
 
@@ -449,6 +456,7 @@ public class FieldDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return list;
     }
 
@@ -641,18 +649,17 @@ public class FieldDAO extends DBContext {
     // Báo cáo tình trạng sử dụng từng sân (có phân trang)
     public List<Map<String, Object>> getFieldUsageReportPaging(int page, int pageSize) throws SQLException {
         List<Map<String, Object>> list = new ArrayList<>();
-        String sql =
-            "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, " +
-            "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price), 0) AS total_revenue " +
-            "FROM Field f " +
-            "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
-            "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id " +
-            "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id " +
-            "GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status " +
-            "ORDER BY f.field_id DESC " +
-            "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql
+                = "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, "
+                + "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price), 0) AS total_revenue "
+                + "FROM Field f "
+                + "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id "
+                + "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id "
+                + "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id "
+                + "GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status "
+                + "ORDER BY f.field_id DESC "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, (page - 1) * pageSize);
             ps.setInt(2, pageSize);
             ResultSet rs = ps.executeQuery();
@@ -673,8 +680,7 @@ public class FieldDAO extends DBContext {
     // Đếm tổng số sân cho báo cáo tình trạng sử dụng (phục vụ phân trang)
     public int countFieldUsageReport() throws SQLException {
         String sql = "SELECT COUNT(*) as total FROM Field";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("total");
@@ -682,4 +688,5 @@ public class FieldDAO extends DBContext {
         }
         return 0;
     }
+
 }

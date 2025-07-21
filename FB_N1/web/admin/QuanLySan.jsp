@@ -155,7 +155,9 @@
                                                                 </c:otherwise>
                                                             </c:choose>
                                                     </td>
-                                                    <td>${f.description}</td>
+                                                    <td style="max-width: 1000px; word-wrap: break-word; white-space: normal;">
+                                                        ${f.description}
+                                                    </td>
                                                     <td>
                                                         <button class="btn btn-sm btn-outline-primary editFieldBtn"
                                                                 data-id="${f.fieldId}"
@@ -178,8 +180,8 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                        
-                        
+
+
 
 
                         <!--quản lý loại sân-->
@@ -191,7 +193,7 @@
                             </div>
                         </div>
                         <div class="row g-4">
-                            
+
                             <form method="post" action="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
                                   style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 10px;">
                                 <input type="hidden" name="action" value="${type != null ? 'update' : 'add'}" />
@@ -271,67 +273,64 @@
                              aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
+                                    <!-- Sửa: thêm enctype để upload file -->
                                     <form method="post"
-                                          action="${pageContext.request.contextPath}/admin/Admin_San">
+                                          action="${pageContext.request.contextPath}/admin/Admin_San"
+                                          enctype="multipart/form-data">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="sanModalLabel"> Thêm / Cập nhật sân
-                                                bóng</h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Đóng"></button>
+                                            <h4 class="modal-title" id="sanModalLabel"> Thêm / Cập nhật sân bóng</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                         </div>
 
                                         <div class="modal-body">
-                                            <input type="hidden" name="action" value="add"
-                                                   id="formAction" />
+                                            <input type="hidden" name="action" value="add" id="formAction" />
                                             <input type="hidden" name="field_id" id="fieldId" />
 
                                             <div class="row g-3">
                                                 <!-- Tên sân -->
                                                 <div class="col-md-6">
-                                                    <label for="fieldName" class="form-label">Tên
-                                                        sân:</label>
-                                                    <input type="text" name="field_name" id="fieldName"
-                                                           class="form-control" required />
+                                                    <label for="fieldName" class="form-label">Tên sân:</label>
+                                                    <input type="text" name="field_name" id="fieldName" class="form-control" required />
                                                 </div>
 
-                                                <!-- Ảnh -->
+                                                <!-- Ảnh (upload file) -->
                                                 <div class="col-md-6">
-                                                    <label for="fieldImage" class="form-label">Ảnh (link
-                                                        hoặc tên file):</label>
-                                                    <input type="text" name="image" id="fieldImage"
-                                                           class="form-control" />
+                                                    <label for="fieldImage" class="form-label">Ảnh (upload):</label>
+                                                    <input type="file" name="image" id="fieldImage" class="form-control" accept="image/*" />
+
+                                                    <!-- THÊM đoạn này để preview ảnh -->
+                                                    <img id="fieldImagePreview" src="" alt="Xem trước ảnh" style="max-width: 100%; margin-top: 10px;" />
                                                 </div>
+
 
                                                 <!-- Loại sân -->
                                                 <div class="col-md-6">
                                                     <label for="typeId" class="form-label">Loại sân:</label>
-                                                    <select name="type_id" id="typeId" class="form-select"
-                                                            required>
+                                                    <select name="type_id" id="typeId" class="form-select" required>
                                                         <option value="">-- Chọn loại sân --</option>
                                                         <c:forEach var="type" items="${types}">
                                                             <option value="${type.fieldTypeId}">
-                                                                ${type.fieldTypeName}</option>
-                                                            </c:forEach>
+                                                                ${type.fieldTypeName}
+                                                            </option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
 
                                                 <!-- Khu vực -->
                                                 <div class="col-md-6">
                                                     <label for="zoneId" class="form-label">Khu vực:</label>
-                                                    <select name="zone_id" id="zoneId" class="form-select"
-                                                            required>
+                                                    <select name="zone_id" id="zoneId" class="form-select" required>
                                                         <option value="">-- Chọn khu vực --</option>
                                                         <c:forEach var="z" items="${zones}">
-                                                            <option value="${z.zoneId}">${z.zone_name}
-                                                            </option>
+                                                            <option value="${z.zoneId}">${z.zone_name}</option>
                                                         </c:forEach>
                                                     </select>
                                                 </div>
 
+
                                                 <!-- Trạng thái -->
                                                 <div class="col-md-6">
-                                                    <label for="status" class="form-label">Trạng
-                                                        thái:</label>
+                                                    <label for="status" class="form-label">Trạng thái:</label>
                                                     <select name="status" id="fieldstatus" class="form-select">
                                                         <option value="Hoạt động">Hoạt động</option>
                                                         <option value="Bảo trì">Bảo trì</option>
@@ -341,25 +340,24 @@
 
                                                 <!-- Mô tả -->
                                                 <div class="col-md-12">
-                                                    <label for="description" class="form-label">Mô
-                                                        tả:</label>
-                                                    <textarea name="description" id="description" rows="3"
-                                                              class="form-control"></textarea>
+                                                    <label for="description" class="form-label">Mô tả:</label>
+                                                    <textarea name="description" id="description" rows="5"
+                                                              class="form-control" oninput="autoResize(this)"
+                                                              style="overflow:hidden; resize:none; white-space:pre-wrap;"></textarea>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="modal-footer">
                                             <button type="button" id="btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-                                            <button type="submit" id="btnAdd" class="btn btn-primary">Thêm
-                                                sân</button>
-                                            <button type="submit" id="btnUpdate" class="btn btn-warning"
-                                                    style="display:none;">Cập nhật sân</button>
+                                            <button type="submit" id="btnAdd" class="btn btn-primary">Thêm sân</button>
+                                            <button type="submit" id="btnUpdate" class="btn btn-warning" style="display:none;">Cập nhật sân</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div><!-- /.modal -->
+
 
 
 
@@ -414,7 +412,12 @@
 
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
-
+        <script>
+                                                                        function autoResize(textarea) {
+                                                                            textarea.style.height = 'auto'; // reset
+                                                                            textarea.style.height = textarea.scrollHeight + 'px'; // fit content
+                                                                        }
+        </script>
         <!-- Datatables js -->
         <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -439,45 +442,51 @@
 
         <script src="assets/js/app.min.js"></script>
         <script>
-                                                                            function editField(id, name, image, typeId, zoneId, status, description) {
-                                                                                document.getElementById("formAction").value = "update";
-                                                                                document.getElementById("fieldId").value = id;
-                                                                                document.getElementById("fieldName").value = name;
-                                                                                document.getElementById("fieldImage").value = image;
-                                                                                document.getElementById("typeId").value = typeId;
-                                                                                document.getElementById("zoneId").value = zoneId;
+                                                                        function editField(id, name, image, typeId, zoneId, status, description) {
+                                                                            document.getElementById("formAction").value = "update";
+                                                                            document.getElementById("fieldId").value = id;
+                                                                            document.getElementById("fieldName").value = name;
+                                                                            document.getElementById("fieldImagePreview").src = image;
+                                                                            document.getElementById("typeId").value = typeId;
+                                                                            document.getElementById("zoneId").value = zoneId;
 
-                                                                                // Đảm bảo status khớp với option trong <select>
-                                                                                document.getElementById("fieldstatus").value = status.trim();
+                                                                            // Đảm bảo status khớp với option trong <select>
+                                                                            document.getElementById("fieldstatus").value = status.trim();
 
-                                                                                document.getElementById("description").value = description;
+                                                                            document.getElementById("description").value = description;
 
-                                                                                // Chuyển sang chế độ cập nhật
-                                                                                document.getElementById("btnAdd").style.display = "none";
-                                                                                document.getElementById("btnUpdate").style.display = "inline-block";
-                                                                                document.getElementById("btnCancel").style.display = "inline-block";
-                                                                                window.scrollTo({top: 0, behavior: 'smooth'});
+                                                                            // Chuyển sang chế độ cập nhật
+                                                                            document.getElementById("btnAdd").style.display = "none";
+                                                                            document.getElementById("btnUpdate").style.display = "inline-block";
+                                                                            document.getElementById("btnCancel").style.display = "inline-block";
+                                                                            window.scrollTo({top: 0, behavior: 'smooth'});
 
-                                                                                const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
-                                                                                modal.show();
-                                                                            }
+                                                                            const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
+                                                                            modal.show();
+                                                                        }
 
-                                                                            function cancelEdit() {
-                                                                                document.getElementById("formAction").value = "add";
-                                                                                document.getElementById("fieldId").value = "";
-                                                                                document.getElementById("fieldName").value = "";
-                                                                                document.getElementById("fieldImage").value = "";
-                                                                                document.getElementById("typeId").selectedIndex = 0;
-                                                                                document.getElementById("zoneId").selectedIndex = 0;
-                                                                                document.getElementById("fieldstatus").selectedIndex = 0;
-                                                                                document.getElementById("description").value = "";
+                                                                        function cancelEdit() {
+                                                                            document.getElementById("formAction").value = "add";
+                                                                            document.getElementById("fieldId").value = "";
+                                                                            document.getElementById("fieldName").value = "";
 
-                                                                                // Chuyển về chế độ thêm mới
-                                                                                document.getElementById("btnAdd").style.display = "inline-block";
-                                                                                document.getElementById("btnUpdate").style.display = "none";
-                                                                                document.getElementById("btnCancel").style.display = "none";
+                                                                            // ✅ Reset input file bằng cách tạo lại
+                                                                            const oldInput = document.getElementById("fieldImage");
+                                                                            const newInput = oldInput.cloneNode();
+                                                                            oldInput.parentNode.replaceChild(newInput, oldInput);
 
-                                                                            }
+                                                                            // ✅ Reset ảnh preview
+                                                                            document.getElementById("fieldImagePreview").src = "";
+
+                                                                            document.getElementById("typeId").selectedIndex = 0;
+                                                                            document.getElementById("zoneId").selectedIndex = 0;
+                                                                            document.getElementById("fieldstatus").selectedIndex = 0;
+                                                                            document.getElementById("description").value = "";
+
+                                                                            document.getElementById("btnAdd").style.display = "inline-block";
+                                                                            document.getElementById("btnUpdate").style.display = "none";
+                                                                            document.getElementById("btnCancel").style.display = "none";
+                                                                        }
         </script>
         <script>
             function resetFieldForm() {

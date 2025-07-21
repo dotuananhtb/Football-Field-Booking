@@ -29,54 +29,6 @@
                                     <link rel="shortcut icon" href="assets/images/favico.png">
                                         <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
                                             <style>
-                                                .date-input {
-                                                    width: 100%;
-                                                    padding: 10px 15px;
-                                                    border: 2px solid #e0e0e0;
-                                                    border-radius: 6px;
-                                                    font-size: 14px;
-                                                    background-color: white;
-                                                    transition: border-color 0.3s ease;
-                                                }
-
-                                                .date-input:focus {
-                                                    outline: none;
-                                                    border-color: #4CAF50;
-                                                    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-                                                }
-
-                                                .date-input:hover {
-                                                    border-color: #4CAF50;
-                                                }
-
-                                                /* Styling cho date picker */
-                                                .date-input::-webkit-calendar-picker-indicator {
-                                                    background-color: #4CAF50;
-                                                    border-radius: 3px;
-                                                    padding: 2px;
-                                                    cursor: pointer;
-                                                }
-
-                                                .date-input::-webkit-calendar-picker-indicator:hover {
-                                                    background-color: #45a049;
-                                                }
-
-                                                /* Alternative styling với Flatpickr */
-                                                .flatpickr-input {
-                                                    width: 100%;
-                                                    padding: 10px 15px;
-                                                    border: 2px solid #e0e0e0;
-                                                    border-radius: 6px;
-                                                    font-size: 14px;
-                                                    background-color: white;
-                                                    cursor: pointer;
-                                                }
-
-                                                .flatpickr-input:focus {
-                                                    outline: none;
-                                                    border-color: #4CAF50;
-                                                    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-                                                }
 
                                                 .book-btn button {
                                                     background: linear-gradient(135deg, #28a745, #20c997);
@@ -135,18 +87,9 @@
                                                     color: white !important;
                                                     border-color: #dc2626 !important;
                                                 }
-                                                .slot-btn {
-                                                    margin: 4px;
-                                                    padding: 6px 12px;
-                                                    border: 1px solid #28a745;
-                                                    border-radius: 6px;
-                                                    background-color: #f0fff0;
-                                                    cursor: pointer;
-                                                    color: #83827F ;
-                                                }
 
                                                 .slot-btn.active {
-                                                    background-color: #FCD34D; /* vàng nhẹ */
+                                                    background-color: #FCD34D;
                                                     font-weight: bold;
                                                     border-color: #f59e0b;
                                                 }
@@ -433,23 +376,55 @@
                                                     color: white;
                                                     border-color: #4CAF50;
                                                 }
-                                                /* Mặc định */
-                                                .flex.wd-search {
-                                                    display: grid;
-                                                    grid-template-columns: 1.5fr 1.2fr 1.2fr 1.2fr 1.4fr 1fr;
-                                                    gap: 12px;
-                                                    align-items: end;
+                                                .form-group.flex-five {
+                                                    flex: 5;
                                                 }
-
-                                                .wd-search .form-group .search-bar-group .nice-select {
-                                                    padding: 35px 20px 8px 0px;
-                                                    border: unset !important;
+                                                .search-bar-group {
+                                                    flex: 1;
+                                                }
+                                                .search-bar-group input {
                                                     width: 100%;
-                                                    min-width: 140px;
-                                                    max-width: 180px;
-                                                    box-sizing: border-box;
+                                                    border: none;
+                                                    outline: none;
+                                                    font-size: 14px;
+                                                    color: #212529;
+                                                    font-weight: 500;
+                                                    background: transparent;
+                                                    padding: 0;
                                                 }
 
+                                                .search-bar-group input::placeholder {
+                                                    color: #6c757d;
+                                                    font-weight: 400;
+                                                }
+
+                                                .form-group-btn {
+                                                    display: flex;
+                                                    align-items: center;
+                                                    gap: 10px;
+                                                }
+                                                .btn.btn-primary {
+                                                    background-color: #4DA528 !important;
+                                                    font-size: 18px;
+                                                    font-weight: 500;
+                                                    line-height: 18px;
+                                                    border-radius: 33px;
+                                                    padding: 20px 46px 20px 40px;
+                                                    color: #FFFFFF !important;
+                                                    border: none;
+                                                    cursor: pointer;
+                                                    display: inline-flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    gap: 8px;
+                                                    white-space: nowrap;
+                                                    text-decoration: none;
+                                                }
+
+                                                /* Hover hiệu ứng giống .btn-search nếu cần */
+                                                .btn.btn-primary:hover {
+                                                    background-color: #3c8e21 !important;
+                                                }
                                                 /* Cho Tablet: giảm số cột (ví dụ màn hình dưới 1024px) */
                                                 @media (max-width: 1024px) {
                                                     .flex.wd-search {
@@ -533,120 +508,45 @@
                                                                 </div>
                                                             </section>
                                                             <!-- Widget Select Form -->
-                                                            <div class="mt--82 z-index3 relative">
-                                                                <div class="tf-container">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12">
-                                                                            <div class="search-form-widget-slider relative">
-                                                                                <form action="/" id="search-form-slider">
+                                                            <form method="get" action="${pageContext.request.contextPath}/DanhSachSan">
+                                                                <div class="mt--82 z-index3 relative">
+                                                                    <div class="tf-container">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="search-form-widget-slider relative">
                                                                                     <div class="flex wd-search">
-                                                                                        <div class="form-group flex">
+                                                                                        <!-- Ô nhập tên sân -->
+                                                                                        <div class="form-group flex-five">
                                                                                             <i class="icon-18"></i>
                                                                                             <div class="search-bar-group">
-                                                                                                <label>Địa điểm</label>
-                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                    <span class="current">
-                                                                                                        <c:choose>
-                                                                                                            <c:when test="${not empty param.zid}">
-                                                                                                                <c:forEach items="${listZ}" var="z">
-                                                                                                                    <c:if test="${z.zoneId == param.zid}">
-                                                                                                                        ${z.address}
-                                                                                                                    </c:if>
-                                                                                                                </c:forEach>
-                                                                                                            </c:when>
-                                                                                                            <c:otherwise>Vị trí</c:otherwise>
-                                                                                                        </c:choose>
-                                                                                                    </span>
-                                                                                                    <ul class="list">
-                                                                                                        <c:forEach items="${listZ}" var="z">
-                                                                                                            <li data-value="${z.zoneId}" class="option">
-                                                                                                                <a href="${pageContext.request.contextPath}/KhuVuc?zid=${z.zoneId}">
-                                                                                                                    ${z.address}
-                                                                                                                </a>
-                                                                                                            </li>
-                                                                                                        </c:forEach>
-                                                                                                    </ul>
-                                                                                                </div>
+                                                                                                <label for="keyword">Tên sân</label>
+                                                                                                <input type="text"
+                                                                                                       id="keyword"
+                                                                                                       name="keyword"
+                                                                                                       placeholder="Nhập tên sân bạn muốn tìm..."
+                                                                                                       value="${fn:escapeXml(param.keyword)}"
+                                                                                                       class="form-control" />
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="form-group flex">
-                                                                                            <i class="icon-Layer-19"></i>
-                                                                                            <div class="search-bar-group">
-                                                                                                <label>Khu Vực</label>
-                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                    <span class="current">Thanh Xuân</span>
-                                                                                                    <ul class="list">
-                                                                                                        <li data-value="san5" class="option">Sân 5 người</li>
-                                                                                                        <li data-value="san7" class="option selected">Sân 7 người
-                                                                                                        </li>
-                                                                                                        <li data-value="san11" class="option">Sân 11 người</li>
-                                                                                                        <li data-value="futsal" class="option">Sân Futsal</li>
-                                                                                                    </ul>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="form-group flex">
-                                                                                            <i class="icon-15"></i>
-                                                                                            <div class="search-bar-group">
-                                                                                                <label>Loại Sân</label>
-                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                    <span class="current">Sân 7 người</span>
-                                                                                                    <ul class="list">
-                                                                                                        <li data-value="san5" class="option">Sân 5 người</li>
-                                                                                                        <li data-value="san7" class="option selected">Sân 7 người
-                                                                                                        </li>
-                                                                                                        <li data-value="san11" class="option">Sân 11 người</li>
-                                                                                                        <li data-value="futsal" class="option">Sân Futsal</li>
-                                                                                                    </ul>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="form-group flex">
-                                                                                            <i class="icon-time-left"></i>
-                                                                                            <div class="search-bar-group">
-                                                                                                <label>Giờ Đặt</label>
-                                                                                                <div class="nice-select" tabindex="0">
-                                                                                                    <span class="current">7:00 - 9:00</span>
-                                                                                                    <ul class="list">
-                                                                                                        <li data-value="7-9" class="option selected">7:00 - 9:00
-                                                                                                        </li>
-                                                                                                        <li data-value="9-11" class="option">9:00 - 11:00</li>
-                                                                                                        <li data-value="14-16" class="option">14:00 - 16:00</li>
-                                                                                                        <li data-value="16-18" class="option">16:00 - 18:00</li>
-                                                                                                        <li data-value="18-20" class="option">18:00 - 20:00</li>
-                                                                                                        <li data-value="20-22" class="option">20:00 - 22:00</li>
-                                                                                                    </ul>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="form-group flex">
-                                                                                            <i class="icon-Group-111"></i>
-                                                                                            <div class="search-bar-group">
-                                                                                                <label>Ngày Đặt</label>
-                                                                                                <input type="text" class="flatpickr-input" id="bookingDateAdvanced"
-                                                                                                       placeholder="Chọn ngày đặt" readonly>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                        <!-- Nút tìm kiếm -->
                                                                                         <div class="form-group flex-two">
-
-                                                                                            <a href="#" class="btn-search"><i class="icon-Vector5"></i>Search</a>
+                                                                                            <button type="submit" class="btn btn-primary">
+                                                                                                <i class="icon-Vector5 me-2"></i> Tìm kiếm
+                                                                                            </button>
                                                                                         </div>
                                                                                     </div>
-                                                                                </form>
+                                                                                    <!-- /Thanh tìm kiếm -->
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <!-- Widget Select Form -->
-                                                            <!-- Widget archieve tour -->
-                                                            <section class="archieve-tour">
-                                                                <div class="tf-container">
-                                                                    <form method="get" action="${pageContext.request.contextPath}/DanhSachSan">
+
+                                                                <!-- Widget Select Form -->
+                                                                <!-- Widget archieve tour -->
+                                                                <section class="archieve-tour">
+                                                                    <div class="tf-container">
+
 
                                                                         <div class="row">
                                                                             <div class="col-lg-4">
@@ -739,30 +639,6 @@
                                                                                                     <input type="hidden" name="time" id="timeInput" value="${param.time}" />
                                                                                                 </div>
                                                                                             </fieldset>
-
-                                                                                            <!--                                                                                                                                                <fieldset class="group-select relative mb-40">
-                                                                                                                                                <h6 class="title-tour">Tìm kiếm theo giá</h6>
-                                                                                                                                                <div class="widget widget-price ">
-                                                                                                                                                <div id="slider-range2"></div>
-                                                                                                                                                <div class="slider-labels">
-                                                                                                                                                <div>
-                                                                                                                                                <input type="hidden" name="min-value2" value="">
-                                                                                                                                                <input type="hidden" name="max-value2" value="">
-                                                                                                                                                </div>
-                                                                                                                                                <div class="caption flex-three">
-                                                                                                                                                <p class="price-range">Giá: </p>
-                                                                                                                                                <div class="number-range">
-                                                                                                                                                <span id="slider-range-value01">${param.minPrice}</span>
-                                                                                                                                                <span id="slider-range-value02">${param.maxPrice}</span>
-                                                                                            
-                                                                                                                                                </div>
-                                                                                                                                                <input type="hidden" name="minPrice" id="minPriceInput" value="${param.minPrice}">
-                                                                                                                                                <input type="hidden" name="maxPrice" id="maxPriceInput" value="${param.maxPrice}">
-                                                                                            
-                                                                                                                                                </div>
-                                                                                                                                                </div>
-                                                                                                                                                </div> /.widget_price 
-                                                                                                                                                </fieldset>-->
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -947,9 +823,10 @@
 
                                                                             </div>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
-                                                            </section>
+
+                                                                    </div>
+                                                                </section>
+                                                            </form>
                                                         </main>
                                                         <jsp:include page="footer.jsp" />
                                                         <!-- Bottom -->
