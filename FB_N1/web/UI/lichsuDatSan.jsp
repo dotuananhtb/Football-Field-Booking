@@ -615,7 +615,7 @@
                                                                     <div class="booking-table-cell">
                                                                         <p style="font-weight: bold; color: red;">${booking.totalAmount} vnđ</p>
                                                                     </div>
-                                                                    
+
                                                                     <!-- Trạng thái -->
                                                                     <div class="booking-table-cell">
                                                                         <p class="status">
@@ -626,8 +626,14 @@
                                                                                 <c:when test="${booking.statusPay == 1}">
                                                                                     <span style="color: green; font-weight: bold;">Đã thanh toán</span>
                                                                                 </c:when>
+                                                                                <c:when test="${booking.statusPay == 2}">
+                                                                                    <span style="color: gray; font-weight: bold;">Thanh toán sau</span>
+                                                                                </c:when>
                                                                                 <c:when test="${booking.statusPay == -1}">
                                                                                     <span style="color: gray; font-weight: bold;">Đã hủy (quá hạn)</span>
+                                                                                </c:when>
+                                                                                <c:when test="${booking.statusPay == -2}">
+                                                                                    <span style="color: gray; font-weight: bold;">Đã huỷ bới admin</span>
                                                                                 </c:when>
                                                                                 <c:otherwise>
                                                                                     <span style="color: gray;">Không xác định</span>
