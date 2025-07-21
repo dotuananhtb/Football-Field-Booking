@@ -163,6 +163,115 @@ public class BookingService extends DBContext {
             }
         }
     }
+    
+    /////////////////////
+    public Booking createBooking2(Account account, List<BookingDetails> detailsList) {
+    Connection conn = null;
+    try {
+        conn = DBContext.getConnection();
+        conn.setAutoCommit(false);
+
+        BookingDAO bookingDAO = new BookingDAO();
+        BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+        SaleDAO saleDAO = new SaleDAO();
+        SlotsOfFieldDAO slotsOfFieldDAO = new SlotsOfFieldDAO(); // thiếu DAO này!
+
+        bookingDAO.setConnection(conn);
+        bookingDetailsDAO.setConnection(conn);
+        saleDAO.setConnection(conn);
+        slotsOfFieldDAO.setConnection(conn); // thêm dòng này
+
+        int slotCount = detailsList.size();
+        Integer saleId = saleDAO.getSaleIdBySlotCount(slotCount);
+        BigDecimal totalAmount = bookingDAO.calculateTotalBooking(detailsList);
+
+        String bookingCode;
+        do {
+            bookingCode = "ON" + CodeUtil.generateBookingCode();
+        } while (bookingDAO.isBookingCodeExists(bookingCode));
+
+        Booking booking = new Booking();
+        booking.setAccountId(account.getAccountId());
+        booking.setEmail(account.getEmail());
+        booking.setSaleId(saleId);
+        booking.setTotalAmount(totalAmount);
+        booking.setBookingCode(bookingCode);
+        booking.setStatusPay(0);
+
+        int bookingId = bookingDAO.insertBooking(booking);
+        if (bookingId == -1) {
+            conn.rollback();
+            return null;
+        }
+        booking.setBookingId(bookingId); // Gán ID để trả về sau
+
+        int detailIndex = 1;
+        for (BookingDetails detail : detailsList) {
+            Map<String, String> timeMap = slotsOfFieldDAO.getStartEndTimeBySlotFieldId(detail.getSlotFieldId());
+            if (timeMap != null) {
+                detail.setStartTime(timeMap.get("start_time"));
+                detail.setEndTime(timeMap.get("end_time"));
+            }
+
+            detail.setBookingId(bookingId);
+            detail.setStatusCheckingId(4); // trạng thái "Chờ xác nhận"
+            String suffix = String.format("_%02d", detailIndex++);
+            detail.setBookingDetailsCode(bookingCode + suffix);
+
+            if (!bookingDetailsDAO.insertBookingDetail(detail)) {
+                conn.rollback();
+                return null;
+            }
+        }
+
+        conn.commit();
+
+        Set<String> affectedFieldIds = new HashSet<>();
+        for (BookingDetails detail : detailsList) {
+            String fieldId = slotsOfFieldDAO.getFieldIdBySlotFieldId(detail.getSlotFieldId());
+            if (fieldId != null) {
+                affectedFieldIds.add(fieldId);
+            }
+        }
+        AppWebSocket.broadcastCalendarUpdates(affectedFieldIds);
+        AppWebSocket.broadcastToRole("1", "newBooking", "Khách hàng " + account.getUsername() + " vừa đặt sân.");
+
+        String finalBookingCode = bookingCode;
+        new Thread(() -> {
+            try {
+                SendMail sender = new SendMail();
+                sender.guiMailDatSanThanhCong(
+                        account.getEmail(),
+                        account.getUserProfile().getLastName() + " " + account.getUserProfile().getFirstName(),
+                        finalBookingCode,
+                        totalAmount
+                );
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+
+        return booking;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        try {
+            if (conn != null) conn.rollback();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    } finally {
+        try {
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 //
 
     public String createOfflineBooking(OfflineUser offlineUser, int createdByAccountId, List<BookingDetails> detailsList, int statusPay) {
