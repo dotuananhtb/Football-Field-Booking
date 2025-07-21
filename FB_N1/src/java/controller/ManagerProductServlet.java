@@ -2,6 +2,7 @@ package controller;
 
 import dao.CateProduct_DAO;
 import dao.ProductDAO;
+import dao.ProductDetailsDAO;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -151,7 +152,7 @@ public class ManagerProductServlet extends HttpServlet {
                 String[] warranties = request.getParameterValues("warranty[]");
                 String[] moreInfos = request.getParameterValues("moreInfo[]");
 
-                dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
                 if (colors != null) {
                     for (int i = 0; i < colors.length; i++) {
                         ProductDetails pd = new ProductDetails();
@@ -230,7 +231,7 @@ public class ManagerProductServlet extends HttpServlet {
                         String[] origins = request.getParameterValues("origin[]");
                         String[] warranties = request.getParameterValues("warranty[]");
                         String[] moreInfos = request.getParameterValues("moreInfo[]");
-                        dao.ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
+                        ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
                         List<ProductDetails> oldDetails = detailsDAO.getDetailsByProductId(productId);
                         Set<Integer> oldIds = new HashSet<>();
                         for (ProductDetails d : oldDetails) oldIds.add(d.getProductDetailsId());
