@@ -29,7 +29,7 @@ public class BookingDAO extends DBContext {
         String selectExpiredBookingIdsSQL = """
             SELECT booking_id FROM Booking
             WHERE status_pay = 0
-              AND DATEDIFF(MINUTE, booking_date, GETDATE()) >= 1
+              AND DATEDIFF(MINUTE, booking_date, GETDATE()) >= 2
         """;
         String cancelBookingSQL = """
             UPDATE Booking
