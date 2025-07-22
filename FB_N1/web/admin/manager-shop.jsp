@@ -348,6 +348,7 @@
                     <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="productId" id="editProductId">
+                        <input type="hidden" id="editProductImage" name="oldProductImage" value="">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
