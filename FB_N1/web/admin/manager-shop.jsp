@@ -295,38 +295,36 @@
                             </div>
                             <hr>
                             <h5>Chi tiết sản phẩm</h5>
-                            <div id="productDetailsContainer">
-                                <div class="row product-details-row mb-2">
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="color[]" placeholder="Màu sắc">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="size[]" placeholder="Size">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="material[]" placeholder="Chất liệu">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="number" step="0.01" class="form-control" name="weight[]" placeholder="Trọng lượng">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="origin[]" placeholder="Xuất xứ">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="warranty[]" placeholder="Bảo hành">
-                                    </div>
-                                    <div class="col-md-2 mt-2">
-                                        <input type="text" class="form-control" name="moreInfo[]" placeholder="Khác">
-                                    </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6 mb-2">
+                                    <label for="addColors" class="form-label">Màu sắc <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
+                                    <input type="text" class="form-control" id="addColors" name="colors" placeholder="Ví dụ: Đỏ, Đen" required>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="addSizes" class="form-label">Size <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
+                                    <input type="text" class="form-control" id="addSizes" name="sizes" placeholder="Ví dụ: 41, 42" required>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="addMaterial" class="form-label">Chất liệu</label>
+                                    <input type="text" class="form-control" id="addMaterial" name="material" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="addWeight" class="form-label">Trọng lượng</label>
+                                    <input type="number" step="0.01" class="form-control" id="addWeight" name="weight" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="addOrigin" class="form-label">Xuất xứ</label>
+                                    <input type="text" class="form-control" id="addOrigin" name="origin" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="addWarranty" class="form-label">Bảo hành</label>
+                                    <input type="text" class="form-control" id="addWarranty" name="warranty" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="addMoreInfo" class="form-label">Khác</label>
+                                    <input type="text" class="form-control" id="addMoreInfo" name="moreInfo" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-success mt-2" onclick="addProductDetailsRow()">+ Thêm chi tiết sản phẩm</button>
-                            <script>
-                            function addProductDetailsRow() {
-                                var html = document.querySelector('.product-details-row').outerHTML;
-                                document.getElementById('productDetailsContainer').insertAdjacentHTML('beforeend', html);
-                            }
-                            </script>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -399,74 +397,36 @@
                             </div>
                             <hr>
                             <h5>Chi tiết sản phẩm</h5>
-                            <div id="editProductDetailsContainer">
-                                <!-- Các dòng chi tiết sản phẩm sẽ được render bằng JS khi mở modal -->
+                            <div class="row mb-2">
+                                <div class="col-md-6 mb-2">
+                                    <label for="editColors" class="form-label">Màu sắc <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
+                                    <input type="text" class="form-control" id="editColors" name="colors" placeholder="Ví dụ: Đỏ, Đen" required>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="editSizes" class="form-label">Size <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
+                                    <input type="text" class="form-control" id="editSizes" name="sizes" placeholder="Ví dụ: 41, 42" required>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="editMaterial" class="form-label">Chất liệu</label>
+                                    <input type="text" class="form-control" id="editMaterial" name="material" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="editWeight" class="form-label">Trọng lượng</label>
+                                    <input type="number" step="0.01" class="form-control" id="editWeight" name="weight" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="editOrigin" class="form-label">Xuất xứ</label>
+                                    <input type="text" class="form-control" id="editOrigin" name="origin" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="editWarranty" class="form-label">Bảo hành</label>
+                                    <input type="text" class="form-control" id="editWarranty" name="warranty" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="editMoreInfo" class="form-label">Khác</label>
+                                    <input type="text" class="form-control" id="editMoreInfo" name="moreInfo" placeholder="Chỉ nhập 1 giá trị">
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-success mt-2" onclick="addEditProductDetailsRow()">+ Thêm chi tiết sản phẩm</button>
-                            <script>
-                            function addEditProductDetailsRow(detail) {
-                                var html = `<div class=\"row product-details-row mb-2\">\n` +
-                                    `<input type=\"hidden\" name=\"productDetailsId[]\" value=\"\">` +
-                                    `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"color[]\" placeholder=\"Màu sắc\"></div>` +
-                                    `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"size[]\" placeholder=\"Size\"></div>` +
-                                    `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"material[]\" placeholder=\"Chất liệu\"></div>` +
-                                    `<div class=\"col-md-2\"><input type=\"number\" step=\"0.01\" class=\"form-control\" name=\"weight[]\" placeholder=\"Trọng lượng\"></div>` +
-                                    `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"origin[]\" placeholder=\"Xuất xứ\"></div>` +
-                                    `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"warranty[]\" placeholder=\"Bảo hành\"></div>` +
-                                    `<div class=\"col-md-2 mt-2\"><input type=\"text\" class=\"form-control\" name=\"moreInfo[]\" placeholder=\"Khác\"></div>` +
-                                    `<div class=\"col-md-1 mt-2\"><button type=\"button\" class=\"btn btn-danger btn-sm\" onclick=\"this.closest('.product-details-row').remove()\">Xóa</button></div>` +
-                                `</div>`;
-                                document.getElementById('editProductDetailsContainer').insertAdjacentHTML('beforeend', html);
-                            }
-                            // Hàm render chi tiết sản phẩm khi mở modal sửa
-                            function renderEditProductDetails(details) {
-                                var container = document.getElementById('editProductDetailsContainer');
-                                container.innerHTML = '';
-                                if (details && details.length > 0) {
-                                    details.forEach(function(detail) {
-                                        var html = `<div class=\"row product-details-row mb-2\">\n` +
-                                            `<input type=\"hidden\" name=\"productDetailsId[]\" value=\"${detail.productDetailsId}\">` +
-                                            `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"color[]\" value=\"${detail.color || ''}\" placeholder=\"Màu sắc\"></div>` +
-                                            `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"size[]\" value=\"${detail.size || ''}\" placeholder=\"Size\"></div>` +
-                                            `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"material[]\" value=\"${detail.material || ''}\" placeholder=\"Chất liệu\"></div>` +
-                                            `<div class=\"col-md-2\"><input type=\"number\" step=\"0.01\" class=\"form-control\" name=\"weight[]\" value=\"${detail.weight || ''}\" placeholder=\"Trọng lượng\"></div>` +
-                                            `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"origin[]\" value=\"${detail.origin || ''}\" placeholder=\"Xuất xứ\"></div>` +
-                                            `<div class=\"col-md-2\"><input type=\"text\" class=\"form-control\" name=\"warranty[]\" value=\"${detail.warranty || ''}\" placeholder=\"Bảo hành\"></div>` +
-                                            `<div class=\"col-md-2 mt-2\"><input type=\"text\" class=\"form-control\" name=\"moreInfo[]\" value=\"${detail.moreInfo || ''}\" placeholder=\"Khác\"></div>` +
-                                            `<div class=\"col-md-1 mt-2\"><button type=\"button\" class=\"btn btn-danger btn-sm\" onclick=\"this.closest('.product-details-row').remove()\">Xóa</button></div>` +
-                                        `</div>`;
-                                        container.insertAdjacentHTML('beforeend', html);
-                                    });
-                                }
-                            }
-                            // Khi bấm nút sửa sản phẩm, gọi AJAX lấy chi tiết sản phẩm và render
-                            document.addEventListener('DOMContentLoaded', function() {
-                                document.querySelectorAll('.edit-product-btn').forEach(function(btn) {
-                                    btn.addEventListener('click', function() {
-                                        const productId = this.getAttribute('data-product-id');
-                                        const productName = this.getAttribute('data-product-name');
-                                        const categoryId = this.getAttribute('data-category-id');
-                                        const productPrice = this.getAttribute('data-product-price');
-                                        const productImage = this.getAttribute('data-product-image');
-                                        const productDescription = this.getAttribute('data-product-description');
-                                        const productStatus = this.getAttribute('data-product-status');
-                                        
-                                        document.getElementById('editProductId').value = productId;
-                                        document.getElementById('editProductName').value = productName || '';
-                                        document.getElementById('editCategoryId').value = categoryId || '';
-                                        document.getElementById('editProductPrice').value = productPrice || '';
-                                        document.getElementById('editProductImage').value = productImage || '';
-                                        document.getElementById('editProductDescription').value = productDescription || '';
-                                        document.getElementById('editProductStatus').value = productStatus || 'active';
-                                        
-                                        // Gọi AJAX lấy chi tiết sản phẩm
-                                        fetch(`${window.location.origin}/product-details?productId=${productId}&ajax=1`)
-                                            .then(res => res.json())
-                                            .then(data => renderEditProductDetails(data));
-                                    });
-                                });
-                            });
-                            </script>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
