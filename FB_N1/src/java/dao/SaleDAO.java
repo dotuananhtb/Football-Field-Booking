@@ -155,7 +155,7 @@ public class SaleDAO extends DBContext {
 
         return 0; // Trường hợp không tìm thấy
     }
-
+////////////////////////////////do not update here//////////////////////////////
     public int getDiscountPercent(int slotCount) {
         String sql = "SELECT TOP 1 sale_percent FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
 
@@ -172,7 +172,9 @@ public class SaleDAO extends DBContext {
 
         return 0; // Không có khuyến mãi phù hợp
     }
+    /////////////////////////////
 
+    //////ham nay lay ra uu dai tot nhattt////////update here
     public Integer getSaleIdBySlotCount(int slotCount) {
         String sql = "SELECT TOP 1 sale_id FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -186,10 +188,11 @@ public class SaleDAO extends DBContext {
         }
         return null;
     }
+    /////////////////////////////////
     public static void main(String[] args) {
         SaleDAO sDao = new SaleDAO();
         
-        Sale s = sDao.getSaleBySaleId("1");
+        int s = sDao.getSaleIdBySlotCount(2);
         System.out.println(s);
         
         
