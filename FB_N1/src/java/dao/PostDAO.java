@@ -912,7 +912,7 @@ public class PostDAO extends DBContext {
         String query = "SELECT p.*, a.username FROM Post p " +
                        "JOIN Account a ON p.account_id = a.account_id " +
                        "JOIN UserProfile u ON a.account_id = u.account_id " +
-                       "WHERE p.status_post = 'active' AND u.role_id = ? " +
+                       "WHERE u.role_id = ? " +
                        "ORDER BY p.post_date DESC";
         try {
             PreparedStatement ptm = connection.prepareStatement(query);
@@ -959,5 +959,16 @@ public class PostDAO extends DBContext {
         return 0;
     }
 
+    public void updatePostStatus(int postId, String newStatus) {
+        String query = "UPDATE Post SET status_post = ? WHERE post_id = ?";
+        try {
+            PreparedStatement ptm = connection.prepareStatement(query);
+            ptm.setString(1, newStatus);
+            ptm.setInt(2, postId);
+            ptm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
 }
