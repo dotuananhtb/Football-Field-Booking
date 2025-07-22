@@ -22,6 +22,7 @@ import model.Account;
 import model.Role;
 import model.StatusAccount;
 import model.UserProfile;
+import util.PasswordUtil;
 import util.ToastUtil;
 
 /**
@@ -79,7 +80,7 @@ public class AddNewStaff extends HttpServlet {
                 return;
           }
             UserProfile profile = new UserProfile(roleId, avatar);
-            Account account = new Account(statusId, username, password, email, createdAt, profile);
+            Account account = new Account(statusId, username, PasswordUtil.hashPassword(password), email, createdAt, profile);
 
             if (ad.insertAccountWithProfile(account)) {
                 ToastUtil.setSuccessToast(request, "Thêm nhân viên thành công!");
