@@ -132,7 +132,6 @@
 <div class="product-details-container">
     <div class="product-image">
         <img src="${product.productImage}" alt="${product.productName}" onerror="this.src='assets/images/slide/img-1.jpg'">
-        <div class="image-note">Nhấn vào ảnh để phóng to</div>
     </div>
     <div class="product-info">
         <div class="product-title">${product.productName}</div>
@@ -232,13 +231,8 @@
                 </div>
             </div>
         </c:if>
-        <div class="product-quantity">
-            <span>Số lượng:</span>
-            <button type="button" onclick="changeQuantity(-1)">-</button>
-            <input type="text" id="quantity" value="1" readonly />
-            <button type="button" onclick="changeQuantity(1)">+</button>
-        </div>
-        <div class="product-description">
+        <!-- Bỏ phần số lượng -->
+        <div class="product-description" style="margin-top: 12px;">
             <span>Mô tả:</span>
             <p>${product.productDescription}</p>
         </div>
