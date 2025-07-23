@@ -40,6 +40,15 @@ public class BlogDetailsServlet extends HttpServlet {
                 response.sendRedirect("blog");
                 return;
             }
+            // Lấy số điện thoại người đăng
+            String phone = null;
+            if (post.getAccount() != null && post.getAccount().getAccountId() > 0) {
+                dao.AccountDAO accountDAO = new dao.AccountDAO();
+                model.Account acc = accountDAO.getAccountById(post.getAccountId());
+                if (acc != null && acc.getUserProfile() != null) {
+                    phone = acc.getUserProfile().getPhone();
+                }
+            }
             Vector<Comment> comments = commentDAO.getCommentsByPostId(postId);
             List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
             PostDetails postDetails = postDetailsDAO.getByPostId(postId);
@@ -48,6 +57,7 @@ public class BlogDetailsServlet extends HttpServlet {
             request.setAttribute("comments", comments);
             request.setAttribute("fieldTypes", fieldTypes); // truyền sang JSP
             request.setAttribute("postDetails", postDetails); // truyền sang JSP (PostDetails)
+            request.setAttribute("posterPhone", phone); // truyền sang JSP (sđt người đăng)
             request.getRequestDispatcher("UI/blogDetails.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

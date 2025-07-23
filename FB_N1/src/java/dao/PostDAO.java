@@ -109,6 +109,7 @@ public class PostDAO extends DBContext {
                 post.setStatusPost(rs.getString("status_post"));
                 
                 Account account = new Account();
+                account.setAccountId(rs.getInt("account_id")); // thêm dòng này để có accountId
                 account.setUsername(rs.getString("username"));
                 post.setAccount(account);
                 
