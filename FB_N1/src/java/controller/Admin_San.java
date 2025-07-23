@@ -45,15 +45,6 @@ public class Admin_San extends HttpServlet {
         // Regex cho phép chữ cái, số, khoảng trắng và dấu nháy đơn ('), gạch ngang (-)
         return !s.matches("^[\\p{L}\\d\\s'-]+$");
     }
-    
-        private boolean isBlank2(String s) {
-        // Null, rỗng, hoặc chỉ toàn khoảng trắng
-        if (s == null || s.trim().isEmpty()) {
-            return true;
-        }
-        // Regex cho phép chữ cái, số, khoảng trắng và dấu nháy đơn ('), gạch ngang (-)
-        return !s.matches("^[\\p{L}\\d\\s'-]+$");
-    }
 
     private final FieldDAO fieldDAO = new FieldDAO();
     private final Zone_DAO zoneDAO = new Zone_DAO();
@@ -144,7 +135,7 @@ public class Admin_San extends HttpServlet {
 
             int zoneId = Integer.parseInt(zoneIdRaw);
             int typeId = Integer.parseInt(typeIdRaw);
-
+            int fieldId = Integer.parseInt(fieldIdRaw);
             if (filePart != null && filePart.getSize() > 0) {
                 imageUrl = uploader.uploadImage(filePart, "field");
             } else {
@@ -153,9 +144,14 @@ public class Admin_San extends HttpServlet {
                     response.sendRedirect("Admin_San");
                     return;
                 } else if ("update".equals(action) && fieldIdRaw != null) {
-                    int fieldId = Integer.parseInt(fieldIdRaw);
                     imageUrl = fieldDAO.getFieldByFieldID(fieldId).getImage(); // giữ ảnh cũ
                 }
+            }
+            // Kiểm tra trùng tên trong khu vực
+            if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, "update".equals(action) ? fieldId : null)) {
+                ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
+                response.sendRedirect("Admin_San");
+                return;
             }
 
             // Tạo đối tượng Field
@@ -176,33 +172,12 @@ public class Admin_San extends HttpServlet {
             type.setFieldTypeId(typeId);
             field.setTypeOfField(type);
 
+            // Thêm hoặc cập nhật
             if ("add".equals(action)) {
-                // Kiểm tra trùng tên
-                if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, null)) {
-                    ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
-                    response.sendRedirect("Admin_San");
-                    return;
-                }
-
                 fieldDAO.insertField(field);
                 ToastUtil.setSuccessToast(request, "Đã thêm sân thành công!");
-
-            } else if ("update".equals(action)) {
-                if (isBlank(fieldIdRaw)) {
-                    ToastUtil.setErrorToast(request, "Thiếu mã sân để cập nhật!");
-                    response.sendRedirect("Admin_San");
-                    return;
-                }
-
-                int fieldId = Integer.parseInt(fieldIdRaw);
+            } else if ("update".equals(action) && fieldId != -1) {
                 field.setFieldId(fieldId);
-
-                if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, fieldId)) {
-                    ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
-                    response.sendRedirect("Admin_San");
-                    return;
-                }
-
                 fieldDAO.updateField(field);
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
             } else {
