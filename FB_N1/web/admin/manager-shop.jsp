@@ -559,20 +559,18 @@
             });
         </script>
         <script>
-$(document).ready(function() {
+$(function() {
+    // Destroy instance nếu đã có
     if ($.fn.DataTable.isDataTable('#scroll-horizontal-datatable')) {
         $('#scroll-horizontal-datatable').DataTable().destroy();
     }
-    $('#scroll-horizontal-datatable').DataTable({
+    var table = $('#scroll-horizontal-datatable').DataTable({
         responsive: true,
         fixedHeader: true,
         pageLength: 10,
         lengthMenu: [5, 10, 20, 50, 100],
         language: {
-            paginate: {
-                previous: 'Trước',
-                next: 'Sau'
-            },
+            paginate: { previous: 'Trước', next: 'Sau' },
             info: 'Hiển thị _START_ đến _END_ của _TOTAL_ sản phẩm',
             infoEmpty: 'Không có dữ liệu',
             lengthMenu: 'Hiển thị _MENU_ sản phẩm',
@@ -583,6 +581,29 @@ $(document).ready(function() {
             processing: 'Đang xử lý...'
         }
     });
+
+    // Gắn lại sự kiện mỗi lần vẽ lại bảng (phân trang, lọc, search)
+    $('#scroll-horizontal-datatable').on('draw.dt', function() {
+        // bindDetailBtn(); // Xóa hàm này
+    });
+    // Gắn sự kiện lần đầu
+    // bindDetailBtn(); // Xóa hàm này
+
+    // function bindDetailBtn() { // Xóa hàm này
+    //     $('#scroll-horizontal-datatable tbody').off('click', '.dt-details-btn').on('click', '.dt-details-btn', function () { // Xóa hàm này
+    //         var tr = $(this).closest('tr'); // Xóa hàm này
+    //         var row = table.row(tr); // Xóa hàm này
+    //         var idx = $(this).data('product-index'); // Xóa hàm này
+    //         var detailsHtml = $('#details-content-' + idx).html(); // Xóa hàm này
+    //         if (row.child.isShown()) { // Xóa hàm này
+    //             row.child.hide(); // Xóa hàm này
+    //             tr.removeClass('shown'); // Xóa hàm này
+    //         } else { // Xóa hàm này
+    //             row.child(detailsHtml).show(); // Xóa hàm này
+    //             tr.addClass('shown'); // Xóa hàm này
+    //         } // Xóa hàm này
+    //     }); // Xóa hàm này
+    // } // Xóa hàm này
 });
 </script>
 <script>

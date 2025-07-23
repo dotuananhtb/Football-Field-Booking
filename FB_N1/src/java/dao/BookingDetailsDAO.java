@@ -475,6 +475,111 @@ public class BookingDetailsDAO extends DBContext {
         return list;
     }
 
+    // Lấy danh sách giao dịch chi tiết từ bảng BookingDetails (thay cho Payments)
+    public List<java.util.Map<String, Object>> getDetailedBookingDetails() {
+        List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
+        String sql = """
+            SELECT bd.booking_details_code, 
+                   ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS payer_name,
+                   bd.slot_date, bd.start_time, bd.end_time, bd.slot_field_price, bd.extra_fee, bd.note
+            FROM BookingDetails bd
+            LEFT JOIN Booking b ON bd.booking_id = b.booking_id
+            LEFT JOIN Account a ON b.account_id = a.account_id
+            LEFT JOIN UserProfile up ON a.account_id = up.account_id
+            ORDER BY bd.slot_date DESC, bd.start_time DESC
+        """;
+        try (java.sql.Connection conn = util.DBContext.getConnection();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+            java.sql.ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("transaction_code", rs.getString("booking_details_code"));
+                map.put("payer_name", rs.getString("payer_name"));
+                map.put("pay_time", rs.getString("slot_date") + " " + rs.getString("start_time") + " - " + rs.getString("end_time"));
+                java.math.BigDecimal slotPrice = rs.getBigDecimal("slot_field_price");
+                java.math.BigDecimal extraFee = rs.getBigDecimal("extra_fee");
+                if (slotPrice == null) slotPrice = java.math.BigDecimal.ZERO;
+                if (extraFee == null) extraFee = java.math.BigDecimal.ZERO;
+                map.put("transfer_amount", slotPrice.add(extraFee));
+                map.put("gateway", "-"); // Không có cổng thanh toán
+                map.put("description", rs.getString("note"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Lấy danh sách giao dịch chi tiết từ BookingDetails có filter (bỏ noteKeyword)
+    public List<java.util.Map<String, Object>> getDetailedBookingDetailsWithFilters(String payerKeyword, String paymentFromDate, String paymentToDate, String amountFrom, String amountTo) {
+        List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT bd.booking_details_code, ");
+        sql.append("ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS payer_name, ");
+        sql.append("bd.slot_date, bd.start_time, bd.end_time, bd.slot_field_price, bd.extra_fee, bd.note ");
+        sql.append("FROM BookingDetails bd ");
+        sql.append("LEFT JOIN Booking b ON bd.booking_id = b.booking_id ");
+        sql.append("LEFT JOIN Account a ON b.account_id = a.account_id ");
+        sql.append("LEFT JOIN UserProfile up ON a.account_id = up.account_id ");
+        sql.append("WHERE 1=1 ");
+        if (payerKeyword != null && !payerKeyword.isEmpty()) {
+            sql.append(" AND (LOWER(ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '')) LIKE ? OR bd.booking_details_code LIKE ?) ");
+        }
+        if (paymentFromDate != null && !paymentFromDate.isEmpty()) {
+            sql.append(" AND bd.slot_date >= ? ");
+        }
+        if (paymentToDate != null && !paymentToDate.isEmpty()) {
+            sql.append(" AND bd.slot_date <= ? ");
+        }
+        if (amountFrom != null && !amountFrom.isEmpty()) {
+            sql.append(" AND (bd.slot_field_price + ISNULL(bd.extra_fee,0)) >= ? ");
+        }
+        if (amountTo != null && !amountTo.isEmpty()) {
+            sql.append(" AND (bd.slot_field_price + ISNULL(bd.extra_fee,0)) <= ? ");
+        }
+        sql.append("ORDER BY bd.slot_date DESC, bd.start_time DESC");
+        try (java.sql.Connection conn = util.DBContext.getConnection();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            if (payerKeyword != null && !payerKeyword.isEmpty()) {
+                String kw = "%" + payerKeyword.trim().toLowerCase() + "%";
+                ps.setString(idx++, kw);
+                ps.setString(idx++, payerKeyword.trim());
+            }
+            if (paymentFromDate != null && !paymentFromDate.isEmpty()) {
+                ps.setString(idx++, paymentFromDate);
+            }
+            if (paymentToDate != null && !paymentToDate.isEmpty()) {
+                ps.setString(idx++, paymentToDate);
+            }
+            if (amountFrom != null && !amountFrom.isEmpty()) {
+                ps.setBigDecimal(idx++, new java.math.BigDecimal(amountFrom));
+            }
+            if (amountTo != null && !amountTo.isEmpty()) {
+                ps.setBigDecimal(idx++, new java.math.BigDecimal(amountTo));
+            }
+            java.sql.ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("transaction_code", rs.getString("booking_details_code"));
+                map.put("payer_name", rs.getString("payer_name"));
+                map.put("pay_time", rs.getString("slot_date") + " " + rs.getString("start_time") + " - " + rs.getString("end_time"));
+                java.math.BigDecimal slotPrice = rs.getBigDecimal("slot_field_price");
+                java.math.BigDecimal extraFee = rs.getBigDecimal("extra_fee");
+                if (slotPrice == null) slotPrice = java.math.BigDecimal.ZERO;
+                if (extraFee == null) extraFee = java.math.BigDecimal.ZERO;
+                map.put("transfer_amount", slotPrice.add(extraFee));
+                map.put("gateway", "-");
+                map.put("description", rs.getString("note"));
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         try (Connection conn = DBContext.getConnection()) {
             BookingDetailsDAO dao = new BookingDetailsDAO();

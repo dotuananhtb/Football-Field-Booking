@@ -653,7 +653,7 @@ public class FieldDAO extends DBContext {
         try {
             String sql =
                 "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, " +
-                "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price), 0) AS total_revenue " +
+                "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)), 0) AS total_revenue " +
                 "FROM Field f " +
                 "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
                 "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id " +
@@ -691,5 +691,70 @@ public class FieldDAO extends DBContext {
             }
         }
         return 0;
+    }
+
+    // Báo cáo tình trạng sử dụng từng sân có filter (bỏ số lượt đặt)
+    public List<Map<String, Object>> getFieldUsageReportWithFilters(String fieldKeyword, String fieldType, String fieldStatus, String revenueFrom, String revenueTo) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT f.field_id, f.field_name, tof.field_type_name, f.status, ");
+            sql.append("COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)), 0) AS total_revenue ");
+            sql.append("FROM Field f ");
+            sql.append("INNER JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id ");
+            sql.append("LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id ");
+            sql.append("LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id ");
+            sql.append("WHERE 1=1 ");
+            if (fieldKeyword != null && !fieldKeyword.isEmpty()) {
+                sql.append(" AND LOWER(f.field_name) LIKE ? ");
+            }
+            if (fieldType != null && !fieldType.isEmpty()) {
+                sql.append(" AND f.field_type_id = ? ");
+            }
+            if (fieldStatus != null && !fieldStatus.isEmpty()) {
+                sql.append(" AND f.status = ? ");
+            }
+            sql.append("GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status ");
+            sql.append("HAVING 1=1 ");
+            if (revenueFrom != null && !revenueFrom.isEmpty()) {
+                sql.append(" AND ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)),0) >= ? ");
+            }
+            if (revenueTo != null && !revenueTo.isEmpty()) {
+                sql.append(" AND ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)),0) <= ? ");
+            }
+            sql.append("ORDER BY f.field_id DESC");
+            try (Connection conn = util.DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                int idx = 1;
+                if (fieldKeyword != null && !fieldKeyword.isEmpty()) {
+                    ps.setString(idx++, "%" + fieldKeyword.trim().toLowerCase() + "%");
+                }
+                if (fieldType != null && !fieldType.isEmpty()) {
+                    ps.setString(idx++, fieldType);
+                }
+                if (fieldStatus != null && !fieldStatus.isEmpty()) {
+                    ps.setString(idx++, fieldStatus);
+                }
+                if (revenueFrom != null && !revenueFrom.isEmpty()) {
+                    ps.setBigDecimal(idx++, new java.math.BigDecimal(revenueFrom));
+                }
+                if (revenueTo != null && !revenueTo.isEmpty()) {
+                    ps.setBigDecimal(idx++, new java.math.BigDecimal(revenueTo));
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("field_id", rs.getInt("field_id"));
+                    map.put("field_name", rs.getString("field_name"));
+                    map.put("field_type_name", rs.getString("field_type_name"));
+                    map.put("status", rs.getString("status"));
+                    map.put("booking_count", rs.getInt("booking_count"));
+                    map.put("total_revenue", rs.getBigDecimal("total_revenue"));
+                    list.add(map);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

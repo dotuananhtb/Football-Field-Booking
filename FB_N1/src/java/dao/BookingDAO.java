@@ -573,12 +573,12 @@ public class BookingDAO extends DBContext {
         return BigDecimal.ZERO;
     }
 
-    public java.util.List<java.util.Map<String, Object>> getAllFields() {
+    public List<java.util.Map<String, Object>> getAllFields() {
         java.util.List<java.util.Map<String, Object>> list = new java.util.ArrayList<>();
         String sql = "SELECT field_id, field_name FROM Field ORDER BY field_name";
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                Map<String, Object> map = new java.util.HashMap<>();
                 map.put("field_id", rs.getInt("field_id"));
                 map.put("field_name", rs.getString("field_name"));
                 list.add(map);
@@ -598,7 +598,7 @@ public class BookingDAO extends DBContext {
             sql.append("ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS customer_name, ");
             sql.append("f.field_name, bd.slot_date, bd.start_time, bd.end_time, ");
             sql.append("DATEDIFF(MINUTE, bd.start_time, bd.end_time) AS duration, ");
-            sql.append("b.total_amount, b.status_pay ");
+            sql.append("(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) AS total_amount, b.status_pay "); // Sửa dòng này
             sql.append("FROM Booking b ");
             sql.append("JOIN BookingDetails bd ON b.booking_id = bd.booking_id ");
             sql.append("JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id ");

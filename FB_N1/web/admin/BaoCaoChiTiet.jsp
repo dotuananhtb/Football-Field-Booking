@@ -108,6 +108,23 @@
                                     <h4 class="header-title">👤 2. Báo cáo thông tin người dùng</h4>
                                 </div>
                                 <div class="card-body">
+                                    <!-- Form lọc người dùng -->
+                                    <form method="get" action="${pageContext.request.contextPath}/admin/bao-cao-chi-tiet" style="margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                                        <input type="hidden" name="tab" value="user">
+                                        <label for="userKeyword">Tìm kiếm:</label>
+                                        <input type="text" id="userKeyword" name="userKeyword" value="${param.userKeyword}" placeholder="Tên, email hoặc SĐT">
+                                        <label for="userStatus">Trạng thái:</label>
+                                        <select id="userStatus" name="userStatus">
+                                            <option value="">Tất cả</option>
+                                            <option value="1" <c:if test="${param.userStatus == '1'}">selected</c:if>>Hoạt động</option>
+                                            <option value="0" <c:if test="${param.userStatus == '0'}">selected</c:if>>Khóa</option>
+                                        </select>
+                                        <label for="userFromDate">Từ ngày đăng ký:</label>
+                                        <input type="date" id="userFromDate" name="userFromDate" value="${param.userFromDate}">
+                                        <label for="userToDate">Đến ngày:</label>
+                                        <input type="date" id="userToDate" name="userToDate" value="${param.userToDate}">
+                                        <button type="submit">Lọc</button>
+                                    </form>
                                     <table id="user-report-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
@@ -146,11 +163,12 @@
                                     <h4 class="header-title">⚽ 3. Báo cáo tình trạng sử dụng từng sân</h4>
                                 </div>
                                 <div class="card-body">
+                                    <!-- XÓA form lọc sân ở đây, chỉ giữ lại bảng -->
                                     <table id="field-usage-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Mã sân</th>
+                                                
                                                 <th>Tên sân</th>
                                                 <th>Loại sân</th>
                                                 <th>Số lượt đặt</th>
@@ -162,7 +180,7 @@
                                             <c:forEach var="f" items="${fieldUsageReportList}" varStatus="loop">
                                                 <tr>
                                                     <td>${loop.index + 1}</td>
-                                                    <td>${f.field_id}</td>
+                                                    
                                                     <td>${f.field_name}</td>
                                                     <td>${f.field_type_name}</td>
                                                     <td>${f.booking_count}</td>
@@ -181,10 +199,24 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="header-title">💵 4. Báo cáo doanh thu chi tiết</h4>
-                                    <div class="text-muted small">Mục đích: Theo dõi tiền thu được từ từng đơn, từ người dùng nào, theo thời gian</div>
+                                    <h4 class="header-title">💵 4. lịch sử doanh thu chi tiết</h4>
                                 </div>
                                 <div class="card-body">
+                                    <!-- Form lọc giao dịch -->
+                                    <form method="get" action="${pageContext.request.contextPath}/admin/bao-cao-chi-tiet" style="margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                                        <input type="hidden" name="tab" value="payment">
+                                        <label for="payerKeyword">Người thanh toán:</label>
+                                        <input type="text" id="payerKeyword" name="payerKeyword" value="${param.payerKeyword}" placeholder="Tên hoặc mã giao dịch">
+                                        <label for="paymentFromDate">Từ ngày:</label>
+                                        <input type="date" id="paymentFromDate" name="paymentFromDate" value="${param.paymentFromDate}">
+                                        <label for="paymentToDate">Đến ngày:</label>
+                                        <input type="date" id="paymentToDate" name="paymentToDate" value="${param.paymentToDate}">
+                                        <label for="amountFrom">Số tiền từ:</label>
+                                        <input type="number" id="amountFrom" name="amountFrom" value="${param.amountFrom}" min="0" style="width: 100px;">
+                                        <label for="amountTo">đến</label>
+                                        <input type="number" id="amountTo" name="amountTo" value="${param.amountTo}" min="0" style="width: 100px;">
+                                        <button type="submit">Lọc</button>
+                                    </form>
                                     <table id="detailed-payments-datatable" class="table table-striped w-100 nowrap">
                                         <thead>
                                             <tr>
@@ -209,43 +241,6 @@
                                                     <td>${item.description}</td>
                                                 </tr>
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Báo cáo đặt sân theo thời gian -->
-                    <div class="row mt-3">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="header-title">📅 5. Báo cáo đặt sân theo thời gian</h4>
-                                    <div class="text-muted small">Thống kê hoạt động trong từng mốc thời gian cụ thể (7 ngày gần nhất)</div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="mt-3">Tổng số đơn đặt theo từng ngày</h5>
-                                    <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Ngày</th><th>Số đơn đặt</th></tr></thead>
-                                        <tbody>
-                                        <c:forEach var="item" items="${bookingCountByDay7}">
-                                            <tr>
-                                                <td>${item.day}</td>
-                                                <td>${item.booking_count}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                    <h5 class="mt-4">Tổng doanh thu theo từng ngày</h5>
-                                    <table class="table table-bordered table-striped">
-                                        <thead><tr><th>Ngày</th><th>Doanh thu</th></tr></thead>
-                                        <tbody>
-                                        <c:forEach var="item" items="${revenueByDay7}">
-                                            <tr>
-                                                <td>${item.day}</td>
-                                                <td>${item.revenue}</td>
-                                            </tr>
-                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
