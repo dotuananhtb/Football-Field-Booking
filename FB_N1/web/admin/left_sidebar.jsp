@@ -200,7 +200,7 @@
 
                 </a>
             </li>
-            
+
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-uu-dai"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
@@ -219,107 +219,107 @@
                 </a>
             </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError" class="side-nav-link">
-                    <i class="ri-error-warning-fill"></i>
-                    <span> Error Pages </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPagesError">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="error-404.html">Error 404</a>
-                        </li>
-                        <li>
-                            <a href="error-404-alt.html">Error 404-alt</a>
-                        </li>
-                        <li>
-                            <a href="error-500.html">Error 500</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                    <i class="ri-layout-fill"></i>
-                    <span> Layouts </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarLayouts">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="layouts-compact.html" target="_blank">Compact</a>
-                        </li>
-                        <li>
-                            <a href="layouts-icon-view.html" target="_blank">Icon View</a>
-                        </li>
-                        <li>
-                            <a href="layouts-full.html" target="_blank">Full View</a>
-                        </li>
-                        <li>
-                            <a href="layouts-fullscreen.html" target="_blank">Fullscreen View</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false" aria-controls="sidebarMultiLevel" class="side-nav-link">
-                    <i class="ri-share-fill"></i>
-                    <span> Multi Level </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarMultiLevel">
-                    <ul class="side-nav-second-level">
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarSecondLevel" aria-expanded="false" aria-controls="sidebarSecondLevel">
-                                <span> Second Level </span>
+            <!--            <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError" class="side-nav-link">
+                                <i class="ri-error-warning-fill"></i>
+                                <span> Error Pages </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarSecondLevel">
-                                <ul class="side-nav-third-level">
+                            <div class="collapse" id="sidebarPagesError">
+                                <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript: void(0);">Item 1</a>
+                                        <a href="error-404.html">Error 404</a>
                                     </li>
                                     <li>
-                                        <a href="javascript: void(0);">Item 2</a>
+                                        <a href="error-404-alt.html">Error 404-alt</a>
+                                    </li>
+                                    <li>
+                                        <a href="error-500.html">Error 500</a>
                                     </li>
                                 </ul>
                             </div>
-                        </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarThirdLevel" aria-expanded="false" aria-controls="sidebarThirdLevel">
-                                <span> Third Level </span>
+                        </li>-->
+
+            <!--            <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
+                                <i class="ri-layout-fill"></i>
+                                <span> Layouts </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarThirdLevel">
-                                <ul class="side-nav-third-level">
+                            <div class="collapse" id="sidebarLayouts">
+                                <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript: void(0);">Item 1</a>
+                                        <a href="layouts-compact.html" target="_blank">Compact</a>
                                     </li>
+                                    <li>
+                                        <a href="layouts-icon-view.html" target="_blank">Icon View</a>
+                                    </li>
+                                    <li>
+                                        <a href="layouts-full.html" target="_blank">Full View</a>
+                                    </li>
+                                    <li>
+                                        <a href="layouts-fullscreen.html" target="_blank">Fullscreen View</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>-->
+
+            <!--            <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false" aria-controls="sidebarMultiLevel" class="side-nav-link">
+                                <i class="ri-share-fill"></i>
+                                <span> Multi Level </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarMultiLevel">
+                                <ul class="side-nav-second-level">
                                     <li class="side-nav-item">
-                                        <a data-bs-toggle="collapse" href="#sidebarFourthLevel" aria-expanded="false" aria-controls="sidebarFourthLevel">
-                                            <span> Item 2 </span>
+                                        <a data-bs-toggle="collapse" href="#sidebarSecondLevel" aria-expanded="false" aria-controls="sidebarSecondLevel">
+                                            <span> Second Level </span>
                                             <span class="menu-arrow"></span>
                                         </a>
-                                        <div class="collapse" id="sidebarFourthLevel">
-                                            <ul class="side-nav-forth-level">
+                                        <div class="collapse" id="sidebarSecondLevel">
+                                            <ul class="side-nav-third-level">
                                                 <li>
-                                                    <a href="javascript: void(0);">Item 2.1</a>
+                                                    <a href="javascript: void(0);">Item 1</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript: void(0);">Item 2.2</a>
+                                                    <a href="javascript: void(0);">Item 2</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="side-nav-item">
+                                        <a data-bs-toggle="collapse" href="#sidebarThirdLevel" aria-expanded="false" aria-controls="sidebarThirdLevel">
+                                            <span> Third Level </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <div class="collapse" id="sidebarThirdLevel">
+                                            <ul class="side-nav-third-level">
+                                                <li>
+                                                    <a href="javascript: void(0);">Item 1</a>
+                                                </li>
+                                                <li class="side-nav-item">
+                                                    <a data-bs-toggle="collapse" href="#sidebarFourthLevel" aria-expanded="false" aria-controls="sidebarFourthLevel">
+                                                        <span> Item 2 </span>
+                                                        <span class="menu-arrow"></span>
+                                                    </a>
+                                                    <div class="collapse" id="sidebarFourthLevel">
+                                                        <ul class="side-nav-forth-level">
+                                                            <li>
+                                                                <a href="javascript: void(0);">Item 2.1</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript: void(0);">Item 2.2</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                        </li>-->
 
 
         </ul>

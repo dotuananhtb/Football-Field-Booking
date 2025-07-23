@@ -217,6 +217,9 @@ public class ManagerProductServlet extends HttpServlet {
                     if (imagePart != null && imagePart.getSize() > 0) {
                         String imageUrl = uploader.uploadImage(imagePart, "products");
                         product.setProductImage(imageUrl);
+                    } else {
+                        String oldImage = request.getParameter("oldProductImage");
+                        product.setProductImage(oldImage);
                     }
                     // Nếu không upload file mới thì giữ nguyên ảnh cũ
                    

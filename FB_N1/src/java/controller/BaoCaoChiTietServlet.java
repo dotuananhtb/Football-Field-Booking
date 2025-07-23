@@ -12,6 +12,7 @@ import dao.PostDAO;
 import dao.BookingDAO;
 import dao.FieldDAO;
 import dao.PaymentDAO;
+import dao.BookingDetailsDAO;
 import model.Account;
 import model.Event;
 import model.Post;
@@ -48,27 +49,28 @@ public class BaoCaoChiTietServlet extends HttpServlet {
             );
             request.setAttribute("bookingDetails", bookingDetails);
 
-            // =============================
-            // 2. Báo cáo người dùng (bỏ phân trang)
-            List<Map<String, Object>> userReportList = accountDAO.getUserReportList();
+            // 2. Báo cáo người dùng (có filter)
+            String userKeyword = request.getParameter("userKeyword");
+            String userStatus = request.getParameter("userStatus");
+            String userFromDate = request.getParameter("userFromDate");
+            String userToDate = request.getParameter("userToDate");
+            List<Map<String, Object>> userReportList = accountDAO.getUserReportListWithFilters(userKeyword, userStatus, userFromDate, userToDate);
             request.setAttribute("userReportList", userReportList);
-            // 3. Báo cáo tình trạng sử dụng từng sân (bỏ phân trang)
+
+            // 3. Báo cáo tình trạng sử dụng từng sân (không filter)
             FieldDAO fieldDAO = new FieldDAO();
             List<Map<String, Object>> fieldUsageReportList = fieldDAO.getFieldUsageReport();
             request.setAttribute("fieldUsageReportList", fieldUsageReportList);
-            // 4. Báo cáo doanh thu chi tiết (bỏ phân trang)
-            PaymentDAO paymentDAO = new PaymentDAO();
-            List<Map<String, Object>> detailedPayments = paymentDAO.getDetailedPayments();
-            request.setAttribute("detailedPayments", detailedPayments);
 
-            // =============================
-            //  5. Báo cáo đặt sân theo thời gian (7 ngày gần nhất, giờ cao điểm)
-            // Lấy số lượng đơn đặt sân và doanh thu từng ngày trong 7 ngày gần nhất để vẽ biểu đồ ở JSP
-            // =============================
-            List<Map<String, Object>> bookingCountByDay7 = bookingDAO.getBookingCountByDayInLast7Days();
-            List<Map<String, Object>> revenueByDay7 = bookingDAO.getRevenueByDayInLast7Days();
-            request.setAttribute("bookingCountByDay7", bookingCountByDay7);
-            request.setAttribute("revenueByDay7", revenueByDay7);
+            // 4. Báo cáo doanh thu chi tiết 
+            String payerKeyword = request.getParameter("payerKeyword");
+            String paymentFromDate = request.getParameter("paymentFromDate");
+            String paymentToDate = request.getParameter("paymentToDate");
+            String amountFrom = request.getParameter("amountFrom");
+            String amountTo = request.getParameter("amountTo");
+            BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
+            List<Map<String, Object>> detailedPayments = bookingDetailsDAO.getDetailedBookingDetailsWithFilters(payerKeyword, paymentFromDate, paymentToDate, amountFrom, amountTo);
+            request.setAttribute("detailedPayments", detailedPayments);
 
             // =============================
             // Sau khi lấy dữ liệu, forward sang trang JSP để hiển thị tất cả các báo cáo trên

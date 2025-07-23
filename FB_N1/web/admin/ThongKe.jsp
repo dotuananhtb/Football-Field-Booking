@@ -283,95 +283,107 @@
                             </div>
                         </div>
                         <!-- Nhóm 4: Booking & doanh thu -->
-                        <div class="row mt-3">
-                            <div class="col-sm-6 col-xxl-3">
+                        <!-- ĐÃ XÓA: Các box thống kê booking ở đây -->
+                        <!-- Bảng thống kê tổng quát doanh thu hệ thống (di chuyển lên đầu) -->
+                        <div class="row mt-4">
+                            <div class="col-lg-6">
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="header-title">Thống kê tổng quát doanh thu hệ thống</h4>
+                                    </div>
                                     <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tổng số booking">Tổng booking</h5>
-                                                <h3 class="my-1 py-1">${totalBookings}</h3>
+                                        <!-- Form chọn khoảng thời gian hoặc tháng/năm -->
+                                        <form method="get" class="row g-2 mb-3">
+                                            <div class="col-12 col-md-6">
+                                                <label>Chọn khoảng ngày:</label>
+                                                <input type="date" name="fromDate" value="${param.fromDate}" class="form-control" />
+                                                <input type="date" name="toDate" value="${param.toDate}" class="form-control mt-1" />
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <div id="booking-chart" data-colors="#e7607b"></div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="fw-bold mb-1">Chọn khoảng tháng trong năm:</label>
+                                                <div class="row g-2 align-items-end">
+                                                    <div class="col-4">
+                                                        <label class="form-label mb-0">Từ tháng</label>
+                                                        <select name="fromMonth" class="form-select">
+                                                            <option value="">--</option>
+                                                            <c:forEach var="m" begin="1" end="12">
+                                                                <option value="${m}" <c:if test="${param.fromMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label mb-0">Đến tháng</label>
+                                                        <select name="toMonth" class="form-select">
+                                                            <option value="">--</option>
+                                                            <c:forEach var="m" begin="1" end="12">
+                                                                <option value="${m}" <c:if test="${param.toMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label mb-0">Năm</label>
+                                                        <input type="number" name="yearRange" min="2000" max="2100" value="${param.yearRange}" class="form-control" placeholder="Năm" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Booking mới">Booking mới</h5>
-                                        <ul class="list-unstyled mb-0">
-                                            <li>Hôm nay: <b>${newBookingToday}</b></li>
-                                            <li>Tuần này: <b>${newBookingWeek}</b></li>
-                                            <li>Tháng này: <b>${newBookingMonth}</b></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 " title="Booking đã hoàn thành">Booking hoàn thành</h5>
-                                                <h3 class="my-1 py-1">${totalCompletedBookings}</h3>
+                                            <div class="col-12 col-md-2 d-flex align-items-end">
+                                                <button type="submit" class="btn btn-primary w-100">Xem thống kê</button>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <i class="ri-check-double-line fs-2 text-success"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xxl-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 " title="Booking đang chờ xử lý">Booking  xử lý</h5>
-                                                <h3 class="my-1 py-1">${totalPendingBookings}</h3>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <i class="ri-time-line fs-2 text-warning"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xxl-3 mt-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="text-muted fw-normal mt-0 text-truncate" title="Booking đã hủy">Booking đã hủy</h5>
-                                                <h3 class="my-1 py-1">${cancelledBookings}</h3>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="text-end">
-                                                    <i class="ri-close-circle-line fs-2 text-warning"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xxl-3 mt-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Tỷ lệ booking thành công/hủy">Tỷ lệ thành công/hủy</h5>
-                                        <ul class="list-unstyled mb-0">
-                                            <li>Thành công: <b><fmt:formatNumber value="${bookingSuccessRate}" type="number" minFractionDigits="2" maxFractionDigits="2"/>%</b></li>
-                                            <li>Hủy: <b><fmt:formatNumber value="${bookingCancelRate}" type="number" minFractionDigits="2" maxFractionDigits="2"/>%</b></li>
-                                        </ul>
+                                        </form>
+                                        <c:choose>
+                                            <c:when test="${not empty revenueCustom}">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Khoảng thời gian</th>
+                                                            <th>Tổng doanh thu</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty param.fromMonth and not empty param.toMonth and not empty param.yearRange}">
+                                                                        Tháng ${param.fromMonth}-${param.toMonth}/${param.yearRange}
+                                                                    </c:when>
+                                                                    <c:when test="${not empty param.fromDate and not empty param.toDate}">
+                                                                        ${param.fromDate} đến ${param.toDate}
+                                                                    </c:when>
+                                                                    <c:when test="${not empty param.month and not empty param.year}">
+                                                                        Tháng ${param.month}/${param.year}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        Tuỳ chọn
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td><b>${revenueCustom}</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h5 class="mb-3">Bảng Thống Kê Tổng Quát Doanh Thu Hệ Thống</h5>
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Chỉ số</th>
+                                                            <th>Giá trị</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><b>Tổng doanh thu năm nay</b></td>
+                                                            <td><b>${totalRevenueYear}</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Tổng doanh thu toàn hệ thống</b></td>
+                                                            <td><b>${totalRevenue}</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
@@ -437,48 +449,6 @@
                                     </div>
                                     <div class="card-body">
                                         <div id="popular-booking-hour-chart" class="apex-charts" style="min-height: 350px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Bảng doanh thu tổng hợp -->
-                        <div class="row mt-4">
-                            <div class="col-lg-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="header-title">Bảng Thống Kê Doanh Thu</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Khoảng thời gian</th>
-                                                    <th>Tổng doanh thu</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1 tháng gần nhất</td>
-                                                    <td>${revenue1Month}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3 tháng gần nhất</td>
-                                                    <td>${revenue3Month}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6 tháng gần nhất</td>
-                                                    <td>${revenue6Month}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Tổng doanh thu năm nay</b></td>
-                                                    <td><b>${totalRevenueYear}</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Tổng doanh thu toàn hệ thống</b></td>
-                                                    <td><b>${totalRevenue}</b></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>

@@ -666,9 +666,11 @@ public class AccountDAO extends DBContext {
 
     public int countAccount() {
         String sql = "SELECT count(*)\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Account]";
-        try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
-
+                + "  FROM [FootballFieldBooking].[dbo].[Account] a join [dbo].[UserProfile] u on a.account_id = u.account_id\n"
+                + "  where u.role_id = 3 and a.status_id = 1";
+        try (PreparedStatement ptm = connection.prepareStatement(sql);) {
+            
+            ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -754,19 +756,84 @@ public class AccountDAO extends DBContext {
     public List<Map<String, Object>> getUserReportList() {
         List<Map<String, Object>> list = new ArrayList<>();
         try {
-            String sql =
-                "SELECT a.account_id, " +
-                "ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS full_name, " +
-                "a.email, up.phone, a.created_at, sa.status_name, " +
-                "COUNT(b.booking_id) AS booking_count, ISNULL(SUM(b.total_amount), 0) AS total_spent " +
-                "FROM Account a " +
-                "LEFT JOIN UserProfile up ON a.account_id = up.account_id " +
-                "LEFT JOIN StatusAccount sa ON a.status_id = sa.status_id " +
-                "LEFT JOIN Booking b ON a.account_id = b.account_id " +
-                "GROUP BY a.account_id, up.first_name, up.last_name, a.email, up.phone, a.created_at, sa.status_name " +
-                "ORDER BY a.account_id DESC";
-            try (Connection conn = DBContext.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
+            String sql
+                    = "SELECT a.account_id, "
+                    + "ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS full_name, "
+                    + "a.email, up.phone, a.created_at, sa.status_name, "
+                    + "COUNT(b.booking_id) AS booking_count, ISNULL((SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)) FROM BookingDetails bd JOIN Booking b2 ON bd.booking_id = b2.booking_id WHERE b2.account_id = a.account_id), 0) AS total_spent "
+                    + "FROM Account a "
+                    + "LEFT JOIN UserProfile up ON a.account_id = up.account_id "
+                    + "LEFT JOIN StatusAccount sa ON a.status_id = sa.status_id "
+                    + "LEFT JOIN Booking b ON a.account_id = b.account_id "
+                    + "GROUP BY a.account_id, up.first_name, up.last_name, a.email, up.phone, a.created_at, sa.status_name "
+                    + "ORDER BY a.account_id DESC";
+            try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("account_id", rs.getInt("account_id"));
+                    map.put("full_name", rs.getString("full_name"));
+                    map.put("email", rs.getString("email"));
+                    map.put("phone", rs.getString("phone"));
+                    map.put("created_at", rs.getString("created_at"));
+                    map.put("status_name", rs.getString("status_name"));
+                    map.put("booking_count", rs.getInt("booking_count"));
+                    map.put("total_spent", rs.getBigDecimal("total_spent"));
+                    list.add(map);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Lấy danh sách người dùng kèm số lượt đặt, tổng chi tiêu, ngày đăng ký, trạng thái tài khoản, có filter
+    public List<Map<String, Object>> getUserReportListWithFilters(String userKeyword, String userStatus, String userFromDate, String userToDate) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT a.account_id, ");
+            sql.append("ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '') AS full_name, ");
+            sql.append("a.email, up.phone, a.created_at, sa.status_name, ");
+            sql.append("COUNT(b.booking_id) AS booking_count, ");
+            sql.append("ISNULL((SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)) FROM BookingDetails bd JOIN Booking b2 ON bd.booking_id = b2.booking_id WHERE b2.account_id = a.account_id), 0) AS total_spent ");
+            sql.append("FROM Account a ");
+            sql.append("LEFT JOIN UserProfile up ON a.account_id = up.account_id ");
+            sql.append("LEFT JOIN StatusAccount sa ON a.status_id = sa.status_id ");
+            sql.append("LEFT JOIN Booking b ON a.account_id = b.account_id ");
+            sql.append("WHERE 1=1 ");
+            if (userKeyword != null && !userKeyword.isEmpty()) {
+                sql.append(" AND (LOWER(ISNULL(up.first_name, '') + ' ' + ISNULL(up.last_name, '')) LIKE ? OR LOWER(a.email) LIKE ? OR up.phone LIKE ?) ");
+            }
+            if (userStatus != null && !userStatus.isEmpty()) {
+                sql.append(" AND a.status_id = ? ");
+            }
+            if (userFromDate != null && !userFromDate.isEmpty()) {
+                sql.append(" AND a.created_at >= ? ");
+            }
+            if (userToDate != null && !userToDate.isEmpty()) {
+                sql.append(" AND a.created_at <= ? ");
+            }
+            sql.append("GROUP BY a.account_id, up.first_name, up.last_name, a.email, up.phone, a.created_at, sa.status_name ");
+            sql.append("ORDER BY a.account_id DESC");
+            try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                int idx = 1;
+                if (userKeyword != null && !userKeyword.isEmpty()) {
+                    String kw = "%" + userKeyword.trim().toLowerCase() + "%";
+                    ps.setString(idx++, kw);
+                    ps.setString(idx++, kw);
+                    ps.setString(idx++, userKeyword.trim());
+                }
+                if (userStatus != null && !userStatus.isEmpty()) {
+                    ps.setString(idx++, userStatus);
+                }
+                if (userFromDate != null && !userFromDate.isEmpty()) {
+                    ps.setString(idx++, userFromDate);
+                }
+                if (userToDate != null && !userToDate.isEmpty()) {
+                    ps.setString(idx++, userToDate);
+                }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String, Object> map = new HashMap<>();
@@ -790,8 +857,7 @@ public class AccountDAO extends DBContext {
     // Đếm tổng số user cho báo cáo người dùng (phục vụ phân trang)
     public int countUserReportList() throws SQLException {
         String sql = "SELECT COUNT(*) as total FROM Account";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("total");

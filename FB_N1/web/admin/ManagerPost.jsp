@@ -103,7 +103,7 @@
                                                 <th>Nội dung</th>
                                                 <th>Người đăng</th>
                                                 <th>Ngày đăng</th>
-<!--                                                <th>Trạng thái</th>-->
+                                                <th>Trạng thái</th>
                                                 <th>Số bình luận</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -117,16 +117,24 @@
                                                     <td>${post.contentPost}</td>
                                                     <td>${post.account.username}</td>
                                                     <td>${post.postDate}</td>
-<!--                                                    <td>
-                                                        <c:if test="${post.statusPost eq 'active'}">Hiện</c:if>
-                                                        <c:if test="${post.statusPost eq 'deactive'}">Ẩn</c:if>
-                                                        </td>-->
-                                                        <td>${commentCounts[post.postId]}</td>
                                                     <td>
-                                                        <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline;">
+                                                        <c:choose>
+                                                            <c:when test="${post.statusPost eq 'active'}">Hiện</c:when>
+                                                            <c:otherwise>Ẩn</c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td>${commentCounts[post.postId]}</td>
+                                                    <td>
+                                                        <form action="${pageContext.request.contextPath}/updatePostStatus" method="post" style="display:inline;">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <input type="hidden" name="from" value="admin" />
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xoá?')">Xoá</button>
+                                                            <input type="hidden" name="newStatus" value="${post.statusPost eq 'active' ? 'deactive' : 'active'}" />
+                                                            <button type="submit"
+                                                                class="btn btn-sm"
+                                                                style="background-color: ${post.statusPost eq 'active' ? '#795548' : '#198754'}; color: white; padding: 6px 12px; border-radius: 6px; border: none;"
+                                                                onclick="return confirm('Xác nhận cập nhật trạng thái?')">
+                                                                ${post.statusPost eq 'active' ? 'Ẩn' : 'Hiện'}
+                                                            </button>
                                                         </form>
                                                     </td>
                                                 </tr>

@@ -337,128 +337,129 @@ public class FieldDAO extends DBContext {
     // phân trang sân và sắp xếp
     // by Binh
     public List<Field> pagingField(String zoneId, String typeId, String timeRange,
-            BigDecimal minPrice, BigDecimal maxPrice,
-            int pageIndex, int pageSize,
-            String sortBy,
-            String keyword) {
+        BigDecimal minPrice, BigDecimal maxPrice,
+        int pageIndex, int pageSize,
+        String sortBy,
+        String keyword) {
 
-        List<Field> list = new ArrayList<>();
-        String sortClause = "f.field_id"; // mặc định
+    List<Field> list = new ArrayList<>();
+    String sortClause = "f.field_id"; // mặc định
 
-        switch (sortBy) {
-            case "new":
-                sortClause = "f.created_at DESC";
-                break;
-            case "recent":
-                sortClause = "f.updated_at DESC";
-                break;
-            case "price_low":
-                sortClause = "min_price ASC";
-                break;
-            case "price_high":
-                sortClause = "min_price DESC";
-                break;
-            case "name":
-                sortClause = "f.field_name ASC";
-                break;
-        }
+    switch (sortBy) {
+        case "new":
+            sortClause = "f.created_at DESC";
+            break;
+        case "recent":
+            sortClause = "f.updated_at DESC";
+            break;
+        case "price_low":
+            sortClause = "min_price ASC";
+            break;
+        case "price_high":
+            sortClause = "min_price DESC";
+            break;
+        case "name":
+            sortClause = "f.field_name ASC";
+            break;
+    }
 
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("z.zone_id, z.zone_name, z.Address, ")
-                .append("t.field_type_id, t.field_type_name, ")
-                .append("MIN(sof.slot_field_price) as min_price, ")
-                .append("MAX(sof.slot_field_price) as max_price ")
-                .append("FROM Field f ")
-                .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
-                .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
-                .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
-                .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
-                .append("WHERE f.status = N'Hoạt động' ");
+    StringBuilder sql = new StringBuilder();
+    sql.append("SELECT f.field_id, f.field_name, f.image, f.status, f.description, ")
+        .append("z.zone_id, z.zone_name, z.Address, ")
+        .append("t.field_type_id, t.field_type_name, ")
+        .append("MIN(sof.slot_field_price) as min_price, ")
+        .append("MAX(sof.slot_field_price) as max_price ")
+        .append("FROM Field f ")
+        .append("INNER JOIN Zone z ON f.zone_id = z.zone_id ")
+        .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
+        .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
+        .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
+        .append("WHERE f.status = N'Hoạt động' ");
+
+    if (zoneId != null && !zoneId.isEmpty()) {
+        sql.append("AND z.zone_id = ? ");
+    }
+    if (typeId != null && !typeId.isEmpty()) {
+        sql.append("AND t.field_type_id = ? ");
+    }
+    if (minPrice != null) {
+        sql.append("AND sof.slot_field_price >= ? ");
+    }
+    if (maxPrice != null) {
+        sql.append("AND sof.slot_field_price <= ? ");
+    }
+    if (timeRange != null && !timeRange.isEmpty()) {
+        sql.append("AND (")
+            .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
+            .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
+            .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
+            .append(") ");
+    }
+    if (keyword != null && !keyword.isEmpty()) {
+        sql.append("AND f.field_name LIKE ? ");
+    }
+
+    sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
+        .append("f.created_at, f.updated_at, z.zone_id, z.zone_name, z.Address, t.field_type_id, t.field_type_name ")
+        .append("ORDER BY ").append(sortClause).append(" ")
+        .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+    try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+        int i = 1;
 
         if (zoneId != null && !zoneId.isEmpty()) {
-            sql.append("AND z.zone_id = ? ");
+            ps.setString(i++, zoneId);
         }
         if (typeId != null && !typeId.isEmpty()) {
-            sql.append("AND t.field_type_id = ? ");
+            ps.setString(i++, typeId);
         }
         if (minPrice != null) {
-            sql.append("AND sof.slot_field_price >= ? ");
+            ps.setBigDecimal(i++, minPrice);
         }
         if (maxPrice != null) {
-            sql.append("AND sof.slot_field_price <= ? ");
+            ps.setBigDecimal(i++, maxPrice);
         }
         if (timeRange != null && !timeRange.isEmpty()) {
-            sql.append("AND (")
-                    .append("( ? = 'morning' AND TRY_CAST(sd.start_time AS TIME) < '12:00') OR ")
-                    .append("( ? = 'afternoon' AND TRY_CAST(sd.start_time AS TIME) >= '12:00' AND TRY_CAST(sd.start_time AS TIME) < '18:00') OR ")
-                    .append("( ? = 'evening' AND TRY_CAST(sd.start_time AS TIME) >= '18:00')")
-                    .append(") ");
+            ps.setString(i++, timeRange);
+            ps.setString(i++, timeRange);
+            ps.setString(i++, timeRange);
         }
         if (keyword != null && !keyword.isEmpty()) {
-            sql.append("AND f.field_name LIKE ? ");
+            ps.setString(i++, "%" + keyword + "%");
         }
 
-        sql.append("GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, ")
-                .append("f.created_at, f.updated_at, z.zone_id, z.zone_name, z.Address, t.field_type_id, t.field_type_name ")
-                .append("ORDER BY ").append(sortClause).append(" ")
-                .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        ps.setInt(i++, (pageIndex - 1) * pageSize);
+        ps.setInt(i, pageSize);
 
-        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-            int i = 1;
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Field f = new Field();
+            f.setFieldId(rs.getInt("field_id"));
+            f.setFieldName(rs.getString("field_name"));
+            f.setImage(rs.getString("image"));
+            f.setStatus(rs.getString("status"));
+            f.setDescription(rs.getString("description"));
 
-            if (zoneId != null && !zoneId.isEmpty()) {
-                ps.setString(i++, zoneId);
-            }
-            if (typeId != null && !typeId.isEmpty()) {
-                ps.setString(i++, typeId);
-            }
-            if (minPrice != null) {
-                ps.setBigDecimal(i++, minPrice);
-            }
-            if (maxPrice != null) {
-                ps.setBigDecimal(i++, maxPrice);
-            }
-            if (timeRange != null && !timeRange.isEmpty()) {
-                ps.setString(i++, timeRange);
-                ps.setString(i++, timeRange);
-                ps.setString(i++, timeRange);
-            }
-            if (keyword != null && !keyword.isEmpty()) {
-                ps.setString(i++, "%" + keyword + "%");
-            }
+            Zone z = new Zone();
+            z.setZoneId(rs.getInt("zone_id"));
+            z.setZone_name(rs.getString("zone_name"));
+            z.setAddress(rs.getString("Address"));
+            f.setZone(z);
 
-            ps.setInt(i++, (pageIndex - 1) * pageSize);
-            ps.setInt(i, pageSize);
+            TypeOfField type = new TypeOfField();
+            type.setFieldTypeId(rs.getInt("field_type_id"));
+            type.setFieldTypeName(rs.getString("field_type_name"));
+            f.setTypeOfField(type);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Field f = new Field();
-                f.setFieldId(rs.getInt("field_id"));
-                f.setFieldName(rs.getString("field_name"));
-                f.setImage(rs.getString("image"));
-                f.setStatus(rs.getString("status"));
-                f.setDescription(rs.getString("description"));
-
-                Zone z = new Zone();
-                z.setZoneId(rs.getInt("zone_id"));
-                z.setZone_name(rs.getString("zone_name"));
-                z.setAddress(rs.getString("Address"));
-                f.setZone(z);
-
-                TypeOfField type = new TypeOfField();
-                type.setFieldTypeId(rs.getInt("field_type_id"));
-                type.setFieldTypeName(rs.getString("field_type_name"));
-                f.setTypeOfField(type);
-
-                list.add(f);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            list.add(f);
         }
-
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return list;
+}
+
 
     public int countFields(String zoneId, String typeId, String timeRange,
             BigDecimal minPrice, BigDecimal maxPrice) {
@@ -622,27 +623,27 @@ public class FieldDAO extends DBContext {
         }
     }
 
-    public boolean isFieldNameExistInZone(String fieldName, int zoneId, Integer excludeId) {
-        try {
-            String sql = "SELECT COUNT(*) FROM Field WHERE field_name = ? AND zone_id = ?";
-            if (excludeId != null) {
-                sql += " AND field_id <> ?";
-            }
+    public boolean isFieldNameExistInZone(String fieldName, int zoneId, Integer excludeFieldId) {
+        String sql = "SELECT COUNT(*) FROM Field WHERE field_name = ? AND zone_id = ?";
+        if (excludeFieldId != null) {
+            sql += " AND field_id != ?";
+        }
 
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, fieldName);
             ps.setInt(2, zoneId);
-            if (excludeId != null) {
-                ps.setInt(3, excludeId);
+            if (excludeFieldId != null) {
+                ps.setInt(3, excludeFieldId);
             }
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
@@ -650,16 +651,17 @@ public class FieldDAO extends DBContext {
     public List<Map<String, Object>> getFieldUsageReport() {
         List<Map<String, Object>> list = new ArrayList<>();
         try {
-            String sql
-                    = "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, "
-                    + "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price), 0) AS total_revenue "
-                    + "FROM Field f "
-                    + "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id "
-                    + "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id "
-                    + "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id "
-                    + "GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status "
-                    + "ORDER BY f.field_id DESC";
-            try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            String sql =
+                "SELECT f.field_id, f.field_name, tof.field_type_name, f.status, " +
+                "COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)), 0) AS total_revenue " +
+                "FROM Field f " +
+                "LEFT JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
+                "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id " +
+                "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id " +
+                "GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status " +
+                "ORDER BY f.field_id DESC";
+            try (Connection conn = DBContext.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String, Object> map = new HashMap<>();
@@ -681,7 +683,8 @@ public class FieldDAO extends DBContext {
     // Đếm tổng số sân cho báo cáo tình trạng sử dụng (phục vụ phân trang)
     public int countFieldUsageReport() throws SQLException {
         String sql = "SELECT COUNT(*) as total FROM Field";
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("total");
@@ -690,18 +693,68 @@ public class FieldDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        FieldDAO dao = new FieldDAO(); // đảm bảo FieldDAO có kết nối DB
-
-        String fieldName = "Sân A";
-        int zoneId = 1;
-        Integer excludeId = null; // hoặc field_id nếu đang update
-
-        boolean exists = dao.isFieldNameExistInZone(fieldName, zoneId, excludeId);
-        if (exists) {
-            System.out.println("Tên sân đã tồn tại trong khu vực.");
-        } else {
-            System.out.println("Tên sân hợp lệ, chưa bị trùng.");
+    // Báo cáo tình trạng sử dụng từng sân có filter (bỏ số lượt đặt)
+    public List<Map<String, Object>> getFieldUsageReportWithFilters(String fieldKeyword, String fieldType, String fieldStatus, String revenueFrom, String revenueTo) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT f.field_id, f.field_name, tof.field_type_name, f.status, ");
+            sql.append("COUNT(bd.booking_details_id) AS booking_count, ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)), 0) AS total_revenue ");
+            sql.append("FROM Field f ");
+            sql.append("INNER JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id ");
+            sql.append("LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id ");
+            sql.append("LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id ");
+            sql.append("WHERE 1=1 ");
+            if (fieldKeyword != null && !fieldKeyword.isEmpty()) {
+                sql.append(" AND LOWER(f.field_name) LIKE ? ");
+            }
+            if (fieldType != null && !fieldType.isEmpty()) {
+                sql.append(" AND f.field_type_id = ? ");
+            }
+            if (fieldStatus != null && !fieldStatus.isEmpty()) {
+                sql.append(" AND f.status = ? ");
+            }
+            sql.append("GROUP BY f.field_id, f.field_name, tof.field_type_name, f.status ");
+            sql.append("HAVING 1=1 ");
+            if (revenueFrom != null && !revenueFrom.isEmpty()) {
+                sql.append(" AND ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)),0) >= ? ");
+            }
+            if (revenueTo != null && !revenueTo.isEmpty()) {
+                sql.append(" AND ISNULL(SUM(bd.slot_field_price + ISNULL(bd.extra_fee,0)),0) <= ? ");
+            }
+            sql.append("ORDER BY f.field_id DESC");
+            try (Connection conn = util.DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                int idx = 1;
+                if (fieldKeyword != null && !fieldKeyword.isEmpty()) {
+                    ps.setString(idx++, "%" + fieldKeyword.trim().toLowerCase() + "%");
+                }
+                if (fieldType != null && !fieldType.isEmpty()) {
+                    ps.setString(idx++, fieldType);
+                }
+                if (fieldStatus != null && !fieldStatus.isEmpty()) {
+                    ps.setString(idx++, fieldStatus);
+                }
+                if (revenueFrom != null && !revenueFrom.isEmpty()) {
+                    ps.setBigDecimal(idx++, new java.math.BigDecimal(revenueFrom));
+                }
+                if (revenueTo != null && !revenueTo.isEmpty()) {
+                    ps.setBigDecimal(idx++, new java.math.BigDecimal(revenueTo));
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("field_id", rs.getInt("field_id"));
+                    map.put("field_name", rs.getString("field_name"));
+                    map.put("field_type_name", rs.getString("field_type_name"));
+                    map.put("status", rs.getString("status"));
+                    map.put("booking_count", rs.getInt("booking_count"));
+                    map.put("total_revenue", rs.getBigDecimal("total_revenue"));
+                    list.add(map);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return list;
     }
 }
