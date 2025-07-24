@@ -23,21 +23,21 @@
                 <div class="logo-footer">
                     <a href ="/FB_N1/home" ><img src="./assets/images/logo_dark__2_-removebg-preview.png"  alt="logo"></a>
                 </div>
-                <p class="des-footer">${ct.getDescription()}
+                <p class="des-footer"> Thông tin liên lạc
                 </p>
                 
                 <ul class="footer-info">
                     <li class="flex-three">
                         <i class="icon-noun-mail-5780740-1"></i>
-                        <p>${ct.getEmail()}</p>
+                        <p>nguyena7k58@gmail.com</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Group-9"></i>
-                        <p>${ct.getPhone()}</p>
+                        <p>0123456789</p>
                     </li>
                     <li class="flex-three">
                         <i class="icon-Layer-19"></i>
-                        <p>${ct.getAddress()}</p>
+                        <p>ĐH FPT - Hòa Lạc - Hà Nội</p>
                     </li>
                 </ul>
                     <br/>
@@ -70,23 +70,23 @@
                 <h5 class="title">Phòng trưng bày</h5>
 
                 <div class="gallery-img">
-                    <a href="./assets/images/gallery/gl1.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl1.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san1.webp" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san1.webp" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl2.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl2.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san2.jpg" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san2.jpg" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl3.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl3.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san3.webp" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san3.webp" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl4.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl4.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san4.webp" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san4.webp" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl5.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl5.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san5.jpg" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san5.jpg" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl6.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl6.jpg" alt="image gallery">
+                    <a href=".\assets\images\footer\san6.jpg" data-fancybox="gallery">
+                        <img src=".\assets\images\footer\san6.jpg" alt="image gallery">
                     </a>
                 </div>
 
@@ -99,10 +99,10 @@
                         <a href="/FB_N1/home">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="gallery.html">Dành cho đối tác</a>
+                        <a href="/FB_N1/UI/lienHe.jsp">Dành cho đối tác</a>
                     </li>
                     <li>
-                        <a href="team.html">Tin tức
+                        <a href="/FB_N1/bai-dang">Tin tức
 </a>
                     </li>
                     

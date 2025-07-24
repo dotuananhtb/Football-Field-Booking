@@ -16,7 +16,7 @@
         <base href="${pageContext.request.contextPath}/UI/">
 
             <meta charset="utf-8">
-                <title>FootballStar - Danh sách sân</title>
+                <title>Danh sách sân - FootBall Star</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -27,7 +27,9 @@
 
                                     <!-- Favicon and Touch Icons  -->
                                     <link rel="shortcut icon" href="assets/images/logoKoChu.png">
-                                        <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
+
                                             <style>
 
                                                 .book-btn button {

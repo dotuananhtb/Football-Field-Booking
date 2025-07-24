@@ -9,7 +9,7 @@
 
     <head>
         <meta charset="utf-8">
-            <title>FootBall Star - Diễn Đàn Tin Tức</title>
+            <title>Diễn Đàn Tin Tức - FootBall Star</title>
             <base href="${pageContext.request.contextPath}/UI/">
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
