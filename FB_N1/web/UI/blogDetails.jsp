@@ -15,7 +15,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BlogDetails-FootballStar</title>
+    <title>Bài viết chi tiết - FootballStar</title>
 <base href="${pageContext.request.contextPath}/UI/">
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">

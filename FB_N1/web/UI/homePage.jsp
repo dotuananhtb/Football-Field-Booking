@@ -720,7 +720,7 @@
                                                                                                                                                                         <div class="number-counter " data-to="${countF}" data-speed="2000"
                                                                                                                                                                              data-waypoint-active="yes">${countF}</div>
                                                                                                                                                                         <span class="line"></span>
-                                                                                                                                                                        <p class="title-counter">Số sân bóng<br>đang vận hành</p>
+                                                                                                                                                                        <p class="title-counter">Sân bóng<br>đang vận hành</p>
                                                                                                                                                                     </div>
                                                                                                                                                                 </div>
                                                                                                                                                                 <div class="col-6 col-lg-3 wow fadeInUp animated " data-wow-delay="0.4s">
@@ -742,7 +742,7 @@
                                                                                                                                                                         <div class="number-counter " data-to="${countZ}" data-speed="2000"
                                                                                                                                                                              data-waypoint-active="yes">${countZ}</div>
                                                                                                                                                                         <span class="line"></span>
-                                                                                                                                                                        <p class="title-counter">Phủ sóng ở <br>thành phố</p>
+                                                                                                                                                                        <p class="title-counter">Địa điểm<br> được phủ sóng</p>
                                                                                                                                                                     </div>
                                                                                                                                                                 </div>
                                                                                                                                                             </div>

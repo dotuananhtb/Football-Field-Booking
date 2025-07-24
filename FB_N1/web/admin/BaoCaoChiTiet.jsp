@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Báo cáo chi tiết</title>
+    <title>Báo cáo chi tiết - FootBall Star</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <jsp:include page="head_only.jsp" />
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />

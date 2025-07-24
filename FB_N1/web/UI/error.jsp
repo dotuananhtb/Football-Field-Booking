@@ -3,7 +3,7 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <title>FootballStar - Lỗi hệ thống</title>
+        <title>Lỗi hệ thống - FootBall Star</title>
         <link rel="shortcut icon" href="/FB_N1/UI/assets/images/logoKoChu.png">
         <link rel="apple-touch-icon-precomposed" href="/FB_N1/UI/assets/images/logoKoChu.png">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
