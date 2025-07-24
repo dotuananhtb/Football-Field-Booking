@@ -580,6 +580,229 @@ public class BookingDetailsDAO extends DBContext {
         return list;
     }
 
+    // Lấy doanh thu từng tháng từ bookingdetails cho các booking đã hoàn thành
+    public List<Double> getRevenueByMonthFromBookingDetails(int year) throws SQLException {
+        List<Double> revenues = new ArrayList<>();
+        String sql = "SELECT MONTH(bd.slot_date) AS month, SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) AS revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND YEAR(bd.slot_date) = ? " +
+                     "GROUP BY MONTH(bd.slot_date) ORDER BY MONTH(bd.slot_date)";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ResultSet rs = ps.executeQuery();
+            java.util.Map<Integer, Double> monthRevenue = new java.util.HashMap<>();
+            while (rs.next()) {
+                monthRevenue.put(rs.getInt("month"), rs.getDouble("revenue"));
+            }
+            for (int i = 1; i <= 12; i++) {
+                revenues.add(monthRevenue.getOrDefault(i, 0.0));
+            }
+        }
+        return revenues;
+    }
+
+    // Lấy doanh thu từng ngày trong 7 ngày gần nhất từ bookingdetails cho các booking đã hoàn thành
+    public java.util.Map<String, Double> getRevenueByDayInLastWeekFromBookingDetails() throws SQLException {
+        java.util.Map<String, Double> revenueByDay = new java.util.LinkedHashMap<>();
+        String sql = "SELECT CONVERT(date, bd.slot_date) as day, SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND bd.slot_date >= DATEADD(DAY, -6, CAST(GETDATE() AS date)) " +
+                     "GROUP BY CONVERT(date, bd.slot_date) ORDER BY day";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            java.time.LocalDate today = java.time.LocalDate.now();
+            for (int i = 6; i >= 0; i--) {
+                java.time.LocalDate d = today.minusDays(i);
+                revenueByDay.put(d.toString(), 0.0);
+            }
+            while (rs.next()) {
+                String day = rs.getString("day");
+                double revenue = rs.getDouble("revenue");
+                if (revenueByDay.containsKey(day)) {
+                    revenueByDay.put(day, revenue);
+                }
+            }
+        }
+        return revenueByDay;
+    }
+
+    // Lấy doanh thu từng sân từ bookingdetails cho các booking đã hoàn thành
+    public java.util.Map<String, Double> getRevenueByFieldFromBookingDetails() throws SQLException {
+        java.util.Map<String, Double> revenueByField = new java.util.LinkedHashMap<>();
+        String sql = "SELECT f.field_name, SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id " +
+                     "JOIN Field f ON sf.field_id = f.field_id " +
+                     "WHERE b.status_pay = 1 " +
+                     "GROUP BY f.field_name ORDER BY revenue DESC";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String fieldName = rs.getString("field_name");
+                double revenue = rs.getDouble("revenue");
+                revenueByField.put(fieldName, revenue);
+            }
+        }
+        return revenueByField;
+    }
+
+    // Thống kê số lượt booking theo loại sân (chỉ tính booking đã hoàn thành)
+    public java.util.Map<String, Integer> getBookingTypeOfFieldRatioFromBookingDetails() throws SQLException {
+        java.util.Map<String, Integer> typeRatio = new java.util.LinkedHashMap<>();
+        String sql = "SELECT tof.field_type_name, COUNT(*) as count " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id " +
+                     "JOIN Field f ON sf.field_id = f.field_id " +
+                     "JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
+                     "WHERE b.status_pay = 1 " +
+                     "GROUP BY tof.field_type_name ORDER BY count DESC";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String typeName = rs.getString("field_type_name");
+                int count = rs.getInt("count");
+                typeRatio.put(typeName, count);
+            }
+        }
+        return typeRatio;
+    }
+
+    // Thống kê số lượt đặt theo khung giờ (giờ bắt đầu), chỉ tính booking đã hoàn thành
+    public java.util.Map<String, Integer> getPopularBookingHoursFromBookingDetails() throws SQLException {
+        java.util.Map<String, Integer> hourMap = new java.util.LinkedHashMap<>();
+        String sql = "SELECT sod.start_time, COUNT(*) as count " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id " +
+                     "JOIN SlotsOfDay sod ON sf.slot_id = sod.slot_id " +
+                     "WHERE b.status_pay = 1 " +
+                     "GROUP BY sod.start_time ORDER BY sod.start_time";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String startTime = rs.getString("start_time");
+                int count = rs.getInt("count");
+                hourMap.put(startTime, count);
+            }
+        }
+        return hourMap;
+    }
+
+    // Lấy tổng doanh thu trong khoảng ngày (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getRevenueInDateRange(String fromDate, String toDate) throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND bd.slot_date >= ? AND bd.slot_date <= ?";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    // Lấy tổng doanh thu theo tháng/năm (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getRevenueByMonthYear(int month, int year) throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND MONTH(bd.slot_date) = ? AND YEAR(bd.slot_date) = ?";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, month);
+            ps.setInt(2, year);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    // Lấy tổng doanh thu toàn hệ thống (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getTotalRevenueFromBookingDetails() throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    // Lấy tổng doanh thu từ một thời điểm (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getRevenueSinceFromBookingDetails(java.time.LocalDateTime from) throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND CONVERT(datetime, bd.slot_date, 120) >= ?";
+        java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, from.format(dtf));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    // Lấy tổng doanh thu theo năm (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getRevenueByYearFromBookingDetails(int year) throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND YEAR(bd.slot_date) = ?";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
+    // Lấy tổng doanh thu theo khoảng tháng trong 1 năm (chỉ booking đã hoàn thành)
+    public java.math.BigDecimal getRevenueByMonthRange(int fromMonth, int toMonth, int year) throws SQLException {
+        String sql = "SELECT SUM(bd.slot_field_price + ISNULL(bd.extra_fee, 0)) as revenue " +
+                     "FROM BookingDetails bd " +
+                     "JOIN Booking b ON bd.booking_id = b.booking_id " +
+                     "WHERE b.status_pay = 1 AND YEAR(bd.slot_date) = ? AND MONTH(bd.slot_date) BETWEEN ? AND ?";
+        try (Connection conn = util.DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, fromMonth);
+            ps.setInt(3, toMonth);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBigDecimal("revenue") != null) {
+                return rs.getBigDecimal("revenue");
+            }
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
     public static void main(String[] args) {
         try (Connection conn = DBContext.getConnection()) {
             BookingDetailsDAO dao = new BookingDetailsDAO();
