@@ -15,7 +15,7 @@
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
             <meta charset="utf-8">
-                <title>FootballStar - Cửa hàng</title>
+                <title>Cửa hàng - FootBall Star</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,8 +24,8 @@
                             <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
                                 <!-- Favicon and Touch Icons  -->
-                                <link rel="shortcut icon" href="assets/images/favico.png">
-                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                         <style>
                                             .feature.maintenance {
                                                 background-color: #f59e0b !important;
@@ -194,11 +194,11 @@
                                                                                     <div class="form-group flex-five">
                                                                                         <i class="icon-18"></i>
                                                                                         <div class="search-bar-group">
-                                                                                            <label for="keyword">Tên sân</label>
+                                                                                            <label for="keyword">Tên sản phẩm</label>
                                                                                             <input type="text"
                                                                                                    id="keyword"
                                                                                                    name="keyword"
-                                                                                                   placeholder="Nhập tên sân bạn muốn tìm..."
+                                                                                                   placeholder="Nhập tên sản phẩm bạn muốn tìm..."
                                                                                                    value="${fn:escapeXml(param.keyword)}"
                                                                                                    required />
                                                                                         </div>

@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <jsp:include page="head_only.jsp" />
-        <title>Quản lý Loại Sân</title>
+        <title>Quản lý Loại Sân - FootBall Star</title>
 
     </head>
     <body>

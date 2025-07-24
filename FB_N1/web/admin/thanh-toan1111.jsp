@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Pricing | Powerx - Bootstrap 5 Admin & Dashboard Template</title>
+        <title>Thanh toán  - FootBall Star</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />

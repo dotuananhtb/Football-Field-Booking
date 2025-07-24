@@ -14,7 +14,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>FootBallStar - Quản Lý Đặt Sân</title>
+        <title>Quản Lý Đặt Sân - FootBall Star</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
             content="A fully featured admin theme which can be used to build CRM, CMS, etc."

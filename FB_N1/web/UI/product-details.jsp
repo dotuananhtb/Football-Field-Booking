@@ -6,7 +6,7 @@
 <head>
     <base href="${pageContext.request.contextPath}/UI/">
     <meta charset="UTF-8">
-    <title>Chi tiết sản phẩm</title>
+    <title>Chi tiết sản phẩm - FootBall Star</title>
     <link rel="stylesheet" href="app/css/app.css">
     <style>
         .product-details-container {
