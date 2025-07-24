@@ -316,6 +316,102 @@ public class AccountDAO extends DBContext {
         }
     }
 
+    public boolean insertAccountWithProfile2(Account account) {
+        String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
+        String insertProfileSQL = "INSERT INTO [dbo].[UserProfile]\n"
+                + "           ([account_id]\n"
+                + "           ,[role_id]\n"
+                + "           ,[first_name]\n"
+                + "           ,[last_name]\n"
+                + "           ,[address]\n"
+                + "           ,[gender]\n"
+                + "           ,[dob]\n"
+                + "           ,[phone]\n"
+                + "           ,[avatar])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?)";
+
+        try {
+            connection.setAutoCommit(false); // Bắt đầu transaction
+
+            // Insert vào bảng Account
+            PreparedStatement psAccount = connection.prepareStatement(insertAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            psAccount.setInt(1, account.getStatusId());
+            psAccount.setString(2, account.getUsername());
+            psAccount.setString(3, account.getPassword());
+            psAccount.setString(4, account.getEmail());
+            psAccount.setString(5, account.getCreatedAt());
+
+            int affectedRows = psAccount.executeUpdate();
+            if (affectedRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            // Lấy account_id vừa tạo
+            ResultSet rs = psAccount.getGeneratedKeys();
+            int accountId;
+            if (rs.next()) {
+                accountId = rs.getInt(1);
+                account.setAccountId(accountId);
+            } else {
+                connection.rollback();
+                return false;
+            }
+
+            // Insert vào bảng UserProfile
+            UserProfile profile = account.getUserProfile();
+            if (profile == null) {
+                connection.rollback();
+                return false; // hoặc bạn có thể tạo UserProfile mặc định
+            }
+
+            PreparedStatement psProfile = connection.prepareStatement(insertProfileSQL);
+            psProfile.setInt(1, accountId);
+            psProfile.setInt(2, profile.getRoleId());
+            psProfile.setString(3, profile.getFirstName());
+            psProfile.setString(4, profile.getLastName());
+            psProfile.setString(5, profile.getAddress());
+            psProfile.setString(6, profile.getGender());
+            psProfile.setString(7, profile.getDob());
+            psProfile.setString(8, profile.getPhone());
+            psProfile.setString(9, profile.getAvatar());
+            
+
+            int profileRows = psProfile.executeUpdate();
+            if (profileRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            connection.commit(); // Nếu mọi thứ thành công
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public boolean addAccountAndSendVerificationEmail(Account account) {
         String insertAccountSQL = "INSERT INTO Account (status_id, username, password, email, created_at) VALUES (?, ?, ?, ?, ?)";
         String insertProfileSQL = "INSERT INTO UserProfile (account_id, role_id, first_name, last_name, address, gender, dob, phone, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -669,7 +765,7 @@ public class AccountDAO extends DBContext {
                 + "  FROM [FootballFieldBooking].[dbo].[Account] a join [dbo].[UserProfile] u on a.account_id = u.account_id\n"
                 + "  where u.role_id = 3 and a.status_id = 1";
         try (PreparedStatement ptm = connection.prepareStatement(sql);) {
-            
+
             ResultSet rs = ptm.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);

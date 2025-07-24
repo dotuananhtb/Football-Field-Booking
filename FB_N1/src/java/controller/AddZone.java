@@ -56,8 +56,9 @@ public class AddZone extends HttpServlet {
     throws ServletException, IOException {
         String zoneName = request.getParameter("zone_name");
         String address = request.getParameter("address");
+        
         Zone_DAO zDao = new Zone_DAO();
-        Zone zone = new Zone(zoneName, address);
+        Zone zone = new Zone(zoneName, address,1);
         
         if(zDao.InsertZone(zone)){
             ToastUtil.setSuccessToast(request, "Thêm Khu vực thành công");

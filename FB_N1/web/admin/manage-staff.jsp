@@ -113,7 +113,7 @@
                                                 <th>Email</th>
                                                 <th>Số điện thoại</th>
                                                 <th>Trạng thái</th>                                                
-                                                <th>Vai trò</th>
+
                                             </tr>
                                         </thead>
 
@@ -133,20 +133,20 @@
                                                     <td>
                                                         <div class="btn-group mb-2">
                                                             <c:choose>
-                                                            <c:when test="${user.statusId  == 1}">
-                                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Hoạt Động</button>
-                                                            </c:when>
-                                                                <c:when test="${user.statusId  == 2}">
-                                                                <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Chờ xác minh</button>
-                                                                </c:when>
-                                                                <c:when test="${user.statusId  == 3}">
-                                                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Bị khóa</button>
-                                                                </c:when>
-                                                            </c:choose>
-                                                                <div class="dropdown-menu">
+                                                                <c:when test="${user.statusId  == 1}">
+                                                                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        Hoạt Động</button>
+                                                                    </c:when>
+                                                                    <c:when test="${user.statusId  == 2}">
+                                                                    <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        Chờ xác minh</button>
+                                                                    </c:when>
+                                                                    <c:when test="${user.statusId  == 3}">
+                                                                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        Bị khóa</button>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            <div class="dropdown-menu">
                                                                 <c:forEach items="${listStatus}" var="status">
                                                                     <form action="${pageContext.request.contextPath}/admin/quan-li-nhan-vien" method="post" >
                                                                         <input type="hidden" name="sId" value="${status.statusId}" />
@@ -159,34 +159,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <div class="btn-group mb-2">
 
-                                                            <c:choose>
-                                                                <c:when test="${user.userProfile.roleId == 2}">
-                                                                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Nhân Viên</button>
-                                                                </c:when>
-
-                                                                <c:otherwise>
-                                                                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Khách</button>
-                                                                </c:otherwise>
-                                                            </c:choose>
-
-                                                            <div class="dropdown-menu">
-                                                                <c:forEach items="${listRole}" var="role">
-                                                                    <c:if test="${role.roleId != 1}">
-                                                                        <form action="${pageContext.request.contextPath}/admin/quan-li-nhan-vien" method="post" >
-                                                                            <input type="hidden" name="rId" value="${role.roleId}" />
-                                                                            <input type="hidden" name="aId" value="${user.accountId}" />
-                                                                            <button type="submit" class="dropdown-item"  >
-                                                                                ${role.description}
-                                                                            </button>
-                                                                        </form>
-                                                                    </c:if>
-                                                                </c:forEach>
-                                                            </div>
-                                                        </div>
-                                                    </td>
 
                                                 </tr>
                                             </c:forEach>
@@ -219,22 +192,62 @@
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputEmai6" class="form-label">Tên Đăng Nhập</label>
-                                                                <input type="text" name="username" class="form-control" id="inputEmail6" placeholder="Tên Đăng Nhập" required>
+                                                                <input type="text" name="username" class="form-control" id="inputEmail6" placeholder="Tên Đăng Nhập" minlength="8" maxlength="100" required>
                                                             </div>
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputPassword5" class="form-label">Mật Khẩu</label>
-                                                                <input type="password" name ="password" class="form-control" id="inputPassword5" placeholder="Mật Khẩu" required>
+                                                                <input type="password" name ="password" class="form-control" id="inputPassword5" placeholder="Mật Khẩu" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" 
+                                                                       title="Ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt" 
+                                                                       minlength="8" maxlength="100" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="firstname" class="form-label">Họ</label>
+                                                                <input type="text" name ="fname" class="form-control" minlength="8" maxlength="100" placeholder="Nhập số họ" id="firstname" placeholder="Email" required>
+                                                            </div>
+
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="lastname" class="form-label">Tên</label>
+                                                                <input type="text" name="lname" class="form-control" id="lastname" placeholder="Nhập số tên" 
+                                                                       minlength="8" maxlength="100" required>
                                                             </div>
                                                         </div>
 
 
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="phone" class="form-label">Email</label>
+                                                                <input type="email" name ="email" class="form-control" id="inputEmail5" placeholder="Email" required>
+                                                            </div>
 
-
-                                                        <div class="mb-3">
-                                                            <label for="inputEmail5" class="form-label">Email</label>
-                                                            <input type="email" name ="email" class="form-control" id="inputEmail5" placeholder="Email" required>
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="phone" class="form-label">Số điện thoại</label>
+                                                                <input type="tel" name="phone" class="form-control" id="phone" placeholder="Nhập số điện thoại" 
+                                                                       pattern="^[0-9]{10}$" title="Số điện thoại phải gồm 10 chữ số" 
+                                                                       maxlength="10" required>
+                                                            </div>
                                                         </div>
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="date" class="form-label">Ngày sinh</label>
+                                                                <input type="date" class="form-control" id="date" name="dob" max="<?= date('Y-m-d') ?>" required >
+                                                            </div>
 
+                                                            <div class="mb-3 col-md-6">
+                                                                <label class="form-label" for="gender">Giới tính *</label>
+                                                                <select name="gender" id="gender" class="form-control" required>
+                                                                    <option value="">-- Chọn giới tính --</option>
+                                                                    <option value="Nam">Nam</option>
+                                                                    <option value="Nữ">Nữ</option>
+                                                                    <option value="Khác">Khác</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 ">
+                                                                <label for="address" class="form-label">Địa chỉ</label>
+                                                                <input type="text" name ="address" class="form-control" id="address" placeholder="Địa chỉ" required>
+                                                            </div>
 
 
 
