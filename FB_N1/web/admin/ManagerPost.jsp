@@ -11,7 +11,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Datatables | Powerx - Bootstrap 5 Admin & Dashboard Template</title>
+        <title>FootBallStar - Quản Lý Bài Viết Bắt Đối</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -80,7 +80,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Quản lí bài viết</h4>
+                                    <h4 class="page-title">Quản Lý Bài Viết Bắt Đối</h4>
                                 </div>
                             </div>
                         </div>
@@ -89,11 +89,8 @@
                         <div class="row g-4">
                             <div class="col-12">
                                 <div class="mb-4">
-                                    <h4 class="fs-16">Quản lí bài viết</h4>
-                                    <p class="text-muted fs-14">
-
-
-                                    </p>
+                                   
+                                    
 
                                     <table id="scroll-horizontal-datatable" class="table table-striped w-100 nowrap">
                                         <thead>

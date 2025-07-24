@@ -13,7 +13,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>FootBallStar - Quản lý ưu đãi</title>
+        <title>FootBallStar - Quản Lý Ưu Đãi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -82,7 +82,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Quản lí Ưu đãi</h4>
+                                    <h4 class="page-title">Quản Lý Ưu Đãi</h4>
                                 </div>
                             </div>
                         </div>

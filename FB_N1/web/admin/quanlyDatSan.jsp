@@ -14,7 +14,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>FootBallStar - Quản lý đặt sân</title>
+        <title>FootBallStar - Quản Lý Đặt Sân</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
             content="A fully featured admin theme which can be used to build CRM, CMS, etc."
@@ -255,7 +255,7 @@
                                     <div class="page-title-right">
                                         <p>Dưới đây là lịch cho từng sân</p>
                                     </div>
-                                    <h4 class="page-title">Quản lý đặt sân</h4>
+                                    <h4 class="page-title">Quản Lý Đặt Sân</h4>
                                 </div>
                             </div>
                         </div>
