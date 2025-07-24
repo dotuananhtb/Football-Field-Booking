@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Chi tiết sản phẩm</title>
     <link rel="stylesheet" href="app/css/app.css">
+    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
     <style>
         .product-details-container {
             display: flex;
