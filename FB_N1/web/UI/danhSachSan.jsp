@@ -26,7 +26,7 @@
                                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
 
                                     <!-- Favicon and Touch Icons  -->
-                                    <link rel="shortcut icon" href="assets/images/favico.png">
+                                    <link rel="shortcut icon" href="assets/images/logoKoChu.png">
                                         <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
                                             <style>
 
