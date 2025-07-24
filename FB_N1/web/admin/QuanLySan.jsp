@@ -188,7 +188,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    <h1 class="page-title">Quản Lý Sân Bóng</h1>
+                                    <h1 class="page-title">Quản Lý loại Sân Bóng</h1>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                                         ${type != null ? ' Cập nhật' : 'Thêm'}
                                     </button>
                                     <c:if test="${type != null}">
-                                        <a href="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
+                                        <a href="${pageContext.request.contextPath}/admin/Admin_San"
                                            class="btn btn-secondary ms-2"> Huỷ</a>
                                     </c:if>
                                 </div>
@@ -445,7 +445,7 @@
                                                                         function editField(id, name, image, typeId, zoneId, status, description) {
                                                                             document.getElementById("formAction").value = "update";
                                                                             document.getElementById("fieldId").value = id;
-                                                                            document.getElementById("fieldName").value = name;
+                                                                            document.getElementById("fieldName").value = name.trim();
                                                                             document.getElementById("fieldImagePreview").src = image;
                                                                             document.getElementById("typeId").value = typeId;
                                                                             document.getElementById("zoneId").value = zoneId;

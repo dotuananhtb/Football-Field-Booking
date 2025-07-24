@@ -154,25 +154,25 @@
             <c:set var="warranties" value="" />
             <c:set var="moreInfos" value="" />
             <c:forEach var="detail" items="${productDetails}">
-                <c:if test="${not fn:contains(colors, detail.color)}">
+                <c:if test="${not empty detail.color and not fn:contains(colors, detail.color)}">
                     <c:set var="colors" value="${colors}${detail.color}, " />
                 </c:if>
-                <c:if test="${not fn:contains(sizes, detail.size)}">
+                <c:if test="${not empty detail.size and not fn:contains(sizes, detail.size)}">
                     <c:set var="sizes" value="${sizes}${detail.size}, " />
                 </c:if>
-                <c:if test="${not fn:contains(materials, detail.material)}">
+                <c:if test="${not empty detail.material and not fn:contains(materials, detail.material)}">
                     <c:set var="materials" value="${materials}${detail.material}, " />
                 </c:if>
-                <c:if test="${not fn:contains(weights, detail.weight)}">
+                <c:if test="${not empty detail.weight and not fn:contains(weights, detail.weight)}">
                     <c:set var="weights" value="${weights}${detail.weight}, " />
                 </c:if>
-                <c:if test="${not fn:contains(origins, detail.origin)}">
+                <c:if test="${not empty detail.origin and not fn:contains(origins, detail.origin)}">
                     <c:set var="origins" value="${origins}${detail.origin}, " />
                 </c:if>
-                <c:if test="${not fn:contains(warranties, detail.warranty)}">
+                <c:if test="${not empty detail.warranty and not fn:contains(warranties, detail.warranty)}">
                     <c:set var="warranties" value="${warranties}${detail.warranty}, " />
                 </c:if>
-                <c:if test="${not fn:contains(moreInfos, detail.moreInfo)}">
+                <c:if test="${not empty detail.moreInfo and not fn:contains(moreInfos, detail.moreInfo)}">
                     <c:set var="moreInfos" value="${moreInfos}${detail.moreInfo}, " />
                 </c:if>
             </c:forEach>
