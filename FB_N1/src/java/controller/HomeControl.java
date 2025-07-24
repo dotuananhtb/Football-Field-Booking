@@ -91,7 +91,7 @@ public class HomeControl extends HttpServlet {
         // lay du lieu tu dao
         List<Blog> listB1 = blogDao.getLatest3Blogs();
         List<Slider> listS = sDao.getAllSlider();
-        List<Zone> listZ = zDao.getAllZone();
+        List<Zone> listZ = zDao.getAllZoneWithStatus();
         
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = (Vector<CateProduct>) cDao.getAllCategory2();

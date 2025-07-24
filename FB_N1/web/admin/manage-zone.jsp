@@ -107,6 +107,7 @@
                                                 <th>ID</th>
                                                 <th>Tên Khu Vực</th>
                                                 <th>Địa Chỉ</th>
+                                                <th>Trạng thái</th>
                                                 <th></th>
 
                                             </tr>
@@ -119,6 +120,28 @@
                                                     <td>${listzone.zoneId} </td>
                                                     <td>${listzone.zone_name}</td>
                                                     <td>${listzone.address}</td>
+                                                    <td>
+                                                        <div class="btn-group mb-2">
+                                                            <c:if test="${listzone.status  == 1}">
+                                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    Hoạt Động</button></c:if>
+                                                                <c:if test="${listzone.status   == 2}">
+                                                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    Ẩn</button></c:if>
+                                                                
+                                                                <div class="dropdown-menu">
+                                                                <c:forEach items="${listS}" var="status">
+                                                                    <form action="${pageContext.request.contextPath}/admin/doi-trang-thai-khu-vuc" method="post" style="margin: 0;">
+                                                                        <input type="hidden" name="sId" value="${status.status_id}" />
+                                                                        <input type="hidden" name="zId" value="${listzone.zoneId}" />
+                                                                        <button type="submit" class="dropdown-item" style="border: none; background: none; padding: 8px 16px; width: 100%; text-align: left;">
+                                                                            ${status.status_des}
+                                                                        </button>
+                                                                    </form>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td><a href="${pageContext.request.contextPath}/admin/quan-li-khu-vuc?zone_id=${listzone.zoneId}"
                                                            type="button" class="btn btn-info"  data-bs-target="#bs-example-modal-lg-2">Sửa</a>
                                                         <input type="hidden" name="zone_id" value="${listzone.zoneId}" />
@@ -164,6 +187,7 @@
                                                                 <label for="inputPassword5" class="form-label">Địa Chỉ</label>
                                                                 <input type="text" name ="address" class="form-control" id="inputPassword5" placeholder="Địa Chỉ" required>
                                                             </div>
+                                                            
                                                         </div>
                                                         <button type="submit" class="btn btn-primary">Tạo Khu Vực</button>
                                                     </form>
@@ -195,6 +219,7 @@
                                                 <label>Địa Chỉ</label>
                                                 <input type="text" class="form-control" name="address" id="modal-zone-address" required />
                                             </div>
+                                           
                                             <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
@@ -264,6 +289,7 @@
                     document.getElementById('modal-zone-id').value = "${zone.zoneId}";
                     document.getElementById('modal-zone-name').value = "${zone.zone_name}";
                     document.getElementById('modal-zone-address').value = "${zone.address}";
+                    
                     myModal.show();
                 });
             </script>

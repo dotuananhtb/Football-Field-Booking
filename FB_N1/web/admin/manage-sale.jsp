@@ -105,9 +105,9 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>Tên ưu đãi</th>
                                                 <th>Phần Trăm Ưu Đãi</th>
                                                 <th>Số Ca tối thiểu</th>
-                                                <th>Số Ca tối đa</th>
                                                 <th>Mô tả</th>
                                                 <th></th>
                                                 <th></th>
@@ -120,9 +120,10 @@
                                             <c:forEach var="listSale" items="${listSale}">
                                                 <tr>
                                                     <td>${listSale.saleId} </td>
+                                                    <td>${listSale.sale_name}</td>
                                                     <td>${listSale.salePercent}</td>
                                                     <td>${listSale.minSlot}</td>
-                                                    <td>${listSale.maxSlot}</td>
+                                                    
                                                     <td>${listSale.description}</td>
                                                     <td><a href="${pageContext.request.contextPath}/admin/quan-li-uu-dai?saleId=${listSale.saleId}"
                                                            type="button" class="btn btn-info"  data-bs-target="#bs-example-modal-lg-2">Sửa</a>
@@ -178,17 +179,19 @@
                                                     <form action="${pageContext.request.contextPath}/admin/them-uu-dai" method="post">
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-6">
+                                                                <label for="inputEmai6" class="form-label">Tên ưu đãi</label>
+                                                                <input type="text" name="name" class="form-control" id="inputEmail6" placeholder="Tên ưu đãi" required>
+                                                            </div>
+                                                            <div class="mb-3 col-md-6">
                                                                 <label for="inputEmai6" class="form-label">Phần Trăm Ưu Đãi</label>
                                                                 <input type="text" name="salePercent" class="form-control" id="inputEmail6" placeholder="Phần Trăm Ưu Đãi" required>
                                                             </div>
+                                                            
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputPassword5" class="form-label">Số Ca tối thiểu</label>
                                                                 <input type="text" name ="minSlot" class="form-control" id="inputPassword5" placeholder="Số Ca tối thiểu" required>
                                                             </div>
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="inputEmai6" class="form-label">Số Ca tối đa</label>
-                                                                <input type="text" name="maxSlot" class="form-control" id="inputEmail6" placeholder="Số Ca tối đa" required>
-                                                            </div>
+                                                            
                                                             <div class="mb-3 col-md-6">
                                                                 <label for="inputEmai6" class="form-label">Mô tả</label>
                                                                 <input type="text" name="description" class="form-control" id="inputEmail6" placeholder="Mô tả" required>
@@ -218,6 +221,11 @@
                                         <form action="${pageContext.request.contextPath}/admin/quan-li-uu-dai" method="post">
                                             <input type="hidden" name="saleId" id="modal-sale-id" />
                                             <div class="mb-3 col-md-6">
+                                                <label >Tên ưu đãi</label>
+                                                <input type="text" name="name" class="form-control" id="modal-sale-name" placeholder=" Tên ưu đãi" required>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                
                                                 <label >Phần Trăm Ưu Đãi</label>
                                                 <input type="text" name="salePercent" class="form-control" id="modal-sale-percent" placeholder="Phần Trăm Ưu Đãi" required>
                                             </div>
@@ -225,10 +233,7 @@
                                                 <label >Số Ca tối thiểu</label>
                                                 <input type="text" name ="minSlot" class="form-control" id="modal-sale-minSlot" placeholder="Số Ca tối thiểu" required>
                                             </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label >Số Ca tối đa</label>
-                                                <input type="text" name="maxSlot" class="form-control" id="modal-sale-maxSlot" placeholder="Số Ca tối đa" required>
-                                            </div>
+                                            
                                             <div class="mb-3 col-md-6">
                                                 <label >Mô tả</label>
                                                 <input type="text" name="description" class="form-control" id="modal-sale-description" placeholder="Mô tả" required>
@@ -269,7 +274,7 @@
                     document.getElementById('modal-sale-id').value = "${sale.saleId}";
                     document.getElementById('modal-sale-percent').value = "${sale.salePercent}";
                     document.getElementById('modal-sale-minSlot').value = "${sale.minSlot}";
-                    document.getElementById('modal-sale-maxSlot').value = "${sale.maxSlot}";
+                    document.getElementById('modal-sale-name').value = "${sale.sale_name}";
                     document.getElementById('modal-sale-description').value = "${sale.description}";
                     myModal.show();
                 });

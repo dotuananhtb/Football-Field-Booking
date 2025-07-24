@@ -31,9 +31,9 @@ public class SaleDAO extends DBContext {
                 Sale sale = new Sale(
                         rs.getInt("sale_id"),
                         rs.getInt("min_slot"),
-                        rs.getInt("max_slot"),
                         rs.getInt("sale_percent"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("sale_name")
                 );
                 list.add(sale);
             }
@@ -48,7 +48,7 @@ public class SaleDAO extends DBContext {
         String sql = "SELECT *\n"
                 + "  FROM [FootballFieldBooking].[dbo].[Sale]\n"
                 + "  where sale_id = ?";
-         try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, saleId);
             ResultSet rs = ps.executeQuery();
 
@@ -56,22 +56,21 @@ public class SaleDAO extends DBContext {
                 return new Sale(
                         rs.getInt("sale_id"),
                         rs.getInt("min_slot"),
-                        rs.getInt("max_slot"),
                         rs.getInt("sale_percent"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("sale_name")
                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-        
 
     }
 
     // 2. Lấy sale phù hợp theo số lượng ca (slot) đặt
     public Sale getSaleBySlotCount(int slotCount) {
-        String sql = "SELECT TOP 1 * FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
+        String sql = "SELECT TOP 1 * FROM Sale WHERE ? >= min_slot  ORDER BY sale_percent DESC";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, slotCount);
             ResultSet rs = ps.executeQuery();
@@ -80,9 +79,9 @@ public class SaleDAO extends DBContext {
                 return new Sale(
                         rs.getInt("sale_id"),
                         rs.getInt("min_slot"),
-                        rs.getInt("max_slot"),
                         rs.getInt("sale_percent"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("sale_name")
                 );
             }
         } catch (SQLException e) {
@@ -93,12 +92,21 @@ public class SaleDAO extends DBContext {
 
     // 3. Thêm khuyến mãi mới
     public boolean insertSale(Sale sale) {
-        String sql = "INSERT INTO Sale (min_slot, max_slot, sale_percent, description) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[Sale]\n"
+                + "           ([min_slot]\n"
+                + "           ,[sale_percent]\n"
+                + "           ,[description]\n"
+                + "           ,[sale_name])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, sale.getMinSlot());
-            ps.setInt(2, sale.getMaxSlot());
-            ps.setInt(3, sale.getSalePercent());
-            ps.setString(4, sale.getDescription());
+            ps.setInt(2, sale.getSalePercent());
+            ps.setString(3, sale.getDescription());
+            ps.setString(4, sale.getSale_name());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -109,12 +117,17 @@ public class SaleDAO extends DBContext {
 
     // 4. Cập nhật khuyến mãi
     public boolean updateSale(Sale sale) {
-        String sql = "UPDATE Sale SET min_slot = ?, max_slot = ?, sale_percent = ?, description = ? WHERE sale_id = ?";
+        String sql = "UPDATE [dbo].[Sale]\n"
+                + "   SET [min_slot] = ?\n"
+                + "      ,[sale_percent] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[sale_name] = ?\n"
+                + "WHERE sale_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, sale.getMinSlot());
-            ps.setInt(2, sale.getMaxSlot());
-            ps.setInt(3, sale.getSalePercent());
-            ps.setString(4, sale.getDescription());
+            ps.setInt(2, sale.getSalePercent());
+            ps.setString(3, sale.getDescription());
+            ps.setString(4, sale.getSale_name());
             ps.setInt(5, sale.getSaleId());
 
             return ps.executeUpdate() > 0;
@@ -156,8 +169,9 @@ public class SaleDAO extends DBContext {
         return 0; // Trường hợp không tìm thấy
     }
 ////////////////////////////////do not update here//////////////////////////////
+
     public int getDiscountPercent(int slotCount) {
-        String sql = "SELECT TOP 1 sale_percent FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
+        String sql = "SELECT TOP 1 sale_percent FROM Sale WHERE ? >= min_slot ORDER BY sale_percent DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, slotCount);
@@ -176,7 +190,8 @@ public class SaleDAO extends DBContext {
 
     //////ham nay lay ra uu dai tot nhattt////////update here
     public Integer getSaleIdBySlotCount(int slotCount) {
-        String sql = "SELECT TOP 1 sale_id FROM Sale WHERE ? BETWEEN min_slot AND max_slot ORDER BY sale_percent DESC";
+        String sql = "  SELECT TOP 1 sale_id FROM Sale WHERE ? >= min_slot\n"
+                + "  ORDER BY sale_percent DESC";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, slotCount);
             ResultSet rs = ps.executeQuery();
@@ -188,14 +203,14 @@ public class SaleDAO extends DBContext {
         }
         return null;
     }
+
     /////////////////////////////////
     public static void main(String[] args) {
         SaleDAO sDao = new SaleDAO();
         
         int s = sDao.getSaleIdBySlotCount(2);
         System.out.println(s);
-        
-        
+
     }
 
 }

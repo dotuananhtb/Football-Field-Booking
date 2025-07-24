@@ -8,6 +8,7 @@ package controller;
 import dao.AccountDAO;
 import dao.RoleDAO;
 import dao.StatusAccountDAO;
+import dao.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -61,12 +62,19 @@ public class AddNewStaff extends HttpServlet {
        String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        String firstName = request.getParameter("fname");
+        String phone = request.getParameter("phone");
+        String lastName = request.getParameter("lname");
+        String dob = request.getParameter("dob");
+        String gender = request.getParameter("gender");
         String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String avatar = "./assets/images/avata/avt123.jpeg";
         int statusId = 1;
         int roleId = 2;
-
+         
         AccountDAO ad = new AccountDAO();
+        UserProfileDAO user = new UserProfileDAO();
 
         try {
           if (ad.checkTonTaiUsername(username)) {
@@ -79,10 +87,18 @@ public class AddNewStaff extends HttpServlet {
                 response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
                 return;
           }
-            UserProfile profile = new UserProfile(roleId, avatar);
+          if(user.checkTonTaiPhone(phone)){
+              ToastUtil.setErrorToast(request,"Số điện thoại đã tồn tại!");
+                response.sendRedirect( request.getContextPath() + "/admin/quan-li-nhan-vien");
+                return;
+          }
+          
+          
+          UserProfile profile = new UserProfile(roleId, firstName, lastName, address, gender, dob, phone, avatar);
+            
             Account account = new Account(statusId, username, PasswordUtil.hashPassword(password), email, createdAt, profile);
 
-            if (ad.insertAccountWithProfile(account)) {
+            if ( ad.insertAccountWithProfile2(account)) {
                 ToastUtil.setSuccessToast(request, "Thêm nhân viên thành công!");
             } else {
                 ToastUtil.setErrorToast(request, "Thêm nhân viên không thành công!");
