@@ -69,7 +69,7 @@
 
 
 
-
+                
             <li class="side-nav-title">Quản lí đặt sân</li>
 
             <li class="side-nav-item">
@@ -104,6 +104,7 @@
 
 
             <li class="side-nav-title">Chung</li>
+            <c:if test="${account.userProfile.roleId==1}">
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarsan" aria-expanded="false" aria-controls="sidebarsan" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
@@ -127,7 +128,7 @@
                     </ul>
                 </div>
             </li>
-
+            </c:if>
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
@@ -137,7 +138,7 @@
                 </a>
             </li>
 
-
+            <c:if test="${account.userProfile.roleId==1}">
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="ri-briefcase-fill"></i>
@@ -166,7 +167,7 @@
                     </ul>
                 </div>
             </li>
-
+            
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
@@ -193,7 +194,7 @@
 
                 </a>
             </li>
-
+            </c:if>
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-bai-dang"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
@@ -202,7 +203,7 @@
 
                 </a>
             </li>
-
+            <c:if test="${account.userProfile.roleId==1}">
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-uu-dai"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
@@ -211,6 +212,7 @@
 
                 </a>
             </li>
+            </c:if>
 
 
 

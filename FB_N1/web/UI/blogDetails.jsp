@@ -81,7 +81,12 @@
                                         ${post.title}
                                     </h1>
                                     <div class="post-meta d-flex gap-4" style="color: #666; font-size: 14px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
-                                        <span><i class="icon-user" style="color: #4DA528;"></i> <strong>Tác giả:</strong> ${post.account.username}</span>
+                                        <span>
+                                            <i class="icon-user" style="color: #4DA528;"></i> <strong>Tác giả:</strong> ${post.account.username}
+                                            <c:if test="${not empty posterPhone}">
+                                                &nbsp;|&nbsp;<i class="icon-phone"></i> <strong>SĐT liên hệ:</strong> ${posterPhone}
+                                            </c:if>
+                                        </span>
                                         <span><i class="icon-4" style="color: #4DA528;"></i> <strong>Ngày đăng:</strong> ${post.postDate}</span>
                                     </div>
                                     <!-- Thông tin chi tiết trận đấu nếu có -->

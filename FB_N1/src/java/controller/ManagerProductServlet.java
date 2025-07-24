@@ -128,6 +128,7 @@ public class ManagerProductServlet extends HttpServlet {
             // Thêm product mới
             try {
                 Product product = new Product();
+                ProductDetailsDAO detailsDAO = new ProductDetailsDAO();
                 product.setProductName(request.getParameter("productName"));
                 product.setProductCateId(Integer.parseInt(request.getParameter("categoryId")));
                 product.setProductPrice(Double.parseDouble(request.getParameter("productPrice")));
@@ -140,32 +141,30 @@ public class ManagerProductServlet extends HttpServlet {
                 product.setProductDescription(request.getParameter("productDescription"));
                 product.setProductStatus("active");
 
-                boolean addSuccess = productDAO.addProduct(product);
-                int productId = productDAO.getLastInsertedProductId();
+                // Sử dụng insertProduct để lấy productId vừa thêm
+                int productId = productDAO.insertProduct(product);
+                boolean addSuccess = productId > 0;
 
-                // Lấy các biến thể từ request
-                String[] colors = request.getParameterValues("color[]");
-                String[] sizes = request.getParameterValues("size[]");
-                String[] materials = request.getParameterValues("material[]");
-                String[] weights = request.getParameterValues("weight[]");
-                String[] origins = request.getParameterValues("origin[]");
-                String[] warranties = request.getParameterValues("warranty[]");
-                String[] moreInfos = request.getParameterValues("moreInfo[]");
+                // Đơn giản hóa: chỉ cho phép nhập 1 màu và 1 size cho mỗi sản phẩm
+                String color = request.getParameter("colors");
+                String size = request.getParameter("sizes");
+                String material = request.getParameter("material");
+                String weight = request.getParameter("weight");
+                String origin = request.getParameter("origin");
+                String warranty = request.getParameter("warranty");
+                String moreInfo = request.getParameter("moreInfo");
 
-                ProductDetailsDAO detailsDAO = new dao.ProductDetailsDAO();
-                if (colors != null) {
-                    for (int i = 0; i < colors.length; i++) {
-                        ProductDetails pd = new ProductDetails();
-                        pd.setProductId(productId);
-                        pd.setColor(colors[i]);
-                        pd.setSize(sizes != null ? sizes[i] : null);
-                        pd.setMaterial(materials != null ? materials[i] : null);
-                        pd.setWeight(weights != null && weights[i] != null && !weights[i].isEmpty() ? Double.parseDouble(weights[i]) : null);
-                        pd.setOrigin(origins != null ? origins[i] : null);
-                        pd.setWarranty(warranties != null ? warranties[i] : null);
-                        pd.setMoreInfo(moreInfos != null ? moreInfos[i] : null);
-                        detailsDAO.insertProductDetails(pd);
-                    }
+                if ((color != null && !color.isEmpty()) || (size != null && !size.isEmpty())) {
+                    ProductDetails pd = new ProductDetails();
+                    pd.setProductId(productId);
+                    pd.setColor(color);
+                    pd.setSize(size);
+                    pd.setMaterial(material);
+                    pd.setWeight(weight != null && !weight.isEmpty() ? Double.parseDouble(weight) : null);
+                    pd.setOrigin(origin);
+                    pd.setWarranty(warranty);
+                    pd.setMoreInfo(moreInfo);
+                    detailsDAO.insertProductDetails(pd);
                 }
 
                 if (addSuccess) {

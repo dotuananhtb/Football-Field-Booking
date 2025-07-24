@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.Status_ZoneDAO;
 import dao.Zone_DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.StatusZone;
 import model.Zone;
 import util.ToastUtil;
 
@@ -49,7 +51,10 @@ public class ManageZone extends HttpServlet {
 
     // Luôn load danh sách
     Zone_DAO zDao = new Zone_DAO();
+        Status_ZoneDAO s = new Status_ZoneDAO();
+        List<StatusZone> list = s.getAllStatus();
     List<Zone> listZone = zDao.getAllZone();
+    request.setAttribute("listS", list);
     request.setAttribute("listZone", listZone);
 
     request.getRequestDispatcher("manage-zone.jsp").forward(request, response);
@@ -59,11 +64,14 @@ public class ManageZone extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-          int zone_id_Raw = Integer.parseInt(request.getParameter("zone_id"));
+        int zone_id_Raw = Integer.parseInt(request.getParameter("zone_id"));
         String zoneName = request.getParameter("zone_name");
         String address = request.getParameter("address");
+        
+        
+         
         Zone_DAO zDao = new Zone_DAO();
-        Zone zone = new Zone(zone_id_Raw,zoneName, address);
+        Zone zone = new Zone(zone_id_Raw, zoneName, address, 1);
         
         if(zDao.UpdateZone(zone)){
             ToastUtil.setSuccessToast(request, "Thêm Khu vực thành công");
@@ -71,6 +79,9 @@ public class ManageZone extends HttpServlet {
             ToastUtil.setErrorToast(request, "Thêm Khu vực không thành công");
         }
         response.sendRedirect(request.getContextPath() + "/admin/quan-li-khu-vuc");
+        
+        
+       
     }
 
    

@@ -65,11 +65,11 @@ public class ManageSale extends HttpServlet {
         int saleId = Integer.parseInt(request.getParameter("saleId"));
          int salePercent = Integer.parseInt(request.getParameter("salePercent"));
         int minSlot = Integer.parseInt(request.getParameter("minSlot"));
-        int maxSlot = Integer.parseInt(request.getParameter("maxSlot"));
+        String sale_name = request.getParameter("name");
         String description = request.getParameter("description");
         
-          if(minSlot > maxSlot){
-            ToastUtil.setErrorToast(request, "Lỗi: Số ca tối thiểu không thể lớn hơn số ca tối đa");
+          if(minSlot < 0){
+            ToastUtil.setErrorToast(request, "Lỗi: Số ca tối thiểu không thể nhỏ hơn 0");
             response.sendRedirect(request.getContextPath() + "/admin/quan-li-uu-dai");
             return;
         }else if (  salePercent > 100){
@@ -78,14 +78,14 @@ public class ManageSale extends HttpServlet {
             return;
         }
             else{
-            Sale sale = new Sale(saleId, minSlot, maxSlot, salePercent, description);
-        SaleDAO sDao = new SaleDAO();
+            Sale sale = new Sale(saleId, minSlot, salePercent, description, sale_name);
+            SaleDAO sDao = new SaleDAO();
         
          
         if(sDao.updateSale(sale)){
-            ToastUtil.setSuccessToast(request, "Thêm ưu đãi thành công");
+            ToastUtil.setSuccessToast(request, "Cập nhật ưu đãi thành công");
         }else{
-            ToastUtil.setErrorToast(request, "Thêm ưu đãi không thành công");
+            ToastUtil.setErrorToast(request, "Cập nhật   ưu đãi không thành công");
         }
                     response.sendRedirect(request.getContextPath() + "/admin/quan-li-uu-dai");
         }

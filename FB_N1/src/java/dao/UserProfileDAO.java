@@ -162,6 +162,20 @@ public class UserProfileDAO extends DBContext {
 
     }
 
+    public boolean checkTonTaiPhone(String phone) {
+        String sql = "SELECT 1 \n"
+                + "  FROM [FootballFieldBooking].[dbo].[UserProfile]\n"
+                + "  where phone = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void updateProfile(UserProfile up) {
         String sql = "UPDATE [dbo].[UserProfile]\n"
                 + "   SET \n"

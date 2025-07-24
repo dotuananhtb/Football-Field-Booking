@@ -12,30 +12,29 @@ public class Sale {
 
     private int saleId;
     private int minSlot;
-    private int maxSlot;
     private int salePercent;
     private String description;
+    private String sale_name;
 
     public Sale() {
     }
 
-    public Sale(int minSlot, int maxSlot, int salePercent, String description) {
-        this.minSlot = minSlot;
-        this.maxSlot = maxSlot;
-        this.salePercent = salePercent;
-        this.description = description;
-    }
-    
-    
-    
-
-    public Sale(int saleId, int minSlot, int maxSlot, int salePercent, String description) {
+    public Sale(int saleId, int minSlot, int salePercent, String description, String sale_name) {
         this.saleId = saleId;
         this.minSlot = minSlot;
-        this.maxSlot = maxSlot;
         this.salePercent = salePercent;
         this.description = description;
+        this.sale_name = sale_name;
     }
+
+    public Sale(int minSlot, int salePercent, String description, String sale_name) {
+        this.minSlot = minSlot;
+        this.salePercent = salePercent;
+        this.description = description;
+        this.sale_name = sale_name;
+    }
+
+   
 
     public int getSaleId() {
         return saleId;
@@ -53,13 +52,14 @@ public class Sale {
         this.minSlot = minSlot;
     }
 
-    public int getMaxSlot() {
-        return maxSlot;
+    public String getSale_name() {
+        return sale_name;
     }
 
-    public void setMaxSlot(int maxSlot) {
-        this.maxSlot = maxSlot;
+    public void setSale_name(String sale_name) {
+        this.sale_name = sale_name;
     }
+
 
     public int getSalePercent() {
         return salePercent;
@@ -79,7 +79,9 @@ public class Sale {
 
     @Override
     public String toString() {
-        return "Sale{" + "saleId=" + saleId + ", minSlot=" + minSlot + ", maxSlot=" + maxSlot + ", salePercent=" + salePercent + ", description=" + description + '}';
+        return "Sale{" + "saleId=" + saleId + ", minSlot=" + minSlot + ", salePercent=" + salePercent + ", description=" + description + ", sale_name=" + sale_name + '}';
     }
+
+   
 
 }
