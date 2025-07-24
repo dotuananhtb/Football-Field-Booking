@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import util.ToastUtil;
 
-@WebServlet(name = "CreatePostServlet", urlPatterns = {"/createPost"})
+@WebServlet(name = "CreatePostServlet", urlPatterns = {"/tao-bai-viet"})
 public class CreatePostServlet extends HttpServlet {
 
     @Override
@@ -59,7 +59,7 @@ public class CreatePostServlet extends HttpServlet {
 
         if (title == null || title.trim().isEmpty() || startTime == null || startTime.trim().isEmpty() || bookingDate == null || bookingDate.trim().isEmpty() || fieldTypeIdStr == null || fieldTypeIdStr.trim().isEmpty()) {
             ToastUtil.setErrorToast(request, "Vui lòng điền đầy đủ thông tin!");
-            response.sendRedirect("createPost");
+            response.sendRedirect("tao-bai-viet");
             return;
         }
         int fieldTypeId = 0;
@@ -69,7 +69,7 @@ public class CreatePostServlet extends HttpServlet {
             fieldType = typeDAO.getFieldTypeNameById(fieldTypeId);
         } catch (NumberFormatException e) {
             ToastUtil.setErrorToast(request, "Loại sân không hợp lệ!");
-            response.sendRedirect("createPost");
+            response.sendRedirect("tao-bai-viet");
             return;
         }
         Post post = new Post();
@@ -81,7 +81,7 @@ public class CreatePostServlet extends HttpServlet {
         int postId = postDAO.createPost(post);
         if (postId <= 0) {
             ToastUtil.setErrorToast(request, "Tạo bài viết thất bại!");
-            response.sendRedirect("createPost");
+            response.sendRedirect("tao-bai-viet");
             return;
         }
         PostDetails postDetails = new PostDetails(postId, bookingDate, startTime, fieldType);
@@ -90,10 +90,10 @@ public class CreatePostServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             ToastUtil.setErrorToast(request, "Tạo chi tiết bài viết thất bại!");
-            response.sendRedirect("createPost");
+            response.sendRedirect("tao-bai-viet");
             return;
         }
         ToastUtil.setSuccessToast(request, "Tạo bài viết thành công!");
-        response.sendRedirect("managerPostUser");
+        response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
     }
 } 

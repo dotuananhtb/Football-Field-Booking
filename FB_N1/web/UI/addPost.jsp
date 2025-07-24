@@ -35,7 +35,7 @@
                             <h3 class="title">${isNews ? 'Tạo tin tức mới' : 'Tạo bài viết tìm đối thủ'}</h3>
                             <p class="des">${isNews ? 'Điền các thông tin bên dưới để đăng tải tin tức.' : 'Điền thông tin để tìm kiếm đối thủ phù hợp.'}</p>
                         </div>
-                        <form action="${pageContext.request.contextPath}/createPost" method="post" class="form-add-tour">
+                        <form action="${pageContext.request.contextPath}/tao-bai-viet" method="post" class="form-add-tour">
                             <div class="widget-dash-board pr-256 mb-75">
                                 <h4 class="title-add-tour mb-30">${isNews ? 'Nội dung tin tức' : 'Thông tin bài viết'}</h4>
                                 

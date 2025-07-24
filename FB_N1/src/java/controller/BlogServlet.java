@@ -16,7 +16,7 @@ import model.Post;
 import model.Comment;
 import model.Account;
 
-@WebServlet(name = "BlogServlet", urlPatterns = {"/blog"})
+@WebServlet(name = "BlogServlet", urlPatterns = {"/bai-viet"})
 public class BlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

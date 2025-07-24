@@ -38,7 +38,7 @@
         <!-- Leftbar User -->
 
         <div class="leftbar-user">
-            <a href="/FB_N1/userProfile">
+            <a href="/FB_N1/ho-so-nguoi-dung">
                 <img src="${sessionScope.userProfile.avatar}" alt="user-image" height="42" class="rounded-circle shadow-sm">
                 <span class="leftbar-user-name mt-2">${sessionScope.account.userProfile.firstName}</span>
             </a>

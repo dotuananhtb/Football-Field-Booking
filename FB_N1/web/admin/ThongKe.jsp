@@ -303,25 +303,25 @@
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label class="form-label">Từ tháng</label>
-                                                <select name="fromMonth" class="form-select">
-                                                    <option value="">--</option>
-                                                    <c:forEach var="m" begin="1" end="12">
-                                                        <option value="${m}" <c:if test="${param.fromMonth == (m + '')}">selected</c:if>>${m}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
+                                                        <select name="fromMonth" class="form-select">
+                                                            <option value="">--</option>
+                                                            <c:forEach var="m" begin="1" end="12">
+                                                                <option value="${m}" <c:if test="${param.fromMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
                                             <div class="col-6 col-md-4">
                                                 <label class="form-label">Đến tháng</label>
-                                                <select name="toMonth" class="form-select">
-                                                    <option value="">--</option>
-                                                    <c:forEach var="m" begin="1" end="12">
-                                                        <option value="${m}" <c:if test="${param.toMonth == (m + '')}">selected</c:if>>${m}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
+                                                        <select name="toMonth" class="form-select">
+                                                            <option value="">--</option>
+                                                            <c:forEach var="m" begin="1" end="12">
+                                                                <option value="${m}" <c:if test="${param.toMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
                                             <div class="col-12 col-md-4">
                                                 <label class="form-label">Năm</label>
-                                                <input type="number" name="yearRange" min="2000" max="2100" value="${param.yearRange}" class="form-control" placeholder="Năm" />
+                                                        <input type="number" name="yearRange" min="2000" max="2100" value="${param.yearRange}" class="form-control" placeholder="Năm" />
                                             </div>
                                             <div class="col-12 d-flex gap-2">
                                                 <button type="submit" class="btn btn-primary">Xem thống kê</button>
@@ -329,59 +329,59 @@
                                             </div>
                                         </form>
                                         <div class="table-responsive">
-                                            <c:choose>
-                                                <c:when test="${not empty revenueCustom}">
+                                        <c:choose>
+                                            <c:when test="${not empty revenueCustom}">
                                                     <table class="table table-bordered table-striped text-center mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Khoảng thời gian</th>
-                                                                <th>Tổng doanh thu</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${not empty param.fromMonth and not empty param.toMonth and not empty param.yearRange}">
-                                                                            Tháng ${param.fromMonth}-${param.toMonth}/${param.yearRange}
-                                                                        </c:when>
-                                                                        <c:when test="${not empty param.fromDate and not empty param.toDate}">
-                                                                            ${param.fromDate} đến ${param.toDate}
-                                                                        </c:when>
-                                                                        <c:when test="${not empty param.month and not empty param.year}">
-                                                                            Tháng ${param.month}/${param.year}
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            Tuỳ chọn
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </td>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Khoảng thời gian</th>
+                                                            <th>Tổng doanh thu</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty param.fromMonth and not empty param.toMonth and not empty param.yearRange}">
+                                                                        Tháng ${param.fromMonth}-${param.toMonth}/${param.yearRange}
+                                                                    </c:when>
+                                                                    <c:when test="${not empty param.fromDate and not empty param.toDate}">
+                                                                        ${param.fromDate} đến ${param.toDate}
+                                                                    </c:when>
+                                                                    <c:when test="${not empty param.month and not empty param.year}">
+                                                                        Tháng ${param.month}/${param.year}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        Tuỳ chọn
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
                                                                 <td>${revenueCustom}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </c:when>
-                                                <c:otherwise>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </c:when>
+                                            <c:otherwise>
                                                     <table class="table table-bordered table-striped text-center mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Chỉ số</th>
-                                                                <th>Giá trị</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Chỉ số</th>
+                                                            <th>Giá trị</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
                                                                 <td>Tổng doanh thu năm nay</td>
                                                                 <td>${totalRevenueYear}</td>
-                                                            </tr>
-                                                            <tr>
+                                                        </tr>
+                                                        <tr>
                                                                 <td>Tổng doanh thu toàn hệ thống</td>
                                                                 <td>${totalRevenue}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </c:otherwise>
-                                            </c:choose>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </c:otherwise>
+                                        </c:choose>
                                         </div>
                                     </div>
                                 </div>

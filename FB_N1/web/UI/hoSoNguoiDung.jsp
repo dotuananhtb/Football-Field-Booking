@@ -102,7 +102,7 @@
                                                             // Hoặc với format khác nếu cần
                                                             String maxDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                                                         %>
-                                                        <form action="${pageContext.request.contextPath}/updateUser" method="post" class="edit-profile">
+                                                        <form action="${pageContext.request.contextPath}/cap-nhat-nguoi-dung" method="post" class="edit-profile">
                                                             <c:set value="${sessionScope.userProfile}" var="u"></c:set>
 
 

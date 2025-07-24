@@ -175,11 +175,11 @@
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
                                             <c:if test="${sessionScope.account != null && account.userProfile.roleId ==3}">
-                                                <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary" style="border-radius: 6px; white-space: nowrap;">
+                                                <a href="${pageContext.request.contextPath}/tao-bai-viet" class="btn btn-primary" style="border-radius: 6px; white-space: nowrap;">
                                                     <i class="icon-plus"></i> Tạo bài viết
                                                 </a>
                                             </c:if>
-                                            <form action="${pageContext.request.contextPath}/blog" method="get" class="d-flex gap-2">
+                                            <form action="${pageContext.request.contextPath}/bai-viet" method="get" class="d-flex gap-2">
                                                 <input type="text" name="search" value="${search}" placeholder="Tìm kiếm bài viết..." 
                                                        class="form-control" style="width: 250px; border-radius: 6px;">
                                                 <button type="submit" class="btn btn-outline-primary" style="border-radius: 6px; white-space: nowrap;">
@@ -203,7 +203,7 @@
                                                         <span><i class="icon-24"></i> ${post.postDate}</span>
                                                     </div>
                                                     <div>
-                                                        <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                        <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" 
                                                            class="btn btn-outline-primary btn-sm" style="border-radius: 6px;">
                                                             <i class="icon-eye"></i> Xem chi tiết
                                                         </a>
@@ -211,7 +211,7 @@
                                                 </div>
                                             </div>
                                             <h3 class="blog-card-title" style="margin-bottom: 15px;">
-                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" 
                                                    style="color: #4DA528; text-decoration: none; font-weight: 600;">
                                                     ${post.title}
                                                 </a>
@@ -314,7 +314,7 @@
                                         <div class="recent-post-list">
                                             <c:forEach var="post" items="${recentPosts}">
                                                 <div class="list-recent flex-three">
-                                                    <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" class="recent-image">
+                                                    <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" class="recent-image">
                                                         
                                                     </a>
                                                     <div class="recent-info">
@@ -323,7 +323,7 @@
                                                             <span>${post.postDate}</span>
                                                         </div>
                                                         <h4 class="title">
-                                                            <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}">${post.title}</a>
+                                                            <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}">${post.title}</a>
                                                         </h4>
                                                     </div>
                                                 </div>

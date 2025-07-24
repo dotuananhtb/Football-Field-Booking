@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ManagerPostUserServlet", urlPatterns = {"/managerPostUser"})
+@WebServlet(name = "ManagerPostUserServlet", urlPatterns = {"/quan-ly-bai-viet-nguoi-dung"})
 public class ManagerPostUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

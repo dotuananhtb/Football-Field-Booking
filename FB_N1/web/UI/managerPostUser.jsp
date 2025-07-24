@@ -42,7 +42,7 @@
                                                         </div>  
                                                         <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
                                                             <c:if test="${account.userProfile.roleId==3}">
-                                                            <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo bài viết tìm đối</a>
+                                                            <a href="${pageContext.request.contextPath}/tao-bai-viet" class="btn btn-primary">Tạo bài viết tìm đối</a>
                                                             </c:if>
                                                             <c:if test="${account.userProfile.roleId==1 || account.userProfile.roleId==2}">
                                                             <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">Tạo Tin tức mới</a>
@@ -54,7 +54,7 @@
                                                                 <div>
                                                                     <h5 style="margin: 0; color: #333;">Tổng cộng: </h5>
                                                                 </div>
-                                                                <form action="${pageContext.request.contextPath}/managerPostUser" method="get" class="d-flex gap-2">
+                                                                <form action="${pageContext.request.contextPath}/quan-ly-bai-viet-nguoi-dung" method="get" class="d-flex gap-2">
                                                                     <input type="text" name="search" value="${search}" placeholder="Tìm theo tiêu đề hoặc nội dung" class="form-control" style="width: 270px;">
                                                                     <button type="submit" class="btn btn-outline-primary">Tìm</button>
                                                                 </form>
@@ -66,7 +66,7 @@
                                                                     <div class="d-flex justify-content-between align-items-start mb-15">
                                                                         <div class="flex-grow-1">
                                                                             <h4 style="margin: 0 0 8px 0; color: #4DA528;">
-                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" style="color: inherit; text-decoration: none;">
+                                                                                <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" style="color: inherit; text-decoration: none;">
                                                                                     ${post.title}
                                                                                 </a>
                                                                             </h4>
@@ -76,12 +76,12 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="post-actions d-flex gap-2">
-                                                                            <a href="${pageContext.request.contextPath}/updatePost?postId=${post.postId}" 
+                                                                            <a href="${pageContext.request.contextPath}/cap-nhat-bai-viet?postId=${post.postId}" 
                                                                                class="btn btn-outline-primary btn-sm" 
                                                                                style="padding: 6px 12px; border-radius: 6px;">
                                                                                 <i class="icon-edit"></i> Sửa
                                                                             </a>
-                                                                            <form action="${pageContext.request.contextPath}/deletePost" method="post" style="display:inline; margin:0;">
+                                                                            <form action="${pageContext.request.contextPath}/xoa-bai-viet" method="post" style="display:inline; margin:0;">
                                                                                 <input type="hidden" name="postId" value="${post.postId}" />
                                                                                 <button type="submit" 
                                                                                         class="btn btn-outline-danger btn-sm" 
@@ -97,7 +97,7 @@
                                                                         <c:choose>
                                                                             <c:when test="${fn:length(post.contentPost) > 100}">
                                                                                 ${fn:substring(post.contentPost, 0, 100)}... 
-                                                                                <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                                                <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" 
                                                                                    style="color: #4DA528; font-weight: 600; text-decoration: underline;">
                                                                                     Xem thêm
                                                                                 </a>
@@ -109,7 +109,7 @@
                                                                     </div>
                                                                     
                                                                     <div class="post-footer mt-15" style="border-top: 1px solid #eee; padding-top: 15px;">
-                                                                        <a href="${pageContext.request.contextPath}/blogdetails?postId=${post.postId}" 
+                                                                        <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?postId=${post.postId}" 
                                                                            class="btn btn-sm btn-outline-secondary" 
                                                                            style="padding: 4px 12px; border-radius: 4px;">
                                                                             <i class="icon-eye"></i> Xem chi tiết
@@ -123,7 +123,7 @@
                                                                     <i class="icon-document" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
                                                                     <h5 style="color: #666; margin-bottom: 10px;">Bạn chưa có bài viết nào</h5>
                                                                     <p style="color: #999; margin-bottom: 20px;">Hãy tạo bài viết đầu tiên để tìm đối thủ đá bóng!</p>
-                                                                    <a href="${pageContext.request.contextPath}/createPost" class="btn btn-primary">
+                                                                    <a href="${pageContext.request.contextPath}/tao-bai-viet" class="btn btn-primary">
                                                                         <i class="icon-plus"></i> Tạo bài viết đầu tiên
                                                                     </a>
                                                                 </div>
@@ -137,7 +137,7 @@
                                                                         <ul class="pagination justify-content-center" style="gap: 5px;">
                                                                             <c:if test="${currentPage > 1}">
                                                                                 <li class="page-item">
-                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/quan-ly-bai-viet-nguoi-dung?page=${currentPage - 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
                                                                                         <i class="icon-29"></i> Trước
                                                                                     </a>
                                                                                 </li>
@@ -145,7 +145,7 @@
                                                                             
                                                                             <c:forEach var="i" begin="1" end="${totalPages}">
                                                                                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${i}&search=${search != null ? search : ''}" 
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/quan-ly-bai-viet-nguoi-dung?page=${i}&search=${search != null ? search : ''}" 
                                                                                        style="border-radius: 6px; ${i == currentPage ? 'background-color: #4DA528; border-color: #4DA528;' : ''}">
                                                                                         ${i}
                                                                                     </a>
@@ -154,7 +154,7 @@
                                                                             
                                                                             <c:if test="${currentPage < totalPages}">
                                                                                 <li class="page-item">
-                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/managerPostUser?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
+                                                                                    <a class="page-link" href="${pageContext.request.contextPath}/quan-ly-bai-viet-nguoi-dung?page=${currentPage + 1}&search=${search != null ? search : ''}" style="border-radius: 6px;">
                                                                                         Sau <i class="icon--1"></i>
                                                                                     </a>
                                                                                 </li>

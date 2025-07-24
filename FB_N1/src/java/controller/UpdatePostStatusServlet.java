@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import util.ToastUtil;
 
-@WebServlet(name = "UpdatePostStatusServlet", urlPatterns = {"/updatePostStatus"})
+@WebServlet(name = "UpdatePostStatusServlet", urlPatterns = {"/cap-nhat-trang-thai-bai-viet"})
 public class UpdatePostStatusServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -26,7 +26,7 @@ public class UpdatePostStatusServlet extends HttpServlet {
         if ("admin".equals(from)) {
             response.sendRedirect(request.getContextPath() + "/admin/managerPost");
         } else {
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
         }
     }
 } 

@@ -818,7 +818,7 @@
                                                                                                                                                                     <c:forEach items="${listB1}" var="post">
                                                                                                                                                                         <div class="col-md-4 wow fadeInUp animated " data-wow-delay="0.1s">
                                                                                                                                                                             <div class="tf-widget-blog blog-style">
-                                                                                                                                                                                <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}" class="blog-image">
+                                                                                                                                                                                <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?slug=${post.slug}" class="blog-image">
                                                                                                                                                                                     <img src="${post.thumbnailUrl}" alt="">
 
                                                                                                                                                                                 </a>
@@ -827,10 +827,10 @@
 
 
                                                                                                                                                                                     </ul>
-                                                                                                                                                                                    <h3 class="entry-title"><a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}">${post.title}</a></h3>
+                                                                                                                                                                                    <h3 class="entry-title"><a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?slug=${post.slug}">${post.title}</a></h3>
                                                                                                                                                                                     <p class="des">${post.summary}
                                                                                                                                                                                     </p>
-                                                                                                                                                                                    <a href="${pageContext.request.contextPath}/bai-dang-chi-tiet?slug=${post.slug}" class="btn-read-more">Đọc thêm <i
+                                                                                                                                                                                    <a href="${pageContext.request.contextPath}/chi-tiet-bai-viet?slug=${post.slug}" class="btn-read-more">Đọc thêm <i
                                                                                                                                                                                             class="icon-Vector-4"></i></a>
                                                                                                                                                                                 </div>
                                                                                                                                                                             </div>
@@ -866,7 +866,7 @@
                                                                                                                                                                 <div class="logo-canvas">
                                                                                                                                                                     <img src="./assets/images/logo.png" alt="image">
                                                                                                                                                                 </div>
-                                                                                                                                                                <p class="des">The world’s first and largest digital market
+                                                                                                                                                                <p class="des">The world's first and largest digital market
                                                                                                                                                                     for crypto collectibles and non-fungible
                                                                                                                                                                 </p>
                                                                                                                                                                 <ul class="canvas-info">

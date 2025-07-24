@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import util.ToastUtil;
 
-@WebServlet(name = "UpdatePostServlet", urlPatterns = {"/updatePost"})
+@WebServlet(name = "UpdatePostServlet", urlPatterns = {"/cap-nhat-bai-viet"})
 public class UpdatePostServlet extends HttpServlet {
 
     @Override
@@ -28,26 +28,26 @@ public class UpdatePostServlet extends HttpServlet {
         TypeOfFieldDAO typeDAO = new TypeOfFieldDAO();
         String postIdStr = request.getParameter("postId");
         if (postIdStr == null) {
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         int postId;
         try {
             postId = Integer.parseInt(postIdStr);
         } catch (NumberFormatException e) {
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         Post post = postDAO.getPostById(postId);
         if (post == null) {
             ToastUtil.setErrorToast(request, "Không tìm thấy bài viết!");
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         PostDetails postDetails = postDetailsDAO.getByPostId(postId);
         if (postDetails == null) {
             ToastUtil.setErrorToast(request, "Không tìm thấy chi tiết bài viết!");
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
@@ -74,14 +74,14 @@ public class UpdatePostServlet extends HttpServlet {
         }
         String postIdStr = request.getParameter("postId");
         if (postIdStr == null || postIdStr.isEmpty()) {
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         int postId;
         try {
             postId = Integer.parseInt(postIdStr);
         } catch (NumberFormatException e) {
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
             return;
         }
         String title = request.getParameter("title");
@@ -99,7 +99,7 @@ public class UpdatePostServlet extends HttpServlet {
         }
         if (title == null || title.trim().isEmpty() || matchDate == null || matchDate.trim().isEmpty() || matchTime == null || matchTime.trim().isEmpty() || fieldType.isEmpty()) {
             ToastUtil.setErrorToast(request, "Vui lòng điền đầy đủ thông tin!");
-            response.sendRedirect("updatePost?postId=" + postId);
+            response.sendRedirect("cap-nhat-bai-viet?postId=" + postId);
             return;
         }
         Post post = new Post();
@@ -110,6 +110,6 @@ public class UpdatePostServlet extends HttpServlet {
         postDAO.updatePost(post);
         postDetailsDAO.update(postId, matchDate, matchTime, fieldType);
         ToastUtil.setSuccessToast(request, "Cập nhật bài viết thành công!");
-        response.sendRedirect("managerPostUser");
+        response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
     }
 } 

@@ -342,7 +342,7 @@
                     </div>
 
                     <!-- item-->
-                    <a href="/FB_N1/userProfile" class="dropdown-item">
+                    <a href="/FB_N1/ho-so-nguoi-dung" class="dropdown-item">
                         <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
                         <span>Tài khoản của tôi</span>
                     </a>

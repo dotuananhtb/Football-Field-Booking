@@ -26,7 +26,7 @@
                             <h3 class="title">Cập nhật bài viết</h3>
                             <p class="des">Bạn có thể chỉnh sửa thông tin bài viết tại đây</p>
                         </div>
-                        <form action="${pageContext.request.contextPath}/updatePost" method="post" class="form-add-tour">
+                        <form action="${pageContext.request.contextPath}/cap-nhat-bai-viet" method="post" class="form-add-tour">
                             <input type="hidden" name="postId" value="${post.postId}" />
                             <div class="widget-dash-board pr-256 mb-75">
                                 <h4 class="title-add-tour mb-30">1. Thông tin bài viết</h4>

@@ -13,7 +13,7 @@ import model.Comment;
 import java.io.IOException;
 import util.ToastUtil;
 
-@WebServlet(name = "DeleteCommentServlet", urlPatterns = {"/deleteComment"})
+@WebServlet(name = "DeleteCommentServlet", urlPatterns = {"/xoa-binh-luan"})
 public class DeleteCommentServlet extends HttpServlet {
 
     @Override

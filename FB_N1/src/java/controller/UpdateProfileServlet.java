@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="UpdateProfileServlet", urlPatterns={"/updateProfile"})
+@WebServlet(name="UpdateProfileServlet", urlPatterns={"/cap-nhat-ho-so"})
 public class UpdateProfileServlet extends HttpServlet {
    
     /** 

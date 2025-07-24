@@ -21,7 +21,7 @@ import model.*;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name="UserProfile", urlPatterns={"/userProfile"})
+@WebServlet(name="UserProfile", urlPatterns={"/ho-so-nguoi-dung"})
 public class UserProfileServlet extends HttpServlet {
    
     /** 

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import util.ToastUtil;
 
-@WebServlet(name = "DeletePostServlet", urlPatterns = {"/deletePost"})
+@WebServlet(name = "DeletePostServlet", urlPatterns = {"/xoa-bai-viet"})
 public class DeletePostServlet extends HttpServlet {
 
     @Override
@@ -28,7 +28,7 @@ public class DeletePostServlet extends HttpServlet {
             response.sendRedirect("/FB_N1/admin/managerPost");
         } else {
             ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
-            response.sendRedirect("managerPostUser");
+            response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
         }
     }
 }

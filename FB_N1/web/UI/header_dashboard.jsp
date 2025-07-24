@@ -51,7 +51,7 @@
                 <div class="db-menu">
                     <ul>
                         <li>
-                            <a href="/FB_N1/userProfile">
+                            <a href="/FB_N1/ho-so-nguoi-dung">
                                 <i class="icon-profile-user-1"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -69,14 +69,13 @@
                             </a>
                         </li>-->
 
-                        <c:if test="${account.userProfile.roleId==3}">
-                            <li>
-                                <a href="/FB_N1/managerPostUser">
-                                    <i class="icon-Group-81"></i>
-                                    <span>Bài viết</span>
-                                </a>
-                            </li>
-                        </c:if>
+                        <!-- Menu Bài viết cho user thường -->
+                        <c:if test="${account.userProfile.roleId==3}"><li>
+                            <a href="/FB_N1/quan-ly-bai-viet-nguoi-dung">
+                                <i class="icon-Group-81"></i>
+                                <span>Bài viết</span>
+                            </a>
+                        </li></c:if>
 <!--                        <li>
                             <a href="add-tour.html">
                                 <i class="icon-Group-91"></i>
@@ -201,7 +200,7 @@
                                                         <img src="${sessionScope.userProfile.avatar}" alt="image">
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a  href="/FB_N1/userProfile">Hồ sơ</a></li>
+                                                        <li><a  href="/FB_N1/ho-so-nguoi-dung">Hồ sơ</a></li>
                                                         <li><a  href="/FB_N1/changePassword">Đổi mật khẩu</a></li>
                                                         <li><a  href="/FB_N1/logout">Đăng xuất</a></li>
                                                     </ul>
