@@ -48,12 +48,12 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
             <c:if test="${account.userProfile.roleId==1}">
-                <li class="side-nav-title">Tổng quan</li>
+                <li class="side-nav-title">Tổng Quan</li>
 
                 <li class="side-nav-item">
                     <a href="/FB_N1/admin/thong-ke" class="side-nav-link">
                         <i class="ri-dashboard-2-fill"></i>
-                        <span> Thống kê tổng quan </span>
+                        <span> Thống Kê Tổng Quan </span>
                     </a>
                 </li>
 
@@ -62,7 +62,7 @@
                 <li class="side-nav-item">
                     <a href="/FB_N1/admin/bao-cao-chi-tiet" class="side-nav-link">
                         <i class="ri-table-fill"></i>
-                        <span> Báo cáo chi tiết </span>
+                        <span> Báo Cáo Chi Tiết </span>
                     </a>
                 </li>
             </c:if>
@@ -70,12 +70,12 @@
 
 
                 
-            <li class="side-nav-title">Quản lí đặt sân</li>
+            <li class="side-nav-title">Quản Lý Đặt Sân</li>
 
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/dat-san" class="side-nav-link">
                     <i class="ri-calendar-event-fill"></i>
-                    <span> Lịch đặt của các sân </span>
+                    <span> Lịch Đặt Của Các Sân </span>
                 </a>
             </li>
 
@@ -83,22 +83,22 @@
                 <a href="/FB_N1/admin/don-dat-san" class="side-nav-link">
                     <i class="ri-survey-fill"></i>
 
-                    <span> Các đơn đặt sân </span>
+                    <span> Các Đơn Đặt Sân </span>
                 </a>
             </li>
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/chi-tiet-dat-san" class="side-nav-link">
                     <i class="bi bi-card-checklist "></i>
-                    <span> Chi tiết các ca </span>
+                    <span> Chi Tiết Các Ca </span>
                 </a>
             </li>
 
-            <li class="side-nav-title">Hỗ trợ thanh toán</li>
+            <li class="side-nav-title">Hỗ Trợ Thanh Toán</li>
 
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/ho-tro-thanh-toan" class="side-nav-link">
                     <i class="ri-qr-code-line"></i>
-                    <span> Đối soát thanh toán </span>
+                    <span> Đối Soát Thanh Toán </span>
                 </a>
             </li>
 
@@ -108,7 +108,7 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarsan" aria-expanded="false" aria-controls="sidebarsan" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
-                    <span> Quản lý Sân </span>
+                    <span> Quản Lý Sân </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarsan">
@@ -124,6 +124,7 @@
                         </li>
                         <li>
                             <a href="/FB_N1/admin/quan-ly-loai-san">Quản lí loại sân bóng</a>
+
                         </li>
                     </ul>
                 </div>
@@ -132,7 +133,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí bài viết</span>
+                    <span> Quản Lý Bài Viết Bắt Đối</span>
 
 
                 </a>
@@ -149,19 +150,19 @@
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="/FB_N1/admin/xu-li-chieu-thu-trang-chu">Chọn chủ đề</a>
+                            <a href="/FB_N1/admin/xu-li-chieu-thu-trang-chu">Chọn Chủ Đề</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/tao-moi-chu-de">Tạo mới chủ đề</a>
+                            <a href="/FB_N1/admin/tao-moi-chu-de">Tạo Mới Chủ Đề</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/tao-moi-slider">Tạo mới slider</a>
+                            <a href="/FB_N1/admin/tao-moi-slider">Tạo Mới Slider</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/sua-chu-de">Sửa chủ đề</a>
+                            <a href="/FB_N1/admin/sua-chu-de">Sửa Chủ Đề</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/sua-slider">Sửa slider</a>
+                            <a href="/FB_N1/admin/sua-slider">Sửa Slider</a>
                         </li>
 
                     </ul>
@@ -171,16 +172,16 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="ri-stack-fill"></i>
-                    <span> Quản lý người dùng </span>
+                    <span> Quản Lý Người Dùng </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="/FB_N1/admin/quan-li-tai-khoan">Danh sách người dùng</a>
+                            <a href="/FB_N1/admin/quan-li-tai-khoan">Danh Sách Người Dùng</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/quan-li-nhan-vien">Danh sách nhân viên</a>
+                            <a href="/FB_N1/admin/quan-li-nhan-vien">Danh Sách Nhân Viên</a>
                         </li>
 
                     </ul>
@@ -189,7 +190,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-khu-vuc"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí Khu Vực</span>
+                    <span> Quản Lý Khu Vực</span>
 
 
                 </a>
@@ -198,7 +199,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-bai-dang"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí Tin tức</span>
+                    <span> Quản Lý Tin Tức</span>
 
 
                 </a>
@@ -207,7 +208,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/quan-li-uu-dai"" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
-                    <span> Quản lí Ưu Đãi</span>
+                    <span> Quản Lý Ưu Đãi</span>
 
 
                 </a>
@@ -219,7 +220,7 @@
             <li class="side-nav-item">
                 <a href="/FB_N1/admin/manager-product" class="side-nav-link">
                     <i class="ri-store-2-line"></i>
-                    <span> Quản lý sản phẩm </span>
+                    <span> Quản Lý Sản Phẩm </span>
                 </a>
             </li>
 

@@ -32,7 +32,7 @@ import util.ToastUtil;
  *
  * @author VAN NGUYEN
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/dang-nhap"})
 public class LoginServlet extends HttpServlet {
 
     private static final String SECRET_KEY = "6LcquVMrAAAAAGVqDcJAVf_gN-a66-dMxPwtLTvr";

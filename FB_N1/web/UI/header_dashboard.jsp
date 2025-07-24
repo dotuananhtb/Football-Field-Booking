@@ -89,7 +89,14 @@
                                 <span>My Favorites</span>
                             </a>
                         </li>-->
-
+                        
+                         <li>
+                            <a href="/FB_N1/doi-mat-khau">
+                                <i class="icon-14"></i>
+                                <span>Đổi mật khẩu</span>
+                            </a>
+                        </li>
+                        
                         <li>
                             <a href="/FB_N1/logout">
                                 <i class="icon-turn-off-1"></i>
@@ -202,7 +209,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li><a  href="/FB_N1/userProfile">Hồ sơ</a></li>
-                                                        <li><a  href="/FB_N1/changePassword">Đổi mật khẩu</a></li>
+                                                        <li><a  href="/FB_N1/doi-mat-khau">Đổi mật khẩu</a></li>
                                                         <li><a  href="/FB_N1/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </div>                                                                                         

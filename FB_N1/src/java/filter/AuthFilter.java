@@ -14,7 +14,7 @@ import java.io.IOException;
 import model.Account;
 import util.ToastUtil;
 
-@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san","/changePassword", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
+@WebFilter(urlPatterns = {"/userProfile", "/dat-san", "/chi-tiet-dat-san","/doi-mat-khau", "/admin/*", "/lich-su-dat-san", "/dang-nhap", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
@@ -32,13 +32,13 @@ public class AuthFilter implements Filter {
         String path = uri.substring(contextPath.length()); // VD: /login hoặc /register
 
         // ✅ Nếu đã đăng nhập mà cố vào /login hoặc /register → redirect về /dat-san
-        if (acc != null && (path.equals("/login") || path.equals("/dang-ki"))) {
+        if (acc != null && (path.equals("/dang-nhap") || path.equals("/dang-ki"))) {
             res.sendRedirect(contextPath + "/home");
             return;
         }
 
         // ✅ Nếu chưa đăng nhập và đang vào vùng bảo vệ → chặn
-        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/userProfile") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/changePassword") || path.startsWith("/admin"))) {
+        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/userProfile") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/doi-mat-khau") || path.startsWith("/admin"))) {
 
             // AJAX request → trả JSON 401
             String requestedWith = req.getHeader("X-Requested-With");
@@ -55,7 +55,7 @@ public class AuthFilter implements Filter {
             String redirectPath = path + (query != null ? "?" + query : "");
 
             session.setAttribute("redirectAfterLogin", redirectPath);
-            res.sendRedirect(contextPath + "/login");
+            res.sendRedirect(contextPath + "/dang-nhap");
             return;
         }
         // ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn

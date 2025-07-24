@@ -14,7 +14,7 @@ import model.Account;
 import util.PasswordUtil;
 import util.ToastUtil;
 
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/changePassword"})
+@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/doi-mat-khau"})
 public class ChangePasswordServlet extends HttpServlet {
     //doi mat khau 123
 

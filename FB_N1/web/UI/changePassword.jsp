@@ -14,7 +14,7 @@
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
             <meta charset="utf-8">
-                <title>Hồ sơ người dùng - FootballStar</title>
+                <title>Đổi Mật Khẩu - FootballStar</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -64,7 +64,7 @@
                                                     <section class="profile-dashboard">
 
 
-                                                        <form action="${pageContext.request.contextPath}/changePassword" method="post" class="edit-profile">
+                                                        <form action="${pageContext.request.contextPath}/doi-mat-khau" method="post" class="edit-profile">
                                                             <c:set value="${sessionScope.userProfile}" var="u"></c:set>
                                                             <c:set value="${sessionScope.account}" var="a"></c:set>
                                                             <div class="infomation-dashboard mb-70">

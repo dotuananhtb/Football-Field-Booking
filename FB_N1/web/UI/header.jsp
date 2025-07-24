@@ -139,7 +139,7 @@
                                     <div class="register">
                                         <ul class="flex align-center">
                                             <li class="">
-                                                <a href="${pageContext.request.contextPath}/login"><i class="icon-user-1-1"></i>
+                                                <a href="${pageContext.request.contextPath}/dang-nhap"><i class="icon-user-1-1"></i>
                                                     <span>Đăng nhập</span>
                                                 </a>
                                             </li>
