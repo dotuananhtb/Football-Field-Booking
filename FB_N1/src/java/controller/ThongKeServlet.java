@@ -38,18 +38,7 @@ public class ThongKeServlet extends HttpServlet {
                 lockedAccounts += (int) accountDAO.getAccountByRoleId(roleId).stream().filter(a -> a.getStatusId() != 1).count();
             }
 
-            // Tổng số booking
-            BookingDAO bookingDAO = new BookingDAO();
-            BigDecimal totalRevenue = bookingDAO.getTotalRevenue();
-            BigDecimal revenue1Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(1));
-            BigDecimal revenue3Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(3));
-            BigDecimal revenue6Month = bookingDAO.getRevenueSince(LocalDateTime.now().minusMonths(6));
-            request.setAttribute("totalRevenue", totalRevenue);
-            request.setAttribute("revenue1Month", revenue1Month);
-            request.setAttribute("revenue3Month", revenue3Month);
-            request.setAttribute("revenue6Month", revenue6Month);
 
-            // ĐÃ XÓA: Các biến, xử lý, setAttribute liên quan đến booking thống kê
 
             // Tổng số sản phẩm
             ProductDAO productDAO = new ProductDAO();
@@ -88,7 +77,7 @@ public class ThongKeServlet extends HttpServlet {
             request.setAttribute("totalRevenueYear", totalRevenueYear);
 
             // --- Thêm: Lấy doanh thu từng ngày trong 1 tuần gần nhất ---
-           Map<String, Double> revenueByDayMap = bookingDetailsDAO.getRevenueByDayInLastWeekFromBookingDetails();
+            Map<String, Double> revenueByDayMap = bookingDetailsDAO.getRevenueByDayInLastWeekFromBookingDetails();
             List<String> weekDayLabels = new ArrayList<>(revenueByDayMap.keySet());
             List<Double> weekDayRevenue = new ArrayList<>(revenueByDayMap.values());
             request.setAttribute("weekDayLabels", weekDayLabels);
@@ -122,7 +111,7 @@ public class ThongKeServlet extends HttpServlet {
             request.setAttribute("revenue6Month", bookingDetailsDAO.getRevenueSinceFromBookingDetails(LocalDateTime.now().minusMonths(6)));
             request.setAttribute("totalRevenueYear", bookingDetailsDAO.getRevenueByYearFromBookingDetails(LocalDate.now().getYear()));
 
-            // Xử lý doanh thu custom theo khoảng thời gian hoặc tháng/năm
+            // Xử lý doanh thu custom theo khoảng thời gian hoặc tháng/năm 
             String fromDate = request.getParameter("fromDate");
             String toDate = request.getParameter("toDate");
             String monthStr = request.getParameter("month");
@@ -143,12 +132,12 @@ public class ThongKeServlet extends HttpServlet {
                 request.setAttribute("revenueCustom", revenueCustom);
             }
 
-            // Set attribute cho JSP
+            // Set attribute cho JSP 
             request.setAttribute("totalUsers", totalUsers);
             request.setAttribute("totalStaff", totalStaff);
             request.setAttribute("totalAdmin", totalAdmin);
             request.setAttribute("lockedAccounts", lockedAccounts);
-            request.setAttribute("totalBookings", bookingDAO.getAllBookingsForAdmin().size()); 
+            
             request.setAttribute("totalEvents", new EventDAO().getAllEvent().size()); 
             request.setAttribute("totalPosts", new PostDAO().countAllPostsOfUserRole3()); 
             request.setAttribute("totalSliders", new SliderDAO().countSliders()); 

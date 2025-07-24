@@ -285,105 +285,104 @@
                         <!-- Nhóm 4: Booking & doanh thu -->
                         <!-- ĐÃ XÓA: Các box thống kê booking ở đây -->
                         <!-- Bảng thống kê tổng quát doanh thu hệ thống (di chuyển lên đầu) -->
-                        <div class="row mt-4">
+                        <div class="row mt-4 justify-content-center">
                             <div class="col-lg-6">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="header-title">Thống kê tổng quát doanh thu hệ thống</h4>
+                                    <div class="card-header pb-1">
+                                        <h5 class="mb-0">Thống kê doanh thu hệ thống</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <!-- Form chọn khoảng thời gian hoặc tháng/năm -->
-                                        <form method="get" class="row g-2 mb-3">
+                                    <div class="card-body pt-2">
+                                        <form method="get" class="row g-2 mb-3 align-items-end">
                                             <div class="col-12 col-md-6">
-                                                <label>Chọn khoảng ngày:</label>
+                                                <label class="form-label">Từ ngày</label>
                                                 <input type="date" name="fromDate" value="${param.fromDate}" class="form-control" />
-                                                <input type="date" name="toDate" value="${param.toDate}" class="form-control mt-1" />
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label class="fw-bold mb-1">Chọn khoảng tháng trong năm:</label>
-                                                <div class="row g-2 align-items-end">
-                                                    <div class="col-4">
-                                                        <label class="form-label mb-0">Từ tháng</label>
-                                                        <select name="fromMonth" class="form-select">
-                                                            <option value="">--</option>
-                                                            <c:forEach var="m" begin="1" end="12">
-                                                                <option value="${m}" <c:if test="${param.fromMonth == (m + '')}">selected</c:if>>${m}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <label class="form-label mb-0">Đến tháng</label>
-                                                        <select name="toMonth" class="form-select">
-                                                            <option value="">--</option>
-                                                            <c:forEach var="m" begin="1" end="12">
-                                                                <option value="${m}" <c:if test="${param.toMonth == (m + '')}">selected</c:if>>${m}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <label class="form-label mb-0">Năm</label>
-                                                        <input type="number" name="yearRange" min="2000" max="2100" value="${param.yearRange}" class="form-control" placeholder="Năm" />
-                                                    </div>
-                                                </div>
+                                                <label class="form-label">Đến ngày</label>
+                                                <input type="date" name="toDate" value="${param.toDate}" class="form-control" />
                                             </div>
-                                            <div class="col-12 col-md-2 d-flex align-items-end">
-                                                <button type="submit" class="btn btn-primary w-100">Xem thống kê</button>
+                                            <div class="col-6 col-md-4">
+                                                <label class="form-label">Từ tháng</label>
+                                                <select name="fromMonth" class="form-select">
+                                                    <option value="">--</option>
+                                                    <c:forEach var="m" begin="1" end="12">
+                                                        <option value="${m}" <c:if test="${param.fromMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="col-6 col-md-4">
+                                                <label class="form-label">Đến tháng</label>
+                                                <select name="toMonth" class="form-select">
+                                                    <option value="">--</option>
+                                                    <c:forEach var="m" begin="1" end="12">
+                                                        <option value="${m}" <c:if test="${param.toMonth == (m + '')}">selected</c:if>>${m}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label class="form-label">Năm</label>
+                                                <input type="number" name="yearRange" min="2000" max="2100" value="${param.yearRange}" class="form-control" placeholder="Năm" />
+                                            </div>
+                                            <div class="col-12 d-flex gap-2">
+                                                <button type="submit" class="btn btn-primary">Xem thống kê</button>
+                                                <button type="button" class="btn btn-secondary" onclick="resetThongKeFilter(this.form)">Đặt lại</button>
                                             </div>
                                         </form>
-                                        <c:choose>
-                                            <c:when test="${not empty revenueCustom}">
-                                                <table class="table table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Khoảng thời gian</th>
-                                                            <th>Tổng doanh thu</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <c:choose>
-                                                                    <c:when test="${not empty param.fromMonth and not empty param.toMonth and not empty param.yearRange}">
-                                                                        Tháng ${param.fromMonth}-${param.toMonth}/${param.yearRange}
-                                                                    </c:when>
-                                                                    <c:when test="${not empty param.fromDate and not empty param.toDate}">
-                                                                        ${param.fromDate} đến ${param.toDate}
-                                                                    </c:when>
-                                                                    <c:when test="${not empty param.month and not empty param.year}">
-                                                                        Tháng ${param.month}/${param.year}
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        Tuỳ chọn
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </td>
-                                                            <td><b>${revenueCustom}</b></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <h5 class="mb-3">Bảng Thống Kê Tổng Quát Doanh Thu Hệ Thống</h5>
-                                                <table class="table table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Chỉ số</th>
-                                                            <th>Giá trị</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><b>Tổng doanh thu năm nay</b></td>
-                                                            <td><b>${totalRevenueYear}</b></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Tổng doanh thu toàn hệ thống</b></td>
-                                                            <td><b>${totalRevenue}</b></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <div class="table-responsive">
+                                            <c:choose>
+                                                <c:when test="${not empty revenueCustom}">
+                                                    <table class="table table-bordered table-striped text-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Khoảng thời gian</th>
+                                                                <th>Tổng doanh thu</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty param.fromMonth and not empty param.toMonth and not empty param.yearRange}">
+                                                                            Tháng ${param.fromMonth}-${param.toMonth}/${param.yearRange}
+                                                                        </c:when>
+                                                                        <c:when test="${not empty param.fromDate and not empty param.toDate}">
+                                                                            ${param.fromDate} đến ${param.toDate}
+                                                                        </c:when>
+                                                                        <c:when test="${not empty param.month and not empty param.year}">
+                                                                            Tháng ${param.month}/${param.year}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            Tuỳ chọn
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </td>
+                                                                <td>${revenueCustom}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <table class="table table-bordered table-striped text-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Chỉ số</th>
+                                                                <th>Giá trị</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Tổng doanh thu năm nay</td>
+                                                                <td>${totalRevenueYear}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tổng doanh thu toàn hệ thống</td>
+                                                                <td>${totalRevenue}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -608,5 +607,43 @@
                 hourChart.render();
             });
         </script>
+        <script>
+            function resetThongKeFilter(form) {
+                Array.from(form.elements).forEach(function(el) {
+                    if (el.type === "text" || el.type === "number" || el.type === "date" || (el.tagName && el.tagName.toLowerCase() === "select")) {
+                        el.value = "";
+                    }
+                });
+                form.submit();
+            }
+        </script>
+        <script>
+document.addEventListener("DOMContentLoaded", function() {
+    var form = document.querySelector('form.row.g-2.mb-3');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            var fromDate = form.querySelector('input[name="fromDate"]');
+            var toDate = form.querySelector('input[name="toDate"]');
+            if (fromDate && toDate && fromDate.value && toDate.value) {
+                if (fromDate.value > toDate.value) {
+                    alert("Ngày bắt đầu không được lớn hơn ngày kết thúc!");
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            var fromMonth = form.querySelector('select[name="fromMonth"]');
+            var toMonth = form.querySelector('select[name="toMonth"]');
+            var yearRange = form.querySelector('input[name="yearRange"]');
+            if (fromMonth && toMonth && yearRange && fromMonth.value && toMonth.value && yearRange.value) {
+                if (parseInt(fromMonth.value) > parseInt(toMonth.value)) {
+                    alert("Tháng bắt đầu không được lớn hơn tháng kết thúc!");
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
+    }
+});
+</script>
     </body>
 </html> 
