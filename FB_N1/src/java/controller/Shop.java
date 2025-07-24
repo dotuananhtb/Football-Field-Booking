@@ -163,7 +163,6 @@ public class Shop extends HttpServlet {
             products = dao.searchProductByName(productName.trim());
 
             if (products == null || products.isEmpty()) {
-                errorMessage = "Không tìm thấy sản phẩm nào với từ khóa: " + productName;
                 ToastUtil.setErrorToast(request, "Không tìm thấy sản phẩm nào");
                 // Không hiển thị sản phẩm nào
                 request.setAttribute("listC", listC);
@@ -186,7 +185,6 @@ public class Shop extends HttpServlet {
                     minPrice, maxPrice, index, pageSize, sortBy);
         }
 
-        request.setAttribute("errorMessage", errorMessage);
         request.setAttribute("endP", endPage);
         request.setAttribute("page", index);
         request.setAttribute("sortBy", sortBy);
@@ -196,11 +194,7 @@ public class Shop extends HttpServlet {
         request.setAttribute("listC", listC);
         request.setAttribute("ListP", listP);
 
-//        // Set các filter parameters để giữ lại khi chuyển trang
-//        request.setAttribute("selectedCategory", productCateId);
-//        request.setAttribute("searchName", productName);
-//        request.setAttribute("minPrice", minPrice);
-//        request.setAttribute("maxPrice", maxPrice);
+
         request.getRequestDispatcher("UI/shop.jsp").forward(request, response);
     }
 

@@ -113,15 +113,17 @@
                 <div class="collapse" id="sidebarsan">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="/FB_N1/admin/Admin_San">Quản Lý Sân Bóng</a>
+                            <a href="/FB_N1/admin/quan-ly-San">Quản Lý Sân Bóng</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/Admin_CaTheoLoaiSan">Quản Lý Lịch các ca</a>
+                            <a href="/FB_N1/admin/quan-ly-ca-theo-loai-san">Quản Lý Lịch các ca</a>
                         </li>
                         <li>
-                            <a href="/FB_N1/admin/Admin_GiaTungCa">Quản lý Giá cả của sân</a>
+                            <a href="/FB_N1/admin/quan-ly-gia-tung-ca">Quản lý Giá cả của sân</a>
                         </li>
-
+                        <li>
+                            <a href="/FB_N1/admin/quan-ly-loai-san">Quản lí loại sân bóng</a>
+                        </li>
                     </ul>
                 </div>
             </li>

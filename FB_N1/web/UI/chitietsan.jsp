@@ -257,7 +257,7 @@
                                                                             <h1 class="title">Danh Sách chi tiết Sân</h1>
                                                                             <ul class="breadcumb-list flex-five">
                                                                                 <li><a href="/FB_N1/home">Trang chủ</a></li>
-                                                                                <li><a href="/FB_N1/DanhSachSan">Danh sách sân</a></li>
+                                                                                <li><a href="/FB_N1/Danh-Sach-San">Danh sách sân</a></li>
                                                                                 <li><span>Danh sách chi tiết sân</span></li>
                                                                             </ul>
                                                                             <img class="bcrumb-ab" src="./assets/images/page/mask-bcrumb.png" alt="">

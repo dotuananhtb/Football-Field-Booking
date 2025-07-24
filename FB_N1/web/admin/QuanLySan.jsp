@@ -105,12 +105,10 @@
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#bs-example-modal-lg" onclick="resetFieldForm()">Tạo Mới</button>
 
-
                             </div>
 
                             <div class="col-12">
                                 <div class="mb-4">
-
 
 
                                     <h2>Danh sách sân bóng</h2>
@@ -184,87 +182,6 @@
 
 
 
-                        <!--quản lý loại sân-->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box">
-                                    <h1 class="page-title">Quản Lý loại Sân Bóng</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-4">
-
-                            <form method="post" action="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
-                                  style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 10px;">
-                                <input type="hidden" name="action" value="${type != null ? 'update' : 'add'}" />
-                                <c:if test="${type != null}">
-                                    <input type="hidden" name="field_type_id" value="${type.fieldTypeId}" />
-                                </c:if>
-
-                                <div class="mb-3">
-                                    <label for="fieldTypeName" class="form-label">Tên loại sân</label>
-                                    <input type="text" name="field_type_name" id="fieldTypeName"
-                                           class="form-control" required placeholder="Nhập tên loại sân"
-                                           value="${type != null ? type.fieldTypeName : ''}" />
-                                </div>
-
-                                <div class="mt-3">
-                                    <button type="submit" class="btn btn-primary">
-                                        ${type != null ? ' Cập nhật' : 'Thêm'}
-                                    </button>
-                                    <c:if test="${type != null}">
-                                        <a href="${pageContext.request.contextPath}/admin/Admin_San"
-                                           class="btn btn-secondary ms-2"> Huỷ</a>
-                                    </c:if>
-                                </div>
-                            </form>
-
-
-                            <div class="col-12">
-                                <div class="mb-4">
-
-
-
-                                    <h2>Danh sách Loại Sân</h2>
-
-                                    <!-- DANH SÁCH LOẠI SÂN -->
-                                    <table class="table table-bordered table-striped">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Tên Loại Sân</th>
-                                                <th>Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="t" items="${types}">
-                                                <tr>
-                                                    <td>${t.fieldTypeId}</td>
-                                                    <td>${t.fieldTypeName}</td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-warning"
-                                                           href="${pageContext.request.contextPath}/admin/Admin_LoaiSan?editId=${t.fieldTypeId}">Sửa</a>
-                                                        <form method="post"
-                                                              action="${pageContext.request.contextPath}/admin/Admin_LoaiSan"
-                                                              style="display:inline;">
-                                                            <input type="hidden" name="action" value="delete" />
-                                                            <input type="hidden" name="field_type_id"
-                                                                   value="${t.fieldTypeId}" />
-                                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Xác nhận xoá?')">Xoá</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-
-                                </div> <!-- end card -->
-                            </div><!-- end col-->
-                        </div>
-
-
-
 
 
 
@@ -275,7 +192,7 @@
                                 <div class="modal-content">
                                     <!-- Sửa: thêm enctype để upload file -->
                                     <form method="post"
-                                          action="${pageContext.request.contextPath}/admin/Admin_San"
+                                          action="${pageContext.request.contextPath}/admin/quan-ly-San"
                                           enctype="multipart/form-data">
                                         <div class="modal-header">
                                             <h4 class="modal-title" id="sanModalLabel"> Thêm / Cập nhật sân bóng</h4>

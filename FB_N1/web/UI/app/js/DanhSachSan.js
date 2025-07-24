@@ -99,7 +99,7 @@ function selectSlot(button) {
 
     // Ngăn người dùng chọn ca không thuộc ngày đang xem
     if (slotDate !== selectedDate) {
-//                                                                                                                                console.warn("⚠️ Ca không thuộc ngày hiện tại.");
+//                                                                                                                                
         showToast("error", "Ca không thuộc ngày hiện tại.");
 
         return;
@@ -108,7 +108,7 @@ function selectSlot(button) {
     // Không cho chọn nếu ngày nhỏ hơn ngày hiện tại
     const now = new Date().toISOString().split('T')[0];
     if (slotDate < now) {
-//                                                                                                                                console.warn("⚠️ Ca đã qua ngày.");
+//                                                                                                                                
         showToast("error", "ca đã qua ngày");
         return;
     }

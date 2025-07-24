@@ -20,7 +20,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "Admin_LoaiSan", urlPatterns = {"/admin/Admin_LoaiSan"})
+@WebServlet(name = "Admin_LoaiSan", urlPatterns = {"/admin/quan-ly-loai-san"})
 public class Admin_LoaiSan extends HttpServlet {
 
     private TypeOfFieldDAO dao = new TypeOfFieldDAO();
@@ -109,7 +109,7 @@ public class Admin_LoaiSan extends HttpServlet {
                 }
                 break;
         }
-        response.sendRedirect(request.getContextPath() + "/admin/Admin_San");
+        response.sendRedirect("quan-ly-loai-san");
     }
 
     /**

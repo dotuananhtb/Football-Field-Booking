@@ -1,8 +1,4 @@
-<%-- 
-    Document   : calendar
-    Created on : Jun 15, 2025, 8:28:33 PM
-    Author     : Đỗ Tuấn Anh
---%>
+
 
 <%@page import="model.Field"%>
 <%@page import="java.util.List"%>

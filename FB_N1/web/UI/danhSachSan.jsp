@@ -508,7 +508,7 @@
                                                                 </div>
                                                             </section>
                                                             <!-- Widget Select Form -->
-                                                            <form method="get" action="${pageContext.request.contextPath}/DanhSachSan">
+                                                            <form method="get" action="${pageContext.request.contextPath}/Danh-Sach-San">
                                                                 <div class="mt--82 z-index3 relative">
                                                                     <div class="tf-container">
                                                                         <div class="row">

@@ -441,13 +441,6 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getAllProducts();
-        for (Product product : list) {
-            System.out.println(product);
-        }
-    }
 
     // Thêm method để lấy product theo ID
     public Product getProductById(int productId) {
@@ -614,4 +607,34 @@ public class ProductDAO extends DBContext {
         }
         return -1;
     }
+    
+    
+    public static void main(String[] args) {
+        try {
+            ProductDAO dao = new ProductDAO();
+
+            // Từ khóa tìm kiếm
+            String keyword = "Bóng";
+
+            // Gọi hàm tìm kiếm
+            List<Product> results = dao.searchProductByName(keyword);
+
+            // Hiển thị kết quả
+            if (results.isEmpty()) {
+                System.out.println("Không tìm thấy sản phẩm nào với từ khóa: " + keyword);
+            } else {
+                System.out.println("Tìm thấy " + results.size() + " sản phẩm:");
+                for (Product p : results) {
+                    System.out.println("- ID: " + p.getProductId()
+                            + ", Tên: " + p.getProductName()
+                            + ", Giá: " + p.getProductPrice()
+                            + ", Danh mục: " + (p.getCateProduct() != null ? p.getCateProduct().getCateName() : "N/A"));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+

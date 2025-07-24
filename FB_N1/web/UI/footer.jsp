@@ -15,17 +15,17 @@
 </head>
 
 <footer class="footer footer-style1">
-    
+
     <div class="tf-container">
         <div class="footer-main">
             <c:set value="${requestScope.ct}" var="ct"></c:set>
-            <div class="footer-logo">
-                <div class="logo-footer">
-                    <a href ="/FB_N1/home" ><img src="./assets/images/logo_dark__2_-removebg-preview.png"  alt="logo"></a>
-                </div>
-                <p class="des-footer">${ct.getDescription()}
+                <div class="footer-logo">
+                    <div class="logo-footer">
+                        <a href ="/FB_N1/home" ><img src="./assets/images/logo_dark__2_-removebg-preview.png"  alt="logo"></a>
+                    </div>
+                    <p class="des-footer">${ct.getDescription()}
                 </p>
-                
+
                 <ul class="footer-info">
                     <li class="flex-three">
                         <i class="icon-noun-mail-5780740-1"></i>
@@ -40,8 +40,8 @@
                         <p>${ct.getAddress()}</p>
                     </li>
                 </ul>
-                    <br/>
-<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d238288.81639649623!2d105.59250864754692!3d21.06216523434805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zxJHhuqFpIGjhu41jIGZwdA!5e0!3m2!1svi!2s!4v1749128102553!5m2!1svi!2s" width="300px" height="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <br/>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d238288.81639649623!2d105.59250864754692!3d21.06216523434805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zxJHhuqFpIGjhu41jIGZwdA!5e0!3m2!1svi!2s!4v1749128102553!5m2!1svi!2s" width="300px" height="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="footer-service">
                 <h5 class="title">Quy định và chính sách</h5>
@@ -65,28 +65,28 @@
                 </ul>
 
             </div>
-            
+
             <div class="footer-gallery">
-                <h5 class="title">Phòng trưng bày</h5>
+                <h5 class="title">Sân Bóng Đạt Chuẩn</h5>
 
                 <div class="gallery-img">
-                    <a href="./assets/images/gallery/gl1.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl1.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san1.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san1.png" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl2.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl2.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san2.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san2.png" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl3.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl3.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san3.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san3.png" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl4.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl4.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san4.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san4.png" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl5.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl5.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san5.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san5.png" alt="image gallery">
                     </a>
-                    <a href="./assets/images/gallery/gl6.jpg" data-fancybox="gallery">
-                        <img src="./assets/images/gallery/gl6.jpg" alt="image gallery">
+                    <a href="./assets/images/tour/san6.png" data-fancybox="gallery">
+                        <img src="./assets/images/tour/san6.png" alt="image gallery">
                     </a>
                 </div>
 
@@ -99,18 +99,18 @@
                         <a href="/FB_N1/home">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="gallery.html">Dành cho đối tác</a>
+                        <a href="/FB_N1/Danh-Sach-San">Dành sách sân</a>
                     </li>
                     <li>
-                        <a href="team.html">Tin tức
-</a>
+                        <a href="/FB_N1/bai-dang">Tin tức
+                        </a>
                     </li>
-                    
+
                 </ul>
 
             </div>
         </div>
 
-        
+
     </div>
 </footer>

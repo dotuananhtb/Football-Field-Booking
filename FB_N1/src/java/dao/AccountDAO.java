@@ -170,7 +170,7 @@ public class AccountDAO extends DBContext {
             psToken.executeUpdate();
             connection.commit();
 
-            String verifyLink = "http://localhost:9999/FB_N1/resetPassword?token=" + token;
+            String verifyLink = "http://localhost:9999/FB_N1/doi-mat-khau-moi?token=" + token;
             SendMail sender = new SendMail();
             sender.guiResetPasswordMail(email, verifyLink, getLastNameByEmail(email));
             return true;

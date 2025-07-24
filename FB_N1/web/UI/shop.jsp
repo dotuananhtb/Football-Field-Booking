@@ -182,7 +182,7 @@
                                                         </section>
 
                                                         <!-- Widget Select Form -->
-                                                        <form mehtod="get" action="${pageContext.request.contextPath}/Shop">
+                                                        <form method="get" action="${pageContext.request.contextPath}/Shop">
                                                             <!-- Widget Select Form -->
                                                             <div class="mt--82 z-index3 relative">
                                                                 <div class="tf-container">
@@ -194,12 +194,12 @@
                                                                                     <div class="form-group flex-five">
                                                                                         <i class="icon-18"></i>
                                                                                         <div class="search-bar-group">
-                                                                                            <label for="keyword">Tên sân</label>
+                                                                                            <label for="keyword">Tên sản phẩm</label>
                                                                                             <input type="text"
-                                                                                                   id="keyword"
-                                                                                                   name="keyword"
-                                                                                                   placeholder="Nhập tên sân bạn muốn tìm..."
-                                                                                                   value="${fn:escapeXml(param.keyword)}"
+                                                                                                   id="productName"
+                                                                                                   name="productName"
+                                                                                                   placeholder="Nhập tên sản phẩm bạn muốn tìm..."
+                                                                                                   value="${fn:escapeXml(param.productName)}"
                                                                                                    required />
                                                                                         </div>
                                                                                     </div>
