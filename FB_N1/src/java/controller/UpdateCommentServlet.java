@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import util.ToastUtil;
 
-@WebServlet(name = "UpdateCommentServlet", urlPatterns = {"/updateComment"})
+@WebServlet(name = "UpdateCommentServlet", urlPatterns = {"/cap-nhat-binh-luan"})
 public class UpdateCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -45,7 +45,7 @@ public class UpdateCommentServlet extends HttpServlet {
                     ToastUtil.setErrorToast(request, "Bạn không có quyền chỉnh sửa bình luận này!");
                 }
             }
-            response.sendRedirect(request.getContextPath() + "/blogdetails?postId=" + postIdStr);
+            response.sendRedirect(request.getContextPath() + "/chi-tiet-bai-viet?postId=" + postIdStr);
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Lỗi: " + e.getMessage());

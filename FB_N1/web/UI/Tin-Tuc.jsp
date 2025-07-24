@@ -235,7 +235,7 @@
                                                             <div style="color: #555;">${cmt.contentCmt}</div>
                                                         </div>
                                                     </c:forEach>
-                                                    <form action="${pageContext.request.contextPath}/comment" method="post" class="blog-comment-form" style="margin-top: 15px;">
+                                                    <form action="${pageContext.request.contextPath}/binh-luan" method="post" class="blog-comment-form" style="margin-top: 15px;">
                                                         <input type="hidden" name="postId" value="${post.postId}" />
                                                         <div class="d-flex gap-2">
                                                             <input type="text" name="content" placeholder="Nhập bình luận của bạn..." 

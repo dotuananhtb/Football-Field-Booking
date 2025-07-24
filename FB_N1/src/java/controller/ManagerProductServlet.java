@@ -26,7 +26,7 @@ import logic.CloudinaryUploader;
  *
  * @author Admin
  */
-@WebServlet(name = "ManagerProductServlet", urlPatterns = {"/admin/manager-product"})
+@WebServlet(name = "ManagerProductServlet", urlPatterns = {"/admin/quan-ly-san-pham"})
 @MultipartConfig
 public class ManagerProductServlet extends HttpServlet {
 
@@ -344,6 +344,6 @@ public class ManagerProductServlet extends HttpServlet {
         }
 
         // Redirect về trang quản lý product
-        response.sendRedirect(request.getContextPath() + "/admin/manager-product");
+        response.sendRedirect(request.getContextPath() + "/admin/quan-ly-san-pham");
     }
 } 

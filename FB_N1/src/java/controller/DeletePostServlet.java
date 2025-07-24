@@ -25,7 +25,7 @@ public class DeletePostServlet extends HttpServlet {
 
         if ("admin".equals(from)) {
             ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
-            response.sendRedirect("/FB_N1/admin/managerPost");
+            response.sendRedirect("/FB_N1/admin/quan-ly-bai-viet-bat-doi");
         } else {
             ToastUtil.setSuccessToast(request, "Xoá bài viết thành công!");
             response.sendRedirect("quan-ly-bai-viet-nguoi-dung");

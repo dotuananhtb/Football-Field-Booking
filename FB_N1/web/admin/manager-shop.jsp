@@ -90,7 +90,7 @@
                         <!-- Search and Filter Section -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <form action="${pageContext.request.contextPath}/admin/manager-product" method="GET" class="d-flex">
+                                <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="GET" class="d-flex">
                                     <input type="hidden" name="action" value="filter">
                                     <select name="categoryId" class="form-select me-2">
                                         <option value="">Tất cả danh mục</option>
@@ -158,7 +158,7 @@
                                                                     data-product-status="${product.productStatus}">
                                                                 <i class="ri-edit-line"></i>
                                                             </button>
-                                                            <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" style="display:inline;">
+                                                            <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" style="display:inline;">
                                                                 <input type="hidden" name="action" value="toggleStatus">
                                                                 <input type="hidden" name="productId" value="${product.productId}">
                                                                 <input type="hidden" name="currentStatus" value="${product.productStatus}">
@@ -166,7 +166,7 @@
                                                                     <i class="ri-toggle-line"></i>
                                                                 </button>
                                                             </form>
-                                                            <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" style="display:inline;">
+                                                            <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" style="display:inline;">
                                                                 <input type="hidden" name="action" value="delete">
                                                                 <input type="hidden" name="productId" value="${product.productId}">
                                                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xác nhận xóa sản phẩm?')">
@@ -210,7 +210,7 @@
                                                                     data-cate-name="${cate.cateName}">
                                                                 <i class="ri-edit-line"></i> Sửa
                                                             </button>
-                                                            <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" style="display:inline;">
+                                                            <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" style="display:inline;">
                                                                 <input type="hidden" name="action" value="deleteCategory">
                                                                 <input type="hidden" name="categoryId" value="${cate.productCateId}">
                                                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xác nhận xoá loại sản phẩm?')">
@@ -252,7 +252,7 @@
                         <h5 class="modal-title" id="addProductModalLabel">Thêm Sản phẩm Mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" enctype="multipart/form-data">
+                    <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="add">
                         <div class="modal-body">
                             <div class="row">
@@ -343,7 +343,7 @@
                         <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa Sản phẩm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST" enctype="multipart/form-data">
+                    <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="productId" id="editProductId">
                         <input type="hidden" id="editProductImage" name="oldProductImage" value="">
@@ -445,7 +445,7 @@
                         <h5 class="modal-title" id="addCategoryModalLabel">Thêm Loại Sản phẩm Mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                    <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST">
                         <input type="hidden" name="action" value="addCategory">
                         <div class="modal-body">
                             <div class="mb-3">
@@ -470,7 +470,7 @@
                         <h5 class="modal-title" id="editCategoryModalLabel">Chỉnh sửa Loại Sản phẩm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="${pageContext.request.contextPath}/admin/manager-product" method="POST">
+                    <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST">
                         <input type="hidden" name="action" value="editCategory">
                         <input type="hidden" name="categoryId" id="editCateId">
                         <div class="modal-body">
@@ -633,6 +633,14 @@ $(document).ready(function() {
     });
 });
 </script>
+<%-- Toast notification --%>
+<c:if test="${not empty sessionScope.toastMessage}">
+    <script>
+        toastr['${sessionScope.toastType eq null ? "success" : sessionScope.toastType}']("${sessionScope.toastMessage}");
+    </script>
+    <c:remove var="toastMessage" scope="session"/>
+    <c:remove var="toastType" scope="session"/>
+</c:if>
    
     </body>
 

@@ -122,7 +122,7 @@
                                                     </td>
                                                     <td>${commentCounts[post.postId]}</td>
                                                     <td>
-                                                        <form action="${pageContext.request.contextPath}/updatePostStatus" method="post" style="display:inline;">
+                                                        <form action="${pageContext.request.contextPath}/cap-nhat-trang-thai-bai-viet" method="post" style="display:inline;">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <input type="hidden" name="from" value="admin" />
                                                             <input type="hidden" name="newStatus" value="${post.statusPost eq 'active' ? 'deactive' : 'active'}" />

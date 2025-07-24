@@ -128,12 +128,14 @@
                                                     <div id="comment-content-${comment.commentId}" style="color: #555; margin-top: 5px;">${comment.contentCmt}</div>
                                                     
                                                     <!-- Edit/Delete buttons -->
-                                                    <c:if test="${sessionScope.account != null && (sessionScope.account.accountId == comment.accountId || sessionScope.account.userProfile.roleId <= 2)}">
+                                                    <c:if test="${sessionScope.account != null && (sessionScope.account.accountId == comment.accountId || sessionScope.account.accountId == post.account.accountId)}">
                                                         <div class="comment-actions" style="margin-top: 10px; display: flex; gap: 15px; font-size: 13px;">
-                                                            <button onclick="showEditForm(${comment.commentId})" class="btn btn-sm btn-outline-secondary" style="border: none; padding: 0; color: #4DA528;">
-                                                                <i class="icon-edit"></i> Sửa
-                                                            </button>
-                                                            <form action="${pageContext.request.contextPath}/deleteComment" method="post" style="display:inline; margin: 0;">
+                                                            <c:if test="${sessionScope.account.accountId == comment.accountId}">
+                                                                <button onclick="showEditForm(${comment.commentId})" class="btn btn-sm btn-outline-secondary" style="border: none; padding: 0; color: #4DA528;">
+                                                                    <i class="icon-edit"></i> Sửa
+                                                                </button>
+                                                            </c:if>
+                                                            <form action="${pageContext.request.contextPath}/xoa-binh-luan" method="post" style="display:inline; margin: 0;">
                                                                 <input type="hidden" name="commentId" value="${comment.commentId}" />
                                                                 <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')" class="btn btn-sm btn-outline-danger" style="border: none; padding: 0; color: #dc3545;">
                                                                     <i class="icon-delete"></i> Xóa
@@ -144,7 +146,7 @@
 
                                                     <!-- Edit Form -->
                                                     <div id="edit-form-${comment.commentId}" style="display: none; margin-top: 10px;">
-                                                        <form action="${pageContext.request.contextPath}/updateComment" method="post">
+                                                        <form action="${pageContext.request.contextPath}/cap-nhat-binh-luan" method="post">
                                                             <input type="hidden" name="commentId" value="${comment.commentId}" />
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <textarea name="content" class="form-control" style="border-radius: 6px;" rows="3">${comment.contentCmt}</textarea>
@@ -164,20 +166,22 @@
                                 </div>
                                 
                                 <!-- Add Comment Form -->
-                                <div class="add-comment-card" style="background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                                    <h3 class="section-title" style="color: #333; margin-bottom: 20px;">
-                                        <i class="icon-add-comment" style="color: #4DA528;"></i> Viết bình luận
-                                    </h3>
-                                    <form action="${pageContext.request.contextPath}/comment" method="post">
-                                        <input type="hidden" name="postId" value="${post.postId}" />
-                                        <div class="mb-3">
-                                            <textarea name="content" class="form-control" rows="4" placeholder="Nhập nội dung bình luận của bạn..." required style="border-radius: 6px;"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" style="border-radius: 6px; padding: 10px 25px;">
-                                            <i class="icon-send"></i> Gửi bình luận
-                                        </button>
-                                    </form>
-                                </div>
+                                <c:if test="${sessionScope.account != null}">
+                                    <div class="add-comment-card" style="background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                        <h3 class="section-title" style="color: #333; margin-bottom: 20px;">
+                                            <i class="icon-add-comment" style="color: #4DA528;"></i> Viết bình luận
+                                        </h3>
+                                        <form action="${pageContext.request.contextPath}/binh-luan" method="post">
+                                            <input type="hidden" name="postId" value="${post.postId}" />
+                                            <div class="mb-3">
+                                                <textarea name="content" class="form-control" rows="4" placeholder="Nhập nội dung bình luận của bạn..." required style="border-radius: 6px;"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" style="border-radius: 6px; padding: 10px 25px;">
+                                                <i class="icon-send"></i> Gửi bình luận
+                                            </button>
+                                        </form>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>

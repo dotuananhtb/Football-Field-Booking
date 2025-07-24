@@ -128,7 +128,7 @@
             </li>
             </c:if>
             <li class="side-nav-item">
-                <a href="/FB_N1/admin/managerPost"" class="side-nav-link">
+                <a href="/FB_N1/admin/quan-ly-bai-viet-bat-doi" class="side-nav-link">
                     <i class="ri-pages-fill"></i>
                     <span> Quản Lý Bài Viết Bắt Đối</span>
 
@@ -215,7 +215,7 @@
 
 
             <li class="side-nav-item">
-                <a href="/FB_N1/admin/manager-product" class="side-nav-link">
+                <a href="/FB_N1/admin/quan-ly-san-pham" class="side-nav-link">
                     <i class="ri-store-2-line"></i>
                     <span> Quản Lý Sản Phẩm </span>
                 </a>

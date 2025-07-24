@@ -24,7 +24,7 @@ public class UpdatePostStatusServlet extends HttpServlet {
             ToastUtil.setSuccessToast(request, "Cập nhật trạng thái thành công!");
         }
         if ("admin".equals(from)) {
-            response.sendRedirect(request.getContextPath() + "/admin/managerPost");
+            response.sendRedirect(request.getContextPath() + "/admin/quan-ly-bai-viet-bat-doi");
         } else {
             response.sendRedirect("quan-ly-bai-viet-nguoi-dung");
         }

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.Comment;
+import model.Post;
 
 import java.io.IOException;
 import util.ToastUtil;
@@ -34,21 +35,21 @@ public class DeleteCommentServlet extends HttpServlet {
             int commentId = Integer.parseInt(request.getParameter("commentId"));
             CommentDAO commentDAO = new CommentDAO();
             Comment comment = commentDAO.getCommentById(commentId);
+            dao.PostDAO postDAO = new dao.PostDAO();
+            Post post = postDAO.getPostById(comment.getPostId());
 
-            // Kiểm tra comment tồn tại
-            if (comment == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy bình luận!");
+            // Kiểm tra comment và post tồn tại
+            if (comment == null || post == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy bình luận hoặc bài viết!");
                 return;
             }
 
-            // Chỉ cho phép xóa nếu là chủ comment 
-            if (comment.getAccountId() == userId ) {
+            // Chỉ cho phép xóa nếu là chủ comment hoặc chủ bài viết
+            if (comment.getAccountId() == userId || post.getAccount().getAccountId() == userId) {
                 commentDAO.deleteComment(commentId);
                 ToastUtil.setSuccessToast(request, "xoá thành công!");
-                // Chuyển hướng hoặc thông báo thành công
-                response.sendRedirect("blogdetails?postId=" + comment.getPostId());
+                response.sendRedirect("chi-tiet-bai-viet?postId=" + comment.getPostId());
             } else {
-                // Báo lỗi không đủ quyền
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền xóa bình luận này!");
             }
         } catch (NumberFormatException e) {
