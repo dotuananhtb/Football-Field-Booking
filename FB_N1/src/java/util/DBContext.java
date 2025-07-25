@@ -20,9 +20,12 @@ public class DBContext {
 
     public DBContext() {
         try {
-            String url = "jdbc:sqlserver://localhost:1433;databaseName= FootballFieldBooking";
-            String username = "sa";
-            String password = "123";
+            String host = config.SecretsConfig.get("DB_HOST");
+            String port = config.SecretsConfig.get("DB_PORT");
+            String dbName = config.SecretsConfig.get("DB_NAME");
+            String username = config.SecretsConfig.get("DB_USER");
+            String password = config.SecretsConfig.get("DB_PASSWORD");
+            String url = "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + dbName;
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -31,13 +34,16 @@ public class DBContext {
     }
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:sqlserver://localhost:1433;databaseName= FootballFieldBooking";
-        String username = "sa";
-        String password = "123";
+        String host = config.SecretsConfig.get("DB_HOST");
+        String port = config.SecretsConfig.get("DB_PORT");
+        String dbName = config.SecretsConfig.get("DB_NAME");
+        String username = config.SecretsConfig.get("DB_USER");
+        String password = config.SecretsConfig.get("DB_PASSWORD");
+        String url = "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + dbName;
         return DriverManager.getConnection(url, username, password);
     }
 
-//TEST DB//
+    // TEST DB//
     public static void main(String[] args) {
         DBContext db = new DBContext();
         if (db.connection != null) {
