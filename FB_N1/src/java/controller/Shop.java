@@ -22,7 +22,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "Shop", urlPatterns = {"/Shop"})
+@WebServlet(name = "Shop", urlPatterns = {"/cua-hang"})
 public class Shop extends HttpServlet {
 
     /**

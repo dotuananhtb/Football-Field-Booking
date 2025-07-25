@@ -55,7 +55,7 @@
                                 <nav class="main-menu show navbar-expand-md">
                                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                         <ul class="navigation clearfix">
-                                            <li><a href="/FB_N1/Shop">Cửa Hàng</a></li>
+                                            <li><a href="/FB_N1/cua-hang">Cửa Hàng</a></li>
                                             <li><a href="/FB_N1/Danh-Sach-San">Danh sách sân</a></li>
 
                                             <li class="dropdown2 "><a href="/FB_N1/blog">Diễn Đàn</a>

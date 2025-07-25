@@ -24,8 +24,8 @@
                             <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
 
                                 <!-- Favicon and Touch Icons  -->
-                                <link rel="shortcut icon" href="assets/images/favico.png">
-                                    <link rel="apple-touch-icon-precomposed" href="assets/images/favico.png">
+                                <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+                                    <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
                                         <style>
                                             .feature.maintenance {
                                                 background-color: #f59e0b !important;
@@ -182,7 +182,7 @@
                                                         </section>
 
                                                         <!-- Widget Select Form -->
-                                                        <form method="get" action="${pageContext.request.contextPath}/Shop">
+                                                        <form method="get" action="${pageContext.request.contextPath}/cua-hang">
                                                             <!-- Widget Select Form -->
                                                             <div class="mt--82 z-index3 relative">
                                                                 <div class="tf-container">
