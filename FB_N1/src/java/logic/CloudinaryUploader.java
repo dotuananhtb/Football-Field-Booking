@@ -21,10 +21,9 @@ public class CloudinaryUploader {
 
     public CloudinaryUploader() {
         this.cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dr64bictm",
-                "api_key", "599648759456222",
-                "api_secret", "2zMc1mM0OTc8wky4rQJpCLvPfQ0"
-        ));
+                "cloud_name", config.SecretsConfig.get("CLOUDINARY_CLOUD_NAME"),
+                "api_key", config.SecretsConfig.get("CLOUDINARY_API_KEY"),
+                "api_secret", config.SecretsConfig.get("CLOUDINARY_API_SECRET")));
     }
 
     public String uploadImage(Part filePart, String folderName) throws IOException {
@@ -40,8 +39,7 @@ public class CloudinaryUploader {
 
         // Upload lên Cloudinary
         Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
-                "folder", folderName
-        ));
+                "folder", folderName));
 
         // Xoá file tạm
         tempFile.delete();
@@ -73,7 +71,8 @@ public class CloudinaryUploader {
 
     private boolean isValidExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex == -1) return false;
+        if (dotIndex == -1)
+            return false;
 
         String ext = fileName.substring(dotIndex + 1).toLowerCase();
         return allowedExtensions.contains(ext);

@@ -6,13 +6,14 @@ import jakarta.mail.internet.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Properties;
+import config.SecretsConfig;
 
 public class SendMail {
 
-    public static final String HOST_NAME = "smtp.gmail.com";
-    public static final int TSL_PORT = 587;
-    public static final String APP_EMAIL = "he180507dotuananh@gmail.com";
-    public static final String APP_PASSWORD = "vqhb mvgk lsrk xoyu";
+    public static final String HOST_NAME = SecretsConfig.get("SMTP_HOST");
+    public static final int TSL_PORT = Integer.parseInt(SecretsConfig.get("SMTP_PORT"));
+    public static final String APP_EMAIL = SecretsConfig.get("SMTP_USER");
+    public static final String APP_PASSWORD = SecretsConfig.get("SMTP_PASSWORD");
 
     // ✅ Tạo Properties chung
     private Properties getMailProperties() {
@@ -142,8 +143,6 @@ public class SendMail {
 
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
-    
-     
 
     // ✅ Test nhanh
     public static void main(String[] args) {

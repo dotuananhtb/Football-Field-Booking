@@ -12,12 +12,13 @@ import java.util.UUID;
 
 @WebServlet("/google-auth")
 public class GoogleAuthServlet extends HttpServlet {
-    private static final String CLIENT_ID = "1087404832-coiq7i1ifndcqak60g34hed9ci54mlgv.apps.googleusercontent.com";
-    private static final String REDIRECT_URI = "http://localhost:9999/FB_N1/callback";
+    private static final String CLIENT_ID = config.SecretsConfig.get("GOOGLE_CLIENT_ID");
+    private static final String REDIRECT_URI = config.SecretsConfig.get("GOOGLE_REDIRECT_URI");
     private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String SCOPE = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid";
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             // Tạo state ngẫu nhiên để chống CSRF
             String state = UUID.randomUUID().toString();
@@ -38,7 +39,8 @@ public class GoogleAuthServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("Lỗi trong GoogleSignInServlet: " + e.getMessage());
             e.printStackTrace();
-            response.sendRedirect("error.jsp?message=" + URLEncoder.encode("Không thể khởi tạo đăng nhập Google", StandardCharsets.UTF_8));
+            response.sendRedirect("error.jsp?message="
+                    + URLEncoder.encode("Không thể khởi tạo đăng nhập Google", StandardCharsets.UTF_8));
         }
     }
 }
