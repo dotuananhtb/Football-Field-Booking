@@ -332,11 +332,11 @@ $(document).on('click', '.btn-update-status', function () {
                     if (data.success) {
                         showToast('success', `✅ ${data.message}`);
 
-                        // Gọi lại hàm load chi tiết ca nếu có
+                        // Gọi lại hàm load chi tiết ca nếu có///////
                         if (typeof loadBookingDetails === 'function') {
                             loadBookingDetails(currentBookingCode);
                         }
-                        // ✅ Reload lại bảng booking chính
+                        // ✅ Reload lại bảng booking chính///////
                         $('#booking-datatable').DataTable().ajax.reload(null, false);
                     } else {
                         showToast('error', `❌ ${data.message || 'Cập nhật thất bại.'}`);
