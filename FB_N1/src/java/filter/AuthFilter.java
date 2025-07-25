@@ -14,7 +14,7 @@ import java.io.IOException;
 import model.Account;
 import util.ToastUtil;
 
-@WebFilter(urlPatterns = {"/ho-so-nguoi-dung", "/dat-san", "/chi-tiet-dat-san","/doi-mat-khau", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
+@WebFilter(urlPatterns = {"/ho-so-nguoi-dung", "/dat-san", "/chi-tiet-dat-san","/doi-mat-khau", "/admin/*", "/lich-su-dat-san", "/dang-nhap", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
@@ -27,12 +27,12 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession();
         Account acc = (session != null) ? (Account) session.getAttribute("account") : null;
 
-        String uri = req.getRequestURI();  // VD: /FB_N1/login
+        String uri = req.getRequestURI();  // VD: /FB_N1/dang-nhap
         String contextPath = req.getContextPath(); // VD: /FB_N1
-        String path = uri.substring(contextPath.length()); // VD: /login hoặc /register
+        String path = uri.substring(contextPath.length()); // VD: /dang-nhap hoặc /register
 
-        // ✅ Nếu đã đăng nhập mà cố vào /login hoặc /register → redirect về /dat-san
-        if (acc != null && (path.equals("/login") || path.equals("/dang-ki"))) {
+        // ✅ Nếu đã đăng nhập mà cố vào /dang-nhap hoặc /register → redirect về /dat-san
+        if (acc != null && (path.equals("/dang-nhap") || path.equals("/dang-ki"))) {
             res.sendRedirect(contextPath + "/home");
             return;
         }
@@ -50,12 +50,12 @@ public class AuthFilter implements Filter {
                 return;
             }
 
-            // Với request thường → redirect đến /login kèm lưu đường dẫn gốc
+            // Với request thường → redirect đến /dang-nhap kèm lưu đường dẫn gốc
             String query = req.getQueryString();
             String redirectPath = path + (query != null ? "?" + query : "");
 
             session.setAttribute("redirectAfterLogin", redirectPath);
-            res.sendRedirect(contextPath + "/login");
+            res.sendRedirect(contextPath + "/dang-nhap");
             return;
         }
         // ✅ Nếu đã đăng nhập nhưng truy cập /admin mà không đủ quyền → chặn
