@@ -25,7 +25,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "resetPassword", urlPatterns = {"/resetPassword"})
+@WebServlet(name = "resetPassword", urlPatterns = {"/doi-mat-khau-moi"})
 public class resetPassword extends HttpServlet {
 
     /**

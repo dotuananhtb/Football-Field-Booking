@@ -15,7 +15,7 @@
     <head>
         <base href="${pageContext.request.contextPath}/UI/">
             <meta charset="utf-8">
-                <title>Cửa hàng - FootBall Star</title>
+                <title>FootballStar - Cửa hàng</title>
 
                 <meta name="author" content="themesflat.com">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -25,9 +25,7 @@
 
                                 <!-- Favicon and Touch Icons  -->
                                 <link rel="shortcut icon" href="assets/images/logoKoChu.png">
-
                                     <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
-
                                         <style>
                                             .feature.maintenance {
                                                 background-color: #f59e0b !important;
@@ -184,7 +182,7 @@
                                                         </section>
 
                                                         <!-- Widget Select Form -->
-                                                        <form mehtod="get" action="${pageContext.request.contextPath}/Shop">
+                                                        <form method="get" action="${pageContext.request.contextPath}/cua-hang">
                                                             <!-- Widget Select Form -->
                                                             <div class="mt--82 z-index3 relative">
                                                                 <div class="tf-container">
@@ -198,10 +196,10 @@
                                                                                         <div class="search-bar-group">
                                                                                             <label for="keyword">Tên sản phẩm</label>
                                                                                             <input type="text"
-                                                                                                   id="keyword"
-                                                                                                   name="keyword"
+                                                                                                   id="productName"
+                                                                                                   name="productName"
                                                                                                    placeholder="Nhập tên sản phẩm bạn muốn tìm..."
-                                                                                                   value="${fn:escapeXml(param.keyword)}"
+                                                                                                   value="${fn:escapeXml(param.productName)}"
                                                                                                    required />
                                                                                         </div>
                                                                                     </div>

@@ -109,6 +109,49 @@ public class SlotsOfFieldDAO extends DBContext {
         return list;
     }
 
+    public List<SlotsOfField> getSlotsByField2(int fieldId) {
+        List<SlotsOfField> list = new ArrayList<>();
+        String sql = "SELECT sf.slot_field_id, sf.slot_field_price, "
+                + "sd.slot_id, sd.start_time, sd.end_time, sd.field_type_id, "
+                + "f.field_id, f.field_name, f.image "
+                + "FROM SlotsOfField sf "
+                + "JOIN SlotsOfDay sd ON sf.slot_id = sd.slot_id "
+                + "JOIN Field f ON sf.field_id = f.field_id "
+                + "WHERE sf.field_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, fieldId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Tạo đối tượng SlotsOfDay
+                    SlotsOfDay slotOfDay = new SlotsOfDay();
+                    slotOfDay.setSlotId(rs.getInt("slot_id"));
+                    slotOfDay.setStartTime(rs.getString("start_time"));
+                    slotOfDay.setEndTime(rs.getString("end_time"));
+                    slotOfDay.setFieldTypeId(rs.getInt("field_type_id"));
+
+                    // Tạo đối tượng Field
+                    Field field = new Field();
+                    field.setFieldId(rs.getInt("field_id"));
+                    field.setFieldName(rs.getString("field_name"));
+                    field.setImage(rs.getString("image"));
+
+                    // Tạo đối tượng SlotsOfField
+                    SlotsOfField slotField = new SlotsOfField();
+                    slotField.setSlotFieldId(rs.getInt("slot_field_id"));
+                    slotField.setSlotFieldPrice(rs.getBigDecimal("slot_field_price"));
+                    slotField.setSlotInfo(slotOfDay);
+                    slotField.setField(field); 
+
+                    list.add(slotField);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public BigDecimal getPriceBySlotFieldId(int slotFieldId) {
         String sql = "SELECT slot_field_price FROM SlotsOfField WHERE slot_field_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -25,7 +25,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "Admin_CaTheoLoaiSan", urlPatterns = {"/admin/Admin_CaTheoLoaiSan"})
+@WebServlet(name = "Admin_CaTheoLoaiSan", urlPatterns = {"/admin/quan-ly-ca-theo-loai-san"})
 public class Admin_CaTheoLoaiSan extends HttpServlet {
 
     private SlotsOfDayDAO slotDAO = new SlotsOfDayDAO();
@@ -48,10 +48,10 @@ public class Admin_CaTheoLoaiSan extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Admin_CaTheoLoaiSan</title>");
+            out.println("<title>Servlet quan-ly-ca-theo-loai-san</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Admin_CaTheoLoaiSan at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet quan-ly-ca-theo-loai-san at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -92,7 +92,7 @@ public class Admin_CaTheoLoaiSan extends HttpServlet {
             case "delete":
                 int deleteId = Integer.parseInt(request.getParameter("id"));
                 slotDAO.deleteSlot(deleteId);
-                response.sendRedirect("Admin_CaTheoLoaiSan");
+                response.sendRedirect("quan-ly-ca-theo-loai-san");
                 break;
             default: // list
                 List<SlotsOfDay> slotList = slotDAO.getAllSlots2();
@@ -159,7 +159,7 @@ public class Admin_CaTheoLoaiSan extends HttpServlet {
                 e.printStackTrace();
             }
 
-            response.sendRedirect("Admin_CaTheoLoaiSan");
+            response.sendRedirect("quan-ly-ca-theo-loai-san");
             return;
         }
 
@@ -200,7 +200,7 @@ public class Admin_CaTheoLoaiSan extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("Admin_CaTheoLoaiSan");
+        response.sendRedirect("quan-ly-ca-theo-loai-san");
     }
 
     /**

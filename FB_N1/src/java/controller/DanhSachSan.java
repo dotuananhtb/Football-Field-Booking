@@ -29,7 +29,7 @@ import model.Zone;
  *
  * @author Admin
  */
-@WebServlet(name = "DanhSachSan", urlPatterns = {"/DanhSachSan"})
+@WebServlet(name = "DanhSachSan", urlPatterns = {"/Danh-Sach-San"})
 public class DanhSachSan extends HttpServlet {
 
     /**

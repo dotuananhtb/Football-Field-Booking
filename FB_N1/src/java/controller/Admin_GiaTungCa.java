@@ -28,7 +28,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "Admin_GiaTungCa", urlPatterns = {"/admin/Admin_GiaTungCa"})
+@WebServlet(name = "Admin_GiaTungCa", urlPatterns = {"/admin/quan-ly-gia-tung-ca"})
 public class Admin_GiaTungCa extends HttpServlet {
 
     private final FieldDAO fieldDAO = new FieldDAO();
@@ -75,9 +75,10 @@ public class Admin_GiaTungCa extends HttpServlet {
             throws ServletException, IOException {
 
         List<Field> fields = fieldDAO.getAllFields();
-        List<SlotsOfField> slotPrices = slotFieldDAO.getAllSlotPricesWithDetails();
+        List<SlotsOfField> slotPrices;
 
         String fieldIdRaw = request.getParameter("field_id");
+
         int fieldId = -1;
         List<SlotsOfDay> slots = new ArrayList<>();
         Set<Integer> existingSlotIds = new HashSet<>();
@@ -90,12 +91,18 @@ public class Admin_GiaTungCa extends HttpServlet {
                 int fieldTypeId = field.getTypeOfField().getFieldTypeId();
                 slots = slotDAO.getSlotsByFieldType(fieldTypeId);
 
+                slotPrices = slotFieldDAO.getSlotsByField2(fieldId);
                 for (SlotsOfField sof : slotPrices) {
                     if (sof.getField().getFieldId() == fieldId) {
                         existingSlotIds.add(sof.getSlotInfo().getSlotId());
                     }
                 }
+            } else {
+                slotPrices = slotFieldDAO.getAllSlotPricesWithDetails();
             }
+        } else {
+            // chưa chọn sân: hiện toàn bộ
+            slotPrices = slotFieldDAO.getAllSlotPricesWithDetails();
         }
 
         request.setAttribute("selectedFieldId", fieldId);
@@ -139,7 +146,7 @@ public class Admin_GiaTungCa extends HttpServlet {
                 }
                 if (errorMsg != null) {
                     ToastUtil.setWarningToast(request, errorMsg);
-                    response.sendRedirect("Admin_GiaTungCa");
+                    response.sendRedirect("quan-ly-gia-tung-ca");
                     return;
                 }
                 int fieldId = Integer.parseInt(fieldIdRaw);
@@ -148,13 +155,13 @@ public class Admin_GiaTungCa extends HttpServlet {
                     price = new BigDecimal(priceRaw);
                 } catch (NumberFormatException ex) {
                     ToastUtil.setErrorToast(request, "Giá không hợp lệ!");
-                    response.sendRedirect("Admin_GiaTungCa");
+                    response.sendRedirect("quan-ly-gia-tung-ca");
                     return;
                 }
 
                 if (price.compareTo(BigDecimal.ZERO) <= 0) {
                     ToastUtil.setWarningToast(request, "Giá phải lớn hơn 0!");
-                    response.sendRedirect("Admin_GiaTungCa");
+                    response.sendRedirect("quan-ly-gia-tung-ca");
                     return;
                 }
 
@@ -185,7 +192,7 @@ public class Admin_GiaTungCa extends HttpServlet {
                 ToastUtil.setErrorToast(request, "Có lỗi xảy ra khi xử lý dữ liệu!");
             }
 
-            response.sendRedirect("Admin_GiaTungCa");
+            response.sendRedirect("quan-ly-gia-tung-ca");
         } else if ("delete_price".equals(action)) {
             try {
                 int slotFieldId = Integer.parseInt(request.getParameter("slot_field_id"));
@@ -207,7 +214,7 @@ public class Admin_GiaTungCa extends HttpServlet {
             }
 
             String fieldId = request.getParameter("field_id");
-            response.sendRedirect("Admin_GiaTungCa" + (fieldId != null ? "?field_id=" + fieldId : ""));
+            response.sendRedirect("quan-ly-gia-tung-ca" + (fieldId != null ? "?field_id=" + fieldId : ""));
 
         }
     }

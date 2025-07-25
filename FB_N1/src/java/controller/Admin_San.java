@@ -32,7 +32,7 @@ import util.ToastUtil;
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
-@WebServlet(name = "Admin_San", urlPatterns = {"/admin/Admin_San"})
+@WebServlet(name = "Admin_San", urlPatterns = {"/admin/quan-ly-San"})
 public class Admin_San extends HttpServlet {
 
     private final CloudinaryUploader uploader = new CloudinaryUploader();
@@ -119,38 +119,41 @@ public class Admin_San extends HttpServlet {
             // Validate đầu vào
             if (isBlank(fieldName)) {
                 ToastUtil.setErrorToast(request, "Tên sân không khả dụng!");
-                response.sendRedirect("Admin_San");
+                response.sendRedirect("quan-ly-San");
                 return;
             }
             if (isBlank(status)) {
                 ToastUtil.setErrorToast(request, "Trạng thái không được để trống!");
-                response.sendRedirect("Admin_San");
+                response.sendRedirect("quan-ly-San");
                 return;
             }
             if (isBlank(zoneIdRaw) || isBlank(typeIdRaw)) {
                 ToastUtil.setErrorToast(request, "Khu vực và loại sân là bắt buộc!");
-                response.sendRedirect("Admin_San");
+                response.sendRedirect("quan-ly-San");
                 return;
             }
 
             int zoneId = Integer.parseInt(zoneIdRaw);
             int typeId = Integer.parseInt(typeIdRaw);
-            int fieldId = Integer.parseInt(fieldIdRaw);
+            int fieldId = -1;
+            if (fieldIdRaw != null && !fieldIdRaw.isEmpty()) {
+                fieldId = Integer.parseInt(fieldIdRaw);
+            }
             if (filePart != null && filePart.getSize() > 0) {
                 imageUrl = uploader.uploadImage(filePart, "field");
             } else {
                 if ("add".equals(action)) {
                     ToastUtil.setErrorToast(request, "Vui lòng chọn ảnh hợp lệ (jpg, png, jpeg, gif, webp)!");
-                    response.sendRedirect("Admin_San");
+                    response.sendRedirect("quan-ly-San");
                     return;
-                } else if ("update".equals(action) && fieldIdRaw != null) {
+                } else if ("update".equals(action) && fieldId != -1) {
                     imageUrl = fieldDAO.getFieldByFieldID(fieldId).getImage(); // giữ ảnh cũ
                 }
             }
             // Kiểm tra trùng tên trong khu vực
             if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, "update".equals(action) ? fieldId : null)) {
                 ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
-                response.sendRedirect("Admin_San");
+                response.sendRedirect("quan-ly-San");
                 return;
             }
 
@@ -177,8 +180,18 @@ public class Admin_San extends HttpServlet {
                 fieldDAO.insertField(field);
                 ToastUtil.setSuccessToast(request, "Đã thêm sân thành công!");
             } else if ("update".equals(action) && fieldId != -1) {
+                // Lấy loại sân cũ trước khi cập nhật
+                Field oldField = fieldDAO.getFieldByFieldID(fieldId);
+                int oldTypeId = oldField.getTypeOfField().getFieldTypeId();
+
                 field.setFieldId(fieldId);
                 fieldDAO.updateField(field);
+
+                // Nếu loại sân bị thay đổi => đồng bộ lại các slot theo loại mới
+                if (oldTypeId != typeId) {
+                    fieldDAO.syncSlotsAfterTypeUpdate(fieldId, typeId);
+                }
+
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
             } else {
                 ToastUtil.setErrorToast(request, "Hành động không hợp lệ!");
@@ -190,7 +203,7 @@ public class Admin_San extends HttpServlet {
             ToastUtil.setErrorToast(request, "Có lỗi xảy ra khi xử lý dữ liệu!");
         }
 
-        response.sendRedirect("Admin_San");
+        response.sendRedirect("quan-ly-San");
     }
 
     /**

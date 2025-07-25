@@ -130,7 +130,7 @@
                                 <h4 class="mb-4">Tạo Nhiều Slot</h4>
 
                                 <form method="post"
-                                      action="${pageContext.request.contextPath}/admin/Admin_CaTheoLoaiSan">
+                                      action="${pageContext.request.contextPath}/admin/quan-ly-ca-theo-loai-san">
                                     <input type="hidden" name="action" value="checkbox_bulk_add" />
 
                                     <div class="row g-3">
@@ -209,7 +209,7 @@
 
                                                                     <!-- Nút xoá -->
                                                                     <form method="get"
-                                                                          action="${pageContext.request.contextPath}/admin/Admin_CaTheoLoaiSan"
+                                                                          action="${pageContext.request.contextPath}/admin/quan-ly-ca-theo-loai-san"
                                                                           style="display:inline"
                                                                           onsubmit="return confirm('Bạn có chắc muốn xoá ca này?')">
                                                                         <input type="hidden" name="action"
@@ -255,7 +255,7 @@
 
 
 
-                                                    <form id="slotForm" method="post" action="${pageContext.request.contextPath}/admin/Admin_CaTheoLoaiSan">
+                                                    <form id="slotForm" method="post" action="${pageContext.request.contextPath}/admin/quan-ly-ca-theo-loai-san">
                                                         <h3 id="modalTitle" class="mb-4">Thêm một Ca mới</h3>
 
                                                         <input type="hidden" name="action" id="formAction" value="add" />

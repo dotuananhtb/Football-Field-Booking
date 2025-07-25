@@ -77,7 +77,7 @@
                                                                                     <h2 class="title">Quên Mật khẩu?</h2>
 
                                                                                 </div>
-                                                                                <form action="${pageContext.request.contextPath}/resetPassword" method="POST" id="dkiform" class="login-user">
+                                                                                <form action="${pageContext.request.contextPath}/doi-mat-khau-moi" method="POST" id="dkiform" class="login-user">
                                                                                     <div class="row">
 
                                                                                         <!-- Email -->
@@ -110,13 +110,6 @@
                                                                                         <c:if test="${not empty mess}">
                                                                                             <p class="text-danger text-left">${mess}</p>
                                                                                         </c:if>
-                                                                                        <!-- Xác nhận điều khoản -->
-                                                                                        <div class="col-lg-12 mb-30">
-                                                                                            <div class="checkbox">
-                                                                                                <input id="check-policy" type="checkbox" name="check" value="check" required>
-                                                                                                    <label for="check-policy">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</label>
-                                                                                            </div>
-                                                                                        </div>
                                                                                         <!-- Nút Đăng ký -->
                                                                                         <div class="col-lg-12 mb-30">
                                                                                             <button type="submit" class="btn-submit">Xác Nhận</button>

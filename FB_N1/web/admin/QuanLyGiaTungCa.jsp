@@ -121,7 +121,7 @@
                                 <h4 class="mb-4"> Cập nhật giá cho nhiều khung giờ</h4>
                                 <!-- Chọn sân -->
                                 <form method="get"
-                                      action="${pageContext.request.contextPath}/admin/Admin_GiaTungCa">
+                                      action="${pageContext.request.contextPath}/admin/quan-ly-gia-tung-ca">
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label class="form-label"><strong>Chọn sân:</strong></label>
@@ -138,7 +138,7 @@
                                 </form>
 
                                 <form method="post"
-                                      action="${pageContext.request.contextPath}/admin/Admin_GiaTungCa" class="mt-4">
+                                      action="${pageContext.request.contextPath}/admin/quan-ly-gia-tung-ca" class="mt-4">
                                     <input type="hidden" name="action" value="save_bulk_price" />
                                     <input type="hidden" name="field_id" value="${selectedFieldId}" />
                                     <input type="hidden" name="submitType" id="submitType" value="insert" />
@@ -193,73 +193,75 @@
                             <!-- Danh sách Slot theo loại sân -->
                             <h3 class="mb-4">Danh sách giá của các sân</h3>
                             <c:forEach var="f" items="${fields}">
-                                <div class="col-xl-6">
-                                    <div class="card p-4 shadow-sm">
-                                        <h4 class="mb-3">⚽ ${f.fieldName}</h4>
+                                <c:if test="${selectedFieldId == -1 || f.fieldId == selectedFieldId}">
+                                    <div class="col-xl-6">
+                                        <div class="card p-4 shadow-sm">
+                                            <h4 class="mb-3">⚽ ${f.fieldName}</h4>
 
-                                        <!-- Ảnh sân -->
-                                        <c:if test="${not empty f.image}">
-                                            <div class="text-center mb-3">
-                                                <img src="${pageContext.request.contextPath}/images/fields/${f.image}"
-                                                     alt="Ảnh sân" class="img-fluid rounded-4 border"
-                                                     style="height: 200px; width: 100%; object-fit: cover;" />
-                                            </div>
-                                        </c:if>
-
-                                        <div class="table-responsive">
-                                            <table
-                                                class="table table-bordered table-hover text-center align-middle">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Khung giờ</th>
-                                                        <th>Giá</th>
-                                                        <th>Hành động</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach var="p" items="${slotPrices}">
-                                                        <c:if test="${p.field.fieldId == f.fieldId}">
-                                                            <tr>
-                                                                <td>${p.slotInfo.startTime} - ${p.slotInfo.endTime}
-                                                                </td>
-                                                                <td class="text-success fw-bold"><strong>${p.slotFieldPrice}</strong> ₫</td>
-                                                                <td>
-                                                                    <form method="post"
-                                                                          action="${pageContext.request.contextPath}/admin/Admin_GiaTungCa"
-                                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xoá?')"
-                                                                          style="display: inline;">
-                                                                        <input type="hidden" name="action"
-                                                                               value="delete_price" />
-                                                                        <input type="hidden" name="slot_field_id"
-                                                                               value="${p.slotFieldId}" />
-                                                                        <button type="submit"
-                                                                                class="btn btn-sm btn-outline-danger"
-                                                                                title="Xoá">
-                                                                            <i class="ri-delete-bin-2-line"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <c:set var="hasPrice" value="false" />
-                                        <c:forEach var="p" items="${slotPrices}">
-                                            <c:if test="${p.field.fieldId == f.fieldId}">
-                                                <c:set var="hasPrice" value="true" />
+                                            <!-- Ảnh sân -->
+                                            <c:if test="${not empty f.image}">
+                                                <div class="text-center mb-3">
+                                                    <img src="${f.image}"
+                                                         alt="Ảnh sân" class="img-fluid rounded-4 border"
+                                                         style="height: 300px; width: 100%; object-fit: cover;" />
+                                                </div>
                                             </c:if>
-                                        </c:forEach>
 
-                                        <c:if test="${not hasPrice}">
-                                            <div class="alert alert-warning mt-3 mb-0">
-                                                Chưa có giá nào được thiết lập cho sân này.
+                                            <div class="table-responsive">
+                                                <table
+                                                    class="table table-bordered table-hover text-center align-middle">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Khung giờ</th>
+                                                            <th>Giá</th>
+                                                            <th>Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach var="p" items="${slotPrices}">
+                                                            <c:if test="${p.field.fieldId == f.fieldId}">
+                                                                <tr>
+                                                                    <td>${p.slotInfo.startTime} - ${p.slotInfo.endTime}
+                                                                    </td>
+                                                                    <td class="text-success fw-bold"><strong>${p.slotFieldPrice}</strong> ₫</td>
+                                                                    <td>
+                                                                        <form method="post"
+                                                                              action="${pageContext.request.contextPath}/admin/quan-ly-gia-tung-ca"
+                                                                              onsubmit="return confirm('Bạn có chắc chắn muốn xoá?')"
+                                                                              style="display: inline;">
+                                                                            <input type="hidden" name="action"
+                                                                                   value="delete_price" />
+                                                                            <input type="hidden" name="slot_field_id"
+                                                                                   value="${p.slotFieldId}" />
+                                                                            <button type="submit"
+                                                                                    class="btn btn-sm btn-outline-danger"
+                                                                                    title="Xoá">
+                                                                                <i class="ri-delete-bin-2-line"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </c:if>
+                                            <c:set var="hasPrice" value="false" />
+                                            <c:forEach var="p" items="${slotPrices}">
+                                                <c:if test="${p.field.fieldId == f.fieldId}">
+                                                    <c:set var="hasPrice" value="true" />
+                                                </c:if>
+                                            </c:forEach>
 
+                                            <c:if test="${not hasPrice}">
+                                                <div class="alert alert-warning mt-3 mb-0">
+                                                    Chưa có giá nào được thiết lập cho sân này.
+                                                </div>
+                                            </c:if>
+
+                                        </div>
                                     </div>
-                                </div>
+                                </c:if>
                             </c:forEach>
                         </div>
                         <!-- end row-->

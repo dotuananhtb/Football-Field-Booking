@@ -69,7 +69,7 @@ public class DatSan extends HttpServlet {
                 request.setAttribute("field", field); // ✔ đúng
                 request.setAttribute("field_id", fieldId);
 
-                request.getRequestDispatcher("/UI/calendar.jsp").forward(request, response);
+                request.getRequestDispatcher("/UI/chitietsan.jsp").forward(request, response);
                 return;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -78,7 +78,7 @@ public class DatSan extends HttpServlet {
             }
         }
         // Forward tới trang đặt sân
-        request.getRequestDispatcher("/UI/calendar.jsp").forward(request, response);
+        request.getRequestDispatcher("/UI/chitietsan.jsp").forward(request, response);
     }
 
     @Override

@@ -20,7 +20,7 @@ import util.ToastUtil;
  *
  * @author Admin
  */
-@WebServlet(name = "requestPassword", urlPatterns = {"/requestPassword"})
+@WebServlet(name = "requestPassword", urlPatterns = {"/xac-minh-doi-mat-khau"})
 public class requestPassword extends HttpServlet {
 
     /**

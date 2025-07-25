@@ -93,7 +93,7 @@
                                                                                     <h2 class="title">Quên Mật Khẩu?</h2>
 
                                                                                 </div>
-                                                                                <form action="${pageContext.request.contextPath}/requestPassword" method="POST" id="rPassword" class="login-user">
+                                                                                <form action="${pageContext.request.contextPath}/xac-minh-doi-mat-khau" method="POST" id="rPassword" class="login-user">
                                                                                     <!-- Email -->
                                                                                     <div class="col-cd-12">
                                                                                         <div class="input-wrap">
@@ -105,6 +105,7 @@
                                                                                     <div class="col-lg-12 mb-30">
                                                                                         <button type="submit" class="btn-submit">Gửi</button>
                                                                                     </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>
