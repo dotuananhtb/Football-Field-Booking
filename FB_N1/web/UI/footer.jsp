@@ -50,19 +50,19 @@
 
                             <ul class="footer-menu">
                                 <li>
-                                    <a href="javascript:void(0)">Hướng dẫn sử dụng</a>
+                                    <a href="about-us.html">Hướng dẫn sử dụng</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">Quy chế Hoạt động ứng dụng</a>
+                                    <a href="gallery.html">Quy chế Hoạt động ứng dụng</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">Thông tin về thanh toán</a>
+                                    <a href="team.html">Thông tin về thanh toán</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">Chính sách bảo mật thông tin cá nhân</a>
+                                    <a href="blog.html">Chính sách bảo mật thông tin cá nhân</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">Thông tin chăm sóc khách hàng</a>
+                                    <a href="contact/">Thông tin chăm sóc khách hàng</a>
                                 </li>
                             </ul>
 
