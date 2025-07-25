@@ -14,7 +14,7 @@ import java.io.IOException;
 import model.Account;
 import util.ToastUtil;
 
-@WebFilter(urlPatterns = {"/ho-so-nguoi-dung", "/dat-san", "/chi-tiet-dat-san","/changePassword", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
+@WebFilter(urlPatterns = {"/ho-so-nguoi-dung", "/dat-san", "/chi-tiet-dat-san","/doi-mat-khau", "/admin/*", "/lich-su-dat-san", "/login", "/dang-ki"})
 public class AuthFilter implements Filter {
 
     @Override
@@ -38,7 +38,7 @@ public class AuthFilter implements Filter {
         }
 
         // ✅ Nếu chưa đăng nhập và đang vào vùng bảo vệ → chặn
-        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/ho-so-nguoi-dung") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/changePassword") || path.startsWith("/admin"))) {
+        if (acc == null && (path.startsWith("/chi-tiet-dat-san") || path.startsWith("/ho-so-nguoi-dung") || path.startsWith("/lich-su-dat-san") || path.startsWith("/dat-san") || path.startsWith("/doi-mat-khau") || path.startsWith("/admin"))) {
 
             // AJAX request → trả JSON 401
             String requestedWith = req.getHeader("X-Requested-With");
