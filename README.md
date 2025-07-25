@@ -83,9 +83,8 @@ Dự án sử dụng **Java Servlet/JSP**, tích hợp **Google OAuth**, **Cloud
 
 ## 🧪 Môi trường phát triển
 
-- IDE: IntelliJ IDEA / Eclipse
 - Máy chủ: Apache Tomcat 10+
-- CSDL: SQL Server Management Studio / MySQL Workbench
+- CSDL: SQL Server Management Studio
 - Quản lý dự án: GitHub, Git
 
 ---
