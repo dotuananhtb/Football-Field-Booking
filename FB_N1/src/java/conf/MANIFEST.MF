@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Created-By: GitHub Copilot
-
-# Thư mục này dùng để lưu các file cấu hình hệ thống (manifest, v.v.)
-# Nếu có file cấu hình khác, hãy thêm vào đây.
