@@ -307,7 +307,7 @@
 
                                                                                                                                                         <div class="row wow fadeInUp">
                                                                                                                                                             <div class="col-lg-12 center mt-44">
-                                                                                                                                                                <a href="/FB_N1/DanhSachSan" class="btn-main">
+                                                                                                                                                                <a href="/FB_N1/Danh-Sach-San" class="btn-main">
                                                                                                                                                                     <p class="btn-main-text">Xem tất cả</p>
                                                                                                                                                                     <p class="iconer">
                                                                                                                                                                         <i class="icon-13"></i>
@@ -478,7 +478,7 @@
                                                                                                                                                                 </c:if>
                                                                                                                                                                 <div class="row wow fadeInUp">
                                                                                                                                                                     <div class="col-lg-12 center mt-44">
-                                                                                                                                                                        <a href="/FB_N1/Shop" class="btn-main">
+                                                                                                                                                                        <a href="/FB_N1/cua-hang" class="btn-main">
                                                                                                                                                                             <p class="btn-main-text">Xem tất cả</p>
                                                                                                                                                                             <p class="iconer">
                                                                                                                                                                                 <i class="icon-13"></i>
@@ -528,7 +528,7 @@
                                                                                                                                                                     <c:forEach items="${field}" var="f">
                                                                                                                                                                         <div class="swiper-slide">
                                                                                                                                                                             <div class="tour-listing wow fadeInUp animated" data-wow-delay="0.1s">
-                                                                                                                                                                                <a href="tour-single.html" class="tour-listing-image">
+                                                                                                                                                                                <a href="/FB_N1/dat-san?field_id=${f.fieldId}" class="tour-listing-image">
                                                                                                                                                                                     <div class="badge-top flex-two">
 
 
@@ -540,7 +540,7 @@
                                                                                                                                                                                 <div class="tour-listing-content">
 
 
-                                                                                                                                                                                    <h3 class="title-tour-list"><a href="tour-single.html">${f.fieldName}</a>
+                                                                                                                                                                                    <h3 class="title-tour-list"><a href="/FB_N1/dat-san?field_id=${f.fieldId}">${f.fieldName}</a>
                                                                                                                                                                                     </h3>
                                                                                                                                                                                     <div class="review">
                                                                                                                                                                                         <i class="icon-Star"></i>
@@ -765,15 +765,15 @@
                                                                                                                                                                 <div class="grid-three-destination">
                                                                                                                                                                     <c:forEach items="${listT}" var="f">
                                                                                                                                                                         <div class="tf-widget-destination wow fadeInUp animated " data-wow-delay="0.1s">
-                                                                                                                                                                            <a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}" class="destination-imgae">
+                                                                                                                                                                            <a href="/FB_N1/Danh-Sach-San?typeId=${f.fieldTypeId}" class="destination-imgae">
 
                                                                                                                                                                                 <img src="./assets/images/destination/list.jpg" alt="">
                                                                                                                                                                             </a>
                                                                                                                                                                             <div class="destination-content">
                                                                                                                                                                                 <span class="nation">${f.fieldTypeName}</span>
                                                                                                                                                                                 <div class="flex-two btn-destination">
-                                                                                                                                                                                    <h6 class="title"><a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}">Xem tất cả</a></h6>
-                                                                                                                                                                                    <a href="/FB_N1/DanhSachSan?typeId=${f.fieldTypeId}" class="flex-five btn-view">
+                                                                                                                                                                                    <h6 class="title"><a href="/FB_N1/Danh-Sach-San?typeId=${f.fieldTypeId}">Xem tất cả</a></h6>
+                                                                                                                                                                                    <a href="/FB_N1/Danh-Sach-San?typeId=${f.fieldTypeId}" class="flex-five btn-view">
                                                                                                                                                                                         <i class="icon-Vector-32"></i>
                                                                                                                                                                                     </a>
                                                                                                                                                                                 </div>
