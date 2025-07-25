@@ -34,11 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
 
     calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
+        initialView: 'timeGridWeek', //dayGridMonth
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' ///
         },
         views: {
             dayGridMonth: {buttonText: 'Tháng'},
