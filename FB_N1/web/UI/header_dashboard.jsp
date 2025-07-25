@@ -90,7 +90,7 @@
                         </li>-->
                         
                          <li>
-                            <a href="/FB_N1/changePassword">
+                            <a href="/FB_N1//doi-mat-khau">
                                 <i class="icon-14"></i>
                                 <span>Đổi mật khẩu</span>
                             </a>
