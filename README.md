@@ -39,7 +39,7 @@ Dự án sử dụng **Java Servlet/JSP**, tích hợp **Google OAuth**, **Cloud
 | **API xử lý ảnh** | Cloudinary API                                                           |
 | **Xác thực OAuth**| Google OAuth 2.0 (Đăng nhập với Google)                                 |
 | **Email**         | Jakarta Mail (gửi mail xác minh, thông báo đặt sân, v.v.)               |
-| **Thanh toán**    | VNPAY API hoặc tích hợp mã QR ngân hàng           |
+| **Thanh toán**    | Webhook SE Pay tích hợp mã QR ngân hàng           |
 | **Real-time**     | Java WebSocket API (javax.websocket) để thông báo thời gian thực         |
 
 ---
