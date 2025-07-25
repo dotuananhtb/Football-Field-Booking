@@ -30,7 +30,7 @@ public class ThanhToanServlet extends HttpServlet {
 
         BookingDAO bookingDAO = new BookingDAO();
         Booking booking = bookingDAO.findByBookingCode(bookingCode);
-        if (booking == null || booking.getStatusPay() == 1 || booking.getStatusPay() == -1) {
+        if (booking == null || booking.getStatusPay() == 1 || booking.getStatusPay() == -1|| booking.getStatusPay() == -2) {
 
             request.setAttribute("message", "Đơn hàng này đã thanh toán hoặc không hợp lệ.");
             ToastUtil.setErrorToast(request, "Đơn hàng này đã thanh toán hoặc không hợp lệ.");

@@ -22,6 +22,21 @@
         <title>Thanh toán đơn hàng - FootBall Star</title>
         <link href="/FB_N1/UI/app/css/app.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <base href="${pageContext.request.contextPath}/UI/">
+        <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
+        <!-- đường dẫn tương đối được tính từ 1 gốc chung -->
+
+
+        <meta name="author" content="themesflat.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+        <link rel="stylesheet" href="app/css/app.css">
+        <link rel="stylesheet" href="app/css/jquery.fancybox.min.css">
+
+        <!-- Favicon and Touch Icons  -->
+        <link rel="shortcut icon" href="assets/images/logoKoChu.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/images/logoKoChu.png">
         <style>
             body {
                 background: #f8f9fa;
@@ -58,6 +73,9 @@
             }
         </style>
     </head>
+    <jsp:include page="header.jsp" />
+
+
     <body>
         <jsp:include page="sweetalert-include.jsp" />
         <div class="container container-box">
@@ -118,4 +136,7 @@
 
 
     </body>
+    <jsp:include page="footer.jsp" />
+
+
 </html>
