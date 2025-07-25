@@ -81,7 +81,7 @@
                                                                                                 <h3 class="title">Đăng nhập </h3>
 
                                                                                             </div>
-                                                                                            <form action="${pageContext.request.contextPath}/login" method="post" id="login" class="login-user">
+                                                                                            <form action="${pageContext.request.contextPath}/dang-nhap" method="post" id="login" class="login-user">
                                                                                             <div class="row">
                                                                                                 <div class="col-md-12">
                                                                                                     <div class="input-wrap">
