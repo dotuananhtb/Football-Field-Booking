@@ -208,7 +208,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li><a  href="/FB_N1/ho-so-nguoi-dung">Hồ sơ</a></li>
-                                                        <li><a  href="/FB_N1/changePassword">Đổi mật khẩu</a></li>
+                                                        <li><a  href="/FB_N1/doi-mat-khau">Đổi mật khẩu</a></li>
                                                         <li><a  href="/FB_N1/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </div>                                                                                         
