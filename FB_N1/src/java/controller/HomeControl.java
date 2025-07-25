@@ -65,7 +65,7 @@ public class HomeControl extends HttpServlet {
         // lay param tu jsp ve 
         String zoneId = request.getParameter("zID");
         String cateId = request.getParameter("cid");
-        
+
         String pageStr = request.getParameter("page");
 
         // khoi tao DAO
@@ -78,41 +78,36 @@ public class HomeControl extends HttpServlet {
         Zone_DAO zDao = new Zone_DAO();
         EventDAO eDao = new EventDAO();
         TypeOfFieldDAO tDao = new TypeOfFieldDAO();
-        
+
         CateProduct_DAO cDao = new CateProduct_DAO();
         ProductDAO pDao = new ProductDAO();
         SelectDAO selectDao = new SelectDAO();
         SelectSaleDao selectSale = new SelectSaleDao();
         String eventId = selectDao.getSelectedThemeEventId();
         String currentSale = selectSale.getSaleBySaleID();
-        System.out.println(currentSale+"abcxyz");
         Sale currentObjectSale = saleDao.getSaleBySaleId(currentSale);
-        System.out.println(currentObjectSale);
         // lay du lieu tu dao
         List<Blog> listB1 = blogDao.getLatest3Blogs();
         List<Slider> listS = sDao.getAllSlider();
         List<Zone> listZ = zDao.getAllZoneWithStatus();
-        
+
         List<TypeOfField> listT = tDao.getAllFieldTypes();
         Vector<CateProduct> listC = (Vector<CateProduct>) cDao.getAllCategory2();
-        
+
         List<Field> listF2 = fDao.get2Field();
 
         Event event = eDao.getAllEventByEventId(eventId);
-        
+
         // lay so luong 
-        
         int countA = aDao.countAccount();
         int countB = bDao.countBooking();
         int countF = fDao.countField();
         int countZ = zDao.countZone();
-        
+
         request.setAttribute("countA", countA);
         request.setAttribute("countB", countB);
         request.setAttribute("countF", countF);
         request.setAttribute("countZ", countZ);
-        
-        
 
         // slider field 
         int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
@@ -144,7 +139,6 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("currentSale", currentObjectSale);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPage", totalPage);
-        
 
         // end paging product 
         request.setAttribute("listB1", listB1);
