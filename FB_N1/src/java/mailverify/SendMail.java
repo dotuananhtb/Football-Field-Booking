@@ -15,7 +15,7 @@ public class SendMail {
     public static final String APP_EMAIL = SecretsConfig.get("SMTP_USER");
     public static final String APP_PASSWORD = SecretsConfig.get("SMTP_PASSWORD");
 
-    // ✅ Tạo Properties chung
+    // Tao Properties chung
     private Properties getMailProperties() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -28,7 +28,7 @@ public class SendMail {
         return props;
     }
 
-    // ✅ Tạo Session chung
+    // Tao Session chung
     private Session getMailSession() {
         return Session.getInstance(getMailProperties(), new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -37,7 +37,7 @@ public class SendMail {
         });
     }
 
-    // ✅ Gửi mail dùng chung
+    // Gui mail dung chung
     private boolean sendHtmlEmail(String toEmail, String subject, String htmlContent, String displaySenderName) {
         try {
             MimeMessage message = new MimeMessage(getMailSession());
@@ -46,7 +46,7 @@ public class SendMail {
             message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
             message.setContent(htmlContent, "text/html; charset=UTF-8");
             Transport.send(message);
-            System.out.println("✅ Đã gửi email tới: " + toEmail);
+            System.out.println("Da gui email toi: " + toEmail);
             return true;
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -54,68 +54,68 @@ public class SendMail {
         }
     }
 
-    // ✅ Gửi xác minh đơn giản
+    // Gui xac minh don gian
     public boolean guiMail(String email, String noidung, String nameUser) {
-        String subject = "Xác thực đăng kí tài khoản";
-        String content = "Xin chào " + nameUser + ",<br><br>"
-                + "Cảm ơn bạn đã đăng ký tài khoản.<br>"
-                + "Vui lòng xác minh email bằng cách nhấn vào liên kết sau:<br>"
-                + "<a href='" + noidung + "'>Xác minh tài khoản</a><br><br>"
-                + "Trân trọng.";
-        return sendHtmlEmail(email, subject, content, "Sân Bóng Việt Nam");
+        String subject = "Xac thuc dang ki tai khoan";
+        String content = "Xin chao " + nameUser + ",<br><br>"
+                + "Cam on ban da dang ky tai khoan.<br>"
+                + "Vui long xac minh email bang cach nhan vao lien ket sau:<br>"
+                + "<a href='" + noidung + "'>Xac minh tai khoan</a><br><br>"
+                + "Tran trong.";
+        return sendHtmlEmail(email, subject, content, "San Bong Viet Nam");
     }
 
-    // ✅ Gửi reset password
+    // Gui reset password
     public boolean guiResetPasswordMail(String email, String noidung, String nameUser) {
-        String subject = "Xác thực tài khoản";
-        String content = "Xin chào " + nameUser + ",<br><br>"
-                + "Bạn đã yêu cầu đặt lại mật khẩu.<br>"
-                + "Vui lòng nhấn vào liên kết để đặt lại mật khẩu:<br>"
-                + "<a href='" + noidung + "'>Đặt lại mật khẩu</a><br><br>"
-                + "Trân trọng.";
+        String subject = "Xac thuc tai khoan";
+        String content = "Xin chao " + nameUser + ",<br><br>"
+                + "Ban da yeu cau dat lai mat khau.<br>"
+                + "Vui long nhan vao lien ket de dat lai mat khau:<br>"
+                + "<a href='" + noidung + "'>Dat lai mat khau</a><br><br>"
+                + "Tran trong.";
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
 
-    // ✅ Gửi xác minh đẹp
+    // Gui xac minh dep
     public boolean guiMailFULLHD(String email, String linkXacThuc, String nameUser) {
-        String subject = "Xác thực tài khoản - Football Star";
+        String subject = "Xac thuc tai khoan - Football Star";
         String content = "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
                 + "<style>body{font-family:Arial,sans-serif;background:#f0f2f5;} .container{max-width:600px;margin:40px auto;background:#fff;border-radius:10px;padding:20px;}"
                 + ".header{background:#4CAF50;color:#fff;padding:20px;text-align:center;font-size:24px;}"
                 + ".btn{display:inline-block;margin-top:20px;padding:10px 20px;background:#4CAF50;color:white;text-decoration:none;border-radius:5px;}"
                 + ".footer{padding:15px;font-size:14px;color:#999;text-align:center;}</style>"
                 + "</head><body><div class='container'>"
-                + "<div class='header'>Xác minh tài khoản</div>"
-                + "<p>Xin chào <strong>" + nameUser + "</strong>,</p>"
-                + "<p>Cảm ơn bạn đã đăng ký tài khoản tại <strong>Football Star</strong>.</p>"
-                + "<p>Vui lòng nhấn vào nút bên dưới để xác minh địa chỉ email:</p>"
-                + "<a class='btn' href='" + linkXacThuc + "'>Xác minh tài khoản</a>"
-                + "<p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>"
-                + "<div class='footer'>Trân trọng,<br>Đội ngũ Football Star</div></div></body></html>";
+                + "<div class='header'>Xac minh tai khoan</div>"
+                + "<p>Xin chao <strong>" + nameUser + "</strong>,</p>"
+                + "<p>Cam on ban da dang ky tai khoan tai <strong>Football Star</strong>.</p>"
+                + "<p>Vui long nhan vao nut ben duoi de xac minh dia chi email:</p>"
+                + "<a class='btn' href='" + linkXacThuc + "'>Xac minh tai khoan</a>"
+                + "<p>Neu ban khong dang ky tai khoan, vui long bo qua email nay.</p>"
+                + "<div class='footer'>Tran trong,<br>Doi ngu Football Star</div></div></body></html>";
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
 
-    // ✅ Gửi thông báo đặt sân
+    // Gui thong bao dat san
     public boolean guiMailDatSanThanhCong(String email, String nameUser, String maDon, BigDecimal tongTien) {
-        String subject = "Xác nhận đặt sân thành công - Football Star";
+        String subject = "Xac nhan dat san thanh cong - Football Star";
         String content = "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
                 + "<style>body{font-family:Arial;background:#f4f4f4;} .container{max-width:600px;margin:40px auto;background:#fff;border-radius:10px;padding:20px;}"
                 + ".header{background:#28a745;color:#fff;padding:20px;text-align:center;font-size:24px;}"
                 + ".footer{padding:20px;font-size:14px;color:#999;text-align:center;}</style>"
                 + "</head><body><div class='container'>"
-                + "<div class='header'>Đặt sân thành công!</div>"
-                + "<p>Xin chào <strong>" + nameUser + "</strong>,</p>"
-                + "<p>Chúng tôi xác nhận rằng bạn đã đặt sân thành công tại <strong>Football Star</strong>.</p>"
-                + "<p><strong>Mã đơn đặt:</strong> " + maDon + "</p>"
-                + "<p><strong>Tổng tiền:</strong> " + tongTien.toPlainString() + " VND</p>"
-                + "<p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>"
-                + "<p>Hẹn gặp bạn tại sân!</p>"
-                + "<div class='footer'>Trân trọng,<br>Đội ngũ Football Star</div></div></body></html>";
+                + "<div class='header'>Dat san thanh cong!</div>"
+                + "<p>Xin chao <strong>" + nameUser + "</strong>,</p>"
+                + "<p>Chung toi xac nhan rang ban da dat san thanh cong tai <strong>Football Star</strong>.</p>"
+                + "<p><strong>Ma don dat:</strong> " + maDon + "</p>"
+                + "<p><strong>Tong tien:</strong> " + tongTien.toPlainString() + " VND</p>"
+                + "<p>Cam on ban da su dung dich vu cua chung toi.</p>"
+                + "<p>Hen gap ban tai san!</p>"
+                + "<div class='footer'>Tran trong,<br>Doi ngu Football Star</div></div></body></html>";
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
 
     public boolean guiMailDangKyGoogle(String email, String fullName, String username, String password) {
-        String subject = "Tài khoản đã được tạo thành công - Football Star";
+        String subject = "Tai khoan da duoc tao thanh cong - Football Star";
 
         String content = "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
                 + "<style>"
@@ -126,36 +126,36 @@ public class SendMail {
                 + ".footer { padding: 15px; font-size: 14px; color: #999999; text-align: center; }"
                 + "</style></head><body>"
                 + "<div class='container'>"
-                + "<div class='header'>Tài khoản Google đã được tạo</div>"
+                + "<div class='header'>Tai khoan Google da duoc tao</div>"
                 + "<div class='content'>"
-                + "<p>Xin chào <strong>" + fullName + "</strong>,</p>"
-                + "<p>Bạn đã đăng ký tài khoản qua Google tại <strong>Football Star</strong>.</p>"
-                + "<p>Dưới đây là thông tin đăng nhập của bạn:</p>"
+                + "<p>Xin chao <strong>" + fullName + "</strong>,</p>"
+                + "<p>Ban da dang ky tai khoan qua Google tai <strong>Football Star</strong>.</p>"
+                + "<p>Duoi day la thong tin dang nhap cua ban:</p>"
                 + "<ul>"
-                + "<li><strong>Tên đăng nhập:</strong> " + username + "</li>"
-                + "<li><strong>Mật khẩu:</strong> " + password + "</li>"
+                + "<li><strong>Ten dang nhap:</strong> " + username + "</li>"
+                + "<li><strong>Mat khau:</strong> " + password + "</li>"
                 + "</ul>"
-                + "<p>Bạn có thể thay đổi mật khẩu sau khi đăng nhập.</p>"
-                + "<p>Chúc bạn có trải nghiệm tuyệt vời cùng Football Star!</p>"
+                + "<p>Ban co the thay doi mat khau sau khi dang nhap.</p>"
+                + "<p>Chuc ban co trai nghiem tuyet voi cung Football Star!</p>"
                 + "</div>"
-                + "<div class='footer'>Trân trọng,<br>Đội ngũ Football Star</div>"
+                + "<div class='footer'>Tran trong,<br>Doi ngu Football Star</div>"
                 + "</div></body></html>";
 
         return sendHtmlEmail(email, subject, content, "Football Star");
     }
 
-    // ✅ Test nhanh
+    // Test nhanh
     public static void main(String[] args) {
         SendMail sendMail = new SendMail();
         String emailNguoiNhan = "huubinh0601@gmail.com";
-        String tenNguoiDung = "Nguyễn Văn A";
+        String tenNguoiDung = "Nguyen Van A";
         String linkXacThuc = "http://localhost:8080/XacThucTaiKhoan?token=abc123xyz";
 
         boolean result = sendMail.guiMailDatSanThanhCong(emailNguoiNhan, tenNguoiDung, "453435", BigDecimal.ONE);
         if (result) {
-            System.out.println("✅ Gửi email thành công.");
+            System.out.println("Gui email thanh cong.");
         } else {
-            System.out.println("❌ Gửi email thất bại.");
+            System.out.println("Gui email that bai.");
         }
     }
 }
