@@ -172,7 +172,19 @@ public class Admin_San extends HttpServlet {
                 if (imageUrl != null) {
                     field.setImage(imageUrl); // Chỉ set khi có ảnh
                 }
-                field.setTypeOfField(typeDAO.getFieldTypeById(typeId));
+
+                int oldTypeId = field.getTypeOfField().getFieldTypeId();
+                // Nếu loại sân thay đổi → kiểm tra và sync slot
+                if (oldTypeId != typeId) {
+                    boolean ok = fieldDAO.syncSlotsAfterTypeUpdate(fieldId, typeId);
+                    if (!ok) {
+                        ToastUtil.setErrorToast(request, "Không thể đổi loại sân vì có khung giờ đã được đặt!");
+                        response.sendRedirect("quan-ly-San");
+                        return;
+                    }
+                    field.setTypeOfField(typeDAO.getFieldTypeById(typeId));
+                }
+
                 fieldDAO.updateField(field);
 
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
