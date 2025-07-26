@@ -63,6 +63,7 @@ public class FieldDAO extends DBContext {
         }
         return list;
     }
+
     public List<Field> getAllFields2() {
         List<Field> list = new ArrayList<>();
         String sql = "SELECT f.*,z.zone_name, z.Address, z.status_id, t.field_type_name FROM Field f "
@@ -683,27 +684,14 @@ public class FieldDAO extends DBContext {
         }
     }
 
-    public boolean isFieldNameExistInZone(String fieldName, int zoneId, Integer excludeFieldId) {
-        String sql = "SELECT COUNT(*) FROM Field WHERE field_name = ? AND zone_id = ?";
-        if (excludeFieldId != null) {
-            sql += " AND field_id != ?";
-        }
-
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, fieldName);
-            ps.setInt(2, zoneId);
-            if (excludeFieldId != null) {
-                ps.setInt(3, excludeFieldId);
+    public boolean isFieldNameExist(String fieldName, Integer excludeFieldId) {
+        for (Field f : getAllFields()) {
+            if (f.getFieldName().equalsIgnoreCase(fieldName)) {
+                if (excludeFieldId == null || f.getFieldId() != excludeFieldId) {
+                    return true; // Trùng tên và không phải chính nó (khi cập nhật)
+                }
             }
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return false;
     }
 
