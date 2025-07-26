@@ -611,7 +611,7 @@ public class FieldDAO extends DBContext {
 
     public int countField() {
         String sql = "SELECT count(*)\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Field]";
+                + "  FROM [FootballFieldBooking].[dbo].[Field] where status = N'hoạt động' ";
         try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
 
             if (rs.next()) {
