@@ -104,6 +104,32 @@ public class ManagerProductServlet extends HttpServlet {
             for (Product p : products) {
                 List<ProductDetails> details = detailsDAO.getDetailsByProductId(p.getProductId());
                 p.setProductDetailsList(details);
+                
+                // Tạo JSON string cho ProductDetails để sử dụng trong JavaScript
+                if (details != null && !details.isEmpty()) {
+                    StringBuilder jsonBuilder = new StringBuilder();
+                    jsonBuilder.append("[");
+                    for (int i = 0; i < details.size(); i++) {
+                        ProductDetails detail = details.get(i);
+                        jsonBuilder.append("{");
+                        jsonBuilder.append("\"productDetailsId\":").append(detail.getProductDetailsId()).append(",");
+                        jsonBuilder.append("\"color\":\"").append(detail.getColor() != null ? detail.getColor() : "").append("\",");
+                        jsonBuilder.append("\"size\":\"").append(detail.getSize() != null ? detail.getSize() : "").append("\",");
+                        jsonBuilder.append("\"material\":\"").append(detail.getMaterial() != null ? detail.getMaterial() : "").append("\",");
+                        jsonBuilder.append("\"weight\":").append(detail.getWeight() != null ? detail.getWeight() : "null").append(",");
+                        jsonBuilder.append("\"origin\":\"").append(detail.getOrigin() != null ? detail.getOrigin() : "").append("\",");
+                        jsonBuilder.append("\"warranty\":\"").append(detail.getWarranty() != null ? detail.getWarranty() : "").append("\",");
+                        jsonBuilder.append("\"moreInfo\":\"").append(detail.getMoreInfo() != null ? detail.getMoreInfo() : "").append("\"");
+                        jsonBuilder.append("}");
+                        if (i < details.size() - 1) {
+                            jsonBuilder.append(",");
+                        }
+                    }
+                    jsonBuilder.append("]");
+                    p.setProductDetailsListJson(jsonBuilder.toString());
+                } else {
+                    p.setProductDetailsListJson("[]");
+                }
             }
             request.setAttribute("products", products);
         }
@@ -212,6 +238,8 @@ public class ManagerProductServlet extends HttpServlet {
                     product.setProductName(request.getParameter("productName"));
                     product.setProductCateId(Integer.parseInt(request.getParameter("categoryId")));
                     product.setProductPrice(Double.parseDouble(request.getParameter("productPrice")));
+                    product.setProductStatus(request.getParameter("productStatus"));
+                    product.setProductDescription(request.getParameter("productDescription"));
                     Part imagePart = request.getPart("productImageFile");
                     if (imagePart != null && imagePart.getSize() > 0) {
                         String imageUrl = uploader.uploadImage(imagePart, "products");

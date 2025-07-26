@@ -36,9 +36,30 @@
 
         <!-- Icons css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        
+        <!-- Toastr CSS -->
+        <link href="assets/vendor/jquery-toast-plugin/jquery.toast.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
+        <!-- Toast Notifications -->
+        <c:if test="${sessionScope.successToast != null}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    toastr.success('${sessionScope.successToast}');
+                });
+            </script>
+            <c:remove var="successToast" scope="session"/>
+        </c:if>
+        <c:if test="${sessionScope.errorToast != null}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    toastr.error('${sessionScope.errorToast}');
+                });
+            </script>
+            <c:remove var="errorToast" scope="session"/>
+        </c:if>
+        
         <!-- Begin page -->
         <div class="wrapper">
 
@@ -155,7 +176,8 @@
                                                                     data-product-price="${product.productPrice}"
                                                                     data-product-image="${product.productImage}"
                                                                     data-product-description="${product.productDescription}"
-                                                                    data-product-status="${product.productStatus}">
+                                                                    data-product-status="${product.productStatus}"
+                                                                    data-product-details='${product.productDetailsListJson}'>
                                                                 <i class="ri-edit-line"></i>
                                                             </button>
                                                             <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="POST" style="display:inline;">
@@ -347,6 +369,7 @@
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="productId" id="editProductId">
                         <input type="hidden" id="editProductImage" name="oldProductImage" value="">
+                        <input type="hidden" id="editProductStatusHidden" name="productStatus" value="">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -400,31 +423,32 @@
                             <div class="row mb-2">
                                 <div class="col-md-6 mb-2">
                                     <label for="editColors" class="form-label">Màu sắc <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="editColors" name="colors" placeholder="Ví dụ: Đỏ, Đen" required>
+                                    <input type="text" class="form-control" id="editColors" name="color[]" placeholder="Ví dụ: Đỏ, Đen" required>
+                                    <input type="hidden" id="editProductDetailsId" name="productDetailsId[]" value="">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="editSizes" class="form-label">Size <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="editSizes" name="sizes" placeholder="Ví dụ: 41, 42" required>
+                                    <input type="text" class="form-control" id="editSizes" name="size[]" placeholder="Ví dụ: 41, 42" required>
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label for="editMaterial" class="form-label">Chất liệu</label>
-                                    <input type="text" class="form-control" id="editMaterial" name="material" placeholder="Chỉ nhập 1 giá trị">
+                                    <input type="text" class="form-control" id="editMaterial" name="material[]" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label for="editWeight" class="form-label">Trọng lượng</label>
-                                    <input type="number" step="0.01" class="form-control" id="editWeight" name="weight" placeholder="Chỉ nhập 1 giá trị">
+                                    <input type="number" step="0.01" class="form-control" id="editWeight" name="weight[]" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label for="editOrigin" class="form-label">Xuất xứ</label>
-                                    <input type="text" class="form-control" id="editOrigin" name="origin" placeholder="Chỉ nhập 1 giá trị">
+                                    <input type="text" class="form-control" id="editOrigin" name="origin[]" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="editWarranty" class="form-label">Bảo hành</label>
-                                    <input type="text" class="form-control" id="editWarranty" name="warranty" placeholder="Chỉ nhập 1 giá trị">
+                                    <input type="text" class="form-control" id="editWarranty" name="warranty[]" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="editMoreInfo" class="form-label">Khác</label>
-                                    <input type="text" class="form-control" id="editMoreInfo" name="moreInfo" placeholder="Chỉ nhập 1 giá trị">
+                                    <input type="text" class="form-control" id="editMoreInfo" name="moreInfo[]" placeholder="Chỉ nhập 1 giá trị">
                                 </div>
                             </div>
                         </div>
@@ -514,6 +538,9 @@
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
+        
+        <!-- Toastr JS -->
+        <script src="assets/vendor/jquery-toast-plugin/jquery.toast.min.js"></script>
 
         <script>
             // Xử lý sự kiện click cho nút edit
@@ -527,13 +554,14 @@
                         const productImage = this.getAttribute('data-product-image');
                         const productDescription = this.getAttribute('data-product-description');
                         const productStatus = this.getAttribute('data-product-status');
+                        const productDetailsJson = this.getAttribute('data-product-details');
                         
-                        editProduct(productId, productName, categoryId, productPrice, productImage, productDescription, productStatus);
+                        editProduct(productId, productName, categoryId, productPrice, productImage, productDescription, productStatus, productDetailsJson);
                     });
                 });
             });
 
-            function editProduct(productId, productName, categoryId, productPrice, productImage, productDescription, productStatus) {
+            function editProduct(productId, productName, categoryId, productPrice, productImage, productDescription, productStatus, productDetailsJson) {
                 document.getElementById('editProductId').value = productId;
                 document.getElementById('editProductName').value = productName || '';
                 document.getElementById('editCategoryId').value = categoryId || '';
@@ -541,6 +569,44 @@
                 document.getElementById('editProductImage').value = productImage || '';
                 document.getElementById('editProductDescription').value = productDescription || '';
                 document.getElementById('editProductStatus').value = productStatus || 'active';
+                document.getElementById('editProductStatusHidden').value = productStatus || 'active';
+                
+                // Xử lý ProductDetails
+                try {
+                    const details = JSON.parse(productDetailsJson || '[]');
+                    if (details.length > 0) {
+                        const detail = details[0]; // Lấy chi tiết đầu tiên
+                        document.getElementById('editColors').value = detail.color || '';
+                        document.getElementById('editSizes').value = detail.size || '';
+                        document.getElementById('editMaterial').value = detail.material || '';
+                        document.getElementById('editWeight').value = detail.weight || '';
+                        document.getElementById('editOrigin').value = detail.origin || '';
+                        document.getElementById('editWarranty').value = detail.warranty || '';
+                        document.getElementById('editMoreInfo').value = detail.moreInfo || '';
+                        document.getElementById('editProductDetailsId').value = detail.productDetailsId || '';
+                    } else {
+                        // Reset các trường nếu không có dữ liệu
+                        document.getElementById('editColors').value = '';
+                        document.getElementById('editSizes').value = '';
+                        document.getElementById('editMaterial').value = '';
+                        document.getElementById('editWeight').value = '';
+                        document.getElementById('editOrigin').value = '';
+                        document.getElementById('editWarranty').value = '';
+                        document.getElementById('editMoreInfo').value = '';
+                        document.getElementById('editProductDetailsId').value = '';
+                    }
+                } catch (e) {
+                    console.error('Lỗi parse JSON:', e);
+                    // Reset các trường nếu có lỗi
+                    document.getElementById('editColors').value = '';
+                    document.getElementById('editSizes').value = '';
+                    document.getElementById('editMaterial').value = '';
+                    document.getElementById('editWeight').value = '';
+                    document.getElementById('editOrigin').value = '';
+                    document.getElementById('editWarranty').value = '';
+                    document.getElementById('editMoreInfo').value = '';
+                    document.getElementById('editProductDetailsId').value = '';
+                }
                 
                 new bootstrap.Modal(document.getElementById('editProductModal')).show();
             }
@@ -555,6 +621,11 @@
                         document.getElementById('editCateName').value = cateName;
                         new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
                     });
+                });
+                
+                // Xử lý thay đổi trạng thái sản phẩm trong modal edit
+                document.getElementById('editProductStatus').addEventListener('change', function() {
+                    document.getElementById('editProductStatusHidden').value = this.value;
                 });
             });
         </script>
