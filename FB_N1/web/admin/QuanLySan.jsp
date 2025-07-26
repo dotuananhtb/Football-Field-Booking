@@ -136,9 +136,9 @@
                                                     <td>${f.zone.address}</td>
                                                     <td>${f.typeOfField.fieldTypeName}</td>
                                                     <td>
-                                                        
+
                                                         <c:choose>
-                                                            
+
                                                             <c:when test="${f.status == 'Hoạt động' && f.zone.status == 1}">
                                                                 <span class="badge bg-success">Hoạt
                                                                     động</span>
@@ -147,13 +147,13 @@
                                                                 <span class="badge bg-danger">Ngừng hoạt
                                                                     động</span>
                                                                 </c:when>
-                                                            
-                                                                
-                                                            
-                                                            </c:choose>
-                                                        
-                                                        
-                                                            
+
+
+
+                                                        </c:choose>
+
+
+
                                                     </td>
                                                     <td style="max-width: 1000px; word-wrap: break-word; white-space: normal;">
                                                         ${f.description}
@@ -308,6 +308,9 @@
 
 
 
+
+
+
                     </div> <!-- container -->
 
                 </div> <!-- content -->
@@ -331,10 +334,10 @@
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
         <script>
-                                                                        function autoResize(textarea) {
-                                                                            textarea.style.height = 'auto'; // reset
-                                                                            textarea.style.height = textarea.scrollHeight + 'px'; // fit content
-                                                                        }
+                                            function autoResize(textarea) {
+                                                textarea.style.height = 'auto'; // reset
+                                                textarea.style.height = textarea.scrollHeight + 'px'; // fit content
+                                            }
         </script>
         <!-- Datatables js -->
         <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -360,51 +363,51 @@
 
         <script src="assets/js/app.min.js"></script>
         <script>
-                                                                        function editField(id, name, image, typeId, zoneId, status, description) {
-                                                                            document.getElementById("formAction").value = "update";
-                                                                            document.getElementById("fieldId").value = id;
-                                                                            document.getElementById("fieldName").value = name.trim();
-                                                                            document.getElementById("fieldImagePreview").src = image;
-                                                                            document.getElementById("typeId").value = typeId;
-                                                                            document.getElementById("zoneId").value = zoneId;
+                                            function editField(id, name, image, typeId, zoneId, status, description) {
+                                                document.getElementById("formAction").value = "update";
+                                                document.getElementById("fieldId").value = id;
+                                                document.getElementById("fieldName").value = name.trim();
+                                                document.getElementById("fieldImagePreview").src = image;
+                                                document.getElementById("typeId").value = typeId;
+                                                document.getElementById("zoneId").value = zoneId;
 
-                                                                            // Đảm bảo status khớp với option trong <select>
-                                                                            document.getElementById("fieldstatus").value = status.trim();
+                                                // Đảm bảo status khớp với option trong <select>
+                                                document.getElementById("fieldstatus").value = status.trim();
 
-                                                                            document.getElementById("description").value = description;
+                                                document.getElementById("description").value = description;
 
-                                                                            // Chuyển sang chế độ cập nhật
-                                                                            document.getElementById("btnAdd").style.display = "none";
-                                                                            document.getElementById("btnUpdate").style.display = "inline-block";
-                                                                            document.getElementById("btnCancel").style.display = "inline-block";
-                                                                            window.scrollTo({top: 0, behavior: 'smooth'});
+                                                // Chuyển sang chế độ cập nhật
+                                                document.getElementById("btnAdd").style.display = "none";
+                                                document.getElementById("btnUpdate").style.display = "inline-block";
+                                                document.getElementById("btnCancel").style.display = "inline-block";
+                                                window.scrollTo({top: 0, behavior: 'smooth'});
 
-                                                                            const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
-                                                                            modal.show();
-                                                                        }
+                                                const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
+                                                modal.show();
+                                            }
 
-                                                                        function cancelEdit() {
-                                                                            document.getElementById("formAction").value = "add";
-                                                                            document.getElementById("fieldId").value = "";
-                                                                            document.getElementById("fieldName").value = "";
+                                            function cancelEdit() {
+                                                document.getElementById("formAction").value = "add";
+                                                document.getElementById("fieldId").value = "";
+                                                document.getElementById("fieldName").value = "";
 
-                                                                            // ✅ Reset input file bằng cách tạo lại
-                                                                            const oldInput = document.getElementById("fieldImage");
-                                                                            const newInput = oldInput.cloneNode();
-                                                                            oldInput.parentNode.replaceChild(newInput, oldInput);
+                                                // ✅ Reset input file bằng cách tạo lại
+                                                const oldInput = document.getElementById("fieldImage");
+                                                const newInput = oldInput.cloneNode();
+                                                oldInput.parentNode.replaceChild(newInput, oldInput);
 
-                                                                            // ✅ Reset ảnh preview
-                                                                            document.getElementById("fieldImagePreview").src = "";
+                                                // ✅ Reset ảnh preview
+                                                document.getElementById("fieldImagePreview").src = "";
 
-                                                                            document.getElementById("typeId").selectedIndex = 0;
-                                                                            document.getElementById("zoneId").selectedIndex = 0;
-                                                                            document.getElementById("fieldstatus").selectedIndex = 0;
-                                                                            document.getElementById("description").value = "";
+                                                document.getElementById("typeId").selectedIndex = 0;
+                                                document.getElementById("zoneId").selectedIndex = 0;
+                                                document.getElementById("fieldstatus").selectedIndex = 0;
+                                                document.getElementById("description").value = "";
 
-                                                                            document.getElementById("btnAdd").style.display = "inline-block";
-                                                                            document.getElementById("btnUpdate").style.display = "none";
-                                                                            document.getElementById("btnCancel").style.display = "none";
-                                                                        }
+                                                document.getElementById("btnAdd").style.display = "inline-block";
+                                                document.getElementById("btnUpdate").style.display = "none";
+                                                document.getElementById("btnCancel").style.display = "none";
+                                            }
         </script>
         <script>
             function resetFieldForm() {

@@ -136,7 +136,7 @@
                         </div> <!-- container -->
 
                     </div> <!-- content -->
-
+                    <%@include file="footer.jsp" %>
 
                 </div>
 
@@ -146,8 +146,8 @@
 
             </div>
             <!-- END wrapper -->
-            <%@include file="footer.jsp" %>
 
+            <%@include file="themesetting.jsp" %>
             <!-- Vendor js -->
             <script src="assets/js/vendor.min.js"></script>
             <!-- App js -->

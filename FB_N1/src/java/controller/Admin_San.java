@@ -151,12 +151,11 @@ public class Admin_San extends HttpServlet {
                 }
             }
             // Kiểm tra trùng tên trong khu vực
-            if (fieldDAO.isFieldNameExistInZone(fieldName, zoneId, "update".equals(action) ? fieldId : null)) {
-                ToastUtil.setErrorToast(request, "Tên sân đã tồn tại trong khu vực này!");
+            if (fieldDAO.isFieldNameExist(fieldName, "update".equals(action) ? fieldId : null)) {
+                ToastUtil.setErrorToast(request, "Tên sân đã tồn tại!");
                 response.sendRedirect("quan-ly-San");
                 return;
             }
-
             // Tạo đối tượng Field
             // Thêm hoặc cập nhật
             if ("add".equals(action)) {
@@ -178,7 +177,6 @@ public class Admin_San extends HttpServlet {
 
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
             } else {
-
                 if (fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 2) {
                     ToastUtil.setErrorToast(request, "Khu vực hiện không hoạt động");
                 } else {
