@@ -69,7 +69,7 @@ public class UpdatePostServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("dang-nhap");
             return;
         }
         String postIdStr = request.getParameter("postId");

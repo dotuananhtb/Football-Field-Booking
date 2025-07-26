@@ -36,7 +36,7 @@ public class BookingDetailsServlet extends HttpServlet {
         Account account = (session != null) ? (Account) session.getAttribute("account") : null;
 
         if (account == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("dang-nhap");
             return;
         }
 

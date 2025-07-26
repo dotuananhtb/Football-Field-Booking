@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
             // ✅ Redirect về trang trước khi login nếu có
             String redirectPath = (String) session.getAttribute("redirectAfterLogin");
 
-            if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+            if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/dang-nhap")) {
                 session.removeAttribute("redirectAfterLogin");
                 String finalRedirect = request.getContextPath() + redirectPath;
 

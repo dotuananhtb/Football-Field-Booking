@@ -25,7 +25,7 @@ public class UpdateCommentServlet extends HttpServlet {
             Account acc = (Account) session.getAttribute("account");
 
             if (acc == null) {
-                response.sendRedirect("/FB_N1/login");
+                response.sendRedirect("/FB_N1/dang-nhap");
                 return;
             }
 

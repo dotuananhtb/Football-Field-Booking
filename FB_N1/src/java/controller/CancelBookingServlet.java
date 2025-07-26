@@ -43,7 +43,7 @@ public class CancelBookingServlet extends HttpServlet {
         Account account = (session != null) ? (Account) session.getAttribute("account") : null;
         BookingDetailsDAO bookingDetailsDAO = new BookingDetailsDAO();
         if (account == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("dang-nhap");
             return;
         }
 

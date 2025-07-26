@@ -24,7 +24,7 @@ public class DeleteCommentServlet extends HttpServlet {
 
         // Kiểm tra đăng nhập
         if (account == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("dang-nhap");
             return;
         }
 

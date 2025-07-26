@@ -25,7 +25,7 @@ public class CommentServlet extends HttpServlet {
 
             if (acc == null) {
                 // Chưa đăng nhập, chuyển hướng về trang login
-                response.sendRedirect( "/FB_N1/login");
+                response.sendRedirect( "/FB_N1/dang-nhap");
                 return;
             }
 

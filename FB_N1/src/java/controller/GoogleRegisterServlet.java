@@ -71,7 +71,7 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
 
-                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/dang-nhap")) {
                         request.getSession().removeAttribute("redirectAfterLogin");
                         String finalRedirect = request.getContextPath() + redirectPath;
                         ToastUtil.setSuccessToast(request, "Đăng nhập bằng Google thành công!");
@@ -86,7 +86,7 @@ public class GoogleRegisterServlet extends HttpServlet {
                 } else if (statusId == 3) {
                     // Chuyển đến trang khóa tài khoản
                     ToastUtil.setErrorToast(request, "Tài khoản liên kết với email này đang bị khoá !");
-                    request.getRequestDispatcher("/login").forward(request, response);
+                    request.getRequestDispatcher("/dang-nhap").forward(request, response);
                 }
             } else {
                 // Email chưa tồn tại, gọi addGoogleAccount
@@ -103,7 +103,7 @@ public class GoogleRegisterServlet extends HttpServlet {
 
                     String redirectPath = (String) request.getSession().getAttribute("redirectAfterLogin");
 
-                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/login")) {
+                    if (redirectPath != null && !redirectPath.trim().isEmpty() && !redirectPath.equals("/dang-nhap")) {
                         request.getSession().removeAttribute("redirectAfterLogin");
                         String finalRedirect = request.getContextPath() + redirectPath;
                         ToastUtil.setSuccessToast(request, "Đăng kí bằng Google thành công!");
