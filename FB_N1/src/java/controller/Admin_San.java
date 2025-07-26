@@ -79,7 +79,7 @@ public class Admin_San extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Field> fields = fieldDAO.getAllFields();
+        List<Field> fields = fieldDAO.getAllFields2();
         List<Zone> zones = zoneDAO.getAllZone();
         List<TypeOfField> types = typeDAO.getAllFieldTypes();
 
@@ -179,8 +179,9 @@ public class Admin_San extends HttpServlet {
             if ("add".equals(action)) {
                 fieldDAO.insertField(field);
                 ToastUtil.setSuccessToast(request, "Đã thêm sân thành công!");
-            } else if ("update".equals(action) && fieldId != -1) {
+            } else if ("update".equals(action) && fieldId != -1 && fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 1 ) {
                 // Lấy loại sân cũ trước khi cập nhật
+                
                 Field oldField = fieldDAO.getFieldByFieldID(fieldId);
                 int oldTypeId = oldField.getTypeOfField().getFieldTypeId();
 
@@ -194,7 +195,12 @@ public class Admin_San extends HttpServlet {
 
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
             } else {
-                ToastUtil.setErrorToast(request, "Hành động không hợp lệ!");
+                
+                if(fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 2){
+                    ToastUtil.setErrorToast(request, "Khu vực hiện không hoạt động");
+                }else{
+                ToastUtil.setErrorToast(request, "Cập nhật thất bại");
+                }
             }
 
         } catch (Exception e) {

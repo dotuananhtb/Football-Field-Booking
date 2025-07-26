@@ -76,7 +76,7 @@ public class DanhSachSan extends HttpServlet {
         TypeOfFieldDAO tDAO = new TypeOfFieldDAO();
 
         List<TypeOfField> listT = tDAO.getAllFieldTypes();
-        List<Zone> listZ = zDAO.getAllZone();
+        List<Zone> listZ = zDAO.getAllZoneWithStatus();
         String indexPage = request.getParameter("index");
         String sortBy = request.getParameter("sortBy");
         String zoneId = request.getParameter("zoneId");

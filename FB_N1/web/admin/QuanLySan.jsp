@@ -138,20 +138,24 @@
                                                     <td>${f.zone.address}</td>
                                                     <td>${f.typeOfField.fieldTypeName}</td>
                                                     <td>
+                                                        
                                                         <c:choose>
-                                                            <c:when test="${f.status == 'Hoạt động'}">
+                                                            
+                                                            <c:when test="${f.status == 'Hoạt động' && f.zone.status == 1}">
                                                                 <span class="badge bg-success">Hoạt
                                                                     động</span>
                                                                 </c:when>
-                                                                <c:when test="${f.status == 'Hỏng'}">
+                                                                <c:when test="${f.status == 'Hỏng' || f.zone.status == 2}">
                                                                 <span class="badge bg-danger">Ngừng hoạt
                                                                     động</span>
                                                                 </c:when>
-                                                                <c:otherwise>
-                                                                <span class="badge bg-secondary">Không
-                                                                    rõ</span>
-                                                                </c:otherwise>
+                                                            
+                                                                
+                                                            
                                                             </c:choose>
+                                                        
+                                                        
+                                                            
                                                     </td>
                                                     <td style="max-width: 1000px; word-wrap: break-word; white-space: normal;">
                                                         ${f.description}
@@ -250,7 +254,6 @@
                                                     <label for="status" class="form-label">Trạng thái:</label>
                                                     <select name="status" id="fieldstatus" class="form-select">
                                                         <option value="Hoạt động">Hoạt động</option>
-                                                        <option value="Bảo trì">Bảo trì</option>
                                                         <option value="Hỏng">Hỏng</option>
                                                     </select>
                                                 </div>
