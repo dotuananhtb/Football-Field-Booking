@@ -112,19 +112,32 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <form action="${pageContext.request.contextPath}/admin/quan-ly-san-pham" method="GET" class="d-flex">
-                                    <input type="hidden" name="action" value="filter">
-                                    <select name="categoryId" class="form-select me-2">
-                                        <option value="">Tất cả danh mục</option>
-                                        <c:forEach var="category" items="${categories}">
-                                            <option value="${category.productCateId}" ${selectedCategory eq category.productCateId ? 'selected' : ''}>
-                                                ${category.cateName}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                    <input type="number" name="minPrice" class="form-control me-2" placeholder="Giá từ" value="${param.minPrice}">
-                                    <input type="number" name="maxPrice" class="form-control me-2" placeholder="Đến" value="${param.maxPrice}">
-                                    <button type="submit" class="btn btn-outline-secondary">Lọc</button>
-                                </form>
+    <input type="hidden" name="action" value="filter">
+
+    <!-- Dropdown chọn danh mục -->
+    <select name="categoryId" class="form-select me-2">
+        <option value="">Tất cả danh mục</option>
+        <c:forEach var="category" items="${categories}">
+            <option value="${category.productCateId}" 
+                ${selectedCategory eq category.productCateId ? 'selected' : ''}>
+                ${category.cateName}
+            </option>
+        </c:forEach>
+    </select>
+
+    <!-- Nhập giá từ -->
+    <input type="number" name="minPrice" class="form-control me-2" placeholder="Giá từ" value="${param.minPrice}">
+
+    <!-- Nhập giá đến -->
+    <input type="number" name="maxPrice" class="form-control me-2" placeholder="Đến" value="${param.maxPrice}">
+
+    <!-- Nút lọc -->
+    <button type="submit" class="btn btn-outline-secondary me-2">Lọc</button>
+
+    <!-- Nút đặt lại: chuyển về trang mặc định không có filter -->
+    <a href="${pageContext.request.contextPath}/admin/quan-ly-san-pham" class="btn btn-outline-danger">Đặt lại</a>
+</form>
+
                             </div>
                         </div>
 
