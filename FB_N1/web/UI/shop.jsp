@@ -341,11 +341,11 @@
                                                                                     <a href="/FB_N1/product-details?productId=${p.productId}" class="tour-listing-image">
                                                                                         <div class="badge-top flex-two">
                                                                                             <c:choose>
-                                                                                                <c:when test="${p.productStatus == 'Sản phẩm mới'}">
-                                                                                                    <span class="feature maintenance">${p.productStatus}</span>
+                                                                                                <c:when test="${p.productStatus == 'active'}">
+                                                                                                    
                                                                                                 </c:when>
-                                                                                                <c:when test="${p.productStatus == 'Hết hàng'}">
-                                                                                                    <span class="feature broken">${p.productStatus}</span>
+                                                                                                <c:when test="${p.productStatus == 'inactive'}">
+                                                                                                    <span class="feature broken">Hết hàng</span>
                                                                                                 </c:when>
                                                                                                 <c:otherwise>
                                                                                                     <span class="feature">${p.productStatus}</span>

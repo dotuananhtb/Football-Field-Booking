@@ -35,6 +35,7 @@ public class ChangePasswordServlet extends HttpServlet {
         String repass = request.getParameter("re-pass");
          String hashPass =   PasswordUtil.hashPassword(pass);
          System.out.println(hashPass);
+         System.out.println(pass);
         AccountDAO accountDAO = new AccountDAO();
         Account currentAccount = (Account) session.getAttribute("account");
         
@@ -54,7 +55,7 @@ public class ChangePasswordServlet extends HttpServlet {
         
         
         
-        response.sendRedirect(request.getContextPath() + "/changePassword");
+        response.sendRedirect(request.getContextPath() + "/doi-mat-khau");
         
         
     }
