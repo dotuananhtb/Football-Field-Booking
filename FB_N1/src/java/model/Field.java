@@ -35,8 +35,18 @@ public class Field {
         this.image = image;
         this.status = status;
         this.description = description;
+    } 
+
+    public Field(String fieldName, String image, String status, String description, Zone zone, TypeOfField typeOfField) {
+        this.fieldName = fieldName;
+        this.image = image;
+        this.status = status;
+        this.description = description;
+        this.zone = zone;
+        this.typeOfField = typeOfField;
     }
 
+    
     public Field(int fieldId, String fieldName, String image, String status, String description, Zone zone, TypeOfField typeOfField, List<SlotsOfField> slots) {
         this.fieldId = fieldId;
         this.fieldName = fieldName;
