@@ -177,6 +177,31 @@
                     <c:set var="moreInfos" value="${moreInfos}${detail.moreInfo}, " />
                 </c:if>
             </c:forEach>
+            
+            <c:set var="hasAttributes" value="false" />
+            <c:if test="${not empty colors and fn:length(colors) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty sizes and fn:length(sizes) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty materials and fn:length(materials) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty weights and fn:length(weights) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty origins and fn:length(origins) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty warranties and fn:length(warranties) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty moreInfos and fn:length(moreInfos) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            
+            <c:if test="${hasAttributes}">
             <div class="product-attributes-list" style="display: flex; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 16px;">
                 <c:if test="${not empty colors and fn:length(colors) > 2}">
                     <div style="min-width: 160px;"><strong>Màu sắc:</strong> ${fn:substring(colors, 0, fn:length(colors)-2)}</div>
@@ -245,6 +270,7 @@
                     </div>
                 </c:if>
             </div>
+            </c:if>
         </c:if>
         <!-- Bỏ phần số lượng -->
         <div class="product-description" style="margin-top: 12px;">
