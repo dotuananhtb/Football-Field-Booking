@@ -65,6 +65,24 @@
                                                 align-items: center;
                                                 gap: 10px;
                                             }
+                                            .product-description {
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 2;
+                                                -webkit-box-orient: vertical;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                min-height: 3em;
+                                                line-height: 1.5em;
+                                            }
+
+                                            .two-line-ellipsis {
+
+                                                /* Cố định chiều cao đúng 2 dòng */
+                                                line-height: 2em;
+                                                height: 2em; /* 1.4em x 2 dòng */
+                                                margin-bottom: 8px;
+                                            }
+
                                             /* Responsive design */
                                             @media (max-width: 768px) {
                                                 .wd-search {
@@ -339,7 +357,7 @@
 
                                                                                     <div class="tour-listing-content">
 
-                                                                                        <h3 class="title-tour-list"><a href="/FB_N1/product-details?productId=${p.productId}">${p.productName}</a></h3>
+                                                                                        <h3 class="title-tour-list two-line-ellipsis"><a href="/FB_N1/product-details?productId=${p.productId}">${p.productName}</a></h3>
                                                                                         <div class="icon-box flex-three">
                                                                                             <div class="icons flex-three">
                                                                                                 <i class="icon-time-left"></i>
@@ -349,10 +367,10 @@
                                                                                         </div>
                                                                                         <div class="icon-box flex-three">
                                                                                             <div class="icons flex-three">
-                                                                                                <span>${p.productDescription}</span>
+                                                                                                <span class="product-description">${p.productDescription}</span>
                                                                                             </div>
-
                                                                                         </div>
+
                                                                                         <div class="flex-two">
                                                                                             <div class="price-box flex-three">
                                                                                                 <p>Giá:  <span class="price-sale"><fmt:formatNumber value="${p.productPrice}" type="number" groupingUsed="true"/> ₫</span></p>
@@ -459,7 +477,7 @@
                                                     }
 
                                                     const urlParams = new URLSearchParams(params);
-                                                    window.location.href = '${pageContext.request.contextPath}/Shop?' + urlParams.toString();
+                                                    window.location.href = '${pageContext.request.contextPath}/cua-hang?' + urlParams.toString();
                                                 }
 
                                                 function filterByCategory(categoryId) {
