@@ -5,6 +5,7 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.EmailVerificationTokenDAO;
 import dao.RoleDAO;
 import dao.UserProfileDAO;
 import java.io.IOException;
@@ -113,6 +114,9 @@ public class LoginServlet extends HttpServlet {
             }
 
         } else if (isSuccess && statusID == 2) {
+            Account acc = dao.getAccountByUsername(username);
+            EmailVerificationTokenDAO tokenDAO = new EmailVerificationTokenDAO();
+            tokenDAO.createOrResendVerificationToken(acc.getAccountId(), acc.getEmail(), acc.getUserProfile().getLastName());
             ToastUtil.setErrorToast(request, "Email của bạn chưa được xác minh!");
             request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
         } else if (isSuccess && statusID == 3) {

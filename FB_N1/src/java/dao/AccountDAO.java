@@ -462,7 +462,7 @@ public class AccountDAO extends DBContext {
 
             String token = java.util.UUID.randomUUID().toString();
             String createdAt = java.time.LocalDateTime.now().toString();
-            String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
+            String expiresAt = java.time.LocalDateTime.now().plusHours(1).toString();
 
             psToken = connection.prepareStatement(insertTokenSQL);
             psToken.setInt(1, accountId);

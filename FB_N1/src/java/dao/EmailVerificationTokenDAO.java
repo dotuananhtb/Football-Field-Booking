@@ -177,7 +177,7 @@ public class EmailVerificationTokenDAO extends DBContext {
 
             String newToken = generateUniqueToken();
             String createdAt = LocalDateTime.now().toString();
-            String expiresAt = LocalDateTime.now().plusMinutes(30).toString();
+            String expiresAt = LocalDateTime.now().plusMinutes(60).toString();
 
             insertNewToken(accountId, newToken, createdAt, expiresAt);
             sendVerificationMail(email, lastName, newToken);
