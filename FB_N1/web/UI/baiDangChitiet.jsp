@@ -54,7 +54,7 @@
                                                                         <article class="side-blog side-blog-single">
 
                                                                             <h2 class="entry-title">
-                                                                                ${blog.title} Nguyễn văn Nguyên đẹp trai
+                                                                                ${blog.title} 
                                                                             </h2>
 
                                                                             <div class="image">

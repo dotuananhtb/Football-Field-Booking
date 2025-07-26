@@ -119,7 +119,7 @@
                                                 <tr>
                                                     <td>${c.blogId} </td>
                                                     <td>${c.title}</td>
-                                                    <td>${c.timeAgo}</td>
+                                                    <td>${c.createdAt}</td>
                                                     <td>${c.updatedAt}</td>
                                                     <td>
                                                         <div class="btn-group mb-2">
