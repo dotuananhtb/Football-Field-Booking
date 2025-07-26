@@ -47,7 +47,7 @@ Dự án sử dụng **Java Servlet/JSP**, tích hợp **Google OAuth**, **Cloud
 ## 🔐 Bảo mật & Xác thực
 
 - Mã hóa mật khẩu người dùng bằng thuật toán BCrypt.
-- Xác minh tài khoản qua email với mã OTP.
+- Xác minh tài khoản qua email với link verify.
 - Giới hạn quyền truy cập theo vai trò (User, Admin, Staff).
 
 ---
