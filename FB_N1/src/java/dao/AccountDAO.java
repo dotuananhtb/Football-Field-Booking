@@ -384,6 +384,7 @@ public class AccountDAO extends DBContext {
             psProfile.setString(7, profile.getDob());
             psProfile.setString(8, profile.getPhone());
             psProfile.setString(9, profile.getAvatar());
+            
 
             int profileRows = psProfile.executeUpdate();
             if (profileRows == 0) {
@@ -460,9 +461,8 @@ public class AccountDAO extends DBContext {
             psProfile.executeUpdate();
 
             String token = java.util.UUID.randomUUID().toString();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String createdAt = LocalDateTime.now().format(formatter);
-            String expiresAt = LocalDateTime.now().plusHours(24).format(formatter);
+            String createdAt = java.time.LocalDateTime.now().toString();
+            String expiresAt = java.time.LocalDateTime.now().plusHours(24).toString();
 
             psToken = connection.prepareStatement(insertTokenSQL);
             psToken.setInt(1, accountId);
