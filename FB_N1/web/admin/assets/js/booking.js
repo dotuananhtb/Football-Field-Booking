@@ -203,13 +203,13 @@ function loadBookingDetails(bookingCode) {
                 const statusButtons = [];
 
                 if (status_id !== 1 && status_id !== 4) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-success btn-update-status" data-code="${bookingDetailsCode}" data-status="1">Đã đặt</button>`);
+                    statusButtons.push(`<button class="btn btn-sm btn-outline-success btn-update-status" data-code="${bookingDetailsCode}" data-status="1">Xác nhận đặt</button>`);
                 }
                 if (status_id !== 2) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-warning btn-update-status" data-code="${bookingDetailsCode}" data-status="2">Chờ huỷ</button>`);
+                    statusButtons.push(`<button class="btn btn-sm btn-outline-warning btn-update-status" data-code="${bookingDetailsCode}" data-status="2">Chờ xử lí huỷ</button>`);
                 }
                 if (status_id !== 3) {
-                    statusButtons.push(`<button class="btn btn-sm btn-outline-danger btn-update-status" data-code="${bookingDetailsCode}" data-status="3">Đã huỷ</button>`);
+                    statusButtons.push(`<button class="btn btn-sm btn-outline-danger btn-update-status" data-code="${bookingDetailsCode}" data-status="3">Huỷ</button>`);
                 }
 
 
