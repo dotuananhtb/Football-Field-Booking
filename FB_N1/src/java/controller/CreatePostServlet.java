@@ -27,7 +27,7 @@ public class CreatePostServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("dang-nhap");
             return;
         }
         List<TypeOfField> fieldTypes = typeDAO.getAllFieldTypes();
