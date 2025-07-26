@@ -54,19 +54,20 @@ public class PaymentDAO extends DBContext {
         return list;
     }
 
+
     public boolean matchPaymentToBooking(String transactionCode, String bookingCode, String confirmedBy, String description) throws SQLException {
         String sqlGetBookingId = "SELECT booking_id FROM Booking WHERE booking_code = ?";
         String sqlUpdatePayment = "UPDATE Payments SET pay_status = 'success', confirmed_time = ?, description = ?, booking_id = ? WHERE transaction_code = ?";
         String sqlUpdateSlotStatus = "UPDATE BookingDetails SET status_checking_id = 1 WHERE booking_id = ?";
+        String sqlUpdateBookingPayStatus = "UPDATE Booking SET status_pay = 1 WHERE booking_code = ?";
 
-        // Tạo thời gian hiện tại định dạng yyyy-MM-dd HH:mm:ss
         String confirmedTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         try (Connection conn = DBContext.getConnection()) {
             conn.setAutoCommit(false);
 
             try (
-                    PreparedStatement psGetBookingId = conn.prepareStatement(sqlGetBookingId); PreparedStatement psUpdatePayment = conn.prepareStatement(sqlUpdatePayment); PreparedStatement psUpdateSlotStatus = conn.prepareStatement(sqlUpdateSlotStatus)) {
+                    PreparedStatement psGetBookingId = conn.prepareStatement(sqlGetBookingId); PreparedStatement psUpdatePayment = conn.prepareStatement(sqlUpdatePayment); PreparedStatement psUpdateSlotStatus = conn.prepareStatement(sqlUpdateSlotStatus); PreparedStatement psUpdateBookingPayStatus = conn.prepareStatement(sqlUpdateBookingPayStatus)) {
                 // Lấy booking_id
                 psGetBookingId.setString(1, bookingCode);
                 ResultSet rs = psGetBookingId.executeQuery();
@@ -76,7 +77,7 @@ public class PaymentDAO extends DBContext {
                     bookingId = rs.getInt("booking_id");
                 } else {
                     conn.rollback();
-                    return false; // Không tìm thấy booking_code
+                    return false;
                 }
 
                 // Cập nhật Payment
@@ -88,12 +89,16 @@ public class PaymentDAO extends DBContext {
 
                 if (updated == 0) {
                     conn.rollback();
-                    return false; // Không tìm thấy transaction_code
+                    return false;
                 }
 
-                // Cập nhật BookingDetails
+                // Cập nhật trạng thái các slot
                 psUpdateSlotStatus.setInt(1, bookingId);
                 psUpdateSlotStatus.executeUpdate();
+
+                // ✅ Cập nhật trạng thái thanh toán trong bảng Booking
+                psUpdateBookingPayStatus.setString(1, bookingCode);
+                psUpdateBookingPayStatus.executeUpdate();
 
                 conn.commit();
                 return true;
@@ -108,11 +113,10 @@ public class PaymentDAO extends DBContext {
     // Lấy doanh thu từng tháng trong năm (chỉ tính payment thành công)
     public List<Double> getRevenueByMonth(int year) throws SQLException {
         List<Double> revenues = new ArrayList<>();
-        String sql = "SELECT MONTH(pay_time) AS month, SUM(transfer_amount) AS revenue " +
-                     "FROM Payments WHERE pay_status = 'success' AND YEAR(pay_time) = ? " +
-                     "GROUP BY MONTH(pay_time) ORDER BY MONTH(pay_time)";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "SELECT MONTH(pay_time) AS month, SUM(transfer_amount) AS revenue "
+                + "FROM Payments WHERE pay_status = 'success' AND YEAR(pay_time) = ? "
+                + "GROUP BY MONTH(pay_time) ORDER BY MONTH(pay_time)";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, year);
             ResultSet rs = ps.executeQuery();
             Map<Integer, Double> monthRevenue = new HashMap<>();
@@ -130,11 +134,10 @@ public class PaymentDAO extends DBContext {
     // Lấy doanh thu từng ngày trong 7 ngày gần nhất (SQL Server)
     public Map<String, Double> getRevenueByDayInLastWeek() throws SQLException {
         Map<String, Double> revenueByDay = new LinkedHashMap<>();
-        String sql = "SELECT CONVERT(date, pay_time) as day, SUM(transfer_amount) as revenue " +
-                     "FROM Payments WHERE pay_status = 'success' AND pay_time >= DATEADD(DAY, -6, CAST(GETDATE() AS date)) " +
-                     "GROUP BY CONVERT(date, pay_time) ORDER BY day";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "SELECT CONVERT(date, pay_time) as day, SUM(transfer_amount) as revenue "
+                + "FROM Payments WHERE pay_status = 'success' AND pay_time >= DATEADD(DAY, -6, CAST(GETDATE() AS date)) "
+                + "GROUP BY CONVERT(date, pay_time) ORDER BY day";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             // Chuẩn bị đủ 7 ngày gần nhất
             java.time.LocalDate today = java.time.LocalDate.now();
@@ -156,16 +159,15 @@ public class PaymentDAO extends DBContext {
     // Lấy doanh thu từng sân (field) - luôn hiển thị tất cả sân, kể cả doanh thu = 0
     public Map<String, Double> getRevenueByField() throws SQLException {
         Map<String, Double> revenueByField = new LinkedHashMap<>();
-        String sql =
-            "SELECT f.field_name, ISNULL(SUM(p.transfer_amount), 0) as revenue " +
-            "FROM Field f " +
-            "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id " +
-            "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id " +
-            "LEFT JOIN Booking b ON bd.booking_id = b.booking_id " +
-            "LEFT JOIN Payments p ON b.booking_id = p.booking_id AND p.pay_status = 'success' " +
-            "GROUP BY f.field_name ORDER BY revenue DESC";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql
+                = "SELECT f.field_name, ISNULL(SUM(p.transfer_amount), 0) as revenue "
+                + "FROM Field f "
+                + "LEFT JOIN SlotsOfField sf ON f.field_id = sf.field_id "
+                + "LEFT JOIN BookingDetails bd ON sf.slot_field_id = bd.slot_field_id "
+                + "LEFT JOIN Booking b ON bd.booking_id = b.booking_id "
+                + "LEFT JOIN Payments p ON b.booking_id = p.booking_id AND p.pay_status = 'success' "
+                + "GROUP BY f.field_name ORDER BY revenue DESC";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String fieldName = rs.getString("field_name");
@@ -179,18 +181,17 @@ public class PaymentDAO extends DBContext {
     // Thống kê số lượt booking theo loại sân (5 người, 7 người, 11 người) chỉ tính booking có thanh toán thành công
     public Map<String, Integer> getBookingTypeOfFieldRatio() throws SQLException {
         Map<String, Integer> typeRatio = new LinkedHashMap<>();
-        String sql =
-            "SELECT tof.field_type_name, COUNT(*) as count " +
-            "FROM Payments p " +
-            "JOIN Booking b ON p.booking_id = b.booking_id " +
-            "JOIN BookingDetails bd ON b.booking_id = bd.booking_id " +
-            "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id " +
-            "JOIN Field f ON sf.field_id = f.field_id " +
-            "JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id " +
-            "WHERE p.pay_status = 'success' " +
-            "GROUP BY tof.field_type_name ORDER BY count DESC";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql
+                = "SELECT tof.field_type_name, COUNT(*) as count "
+                + "FROM Payments p "
+                + "JOIN Booking b ON p.booking_id = b.booking_id "
+                + "JOIN BookingDetails bd ON b.booking_id = bd.booking_id "
+                + "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id "
+                + "JOIN Field f ON sf.field_id = f.field_id "
+                + "JOIN TypeOfField tof ON f.field_type_id = tof.field_type_id "
+                + "WHERE p.pay_status = 'success' "
+                + "GROUP BY tof.field_type_name ORDER BY count DESC";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String typeName = rs.getString("field_type_name");
@@ -204,17 +205,16 @@ public class PaymentDAO extends DBContext {
     // Thống kê số lượt đặt theo khung giờ (giờ bắt đầu), chỉ tính booking có thanh toán thành công
     public Map<String, Integer> getPopularBookingHours() throws SQLException {
         Map<String, Integer> hourMap = new LinkedHashMap<>();
-        String sql =
-            "SELECT sod.start_time, COUNT(*) as count " +
-            "FROM Payments p " +
-            "JOIN Booking b ON p.booking_id = b.booking_id " +
-            "JOIN BookingDetails bd ON b.booking_id = bd.booking_id " +
-            "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id " +
-            "JOIN SlotsOfDay sod ON sof.slot_id = sod.slot_id " +
-            "WHERE p.pay_status = 'success' " +
-            "GROUP BY sod.start_time ORDER BY sod.start_time";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql
+                = "SELECT sod.start_time, COUNT(*) as count "
+                + "FROM Payments p "
+                + "JOIN Booking b ON p.booking_id = b.booking_id "
+                + "JOIN BookingDetails bd ON b.booking_id = bd.booking_id "
+                + "JOIN SlotsOfField sof ON bd.slot_field_id = sof.slot_field_id "
+                + "JOIN SlotsOfDay sod ON sof.slot_id = sod.slot_id "
+                + "WHERE p.pay_status = 'success' "
+                + "GROUP BY sod.start_time ORDER BY sod.start_time";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String startTime = rs.getString("start_time");
@@ -239,8 +239,7 @@ public class PaymentDAO extends DBContext {
                 LEFT JOIN UserProfile up ON a.account_id = up.account_id
                 ORDER BY p.pay_time DESC
             """;
-            try (Connection conn = DBContext.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String, Object> map = new HashMap<>();
@@ -262,8 +261,7 @@ public class PaymentDAO extends DBContext {
     // Đếm tổng số giao dịch chi tiết
     public int countDetailedPayments() throws SQLException {
         String sql = "SELECT COUNT(*) FROM Payments";
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
