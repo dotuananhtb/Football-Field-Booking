@@ -16,6 +16,7 @@ public class Product {
     private String productStatus;
     private CateProduct CateProduct;
     private List<ProductDetails> productDetailsList;
+    private String productDetailsListJson;
 
     public Product() {
     }
@@ -110,6 +111,14 @@ public class Product {
     }
     public void setProductDetailsList(List<ProductDetails> productDetailsList) {
         this.productDetailsList = productDetailsList;
+    }
+
+    public String getProductDetailsListJson() {
+        return productDetailsListJson;
+    }
+
+    public void setProductDetailsListJson(String productDetailsListJson) {
+        this.productDetailsListJson = productDetailsListJson;
     }
 
     @Override
