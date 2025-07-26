@@ -643,28 +643,33 @@ public class FieldDAO extends DBContext {
         }
     }
 
-    public void syncSlotsAfterTypeUpdate(int fieldId, int newFieldTypeId) {
+    public boolean syncSlotsAfterTypeUpdate(int fieldId, int newFieldTypeId) {
         try {
-            // 1. Xóa slot cũ
+            // 1. Kiểm tra xem sân có slot nào đã được đặt chưa
+            String checkSql = "SELECT COUNT(*) FROM BookingDetails bd "
+                    + "JOIN SlotsOfField sf ON bd.slot_field_id = sf.slot_field_id "
+                    + "WHERE sf.field_id = ?";
+            try (PreparedStatement ps = connection.prepareStatement(checkSql)) {
+                ps.setInt(1, fieldId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        // Có slot đã được đặt → không được xóa
+                        return false;
+                    }
+                }
+            }
+
+            // 2. Xóa các slot cũ vì không có booking nào
             String deleteSql = "DELETE FROM SlotsOfField WHERE field_id = ?";
             try (PreparedStatement ps = connection.prepareStatement(deleteSql)) {
                 ps.setInt(1, fieldId);
                 ps.executeUpdate();
             }
+            return true;
 
-            // 2. Lấy danh sách slot mới theo loại sân mới
-            String selectSlotsSql = "SELECT slot_id FROM SlotsOfDay WHERE field_type_id = ?";
-            List<Integer> newSlotIds = new ArrayList<>();
-            try (PreparedStatement ps = connection.prepareStatement(selectSlotsSql)) {
-                ps.setInt(1, newFieldTypeId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        newSlotIds.add(rs.getInt("slot_id"));
-                    }
-                }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
