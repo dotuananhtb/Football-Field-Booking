@@ -320,11 +320,11 @@
                             <div class="row mb-2">
                                 <div class="col-md-6 mb-2">
                                     <label for="addColors" class="form-label">Màu sắc <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="addColors" name="colors" placeholder="Ví dụ: Đỏ, Đen" required>
+                                    <input type="text" class="form-control" id="addColors" name="colors" placeholder="Ví dụ: Đỏ, Đen" >
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="addSizes" class="form-label">Size <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="addSizes" name="sizes" placeholder="Ví dụ: 41, 42" required>
+                                    <input type="text" class="form-control" id="addSizes" name="sizes" placeholder="Ví dụ: 41, 42" >
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label for="addMaterial" class="form-label">Chất liệu</label>
@@ -423,12 +423,12 @@
                             <div class="row mb-2">
                                 <div class="col-md-6 mb-2">
                                     <label for="editColors" class="form-label">Màu sắc <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="editColors" name="color[]" placeholder="Ví dụ: Đỏ, Đen" required>
+                                    <input type="text" class="form-control" id="editColors" name="color[]" placeholder="Ví dụ: Đỏ, Đen" >
                                     <input type="hidden" id="editProductDetailsId" name="productDetailsId[]" value="">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="editSizes" class="form-label">Size <span style="color:red">*</span> <small>(nhiều giá trị, cách nhau bởi dấu phẩy)</small></label>
-                                    <input type="text" class="form-control" id="editSizes" name="size[]" placeholder="Ví dụ: 41, 42" required>
+                                    <input type="text" class="form-control" id="editSizes" name="size[]" placeholder="Ví dụ: 41, 42" >
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label for="editMaterial" class="form-label">Chất liệu</label>

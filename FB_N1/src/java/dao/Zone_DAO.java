@@ -48,6 +48,10 @@ public class Zone_DAO extends DBContext {
         return listZ;
     }
     
+  
+    
+    
+    
     public List<Zone> getAllZoneWithStatus() {
         List<Zone> listZ = new ArrayList<>();
         String sql = "SELECT z.*, s.status_name\n"
