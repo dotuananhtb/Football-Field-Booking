@@ -411,7 +411,7 @@
                 document.getElementById("formAction").value = "add";
                 document.getElementById("fieldId").value = "";
                 document.getElementById("fieldName").value = "";
-                document.getElementById("fieldImage").value = "";
+                document.getElementById("fieldImagePreview").src = "";
                 document.getElementById("typeId").selectedIndex = 0;
                 document.getElementById("zoneId").selectedIndex = 0;
                 document.getElementById("fieldstatus").selectedIndex = 0;
