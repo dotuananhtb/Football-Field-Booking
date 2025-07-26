@@ -15,8 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import model.Account;
 import model.EmailVerificationToken;
 import model.UserProfile;
@@ -85,49 +83,33 @@ public class VerifyMail extends HttpServlet {
             request.setAttribute("message", "Liên kết không tồn tại hoặc đã được sử dụng!");
             ToastUtil.setErrorToast(request, "Liên kết không tồn tại hoặc đã được sử dụng!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
-            return;
-        }
-
-        if (token.isUsed()) {
+        } else if (token.isUsed()) {
             request.setAttribute("message", "Liên kết đã được sử dụng!");
             ToastUtil.setErrorToast(request, "Liên kết đã được sử dụng!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
-            return;
-        }
-
-        // ✅ Kiểm tra hết hạn với định dạng "yyyy-MM-dd HH:mm:ss"
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime expiresAt = LocalDateTime.parse(token.getExpiresAt(), formatter);
-            long expiresAtMillis = expiresAt.toInstant(ZoneOffset.UTC).toEpochMilli();
-
-            if (System.currentTimeMillis() > expiresAtMillis) {
-                request.setAttribute("message", "Liên kết đã hết hạn! Vui lòng đăng nhập lại để nhận lại link xác minh qua email!");
-                ToastUtil.setErrorToast(request, "Liên kết đã hết hạn! Đăng nhập lại để xác minh!");
-                request.getRequestDispatcher("UI/error.jsp").forward(request, response);
-                return;
-            }
-        } catch (DateTimeParseException e) {
-            request.setAttribute("message", "Định dạng ngày hết hạn không hợp lệ!");
-            ToastUtil.setErrorToast(request, "Định dạng ngày hết hạn không hợp lệ!");
+        } else if (System.currentTimeMillis()
+                > LocalDateTime.parse(token.getExpiresAt()).toInstant(ZoneOffset.UTC).toEpochMilli()) {
+            request.setAttribute("message", "Liên kết đã hết hạn!");
+            ToastUtil.setErrorToast(request, "Liên kết đã hết hạn!");
             request.getRequestDispatcher("UI/error.jsp").forward(request, response);
-            return;
+        } else {
+            // Cập nhật trạng thái tài khoản và token
+            tokenDAO.activateAccount(token.getAccountId());
+
+            tokenDAO.markTokenAsUsed(token.getToken());
+
+            ///
+            Account acc = accountDAO.getAccountById(tokenDAO.getAccountIdByToken(tokenParam));
+            UserProfile profile = acc.getUserProfile();
+
+            request.getSession().setAttribute("username", acc.getUsername());
+            request.getSession().setAttribute("account", acc);
+            request.getSession().setAttribute("userProfile", profile);
+
+            // ✅ Xác minh thành công: chuyển hướng về trang chủ
+            ToastUtil.setSuccessToast(request, "Xác minh E-mail thành công!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
-
-        // ✅ Nếu hợp lệ → kích hoạt tài khoản
-        tokenDAO.activateAccount(token.getAccountId());
-        tokenDAO.markTokenAsUsed(token.getToken());
-
-        AccountDAO accountDAO = new AccountDAO();
-        Account acc = accountDAO.getAccountById(token.getAccountId());
-        UserProfile profile = acc.getUserProfile();
-
-        request.getSession().setAttribute("username", acc.getUsername());
-        request.getSession().setAttribute("account", acc);
-        request.getSession().setAttribute("userProfile", profile);
-
-        ToastUtil.setSuccessToast(request, "Xác minh E-mail thành công!");
-        response.sendRedirect(request.getContextPath() + "/home");
     }
 
     /**
