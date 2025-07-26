@@ -180,7 +180,7 @@ public class FieldDAO extends DBContext {
                 + "JOIN Zone z ON f.zone_id = z.zone_id "
                 + "JOIN TypeOfField t ON t.field_type_id = f.field_type_id "
                 + "JOIN SlotsOfField s ON f.field_id = s.field_id "
-                + "WHERE f.status = N'hoạt động' AND z.zone_id = ?  "
+                + "WHERE f.status = N'hoạt động' AND z.zone_id = ? and z.status_id = 1  "
                 + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, "
                 + "z.zone_id, z.zone_name, z.Address, "
                 + "t.field_type_id, t.field_type_name "
