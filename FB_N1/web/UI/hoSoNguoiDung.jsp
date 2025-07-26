@@ -55,6 +55,8 @@
                                                 .form-label {
                                                     font-weight: 600;
                                                 }
+                                                
+
                                             </style>
                                             <body class="body header-fixed">
                                                 <jsp:include page="toast.jsp"/>
@@ -76,7 +78,7 @@
                                                                 <!-- Chọn ảnh -->
                                                                 <div class="mb-3">
                                                                     <label for="avatar" class="form-label">Chọn ảnh mới:</label>
-                                                                    <input type="file" name="image" id="avatar" accept="image/*" class="form-control" onchange="previewAvatar(event)" required>
+                                                                    <input type="file" name="image" id="avatar" accept="image/*" class="form-control" onchange="previewAvatar(event)" required title="Chọn tệp">
                                                                 </div>
 
                                                                 <input type="hidden" name="type" value="avatars">
@@ -142,11 +144,10 @@
 
 <!--                                                                                <input type="text" value="${u.getGender()}" name="gender"id="gender" readonly>-->
                                                                                 <label for="gender">Giới tính </label>
-                                                                                <select name="gender" id="gender"  required>
-                                                                                    <option value="">${u.getGender()}</option>
-                                                                                    <option value="Nam">Nam</option>
-                                                                                    <option value="Nữ">Nữ</option>
-                                                                                    <option value="Khác">Khác</option>
+                                                                                <select name="gender" id="gender">
+                                                                                    <option value="Nam" ${u.getGender() == 'Nam' ? 'selected' : ''}>Nam</option>
+                                                                                    <option value="Nữ" ${u.getGender() == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                                                                                    <option value="Khác" ${u.getGender() == 'Khác' ? 'selected' : ''}>Khác</option>
                                                                                 </select>
                                                                             </div>
                                                                             <div class="input-wrap">
@@ -222,6 +223,8 @@
                                                                                 reader.readAsDataURL(input.files[0]);
                                                                             }
                                                                         }
+                                                                        
+
                                                 </script>
 
                                             </body>

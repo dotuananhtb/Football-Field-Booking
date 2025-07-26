@@ -121,7 +121,7 @@ public class Zone_DAO extends DBContext {
 
     public int countZone() {
         String sql = "SELECT count(*)\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Zone]";
+                + "  FROM [FootballFieldBooking].[dbo].[Zone] where status_id = 1";
         try (PreparedStatement ptm = connection.prepareStatement(sql); ResultSet rs = ptm.executeQuery();) {
 
             if (rs.next()) {
