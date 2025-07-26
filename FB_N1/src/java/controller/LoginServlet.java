@@ -117,7 +117,7 @@ public class LoginServlet extends HttpServlet {
             Account acc = dao.getAccountByUsername(username);
             EmailVerificationTokenDAO tokenDAO = new EmailVerificationTokenDAO();
             tokenDAO.createOrResendVerificationToken(acc.getAccountId(), acc.getEmail(), acc.getUserProfile().getLastName());
-            ToastUtil.setErrorToast(request, "Email của bạn chưa được xác minh!");
+            ToastUtil.setErrorToast(request, "Email của bạn chưa được xác minh. Vui lòng kiểm tra email để xác minh !");
             request.getRequestDispatcher("UI/UnverifyAccount.jsp").forward(request, response);
         } else if (isSuccess && statusID == 3) {
             ToastUtil.setErrorToast(request, "Tài khoản của bạn đã bị khoá");
