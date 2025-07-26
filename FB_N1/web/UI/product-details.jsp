@@ -177,60 +177,100 @@
                     <c:set var="moreInfos" value="${moreInfos}${detail.moreInfo}, " />
                 </c:if>
             </c:forEach>
+            
+            <c:set var="hasAttributes" value="false" />
+            <c:if test="${not empty colors and fn:length(colors) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty sizes and fn:length(sizes) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty materials and fn:length(materials) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty weights and fn:length(weights) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty origins and fn:length(origins) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty warranties and fn:length(warranties) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            <c:if test="${not empty moreInfos and fn:length(moreInfos) > 2}">
+                <c:set var="hasAttributes" value="true" />
+            </c:if>
+            
+            <c:if test="${hasAttributes}">
             <div class="product-attributes-list" style="display: flex; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 16px;">
-                <div style="min-width: 160px;"><strong>Màu sắc:</strong> ${fn:substring(colors, 0, fn:length(colors)-2)}</div>
-                <div style="min-width: 120px;"><strong>Size:</strong> ${fn:substring(sizes, 0, fn:length(sizes)-2)}</div>
-                <div style="min-width: 160px;"><strong>Chất liệu:</strong> 
-                    <c:choose>
-                        <c:when test="${fn:contains(materials, ', ')}">
-                            ${fn:substring(materials, 0, fn:indexOf(materials, ', '))}
-                        </c:when>
-                        <c:otherwise>
-                            ${materials}
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-                <div style="min-width: 160px;"><strong>Trọng lượng:</strong> 
-                    <c:choose>
-                        <c:when test="${fn:contains(weights, ', ')}">
-                            ${fn:substring(weights, 0, fn:indexOf(weights, ', '))}
-                        </c:when>
-                        <c:otherwise>
-                            ${weights}
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-                <div style="min-width: 120px;"><strong>Xuất xứ:</strong> 
-                    <c:choose>
-                        <c:when test="${fn:contains(origins, ', ')}">
-                            ${fn:substring(origins, 0, fn:indexOf(origins, ', '))}
-                        </c:when>
-                        <c:otherwise>
-                            ${origins}
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-                <div style="min-width: 140px;"><strong>Bảo hành:</strong> 
-                    <c:choose>
-                        <c:when test="${fn:contains(warranties, ', ')}">
-                            ${fn:substring(warranties, 0, fn:indexOf(warranties, ', '))}
-                        </c:when>
-                        <c:otherwise>
-                            ${warranties}
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-                <div style="min-width: 120px;"><strong>Khác:</strong> 
-                    <c:choose>
-                        <c:when test="${fn:contains(moreInfos, ', ')}">
-                            ${fn:substring(moreInfos, 0, fn:indexOf(moreInfos, ', '))}
-                        </c:when>
-                        <c:otherwise>
-                            ${moreInfos}
-                        </c:otherwise>
-                    </c:choose>
-                </div>
+                <c:if test="${not empty colors and fn:length(colors) > 2}">
+                    <div style="min-width: 160px;"><strong>Màu sắc:</strong> ${fn:substring(colors, 0, fn:length(colors)-2)}</div>
+                </c:if>
+                <c:if test="${not empty sizes and fn:length(sizes) > 2}">
+                    <div style="min-width: 120px;"><strong>Size:</strong> ${fn:substring(sizes, 0, fn:length(sizes)-2)}</div>
+                </c:if>
+                <c:if test="${not empty materials and fn:length(materials) > 2}">
+                    <div style="min-width: 160px;"><strong>Chất liệu:</strong> 
+                        <c:choose>
+                            <c:when test="${fn:contains(materials, ', ')}">
+                                ${fn:substring(materials, 0, fn:indexOf(materials, ', '))}
+                            </c:when>
+                            <c:otherwise>
+                                ${materials}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
+                <c:if test="${not empty weights and fn:length(weights) > 2}">
+                    <div style="min-width: 160px;"><strong>Trọng lượng:</strong> 
+                        <c:choose>
+                            <c:when test="${fn:contains(weights, ', ')}">
+                                ${fn:substring(weights, 0, fn:indexOf(weights, ', '))}
+                            </c:when>
+                            <c:otherwise>
+                                ${weights}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
+                <c:if test="${not empty origins and fn:length(origins) > 2}">
+                    <div style="min-width: 120px;"><strong>Xuất xứ:</strong> 
+                        <c:choose>
+                            <c:when test="${fn:contains(origins, ', ')}">
+                                ${fn:substring(origins, 0, fn:indexOf(origins, ', '))}
+                            </c:when>
+                            <c:otherwise>
+                                ${origins}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
+                <c:if test="${not empty warranties and fn:length(warranties) > 2}">
+                    <div style="min-width: 140px;"><strong>Bảo hành:</strong> 
+                        <c:choose>
+                            <c:when test="${fn:contains(warranties, ', ')}">
+                                ${fn:substring(warranties, 0, fn:indexOf(warranties, ', '))}
+                            </c:when>
+                            <c:otherwise>
+                                ${warranties}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
+                <c:if test="${not empty moreInfos and fn:length(moreInfos) > 2}">
+                    <div style="min-width: 120px;"><strong>Khác:</strong> 
+                        <c:choose>
+                            <c:when test="${fn:contains(moreInfos, ', ')}">
+                                ${fn:substring(moreInfos, 0, fn:indexOf(moreInfos, ', '))}
+                            </c:when>
+                            <c:otherwise>
+                                ${moreInfos}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
             </div>
+            </c:if>
         </c:if>
         <!-- Bỏ phần số lượng -->
         <div class="product-description" style="margin-top: 12px;">
