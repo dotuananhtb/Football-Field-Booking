@@ -158,48 +158,31 @@ public class Admin_San extends HttpServlet {
             }
 
             // Tạo đối tượng Field
-            Field field = new Field();
-            field.setFieldName(fieldName);
-            field.setStatus(status);
-            field.setDescription(description);
-
-            if (imageUrl != null) {
-                field.setImage(imageUrl); // Chỉ set khi có ảnh
-            }
-
-            Zone zone = new Zone();
-            zone.setZoneId(zoneId);
-            field.setZone(zone);
-
-            TypeOfField type = new TypeOfField();
-            type.setFieldTypeId(typeId);
-            field.setTypeOfField(type);
-
             // Thêm hoặc cập nhật
             if ("add".equals(action)) {
-                fieldDAO.insertField(field);
+                Zone zone = zoneDAO.getZonebyZoneId(zoneIdRaw);
+                TypeOfField typeOfField = typeDAO.getFieldTypeById(typeId);
+                Field field1 = new Field(fieldName, imageUrl, status, description, zone, typeOfField);
+                fieldDAO.insertField(field1);
                 ToastUtil.setSuccessToast(request, "Đã thêm sân thành công!");
-            } else if ("update".equals(action) && fieldId != -1 && fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 1 ) {
-                // Lấy loại sân cũ trước khi cập nhật
-                
-                Field oldField = fieldDAO.getFieldByFieldID(fieldId);
-                int oldTypeId = oldField.getTypeOfField().getFieldTypeId();
-
-                field.setFieldId(fieldId);
-                fieldDAO.updateField(field);
-
-                // Nếu loại sân bị thay đổi => đồng bộ lại các slot theo loại mới
-                if (oldTypeId != typeId) {
-                    fieldDAO.syncSlotsAfterTypeUpdate(fieldId, typeId);
+            } else if ("update".equals(action) && fieldId != -1 && fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 1) {
+                Field field = fieldDAO.getFieldByFieldID(fieldId);
+                field.setFieldName(fieldName);
+                field.setStatus(status);
+                field.setDescription(description);
+                if (imageUrl != null) {
+                    field.setImage(imageUrl); // Chỉ set khi có ảnh
                 }
+                field.setTypeOfField(typeDAO.getFieldTypeById(typeId));
+                fieldDAO.updateField(field);
 
                 ToastUtil.setSuccessToast(request, "Đã cập nhật sân thành công!");
             } else {
-                
-                if(fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 2){
+
+                if (fieldDAO.getFieldByFieldID(fieldId).getZone().getStatus() == 2) {
                     ToastUtil.setErrorToast(request, "Khu vực hiện không hoạt động");
-                }else{
-                ToastUtil.setErrorToast(request, "Cập nhật thất bại");
+                } else {
+                    ToastUtil.setErrorToast(request, "Cập nhật thất bại");
                 }
             }
 

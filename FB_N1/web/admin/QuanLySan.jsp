@@ -14,8 +14,6 @@
               name="description" />
         <meta content="Coderthemes" name="author" />
 
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!-- Datatables css -->
         <link href="assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet"
@@ -413,7 +411,7 @@
                 document.getElementById("formAction").value = "add";
                 document.getElementById("fieldId").value = "";
                 document.getElementById("fieldName").value = "";
-                document.getElementById("fieldImage").value = "";
+                document.getElementById("fieldImagePreview").src = "";
                 document.getElementById("typeId").selectedIndex = 0;
                 document.getElementById("zoneId").selectedIndex = 0;
                 document.getElementById("fieldstatus").selectedIndex = 0;
