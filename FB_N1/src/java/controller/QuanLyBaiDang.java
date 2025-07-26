@@ -50,9 +50,7 @@ public class QuanLyBaiDang extends HttpServlet {
           StatusBlogDAO s = new StatusBlogDAO();
          List<Status_Blog> list = s.getAllStatus();
         List<Blog> listB = bDao.getAllBlog();
-        for (Blog b : listB) {
-            b.setTimeAgo(TimeAgoUtil.formatDate(b.getCreatedAt()));
-        }
+        
         request.setAttribute("listS", list);
         request.setAttribute("listB", listB);
         request.getRequestDispatcher("QuanLyBaiDang.jsp").forward(request, response);

@@ -25,6 +25,7 @@ public class Blog {
     private String tags;
     private Status_Blog status;
     private String timeAgo;
+    private String updated;
 
     public Blog(int blogId, String title, String slug, String summary, String content, String thumbnailUrl, int accountId, int statusBlogId, Timestamp createdAt, Timestamp updatedAt, String tags, Status_Blog status) {
         this.blogId = blogId;
@@ -84,6 +85,15 @@ public class Blog {
 
     public Blog() {
     }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+    
 
     public int getBlogId() {
         return blogId;
