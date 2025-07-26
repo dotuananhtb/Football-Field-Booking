@@ -31,9 +31,9 @@ public class FieldDAO extends DBContext {
 
     public List<Field> getAllFields() {
         List<Field> list = new ArrayList<>();
-        String sql = "SELECT f.*,z.zone_name, z.Address, t.field_type_name FROM Field f "
+        String sql = "SELECT f.*,z.zone_name, z.Address, z.status_id, t.field_type_name FROM Field f "
                 + "JOIN Zone z ON f.zone_id = z.zone_id "
-                + "JOIN TypeOfField t ON f.field_type_id = t.field_type_id";
+                + "JOIN TypeOfField t ON f.field_type_id = t.field_type_id where z.status_id = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -48,6 +48,41 @@ public class FieldDAO extends DBContext {
                 z.setZoneId(rs.getInt("zone_id"));
                 z.setZone_name(rs.getString("zone_name"));
                 z.setAddress(rs.getString("Address"));
+                z.setStatus(rs.getInt("status_id"));
+                f.setZone(z);
+
+                TypeOfField t = new TypeOfField();
+                t.setFieldTypeId(rs.getInt("field_type_id"));
+                t.setFieldTypeName(rs.getString("field_type_name"));
+                f.setTypeOfField(t);
+
+                list.add(f);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Field> getAllFields2() {
+        List<Field> list = new ArrayList<>();
+        String sql = "SELECT f.*,z.zone_name, z.Address, z.status_id, t.field_type_name FROM Field f "
+                + "JOIN Zone z ON f.zone_id = z.zone_id "
+                + "JOIN TypeOfField t ON f.field_type_id = t.field_type_id ";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Field f = new Field();
+                f.setFieldId(rs.getInt("field_id"));
+                f.setFieldName(rs.getString("field_name"));
+                f.setImage(rs.getString("image"));
+                f.setStatus(rs.getString("status"));
+                f.setDescription(rs.getString("description"));
+
+                Zone z = new Zone();
+                z.setZoneId(rs.getInt("zone_id"));
+                z.setZone_name(rs.getString("zone_name"));
+                z.setAddress(rs.getString("Address"));
+                z.setStatus(rs.getInt("status_id"));
                 f.setZone(z);
 
                 TypeOfField t = new TypeOfField();
@@ -74,7 +109,7 @@ public class FieldDAO extends DBContext {
                 + "JOIN Zone z ON f.zone_id = z.zone_id "
                 + "JOIN TypeOfField t ON t.field_type_id = f.field_type_id "
                 + "JOIN SlotsOfField s ON f.field_id = s.field_id "
-                + "WHERE f.status = N'hoạt động'"
+                + "WHERE f.status = N'hoạt động' and z.status_id = 1  "
                 + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, "
                 + "z.zone_id, z.zone_name, z.Address, "
                 + "t.field_type_id, t.field_type_name "
@@ -145,7 +180,7 @@ public class FieldDAO extends DBContext {
                 + "JOIN Zone z ON f.zone_id = z.zone_id "
                 + "JOIN TypeOfField t ON t.field_type_id = f.field_type_id "
                 + "JOIN SlotsOfField s ON f.field_id = s.field_id "
-                + "WHERE f.status = N'hoạt động' AND z.zone_id = ? "
+                + "WHERE f.status = N'hoạt động' AND z.zone_id = ?  "
                 + "GROUP BY f.field_id, f.field_name, f.image, f.status, f.description, "
                 + "z.zone_id, z.zone_name, z.Address, "
                 + "t.field_type_id, t.field_type_name "
@@ -220,7 +255,7 @@ public class FieldDAO extends DBContext {
 
     public Field getFieldByFieldID(int fieldId) {
         Field field = null;
-        String sql = "SELECT f.*, z.zone_id, z.zone_name,z.Address, t.field_type_id, t.field_type_name "
+        String sql = "SELECT f.*, z.zone_id,z.status_id, z.zone_name,z.Address, t.field_type_id, t.field_type_name "
                 + "FROM Field f "
                 + "JOIN Zone z ON f.zone_id = z.zone_id "
                 + "JOIN TypeOfField t ON f.field_type_id = t.field_type_id "
@@ -244,6 +279,7 @@ public class FieldDAO extends DBContext {
                 zone.setZoneId(rs.getInt("zone_id"));
                 zone.setZone_name(rs.getString("zone_name"));
                 zone.setAddress(rs.getString("Address"));
+                zone.setStatus(rs.getInt("status_id"));
                 field.setZone(zone);
 
                 // Gán TypeOfField
@@ -374,7 +410,7 @@ public class FieldDAO extends DBContext {
                 .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
                 .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
                 .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
-                .append("WHERE f.status = N'Hoạt động' ");
+                .append("WHERE f.status = N'Hoạt động' and  z.status_id = 1");
 
         if (zoneId != null && !zoneId.isEmpty()) {
             sql.append("AND z.zone_id = ? ");
@@ -470,7 +506,7 @@ public class FieldDAO extends DBContext {
                 .append("INNER JOIN TypeOfField t ON f.field_type_id = t.field_type_id ")
                 .append("INNER JOIN SlotsOfField sof ON f.field_id = sof.field_id ")
                 .append("INNER JOIN SlotsOfDay sd ON sof.slot_id = sd.slot_id ")
-                .append("WHERE f.status = N'Hoạt động' ");
+                .append("WHERE f.status = N'Hoạt động' and  z.status_id = 1 ");
 
         if (zoneId != null && !zoneId.isEmpty()) {
             sql.append("AND z.zone_id = ? ");

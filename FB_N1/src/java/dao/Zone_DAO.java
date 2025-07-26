@@ -24,7 +24,7 @@ public class Zone_DAO extends DBContext {
     public List<Zone> getAllZone() {
         List<Zone> listZ = new ArrayList<>();
         String sql = "SELECT z.*, s.status_name\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Zone] z join [dbo].[Status_Zone] s on z.status_id = s.status_id";
+                + "  FROM [FootballFieldBooking].[dbo].[Zone] z join [dbo].[Status_Zone] s on z.status_id = s.status_id ";
         try {
             PreparedStatement ptm = connection.prepareStatement(sql);
             ResultSet rs = ptm.executeQuery();

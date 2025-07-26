@@ -163,7 +163,7 @@ public class blogDAO extends DBContext {
 
     public boolean updateBlog(Blog blog) {
         String sql = "UPDATE Blog SET title = ?, slug = ?, summary = ?, content = ?, thumbnail_url = ?, "
-                + "  updated_at = ?, tags = ? "
+                + "  updated_at = GETDATE(), tags = ? "
                 + "WHERE blog_id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -172,9 +172,8 @@ public class blogDAO extends DBContext {
             ps.setString(3, blog.getSummary());
             ps.setString(4, blog.getContent());
             ps.setString(5, blog.getThumbnailUrl());
-            ps.setTimestamp(6, blog.getUpdatedAt());
-            ps.setString(7, blog.getTags());
-            ps.setInt(8, blog.getBlogId());
+            ps.setString(6, blog.getTags());
+            ps.setInt(7, blog.getBlogId());
 
             return ps.executeUpdate() > 0;
 
@@ -351,7 +350,7 @@ public class blogDAO extends DBContext {
     }
 
     public int countAllBlogs() {
-        String sql = "SELECT COUNT(*) FROM Blog";
+        String sql = "SELECT COUNT(*) FROM Blog where status_blog_id = 1";
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
