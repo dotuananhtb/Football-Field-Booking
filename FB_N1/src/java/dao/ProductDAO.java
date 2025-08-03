@@ -239,7 +239,7 @@ public class ProductDAO extends DBContext {
     public Vector<Product> pagingProduct(int page, int pageSize) {
         Vector<Product> list = new Vector<>();
         String query = "SELECT *\n"
-                + "  FROM [FootballFieldBooking].[dbo].[Product]\n"
+                + "  FROM [FootballFieldBooking].[dbo].[Product] WHERE product_status = 'active'\n"
                 + "	order by product_id\n"
                 + "	offset ? rows fetch next ? rows only";
         try (PreparedStatement ptm = connection.prepareStatement(query)) {
@@ -265,7 +265,7 @@ public class ProductDAO extends DBContext {
 ////////////////
     public Vector<Product> pagingProductByCateID(int cateId, int page, int pageSize) {
         Vector<Product> list = new Vector<>();
-        String query = "SELECT * FROM Product WHERE product_cate_id = ?\n"
+        String query = "SELECT * FROM Product WHERE product_cate_id = ? and product_status = 'active'\n"
                 + "ORDER BY product_id \n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (PreparedStatement ptm = connection.prepareStatement(query)) {
@@ -291,7 +291,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int countProductByCateID(int cateID) {
-        String query = "SELECT COUNT(*) FROM Product WHERE product_cate_id = ?";
+        String query = "SELECT COUNT(*) FROM Product WHERE product_cate_id = ? and product_status = 'active'";
         try (PreparedStatement ptm = connection.prepareStatement(query);) {
 
             ptm.setInt(1, cateID);
@@ -307,7 +307,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getTotalProduct() {
-        String query = "SELECT COUNT(*) FROM Product";
+        String query = "SELECT COUNT(*) FROM Product where  product_status = 'active'";
         try (PreparedStatement ptm = connection.prepareStatement(query);
              ResultSet rs = ptm.executeQuery();) {
 
