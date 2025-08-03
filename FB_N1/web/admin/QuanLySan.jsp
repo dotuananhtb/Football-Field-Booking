@@ -86,7 +86,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý Sân</a>
+                                            <li class="breadcrumb-item">Quản lý Sân
                                             </li>
                                             <li class="breadcrumb-item active">Quản lý Sân Bóng</li>
                                         </ol>
@@ -102,9 +102,7 @@
 
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#bs-example-modal-lg" onclick="resetFieldForm()">Tạo Mới</button>
-
                             </div>
-
                             <div class="col-12">
                                 <div class="mb-4">
 
@@ -175,17 +173,9 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-
-
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-
-
-
-
-
-
 
 
                         <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
@@ -217,11 +207,9 @@
                                                     <label for="fieldImage" class="form-label">Ảnh (upload):</label>
                                                     <input type="file" name="image" id="fieldImage" class="form-control" accept="image/*" />
 
-                                                    <!-- THÊM đoạn này để preview ảnh -->
+                                                    <!-- preview ảnh -->
                                                     <img id="fieldImagePreview" src="" alt="Xem trước ảnh" style="max-width: 100%; margin-top: 10px;" />
                                                 </div>
-
-
                                                 <!-- Loại sân -->
                                                 <div class="col-md-6">
                                                     <label for="typeId" class="form-label">Loại sân:</label>
@@ -265,7 +253,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="modal-footer">
                                             <button type="button" id="btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
                                             <button type="submit" id="btnAdd" class="btn btn-primary">Thêm sân</button>
@@ -277,68 +264,21 @@
                         </div><!-- /.modal -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </div> <!-- container -->
-
                 </div> <!-- content -->
-                <%@include file="footer.jsp" %>
                 <!-- Footer Start -->
-
+                <%@include file="footer.jsp" %>
                 <!-- end Footer -->
-
             </div>
-
-            <!-- ============================================================== -->
+            <!-- ============================================================= -->
             <!-- End Page content -->
             <!-- ============================================================== -->
-
         </div>
         <!-- END wrapper -->
-
         <!-- Theme Settings -->
         <%@include file="themesetting.jsp" %>
-
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
-        <script>
-                                            function autoResize(textarea) {
-                                                textarea.style.height = 'auto'; // reset
-                                                textarea.style.height = textarea.scrollHeight + 'px'; // fit content
-                                            }
-        </script>
         <!-- Datatables js -->
         <script src="assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -356,94 +296,12 @@
         <script src="assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
         <script src="assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
-
-
-        <script src="assets/js/pages/demo.datatable-init.js"></script>
-
+        <script src="assets/js/quan-ly-san.js"></script>
+        
+       <!-- Datatable Demo Aapp js -->
+        <script src="assets/js/jsBang.js"></script>
 
         <script src="assets/js/app.min.js"></script>
-        <script>
-                                            function editField(id, name, image, typeId, zoneId, status, description) {
-                                                document.getElementById("formAction").value = "update";
-                                                document.getElementById("fieldId").value = id;
-                                                document.getElementById("fieldName").value = name.trim();
-                                                document.getElementById("fieldImagePreview").src = image;
-                                                document.getElementById("typeId").value = typeId;
-                                                document.getElementById("zoneId").value = zoneId;
-
-                                                // Đảm bảo status khớp với option trong <select>
-                                                document.getElementById("fieldstatus").value = status.trim();
-
-                                                document.getElementById("description").value = description;
-
-                                                // Chuyển sang chế độ cập nhật
-                                                document.getElementById("btnAdd").style.display = "none";
-                                                document.getElementById("btnUpdate").style.display = "inline-block";
-                                                document.getElementById("btnCancel").style.display = "inline-block";
-                                                window.scrollTo({top: 0, behavior: 'smooth'});
-
-                                                const modal = new bootstrap.Modal(document.getElementById("bs-example-modal-lg"));
-                                                modal.show();
-                                            }
-
-                                            function cancelEdit() {
-                                                document.getElementById("formAction").value = "add";
-                                                document.getElementById("fieldId").value = "";
-                                                document.getElementById("fieldName").value = "";
-
-                                                // ✅ Reset input file bằng cách tạo lại
-                                                const oldInput = document.getElementById("fieldImage");
-                                                const newInput = oldInput.cloneNode();
-                                                oldInput.parentNode.replaceChild(newInput, oldInput);
-
-                                                // ✅ Reset ảnh preview
-                                                document.getElementById("fieldImagePreview").src = "";
-
-                                                document.getElementById("typeId").selectedIndex = 0;
-                                                document.getElementById("zoneId").selectedIndex = 0;
-                                                document.getElementById("fieldstatus").selectedIndex = 0;
-                                                document.getElementById("description").value = "";
-
-                                                document.getElementById("btnAdd").style.display = "inline-block";
-                                                document.getElementById("btnUpdate").style.display = "none";
-                                                document.getElementById("btnCancel").style.display = "none";
-                                            }
-        </script>
-        <script>
-            function resetFieldForm() {
-                document.getElementById("formAction").value = "add";
-                document.getElementById("fieldId").value = "";
-                document.getElementById("fieldName").value = "";
-                document.getElementById("fieldImagePreview").src = "";
-                document.getElementById("typeId").selectedIndex = 0;
-                document.getElementById("zoneId").selectedIndex = 0;
-                document.getElementById("fieldstatus").selectedIndex = 0;
-                document.getElementById("description").value = "";
-
-                document.getElementById("btnAdd").style.display = "inline-block";
-                document.getElementById("btnUpdate").style.display = "none";
-                document.getElementById("btnCancel").style.display = "none";
-            }
-
-            document.addEventListener("DOMContentLoaded", function () {
-                document.querySelectorAll(".editFieldBtn").forEach(function (btn) {
-                    btn.addEventListener("click", function () {
-                        const id = this.dataset.id;
-                        const name = this.dataset.name;
-                        const image = this.dataset.image;
-                        const typeId = this.dataset.type;
-                        const zoneId = this.dataset.zone;
-                        const status = this.dataset.status;
-                        const description = this.dataset.description;
-
-                        editField(id, name, image, typeId, zoneId, status, description);
-                    });
-                });
-            });
-        </script>
-
-
-
     </body>
 
 </html>

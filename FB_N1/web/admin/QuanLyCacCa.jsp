@@ -105,7 +105,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý Sân</a>
+                                            <li class="breadcrumb-item">Quản lý Sân
                                             </li>
                                             <li class="breadcrumb-item active">Quản Lý Các ca</li>
                                         </ol>
@@ -121,50 +121,6 @@
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#bs-example-modal-lg" onclick="resetSlotForm()">Tạo Slot Đơn</button>
 
-                            </div>
-                            <!-- Form Thêm nhiều Ca hiển thị trực tiếp ngoài giao diện -->
-                            <div class="card p-4 mb-5">
-                                <h4 class="mb-4">Tạo Nhiều Slot</h4>
-
-                                <form method="post"
-                                      action="${pageContext.request.contextPath}/admin/quan-ly-ca-theo-loai-san">
-                                    <input type="hidden" name="action" value="checkbox_bulk_add" />
-
-                                    <div class="row g-3">
-                                        <!-- Chọn loại sân -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">Chọn loại sân</label>
-                                            <select name="field_type_id" class="form-select" required>
-                                                <option value="">-- Chọn loại sân --</option>
-                                                <c:forEach var="t" items="${types}">
-                                                    <option value="${t.fieldTypeId}">${t.fieldTypeName}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-
-                                        <!-- Chọn độ dài ca -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">Chọn độ dài ca</label>
-                                            <select id="durationSelector" class="form-select">
-                                                <option value="60">1 tiếng</option>
-                                                <option value="90">1 tiếng 30 phút</option>
-                                                <option value="120">2 tiếng</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Danh sách checkbox -->
-                                        <div class="col-md-12">
-                                            <label class="form-label"><strong>Chọn các khung giờ:</strong></label>
-                                            <div id="slotContainer" class="grid-checkbox">
-                                                <!-- Các checkbox slot sẽ render ở đây -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button type="submit" class="btn btn-success">Thêm các ca đã chọn</button>
-                                    </div>
-                                </form>
                             </div>
                             <!-- Danh sách Slot theo loại sân -->
                             <h3 class="mb-4">Danh sách các ca</h3>
@@ -241,7 +197,7 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">Tạo Mới Người Dùng</h4>
+                                        <h4 class="modal-title" id="myLargeModalLabel">Tạo Mới Ca đá bóng</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
@@ -309,7 +265,6 @@
 
         </div>
         <!-- END wrapper -->
-
         <%@include file="themesetting.jsp" %>
 
         <!-- Vendor js -->
@@ -343,8 +298,6 @@
                                                                                   startInput.value = formatTime(startInput.value);
                                                                                   endInput.value = formatTime(endInput.value);
                                                                               });
-
-
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -373,54 +326,6 @@
                         modal.show();
                     });
                 });
-            });
-        </script>
-
-
-
-        <script>
-            // Các hàm tiện ích: khai báo ngoài để dùng được trong console
-            function padTime(num) {
-                return num < 10 ? "0" + num : num;
-            }
-
-            function toHM(minutes) {
-                const h = Math.floor(minutes / 60);
-                const m = minutes % 60;
-                return padTime(h) + ":" + padTime(m);
-            }
-
-            function generateSlots(durationMinutes) {
-                const slotContainer = document.getElementById("slotContainer");
-                slotContainer.innerHTML = "";
-
-                const startHour = 5;
-                const endHour = 22;
-                const toMinutes = (h, m = 0) => h * 60 + m;
-
-                for (let start = toMinutes(startHour); start + durationMinutes <= toMinutes(endHour); start += 30) {
-                    const end = start + durationMinutes;
-                    const startStr = toHM(start);
-                    const endStr = toHM(end);
-
-                    const label = startStr + " - " + endStr;
-                    const div = document.createElement("label");
-                    div.className = "slot-item";
-                    div.innerHTML = '<input type="checkbox" name="selected_slots" value="' + startStr + '-' + endStr + '" /> ' + label;
-                    slotContainer.appendChild(div);
-                }
-            }
-
-            // Đảm bảo chạy sau khi DOM đã load
-            window.addEventListener("DOMContentLoaded", function () {
-                const durationSelector = document.getElementById("durationSelector");
-
-                durationSelector.addEventListener("change", function () {
-                    generateSlots(parseInt(this.value));
-                });
-
-                // Gọi mặc định khi trang load
-                generateSlots(parseInt(durationSelector.value));
             });
         </script>
     </body>

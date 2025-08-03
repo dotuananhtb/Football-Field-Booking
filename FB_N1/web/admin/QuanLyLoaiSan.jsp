@@ -59,7 +59,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý Sân</a>
+                                            <li class="breadcrumb-item">Quản lý Sân
                                             </li>
                                             <li class="breadcrumb-item active">Quản Lý loại Sân Bóng</li>
                                         </ol>

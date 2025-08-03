@@ -178,10 +178,10 @@ function bookField(event) {
             console.log("✅ Server response:", response);
 
             if (response && response.success) {
-                showToast("success", "Đặt sân thành công!");
+                showToast("success", "Vui lòng thanh toán để đặt sân!");
 
                 const bookingCode = response.bookingCode;
-                console.log("📦 bookingCode nhận được:", bookingCode);
+                console.log("bookingCode nhận được:", bookingCode);
 
                 if (bookingCode) {
                     setTimeout(() => {
@@ -189,7 +189,7 @@ function bookField(event) {
                         window.location.href = `/FB_N1/thanh-toan?code=${encodeURIComponent(bookingCode)}`;
                     }, 1000);
                 } else {
-                    console.warn("⚠️ Không có bookingCode từ response!");
+                    console.warn("️ Không có bookingCode từ response!");
                 }
                 // Xoá slot đã đặt của sân đó
                 selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);

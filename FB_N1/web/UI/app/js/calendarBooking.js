@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: JSON.stringify(bookingDetailsList),
             success: function (response) {
                 if (response && response.success) {
-                    alert("✅ Đặt sân thành công!");
+                    alert("✅ vui lòng thanh toán để đặt sân!");
 
                     const bookingCode = response.bookingCode;
                     console.log("📦 bookingCode nhận được:", bookingCode);
