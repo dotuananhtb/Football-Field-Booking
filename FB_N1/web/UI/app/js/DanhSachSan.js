@@ -1,5 +1,3 @@
-let socket;
-
 document.querySelectorAll(".nice-select .option").forEach(function (option) {
     option.addEventListener("click", function () {
         const value = this.getAttribute("data-value");
@@ -32,18 +30,18 @@ document.querySelectorAll(".slotDatePicker").forEach(input => {
 
         const courtId = fieldId;
 
-        // ✅ Luôn reset UI khi date thay đổi (dù rỗng)
+        // Luôn reset UI khi date thay đổi (dù rỗng)
         fieldBlock.querySelectorAll(".slot-btn").forEach(btn => {
             btn.classList.remove('booked', 'expired','wait' ,'pending', 'selected');
             btn.disabled = true;
             btn.removeAttribute('data-slot-date');
         });
 
-        // ✅ Xoá slot chọn cũ
+        // Xoá slot chọn cũ
         selectedSlots = selectedSlots.filter(slot => slot.courtId !== courtId);
         selectedSlotPrices.delete(courtId);
 
-        // ❌ Nếu chưa có ngày thì không gọi API
+        // Nếu chưa có ngày thì không gọi API
         if (!selectedDate) {
             console.log("📛 Input bị xoá ngày — đã reset slot UI, không gọi API");
             return;
@@ -205,7 +203,7 @@ function bookField(event) {
             console.error("❌ AJAX Error:", xhr.status, xhr.responseText);
             if (xhr.status === 401 || xhr.status === 302) {
                 showToast("error", "Bạn cần đăng nhập để đặt sân.");
-                window.location.href = "/FB_N1/login";
+                window.location.href = "/FB_N1/dang-nhap";
             } else {
                 alert("⚠️ Lỗi máy chủ: " + (xhr.responseText || "Không xác định"));
             }
@@ -384,50 +382,6 @@ function updateSlotUI(bookedSlots, selectedDate, fieldBlock) {
     });
 }
 
-// Hàm kết nối WebSocket để nhận cập nhật realtime slot
-function connectSlotWebSocket() {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.close();
-    }
-
-    socket = new WebSocket(`ws://${location.host}/FB_N1/ws/slot-updates`);
-
-    socket.onopen = () => console.log("✅ WebSocket for slots connected");
-
-    socket.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        if (msg.type === "slotUpdate") {
-            console.log("Nhận cập nhật slot từ server", msg);
-
-            // Tự động gọi lại API cập nhật slot mới cho tất cả sân có chọn ngày
-            document.querySelectorAll(".slotDatePicker").forEach(input => {
-                const selectedDate = input.value;
-                const fieldId = input.getAttribute("data-field-id");
-                const fieldBlock = input.closest(".field-block");
-                if (!fieldBlock || !fieldId || !selectedDate) return;
-
-                $.ajax({
-                    url: '/FB_N1/checking-slots',
-                    method: 'GET',
-                    data: {
-                        fieldId: fieldId,
-                        start: selectedDate,
-                        end: selectedDate
-                    },
-                    dataType: 'json',
-                    success: function (bookedSlots) {
-                        updateSlotUI(bookedSlots, selectedDate, fieldBlock);
-                    }
-                });
-            });
-        }
-    };
-
-    socket.onclose = () => console.log("⚠️ WebSocket for slots disconnected");
-    socket.onerror = e => console.error("❌ WebSocket error", e);
-}
-
-
 
 
 // Initialize
@@ -460,137 +414,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// Utility functions
-function getAllSelectedSlots() {
-    const result = {};
-    document.querySelectorAll('.time-slots').forEach(courtContainer => {
-        const courtId = getCourtId(courtContainer);
-        const selectedButton = courtContainer.querySelector('.slot-btn.selected');
-        const price = selectedSlotPrices.get(courtId) || 0;
-
-        if (selectedButton && price > 0) {
-            result[courtId] = {
-                time: selectedButton.textContent.trim(),
-                price: price
-            };
-        }
-    });
-    return result;
-}
-
-function getTotalPrice() {
-    return Array.from(selectedSlotPrices.values()).reduce((sum, price) => sum + price, 0);
-}
-
-function resetAllSelections() {
-    document.querySelectorAll('.time-slots').forEach(courtContainer => {
-        const courtId = getCourtId(courtContainer);
-        courtContainer.querySelectorAll('.slot-btn').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-        selectedSlotPrices.set(courtId, 0);
-        resetPriceDisplay();
-    });
-}
-// tìm kiếm
-// Initialize Flatpickr for date picker
-const datePicker = flatpickr("#bookingDateAdvanced", {
-    locale: "vn",
-    dateFormat: "d/m/Y",
-    minDate: "today",
-    defaultDate: new Date(),
-    enableTime: false,
-    clickOpens: true,
-    allowInput: false,
-    onChange: function (selectedDates, dateStr, instance) {
-        console.log("Ngày được chọn:", dateStr);
-    }
-});
-
-// Custom nice-select functionality
-document.querySelectorAll('.nice-select').forEach(select => {
-    select.addEventListener('click', function (e) {
-        e.stopPropagation();
-
-        // Close all other selects
-        document.querySelectorAll('.nice-select').forEach(otherSelect => {
-            if (otherSelect !== this) {
-                otherSelect.classList.remove('open');
-            }
-        });
-
-        // Toggle current select
-        this.classList.toggle('open');
-    });
-
-    // Handle option selection
-    select.querySelectorAll('.option').forEach(option => {
-        option.addEventListener('click', function (e) {
-            e.stopPropagation();
-
-            const selectElement = this.closest('.nice-select');
-            const currentSpan = selectElement.querySelector('.current');
-            const hiddenInput = selectElement.parentElement.querySelector('input[type="hidden"]');
-
-            // Remove selected class from all options
-            selectElement.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-
-            // Add selected class to clicked option
-            this.classList.add('selected');
-
-            // Update current text and hidden input value
-            currentSpan.textContent = this.textContent;
-            if (hiddenInput) {
-                hiddenInput.value = this.getAttribute('data-value');
-            }
-
-            // Close dropdown
-            selectElement.classList.remove('open');
-        });
-    });
-});
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function () {
-    document.querySelectorAll('.nice-select').forEach(select => {
-        select.classList.remove('open');
-    });
-});
-
-// Handle search button click
-document.querySelector('.btn-search').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    // Validate required fields
-    const bookingDate = document.getElementById('bookingDateAdvanced').value;
-    if (!bookingDate) {
-        alert('Vui lòng chọn ngày đặt sân!');
-        return;
-    }
-
-    // Submit form to servlet
-    document.getElementById('search-form-slider').submit();
-});
-
-// Handle form submission
-document.getElementById('search-form-slider').addEventListener('submit', function (e) {
-    const bookingDate = document.getElementById('bookingDateAdvanced').value;
-    if (!bookingDate) {
-        e.preventDefault();
-        alert('Vui lòng chọn ngày đặt sân!');
-        return false;
-    }
-});
-
-// Ensure date picker is clickable
-document.getElementById('bookingDateAdvanced').addEventListener('click', function () {
-    if (this._flatpickr) {
-        this._flatpickr.open();
-    }
-}
-);
 
 document.querySelectorAll('.btn-book').forEach(btn => {
     btn.addEventListener('click', bookField);

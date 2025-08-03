@@ -142,7 +142,6 @@ public class Shop extends HttpServlet {
 
 // Lấy danh sách sản phẩm theo trang (chỉ khi không phải search hoặc search hợp lệ)
         List<Product> listP = null;
-        String errorMessage = null;
         java.util.List<Product> products = null;
 
 // Nếu đang thực hiện search (có parameter productName)
