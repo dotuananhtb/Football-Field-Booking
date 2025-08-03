@@ -104,7 +104,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý Sân</a>
+                                            <li class="breadcrumb-item">Quản lý Sân
                                             </li>
                                             <li class="breadcrumb-item active">Quản lý giá cả</li>
                                         </ol>
@@ -140,7 +140,6 @@
                                     <input type="hidden" name="action" value="save_bulk_price" />
                                     <input type="hidden" name="field_id" value="${selectedFieldId}" />
                                     <input type="hidden" name="submitType" id="submitType" value="insert" />
-
                                     <div class="row g-3">
                                         <!-- Danh sách khung giờ -->
                                         <div class="col-md-12">
@@ -162,14 +161,12 @@
                                                 </c:forEach>
                                             </div>
                                         </div>
-
                                         <!-- Nhập giá -->
                                         <div class="col-md-4">
                                             <label class="form-label"><strong>Nhập giá (VNĐ):</strong></label>
                                             <input type="number" name="slot_field_price" class="form-control"
                                                    step="1000" required />
                                         </div>
-
                                         <!-- Nút submit -->
                                         <div class="col-md-12 mt-3">
                                             <button type="submit"
