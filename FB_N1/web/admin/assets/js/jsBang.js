@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     // Horizontal scroll
     $("#scroll-horizontal-datatable").DataTable({
-        scrollX: true,
+        scrollX: true,       
         language: viLanguage,
         drawCallback: addRounded
     });

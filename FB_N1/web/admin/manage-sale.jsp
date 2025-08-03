@@ -372,8 +372,8 @@
         <script src="assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
 
-        <script src="assets/js/pages/demo.datatable-init.js"></script>
-
+        <script src="assets/js/jsBang.js"></script>
+        
 
         <script src="assets/js/app.min.js"></script>
 
