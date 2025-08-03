@@ -97,6 +97,7 @@ public class HomeControl extends HttpServlet {
         List<Field> listF2 = fDao.get2Field();
 
         Event event = eDao.getAllEventByEventId(eventId);
+        System.out.println(event);
 
         // lay so luong 
         int countA = aDao.countAccount();
