@@ -156,7 +156,6 @@ public class Admin_San extends HttpServlet {
                 response.sendRedirect("quan-ly-San");
                 return;
             }
-            // Tạo đối tượng Field
             // Thêm hoặc cập nhật
             if ("add".equals(action)) {
                 Zone zone = zoneDAO.getZonebyZoneId(zoneIdRaw);

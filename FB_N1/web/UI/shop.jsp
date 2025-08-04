@@ -342,14 +342,11 @@
                                                                                         <div class="badge-top flex-two">
                                                                                             <c:choose>
                                                                                                 <c:when test="${p.productStatus == 'active'}">
-                                                                                                    
+                                                                                                    <span class="feature">Còn hàng</span>
                                                                                                 </c:when>
                                                                                                 <c:when test="${p.productStatus == 'inactive'}">
                                                                                                     <span class="feature broken">Hết hàng</span>
                                                                                                 </c:when>
-                                                                                                <c:otherwise>
-                                                                                                    <span class="feature">${p.productStatus}</span>
-                                                                                                </c:otherwise>
                                                                                             </c:choose>
                                                                                         </div>
                                                                                         <img src="${p.productImage}" alt="Image Listing">
